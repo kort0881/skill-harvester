@@ -5,13 +5,17 @@ __pycache__/
 venv/
 .env
 
-data/raw/*
-!data/raw/.gitkeep
+data/state/*.lock
+```Обновить .gitignore в репозитории kort0881/skill-harvester (ветка main), чтобы данные из data/raw, data/candidates и data/reports больше не игнорировались и реально коммитились?
 
-data/candidates/*
-!data/candidates/.gitkeep
+```
+.gitignore (новое содержимое):
 
-data/reports/*
-!data/reports/.gitkeep
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
 
 data/state/*.lock
