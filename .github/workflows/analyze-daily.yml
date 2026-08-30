@@ -1,0 +1,61 @@
+name: Analyze pending skills daily
+
+on:
+  schedule:
+    # Ежедневно в 07:31 UTC.
+    - cron: "31 7 * * *"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum pending skills to analyze"
+        required: false
+        default: "12"
+      model:
+        description: "Optional Groq model override"
+        required: false
+        default: "openai/gpt-oss-120b"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: skill-harvester-analysis
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Analyze skills with Groq
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_ANALYSIS_MODEL: ${{ inputs.model || 'openai/gpt-oss-120b' }}
+          MAX_ANALYZE_PER_RUN: ${{ inputs.limit || '12' }}
+        run: python run.py analyze --limit "${MAX_ANALYZE_PER_RUN}"
+
+      - name: Build library README
+        run: python run.py build-readme
+
+      - name: Commit analysis results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data library
+          git diff --cached --quiet || git commit -m "chore: analyze and curate skills"
+          git push

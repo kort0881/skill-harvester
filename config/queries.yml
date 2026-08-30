@@ -1,0 +1,40 @@
+queries:
+  - name: universal_skill_files
+    query: '"SKILL.md" in:path'
+    category_hint: general
+
+  - name: coding_skills
+    query: '"SKILL.md" (python OR javascript OR coding OR programming) in:file'
+    category_hint: programming
+
+  - name: devops_skills
+    query: '"SKILL.md" (docker OR kubernetes OR devops OR "ci/cd" OR "github-actions") in:file'
+    category_hint: devops
+
+  - name: content_skills
+    query: '"SKILL.md" (youtube OR telegram OR writing OR seo OR content) in:file'
+    category_hint: content_creation
+
+  - name: music_skills
+    query: '"SKILL.md" (music OR songwriting OR composition OR audio) in:file'
+    category_hint: music
+
+  - name: language_learning_skills
+    query: '"SKILL.md" ("language learning" OR vocabulary OR grammar OR translation) in:file'
+    category_hint: language_learning
+
+  - name: research_skills
+    query: '"SKILL.md" (research OR analysis OR "fact-checking" OR data) in:file'
+    category_hint: research
+
+  - name: design_skills
+    query: '"SKILL.md" (design OR ui OR ux OR figma OR image) in:file'
+    category_hint: design
+
+  - name: automation_skills
+    query: '"SKILL.md" (automation OR workflow OR api OR bot) in:file'
+    category_hint: automation
+
+  - name: privacy_networking_skills
+    query: '"SKILL.md" (vpn OR proxy OR networking OR privacy OR dns) in:file'
+    category_hint: networking

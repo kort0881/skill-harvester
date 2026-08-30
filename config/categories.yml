@@ -1,0 +1,120 @@
+categories:
+  programming:
+    title: Programming
+    keywords:
+      - python
+      - javascript
+      - typescript
+      - coding
+      - programming
+      - software
+      - web development
+      - backend
+      - frontend
+
+  devops:
+    title: DevOps and Infrastructure
+    keywords:
+      - devops
+      - docker
+      - kubernetes
+      - github actions
+      - ci/cd
+      - linux
+      - cloud
+      - terraform
+      - server
+
+  networking:
+    title: Networking and Privacy
+    keywords:
+      - vpn
+      - proxy
+      - networking
+      - privacy
+      - dns
+      - firewall
+      - protocol
+
+  automation:
+    title: Automation and Agents
+    keywords:
+      - automation
+      - workflow
+      - agent
+      - api
+      - bot
+      - mcp
+      - integration
+
+  content_creation:
+    title: Content Creation
+    keywords:
+      - youtube
+      - telegram
+      - social media
+      - seo
+      - writing
+      - content
+      - video
+      - script
+      - publishing
+
+  music:
+    title: Music and Audio
+    keywords:
+      - music
+      - songwriting
+      - composition
+      - audio
+      - sound
+      - lyrics
+      - production
+
+  language_learning:
+    title: Language Learning
+    keywords:
+      - language learning
+      - language
+      - grammar
+      - vocabulary
+      - translation
+      - pronunciation
+      - english
+      - russian
+
+  research:
+    title: Research and Analysis
+    keywords:
+      - research
+      - analysis
+      - fact check
+      - data
+      - investigation
+      - report
+
+  design:
+    title: Design and Visuals
+    keywords:
+      - design
+      - ui
+      - ux
+      - figma
+      - illustration
+      - image
+      - branding
+
+  education:
+    title: Education and Productivity
+    keywords:
+      - learning
+      - education
+      - teaching
+      - study
+      - productivity
+      - notes
+      - planning
+
+  general:
+    title: General
+    keywords: []

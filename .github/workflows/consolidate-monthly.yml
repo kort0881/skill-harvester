@@ -1,0 +1,61 @@
+name: Consolidate similar skills monthly
+
+on:
+  schedule:
+    # Первое число месяца в 08:43 UTC.
+    - cron: "43 8 1 * *"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum duplicate groups to process"
+        required: false
+        default: "5"
+      model:
+        description: "Optional Groq model override"
+        required: false
+        default: "openai/gpt-oss-120b"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: skill-harvester-consolidation
+  cancel-in-progress: false
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Consolidate duplicate skills with Groq
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_CONSOLIDATION_MODEL: ${{ inputs.model || 'openai/gpt-oss-120b' }}
+          MAX_CONSOLIDATION_GROUPS: ${{ inputs.limit || '5' }}
+        run: python run.py consolidate --limit "${MAX_CONSOLIDATION_GROUPS}"
+
+      - name: Build library README
+        run: python run.py build-readme
+
+      - name: Commit consolidated skills
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data library
+          git diff --cached --quiet || git commit -m "chore: consolidate duplicate skills"
+          git push
