@@ -1,0 +1,7 @@
+{
+  "type": "monthly_consolidation",
+  "created_at": "2026-09-01T13:39:59+00:00",
+  "model": "openai/gpt-oss-120b",
+  "groups_checked": 0,
+  "results": []
+}
