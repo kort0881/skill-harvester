@@ -1,4 +1,10 @@
 {
+  "type": "daily_analysis",
+  "created_at": "2026-09-04T12:11:29+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 1,
+  "accepted": 0,
+  "rejected": 1,
   "items": [
     {
       "candidate_id": "9712249b7a568597d32548aa",
@@ -75,6 +81,5 @@
         "normalized_skill_markdown": ""
       }
     }
-  ],
-  "updated_at": "2026-09-04T12:11:29+00:00"
+  ]
 }
