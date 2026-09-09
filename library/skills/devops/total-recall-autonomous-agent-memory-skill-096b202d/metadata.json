@@ -1,0 +1,74 @@
+{
+  "library_id": "devops/total-recall-autonomous-agent-memory-skill-096b202d",
+  "title": "Total Recall – Autonomous Agent Memory Skill",
+  "category": "devops",
+  "tags": [
+    "memory",
+    "agent",
+    "devops",
+    "automation",
+    "linux",
+    "llm",
+    "cron",
+    "inotify"
+  ],
+  "summary": "Total Recall is an autonomous memory skill for OpenClaw agents that observes conversation logs, compresses them with LLMs, and maintains a prioritized observations file without external databases. It includes a multi‑layer architecture with cron‑based observer, reflector consolidation, session recovery, Linux inotify watcher, and an optional nightly Dream Cycle for deeper archiving.",
+  "source": {
+    "repository": "gavdalf/total-recall",
+    "repository_url": "https://github.com/gavdalf/total-recall",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/gavdalf/total-recall/blob/437ab3656ecdf52c7ed0c3ee63a3cdae68d5b90f/SKILL.md",
+    "api_sha": "581f8f097b920be2a9e97f62ca02b42d835a1147",
+    "repo_stars": 271,
+    "repo_forks": 41,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-01T06:01:36+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:29+00:00",
+  "accepted_at": "2026-09-09T12:25:51+00:00",
+  "content_hash": "701330845597016598cdd7084b234237ddf718c47c84e37bdd355f1d532ea549",
+  "source_excerpt": "--- name: total-recall description: \"The only memory skill that watches on its own. No database. No vectors. No manual saves. Just an LLM observer that compresses your conversations into prioritised notes, consolidates when they grow, and recovers anything missed. Five layers of redundancy, zero maintenance. ~$0.00/month (using free-tier models). While other memory skills ask you to remember to remember, this one just pays attention.\" metadata: openclaw: emoji: \"🧠\" requires: bins: [\"jq\", \"curl\"] env: - key: OPENROUTER_API_KEY label: \"OpenRouter API key (for LLM calls)\" required: true config: memorySearch: description: \"Enable memory search on observations.md for cross-session recall\" --- # Total Recall — Autonomous Agent Memory **The only m…",
+  "review": {
+    "decision": "accept",
+    "title": "Total Recall – Autonomous Agent Memory Skill",
+    "category": "devops",
+    "summary": "Total Recall is an autonomous memory skill for OpenClaw agents that observes conversation logs, compresses them with LLMs, and maintains a prioritized observations file without external databases. It includes a multi‑layer architecture with cron‑based observer, reflector consolidation, session recovery, Linux inotify watcher, and an optional nightly Dream Cycle for deeper archiving.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Clear multi‑layer architecture description",
+      "Comprehensive installation and configuration steps",
+      "Supports multiple LLM providers",
+      "Includes troubleshooting guide",
+      "Optional Dream Cycle for advanced archiving"
+    ],
+    "weaknesses": [
+      "Limited to Linux for reactive watcher (no Windows support)",
+      "Setup relies on manual cron and systemd configuration",
+      "No automated tests or CI validation",
+      "Backup retention policy could be more explicit"
+    ],
+    "tags": [
+      "memory",
+      "agent",
+      "devops",
+      "automation",
+      "linux",
+      "llm",
+      "cron",
+      "inotify"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add Windows/macOS reactive watcher alternative or fallback",
+      "Provide a Docker/compose setup for easier deployment",
+      "Include automated test suite for scripts",
+      "Document backup retention and cleanup policy in more detail"
+    ],
+    "normalized_skill_markdown": "---\nname: total-recall\ndescription: Autonomous memory skill for OpenClaw agents that observes, compresses, and consolidates conversation logs without external databases.\n---\n\n# Total Recall — Autonomous Agent Memory\n\n**The only memory skill that watches on its own.**\n\nTotal Recall captures recent conversation transcripts, compresses them with an LLM into prioritized notes, and stores them in `observations.md`. It automatically consolidates older entries, recovers missed sessions, and can run a nightly “Dream Cycle” to archive and decay memories. No external databases or vector stores are required.\n\n## Architecture\n\n```\nLayer 1: Observer (cron, every 15‑30 min) → compresses recent messages → observations.md\nLayer 2: Reflector (auto‑triggered when observations > 8000 words) → consolidates, removes superseded info\nLayer 3: Session Recovery (runs on every /new or /reset) → captures any missed session data\nLayer 4: Reactive Watcher (inotify daemon, Linux only) → triggers Observer after 40+ new JSONL writes\nLayer 5: Pre‑compaction hook (memoryFlush) → emergency capture before OpenClaw compacts context\n```\n\n## Quick Start\n\n1. **Install the skill**\n   ```bash\n   clawdhub install total-recall\n   ```\n2. **Set your API key** (add to `.env` or OpenClaw config)\n   ```bash\n   OPENROUTER_API_KEY=sk-or‑v1‑xxxxx\n   ```\n3. **Run the setup script**\n   ```bash\n   bash skills/total-recall/scripts/setup.sh\n   ```\n   - Creates `memory/`, `logs/`, and backup directories.\n   - Installs a systemd user service for the reactive watcher (Linux).\n   - Prints the cron entries you need to add.\n4. **Load observations at agent startup**\n   Add to your agent’s startup prompt:\n   ```\n   At session startup, read `memory/observations.md` for cross‑session context.\n   ```\n\n## Platform Support\n\n| Platform | Observer + Reflector + Recovery | Reactive Watcher |\n|----------|-------------------------------|-----------------|\n| Linux (Debian/Ubuntu) | Full | With `inotify-tools` |\n| macOS | Full (cron only) | Not available |\n\nAll core scripts are portable Bash; platform‑specific helpers are in `_compat.sh`.\n\n## Configuration\n\nEnvironment variables (with defaults) control behaviour:\n\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `OPENROUTER_API_KEY` | (required) | API key for LLM calls |\n| `MEMORY_DIR` | `$OPENCLAW_WORKSPACE/memory` | Directory for `observations.md` |\n| `SESSIONS_DIR` | `~/.openclaw/agents/main/sessions` | Where session JSONL files live |\n| `OBSERVER_MODEL` | `stepfun/step-3.5-flash:free` | Primary compression model |\n| `REFLECTOR_MODEL` | `nvidia/nemotron-3-super-120b-a12b:free` | Consolidation model |\n| `LLM_BASE_URL` | `https://openrouter.ai/api/v1` | Base URL for OpenAI‑compatible APIs |\n| `LLM_MODEL` | `deepseek/deepseek-v3.2` | Default model for LLM calls |\n| `REFLECTOR_WORD_THRESHOLD` | `8000` | Word count that triggers the reflector |\n| `OBSERVER_LINE_THRESHOLD` | `40` | Lines that trigger the reactive watcher |\n| `OBSERVER_COOLDOWN_SECS` | `300` | Cool‑down between watcher triggers |\n\n### Provider Examples\n\n```bash\n# OpenRouter (default)\nexport OPENROUTER_API_KEY=\"your-key\"\n\n# Ollama (local)\nexport LLM_BASE_URL=\"http://localhost:11434/v1\"\nexport LLM_API_KEY=\"ollama\"\nexport LLM_MODEL=\"llama3.1:8b\"\n\n# Groq\nexport LLM_BASE_URL=\"https://api.groq.com/openai/v1\"\nexport LLM_API_KEY=\"your-groq-key\"\nexport LLM_MODEL=\"llama-3.3-70b-versatile\"\n```\n\n## Files Created\n\n```\nmemory/\n  observations.md          # Main observation log\n  observation-backups/     # Reflector backups (last 10 kept)\n  .observer-last-run       # Timestamp of last observer run\n  .observer-last-hash      # MD5 hash of last processed messages\nlogs/\n  observer.log\n  reflector.log\n  session-recovery.log\n  observer-watcher.log\n```\n\n## Cron Jobs (added by `setup.sh`)\n\n| Job | Schedule | Description |\n|-----|----------|-------------|\n| `memory-observer` | Every 15 min | Compress recent conversation |\n| `memory-reflector` | Hourly | Consolidate observations when large |\n\n## Reactive Watcher (Linux only)\n\n```bash\n# Install inotify-tools (Debian/Ubuntu)\nsudo apt install inotify-tools\n\n# Check watcher status\nsystemctl --user status total-recall-watcher\n\n# View logs\njournalctl --user -u total-recall-watcher -f\n```\n\n## Cost\n\nAll default models are free‑tier on OpenRouter, resulting in ~$0.00/month for typical usage (15‑30 cron runs per day, each processing a few hundred tokens).\n\n## How It Works (Technical Overview)\n\n### Observer\n1. Locate recent session JSONL files.\n2. Filter out sub‑agent/cron sessions.\n3. Extract user and assistant messages within the look‑back window.\n4. Deduplicate using an MD5 hash.\n5. Send the extracted text to the LLM with a compression prompt.\n6. Append the LLM’s prioritized notes to `observations.md`.\n7. If the word count exceeds the threshold, trigger the reflector.\n\n### Reflector\n1. Back up the current `observations.md`.\n2. Send the full log to the LLM with a consolidation prompt.\n3. Verify the output is shorter than the input.\n4. Replace the original file with the consolidated version.\n5. Prune old backups, keeping the most recent ten.\n\n### Session Recovery\nRuns on every `/new` or `/reset` command:\n1. Hash recent lines of the last session file.\n2. Compare with the stored observer hash.\n3. If they differ, run the observer with a longer look‑back (4 hours).\n4. Fallback to raw message extraction if the LLM call fails.\n\n### Reactive Watcher\n1. Monitor the session directory with `inotifywait`.\n2. After 40+ new JSONL lines, trigger the observer (subject to a 5‑minute cooldown).\n3. Reset the counter when a cron‑based observer run occurs.\n\n## Dream Cycle (Optional Nightly Archival)\n\nThe Dream Cycle runs as a full agent turn (not a direct bash call) and performs deeper archiving:\n- Classifies observations by impact and age.\n- Archives items that exceed their TTL.\n- Adds semantic hooks for alternative search phrasing.\n- Applies confidence scores and importance decay.\n- Promotes recurring patterns to “staging” for human review.\n\n### Setup\n1. Ensure `setup.sh` has created the Dream Cycle directories.\n2. Add a nightly cron entry that invokes the agent with the `dream-cycle-prompt.md` system prompt (see the skill for the exact command).\n3. Start with `READ_ONLY_MODE=true` to review logs before committing changes.\n\n### Configuration\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `DREAM_TOKEN_TARGET` | `8000` | Desired token count after consolidation |\n| `READ_ONLY_MODE` | `false` | When `true`, the cycle runs in dry‑run mode |\n\n## Troubleshooting\n\n- **Observer not running?** Check `logs/observer.log`, verify the API key, and ensure the cron entry is active (`crontab -l`).\n- **Observations not loaded?** Confirm your agent’s startup prompt reads `memory/observations.md` and that `MEMORY_DIR` points to the correct location.\n- **Watcher not triggering (Linux)?** Verify `inotify-tools` is installed, and inspect the systemd service status.\n- **Dream Cycle too aggressive?** Enable `READ_ONLY_MODE=true` and adjust `DREAM_TOKEN_TARGET` upward.\n- **Dream Cycle not archiving enough?** Lower `DREAM_TOKEN_TARGET` to increase consolidation.\n\n---"
+  }
+}

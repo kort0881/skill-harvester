@@ -1,6 +1,222 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-08T12:12:51+00:00",
-  "skills": [],
+  "updated_at": "2026-09-09T12:29:52+00:00",
+  "skills": [
+    {
+      "library_id": "programming/repo-task-proof-loop-3324eff9",
+      "title": "Repo Task Proof Loop",
+      "category": "programming",
+      "tags": [
+        "repo",
+        "workflow",
+        "coding",
+        "automation",
+        "subagents"
+      ],
+      "summary": "A repo‑local workflow that creates a structured task folder, installs project‑scoped Codex and Claude subagents, and manages a repeatable spec‑freeze → build → evidence → verify → fix loop. It updates AGENTS.md and the repository’s Claude guide with managed workflow blocks and provides a set of CLI commands to drive each phase. The skill is designed for large coding tasks that require auditable proof of implementation.",
+      "source": {
+        "repository": "DenisSergeevitch/repo-task-proof-loop",
+        "repository_url": "https://github.com/DenisSergeevitch/repo-task-proof-loop",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/DenisSergeevitch/repo-task-proof-loop/blob/853622144588798dc1b3babc81ed9499328321bf/SKILL.md",
+        "api_sha": "fb37a44f7938b37903e5435173a7a0ac43f0613b",
+        "repo_stars": 728,
+        "repo_forks": 46,
+        "repo_license": "Apache License 2.0",
+        "repo_updated_at": "2026-09-01T15:40:02+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:25+00:00",
+      "accepted_at": "2026-09-09T12:24:57+00:00",
+      "content_hash": "35349432b693066c9eb051afe69a900d987754bb701b1133dd970d221375519c",
+      "source_excerpt": "--- name: repo-task-proof-loop description: Repo-local workflow skill for large coding tasks. Initializes .agent/tasks/TASK_ID artifacts, installs project-scoped Codex and Claude subagents, updates AGENTS.md plus the repo's Claude guide file with the workflow, and runs a spec-freeze → build → evidence → verify → fix loop with fresh-session verification. license: Apache-2.0 compatibility: Skills-compatible coding agents. Integrates with Codex and Claude Code project-scoped subagents. Bundled scripts require Python 3.10+. metadata: author: OpenAI version: \"1.0.0\" --- # Repo Task Proof Loop Use this skill when the user wants a repeatable, auditable implementation workflow for a non-trivial coding task, especially a feature, refactor, migration…",
+      "review": {
+        "decision": "accept",
+        "title": "Repo Task Proof Loop",
+        "category": "programming",
+        "summary": "A repo‑local workflow that creates a structured task folder, installs project‑scoped Codex and Claude subagents, and manages a repeatable spec‑freeze → build → evidence → verify → fix loop. It updates AGENTS.md and the repository’s Claude guide with managed workflow blocks and provides a set of CLI commands to drive each phase. The skill is designed for large coding tasks that require auditable proof of implementation.",
+        "quality_score": 84,
+        "uniqueness_score": 71,
+        "usefulness_score": 82,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Clear, step‑by‑step workflow description",
+          "Explicit command list with usage examples",
+          "Well‑defined artifact set and verification requirements",
+          "Supports both Codex and Claude subagents",
+          "Includes guardrails and validation steps"
+        ],
+        "weaknesses": [
+          "Very long and dense documentation may be hard to skim",
+          "Some sections repeat similar guidance, adding redundancy",
+          "Lacks concrete end‑to‑end example with sample task ID",
+          "Assumes presence of specific subagent templates without describing their contents"
+        ],
+        "tags": [
+          "repo",
+          "workflow",
+          "coding",
+          "automation",
+          "subagents"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise quick‑start example that walks through init, run, and status for a sample TASK_ID",
+          "Summarize the most critical commands in a table for faster reference",
+          "Provide a brief description of the expected directory layout for the subagent templates",
+          "Consider splitting the long “Codex adaptive fan‑out” section into a separate optional appendix"
+        ],
+        "normalized_skill_markdown": "---\nname: repo-task-proof-loop\ndescription: Repo‑local workflow skill for large coding tasks, providing a repeatable proof loop with spec freeze, build, evidence, verification, and fix phases.\n---\n\n# Repo Task Proof Loop\n\nUse this skill when the user wants a repeatable, auditable implementation workflow for a non‑trivial coding task, especially a feature, refactor, migration, or bug fix that should leave repo‑local proof in `.agent/tasks/<TASK_ID>/`.\n\nAll task artifacts created by this workflow must stay inside the repository.\n\nWhen the examples below mention `scripts/task_loop.py`, that path is relative to this skill root. Run it while your shell working directory is inside the target repository.\n\n## What this skill does\n1. Initializes a strict repo‑local task folder under `.agent/tasks/<TASK_ID>/`.\n2. Seeds or updates the required artifact files.\n3. Installs project‑scoped Codex and Claude subagent templates into `.codex/agents/` and `.claude/agents/`.\n4. Updates the repo‑root `AGENTS.md` Codex baseline plus the repo's Claude guide file (`CLAUDE.md` or `.claude/CLAUDE.md`) with a managed block that explains the workflow.\n5. Guides the agent through a strict loop: spec freeze → builder implementation → evidence packing → fresh verification → minimal fix → fresh verification again until `PASS`.\n\nSee:\n- `references/REFERENCE.md`\n- `references/COMMANDS.md`\n- `references/SUBAGENTS.md`\n- `references/SCHEMAS.md`\n\n## Commands this skill supports\nTreat the following words as commands when the user invokes this skill:\n\n- `init <TASK_ID>`: create `.agent/tasks/<TASK_ID>/`, install or refresh subagent templates, and update `AGENTS.md` plus the repo's Claude guide file.\n- `freeze <TASK_ID>`: create or refine `spec.md` from the user task, task file, and repo guidance.\n- `build <TASK_ID>`: implement the task against the frozen spec.\n- `evidence <TASK_ID>`: create or refresh `evidence.md`, `evidence.json`, and raw artifacts without changing production code.\n- `verify <TASK_ID>`: run a fresh verifier pass and write `verdict.json`, plus `problems.md` when needed.\n- `fix <TASK_ID>`: apply the smallest safe fix set from `problems.md`, then refresh the evidence bundle.\n- `run <TASK_ID>`: execute the full loop from spec freeze through verification.\n- `status <TASK_ID>`: summarize current artifact status.\n\nIf the user does not supply a command, infer the next step from repo state:\n- If the task folder does not exist, run `init` first.\n- If `spec.md` is missing or placeholder‑only, do `freeze`.\n- If implementation is not yet complete, do `build`.\n- If evidence is stale or missing, do `evidence`.\n- If no fresh verdict exists, do `verify`.\n- If verdict is not `PASS`, do `fix`.\n\n## Initialization step\nRun the bundled initializer from the repository root or current working directory inside the repo:\n\n```bash\nscripts/task_loop.py init --task-id <TASK_ID>\n```\n\nOptional task seeding:\n\n```bash\nscripts/task_loop.py init --task-id <TASK_ID> --task-file path/to/task.md\nscripts/task_loop.py init --task-id <TASK_ID> --task-text \"User task text\"\n```\n\nThe initializer will:\n- resolve the repo root\n- create `.agent/tasks/<TASK_ID>/`\n- create all required artifacts, including placeholders under `raw/`\n- install project‑scoped subagent files\n- insert or refresh managed workflow blocks in `AGENTS.md` and the repo's Claude guide file\n\nFor Codex, the managed workflow block is kept in the repo‑root `AGENTS.md`. For Claude Code, it is kept in the repo‑root `CLAUDE.md`.\n\n## Heavy‑task default workflow\nFor large tasks, keep the user‑facing request simple. In Codex, continue serially unless the user explicitly asks for delegation or parallel agent work.\n\n### Preferred delegated sequence\n1. `init <TASK_ID>` (if needed) and confirm `spec.md` exists.\n2. Spawn exactly one spec‑freezer subagent and wait for it.\n3. Spawn exactly one builder subagent and let it implement.\n4. Continue with the same builder session for evidence packing.\n5. Spawn exactly one fresh verifier subagent and wait for it.\n6. If verdict is not `PASS`, spawn exactly one fixer subagent.\n7. Spawn one fresh verifier subagent again.\n8. Repeat steps 6‑7 until the verifier returns `PASS` or the user stops the loop.\n\n### Codex adaptive fan‑out (optional)\nUse only after explicit user authorization and when the task benefits from bounded parallel work. Limit parallel helpers to a maximum of three and keep the overall orchestration shallow.\n\n## Spec freeze requirements\n`spec.md` must contain at least:\n- original task statement\n- explicit acceptance criteria labeled `AC1`, `AC2`, …\n- constraints\n- non‑goals\n\nDo not edit production code during spec freeze.\n\n## Evidence packing requirements\n`evidence.md` and `evidence.json` must judge each acceptance criterion independently with `PASS`, `FAIL`, or `UNKNOWN`. Every `PASS` must cite concrete proof such as file paths, commands run, exit codes, output summaries, or artifact paths under `raw/`.\n\n## Fresh verification requirements\nThe verifier must run in a fresh session or fresh subagent and must not modify production code. It writes:\n- `.agent/tasks/<TASK_ID>/verdict.json`\n- `.agent/tasks/<TASK_ID>/problems.md` (only when overall verdict is not `PASS`).\n\n## Fixer requirements\nThe fixer reads only `spec.md`, `verdict.json`, and `problems.md`. It must reconfirm each listed problem before editing, make the smallest safe change set, avoid regressing passing criteria, regenerate evidence artifacts, and stop without writing a final sign‑off.\n\n## Validation\nBefore claiming the workflow is correctly initialized or the artifact set is complete, run:\n\n```bash\nscripts/task_loop.py validate --task-id <TASK_ID>\n```\n\nRun `validate` only after `init` has fully finished.\n\nFor a quick summary:\n\n```bash\nscripts/task_loop.py status --task-id <TASK_ID>\n```\n\n## Guardrails\n- Keep `.agent/tasks/<TASK_ID>/` inside the repo.\n- Treat UI checklists as ephemeral; the durable state lives in the task folder.\n- Never claim task completion unless every acceptance criterion is `PASS`.\n- Separate evaluator and fixer roles.\n- Preserve existing user guidance outside the managed blocks in `AGENTS.md` and the repo's Claude guide file."
+      }
+    },
+    {
+      "library_id": "content-creation/markit-convert-files-and-urls-to-markdown-fbf180c9",
+      "title": "Markit – Convert Files and URLs to Markdown",
+      "category": "content-creation",
+      "tags": [
+        "content_creation",
+        "markdown",
+        "cli",
+        "sdk",
+        "nodejs",
+        "file_conversion"
+      ],
+      "summary": "Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK.",
+      "source": {
+        "repository": "shift-labs-ai/markit",
+        "repository_url": "https://github.com/shift-labs-ai/markit",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/shift-labs-ai/markit/blob/4197c76a651607421c5dcd05c0f94555ad1d6a9c/SKILL.md",
+        "api_sha": "f6788c298f71b797b1c1ecd045a9fbd8688d6d84",
+        "repo_stars": 1318,
+        "repo_forks": 54,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-03T10:27:17+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:27+00:00",
+      "accepted_at": "2026-09-09T12:25:11+00:00",
+      "content_hash": "45a892c5b5fb709bad8210f4adf2701daa5aa5ba47f516aac68b3211aa81e3f2",
+      "source_excerpt": "--- name: markit description: Convert files and URLs to Markdown. Supports PDF, DOCX, PPTX, XLSX, HTML, EPUB, CSV, JSON, GitHub URLs, images, audio, ZIP, and more. Use when you need to extract content from any document format. --- # markit Convert anything to Markdown. ## CLI ```bash # Convert a file npx @shiftlabs/markit report.pdf -q # Convert a URL npx @shiftlabs/markit https://en.wikipedia.org/wiki/Markdown -q # GitHub URLs (repos, files, gists, issues, PRs) npx @shiftlabs/markit https://github.com/owner/repo -q npx @shiftlabs/markit https://github.com/owner/repo/issues/42 -q npx @shiftlabs/markit https://gist.github.com/user/id -q # Write to file npx @shiftlabs/markit document.docx -q -o output.md # See all options npx @shiftlabs/marki…",
+      "review": {
+        "decision": "accept",
+        "title": "Markit – Convert Files and URLs to Markdown",
+        "category": "content_creation",
+        "summary": "Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK.",
+        "quality_score": 70,
+        "uniqueness_score": 75,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 83,
+        "strengths": [
+          "Clear name and description",
+          "Comprehensive list of supported formats",
+          "Both CLI and SDK examples",
+          "Simple one‑line commands",
+          "Shows how to output to file and request JSON"
+        ],
+        "weaknesses": [
+          "Missing explicit prerequisites (Node.js, npm)",
+          "No installation instructions",
+          "Outputs are described only briefly",
+          "No verification or error‑handling guidance",
+          "No version or licensing information"
+        ],
+        "tags": [
+          "content_creation",
+          "markdown",
+          "cli",
+          "sdk",
+          "nodejs",
+          "file_conversion"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section (Node.js version, npm)",
+          "Provide installation command (e.g., npm install -g @shiftlabs/markit)",
+          "Document the full set of CLI flags and their meanings",
+          "Explain the structure of the JSON output and how to handle errors",
+          "Include a brief verification step (e.g., preview first few lines of output)",
+          "State versioning and licensing information"
+        ],
+        "normalized_skill_markdown": "---\nname: markit\ndescription: Convert files, URLs, and GitHub resources to clean Markdown. Supports PDF, DOCX, PPTX, XLSX, HTML, EPUB, CSV, JSON, images, audio, ZIP, and more.\n---\n\n# Markit\n\n## Overview\nMarkit is a Node.js‑based tool that extracts the textual content of a wide range of document formats and returns it as Markdown. It can be used from the command line or programmatically via its TypeScript SDK.\n\n## Prerequisites\n- Node.js (v14 or later)\n- npm (comes with Node.js)\n\n## Installation\n```bash\nnpm install -g @shiftlabs/markit\n```\n\n## CLI Usage\n```bash\n# Convert a local file to raw markdown\nnpx @shiftlabs/markit report.pdf -q\n\n# Convert a remote URL\nnpx @shiftlabs/markit https://en.wikipedia.org/wiki/Markdown -q\n\n# Convert a GitHub repository, file, gist, issue, or pull request\nnpx @shiftlabs/markit https://github.com/owner/repo -q\nnpx @shiftlabs/markit https://github.com/owner/repo/issues/42 -q\nnpx @shiftlabs/markit https://gist.github.com/user/id -q\n\n# Write output to a file\nnpx @shiftlabs/markit document.docx -q -o output.md\n\n# Get structured JSON output (markdown + inferred title)\nnpx @shiftlabs/markit report.pdf --json\n\n# List all supported input formats\nnpx @shiftlabs/markit formats\n\n# Show full help\nnpx @shiftlabs/markit --help\n```\n\n- `-q` – Return raw markdown (no additional metadata).\n- `--json` – Return a JSON object `{ \"markdown\": \"...\", \"title\": \"...\" }`.\n- `-o <file>` – Write the result to the specified file.\n\n## SDK (TypeScript) Usage\n```typescript\nimport { Markit } from \"@shiftlabs/markit\";\n\nconst markit = new Markit();\n\n// Convert a local file\nconst { markdown, title } = await markit.convertFile(\"report.pdf\");\n\n// Convert a remote URL\nconst { markdown: urlMd } = await markit.convertUrl(\"https://example.com\");\n\n// Convert a raw buffer with an explicit extension\nimport { readFile } from \"fs/promises\";\nconst buffer = await readFile(\"document.docx\");\nconst { markdown: bufMd } = await markit.convert(buffer, { extension: \".docx\" });\n```\n\nThe SDK methods return a promise that resolves to an object containing at least `markdown` and, when possible, a `title`.\n\n## Verification\nAfter conversion, you can quickly verify the output by previewing the first few lines:\n```bash\nhead -n 10 output.md\n```\nOr, when using `--json`, inspect the JSON structure:\n```bash\nnpx @shiftlabs/markit report.pdf --json | jq '.'\n```\n\n## Limitations & Notes\n- Complex layouts (e.g., multi‑column PDFs) may lose some visual fidelity.\n- Binary‑only files (e.g., pure images) are converted to Markdown image links when possible.\n- Large archives are processed file‑by‑file; the tool extracts each supported document inside the archive.\n\n---"
+      }
+    },
+    {
+      "library_id": "devops/total-recall-autonomous-agent-memory-skill-096b202d",
+      "title": "Total Recall – Autonomous Agent Memory Skill",
+      "category": "devops",
+      "tags": [
+        "memory",
+        "agent",
+        "devops",
+        "automation",
+        "linux",
+        "llm",
+        "cron",
+        "inotify"
+      ],
+      "summary": "Total Recall is an autonomous memory skill for OpenClaw agents that observes conversation logs, compresses them with LLMs, and maintains a prioritized observations file without external databases. It includes a multi‑layer architecture with cron‑based observer, reflector consolidation, session recovery, Linux inotify watcher, and an optional nightly Dream Cycle for deeper archiving.",
+      "source": {
+        "repository": "gavdalf/total-recall",
+        "repository_url": "https://github.com/gavdalf/total-recall",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/gavdalf/total-recall/blob/437ab3656ecdf52c7ed0c3ee63a3cdae68d5b90f/SKILL.md",
+        "api_sha": "581f8f097b920be2a9e97f62ca02b42d835a1147",
+        "repo_stars": 271,
+        "repo_forks": 41,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-01T06:01:36+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:29+00:00",
+      "accepted_at": "2026-09-09T12:25:51+00:00",
+      "content_hash": "701330845597016598cdd7084b234237ddf718c47c84e37bdd355f1d532ea549",
+      "source_excerpt": "--- name: total-recall description: \"The only memory skill that watches on its own. No database. No vectors. No manual saves. Just an LLM observer that compresses your conversations into prioritised notes, consolidates when they grow, and recovers anything missed. Five layers of redundancy, zero maintenance. ~$0.00/month (using free-tier models). While other memory skills ask you to remember to remember, this one just pays attention.\" metadata: openclaw: emoji: \"🧠\" requires: bins: [\"jq\", \"curl\"] env: - key: OPENROUTER_API_KEY label: \"OpenRouter API key (for LLM calls)\" required: true config: memorySearch: description: \"Enable memory search on observations.md for cross-session recall\" --- # Total Recall — Autonomous Agent Memory **The only m…",
+      "review": {
+        "decision": "accept",
+        "title": "Total Recall – Autonomous Agent Memory Skill",
+        "category": "devops",
+        "summary": "Total Recall is an autonomous memory skill for OpenClaw agents that observes conversation logs, compresses them with LLMs, and maintains a prioritized observations file without external databases. It includes a multi‑layer architecture with cron‑based observer, reflector consolidation, session recovery, Linux inotify watcher, and an optional nightly Dream Cycle for deeper archiving.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Clear multi‑layer architecture description",
+          "Comprehensive installation and configuration steps",
+          "Supports multiple LLM providers",
+          "Includes troubleshooting guide",
+          "Optional Dream Cycle for advanced archiving"
+        ],
+        "weaknesses": [
+          "Limited to Linux for reactive watcher (no Windows support)",
+          "Setup relies on manual cron and systemd configuration",
+          "No automated tests or CI validation",
+          "Backup retention policy could be more explicit"
+        ],
+        "tags": [
+          "memory",
+          "agent",
+          "devops",
+          "automation",
+          "linux",
+          "llm",
+          "cron",
+          "inotify"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add Windows/macOS reactive watcher alternative or fallback",
+          "Provide a Docker/compose setup for easier deployment",
+          "Include automated test suite for scripts",
+          "Document backup retention and cleanup policy in more detail"
+        ],
+        "normalized_skill_markdown": "---\nname: total-recall\ndescription: Autonomous memory skill for OpenClaw agents that observes, compresses, and consolidates conversation logs without external databases.\n---\n\n# Total Recall — Autonomous Agent Memory\n\n**The only memory skill that watches on its own.**\n\nTotal Recall captures recent conversation transcripts, compresses them with an LLM into prioritized notes, and stores them in `observations.md`. It automatically consolidates older entries, recovers missed sessions, and can run a nightly “Dream Cycle” to archive and decay memories. No external databases or vector stores are required.\n\n## Architecture\n\n```\nLayer 1: Observer (cron, every 15‑30 min) → compresses recent messages → observations.md\nLayer 2: Reflector (auto‑triggered when observations > 8000 words) → consolidates, removes superseded info\nLayer 3: Session Recovery (runs on every /new or /reset) → captures any missed session data\nLayer 4: Reactive Watcher (inotify daemon, Linux only) → triggers Observer after 40+ new JSONL writes\nLayer 5: Pre‑compaction hook (memoryFlush) → emergency capture before OpenClaw compacts context\n```\n\n## Quick Start\n\n1. **Install the skill**\n   ```bash\n   clawdhub install total-recall\n   ```\n2. **Set your API key** (add to `.env` or OpenClaw config)\n   ```bash\n   OPENROUTER_API_KEY=sk-or‑v1‑xxxxx\n   ```\n3. **Run the setup script**\n   ```bash\n   bash skills/total-recall/scripts/setup.sh\n   ```\n   - Creates `memory/`, `logs/`, and backup directories.\n   - Installs a systemd user service for the reactive watcher (Linux).\n   - Prints the cron entries you need to add.\n4. **Load observations at agent startup**\n   Add to your agent’s startup prompt:\n   ```\n   At session startup, read `memory/observations.md` for cross‑session context.\n   ```\n\n## Platform Support\n\n| Platform | Observer + Reflector + Recovery | Reactive Watcher |\n|----------|-------------------------------|-----------------|\n| Linux (Debian/Ubuntu) | Full | With `inotify-tools` |\n| macOS | Full (cron only) | Not available |\n\nAll core scripts are portable Bash; platform‑specific helpers are in `_compat.sh`.\n\n## Configuration\n\nEnvironment variables (with defaults) control behaviour:\n\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `OPENROUTER_API_KEY` | (required) | API key for LLM calls |\n| `MEMORY_DIR` | `$OPENCLAW_WORKSPACE/memory` | Directory for `observations.md` |\n| `SESSIONS_DIR` | `~/.openclaw/agents/main/sessions` | Where session JSONL files live |\n| `OBSERVER_MODEL` | `stepfun/step-3.5-flash:free` | Primary compression model |\n| `REFLECTOR_MODEL` | `nvidia/nemotron-3-super-120b-a12b:free` | Consolidation model |\n| `LLM_BASE_URL` | `https://openrouter.ai/api/v1` | Base URL for OpenAI‑compatible APIs |\n| `LLM_MODEL` | `deepseek/deepseek-v3.2` | Default model for LLM calls |\n| `REFLECTOR_WORD_THRESHOLD` | `8000` | Word count that triggers the reflector |\n| `OBSERVER_LINE_THRESHOLD` | `40` | Lines that trigger the reactive watcher |\n| `OBSERVER_COOLDOWN_SECS` | `300` | Cool‑down between watcher triggers |\n\n### Provider Examples\n\n```bash\n# OpenRouter (default)\nexport OPENROUTER_API_KEY=\"your-key\"\n\n# Ollama (local)\nexport LLM_BASE_URL=\"http://localhost:11434/v1\"\nexport LLM_API_KEY=\"ollama\"\nexport LLM_MODEL=\"llama3.1:8b\"\n\n# Groq\nexport LLM_BASE_URL=\"https://api.groq.com/openai/v1\"\nexport LLM_API_KEY=\"your-groq-key\"\nexport LLM_MODEL=\"llama-3.3-70b-versatile\"\n```\n\n## Files Created\n\n```\nmemory/\n  observations.md          # Main observation log\n  observation-backups/     # Reflector backups (last 10 kept)\n  .observer-last-run       # Timestamp of last observer run\n  .observer-last-hash      # MD5 hash of last processed messages\nlogs/\n  observer.log\n  reflector.log\n  session-recovery.log\n  observer-watcher.log\n```\n\n## Cron Jobs (added by `setup.sh`)\n\n| Job | Schedule | Description |\n|-----|----------|-------------|\n| `memory-observer` | Every 15 min | Compress recent conversation |\n| `memory-reflector` | Hourly | Consolidate observations when large |\n\n## Reactive Watcher (Linux only)\n\n```bash\n# Install inotify-tools (Debian/Ubuntu)\nsudo apt install inotify-tools\n\n# Check watcher status\nsystemctl --user status total-recall-watcher\n\n# View logs\njournalctl --user -u total-recall-watcher -f\n```\n\n## Cost\n\nAll default models are free‑tier on OpenRouter, resulting in ~$0.00/month for typical usage (15‑30 cron runs per day, each processing a few hundred tokens).\n\n## How It Works (Technical Overview)\n\n### Observer\n1. Locate recent session JSONL files.\n2. Filter out sub‑agent/cron sessions.\n3. Extract user and assistant messages within the look‑back window.\n4. Deduplicate using an MD5 hash.\n5. Send the extracted text to the LLM with a compression prompt.\n6. Append the LLM’s prioritized notes to `observations.md`.\n7. If the word count exceeds the threshold, trigger the reflector.\n\n### Reflector\n1. Back up the current `observations.md`.\n2. Send the full log to the LLM with a consolidation prompt.\n3. Verify the output is shorter than the input.\n4. Replace the original file with the consolidated version.\n5. Prune old backups, keeping the most recent ten.\n\n### Session Recovery\nRuns on every `/new` or `/reset` command:\n1. Hash recent lines of the last session file.\n2. Compare with the stored observer hash.\n3. If they differ, run the observer with a longer look‑back (4 hours).\n4. Fallback to raw message extraction if the LLM call fails.\n\n### Reactive Watcher\n1. Monitor the session directory with `inotifywait`.\n2. After 40+ new JSONL lines, trigger the observer (subject to a 5‑minute cooldown).\n3. Reset the counter when a cron‑based observer run occurs.\n\n## Dream Cycle (Optional Nightly Archival)\n\nThe Dream Cycle runs as a full agent turn (not a direct bash call) and performs deeper archiving:\n- Classifies observations by impact and age.\n- Archives items that exceed their TTL.\n- Adds semantic hooks for alternative search phrasing.\n- Applies confidence scores and importance decay.\n- Promotes recurring patterns to “staging” for human review.\n\n### Setup\n1. Ensure `setup.sh` has created the Dream Cycle directories.\n2. Add a nightly cron entry that invokes the agent with the `dream-cycle-prompt.md` system prompt (see the skill for the exact command).\n3. Start with `READ_ONLY_MODE=true` to review logs before committing changes.\n\n### Configuration\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `DREAM_TOKEN_TARGET` | `8000` | Desired token count after consolidation |\n| `READ_ONLY_MODE` | `false` | When `true`, the cycle runs in dry‑run mode |\n\n## Troubleshooting\n\n- **Observer not running?** Check `logs/observer.log`, verify the API key, and ensure the cron entry is active (`crontab -l`).\n- **Observations not loaded?** Confirm your agent’s startup prompt reads `memory/observations.md` and that `MEMORY_DIR` points to the correct location.\n- **Watcher not triggering (Linux)?** Verify `inotify-tools` is installed, and inspect the systemd service status.\n- **Dream Cycle too aggressive?** Enable `READ_ONLY_MODE=true` and adjust `DREAM_TOKEN_TARGET` upward.\n- **Dream Cycle not archiving enough?** Lower `DREAM_TOKEN_TARGET` to increase consolidation.\n\n---"
+      }
+    }
+  ],
   "consolidations": []
 }

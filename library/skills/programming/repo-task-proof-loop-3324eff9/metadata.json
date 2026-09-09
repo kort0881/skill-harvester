@@ -1,0 +1,68 @@
+{
+  "library_id": "programming/repo-task-proof-loop-3324eff9",
+  "title": "Repo Task Proof Loop",
+  "category": "programming",
+  "tags": [
+    "repo",
+    "workflow",
+    "coding",
+    "automation",
+    "subagents"
+  ],
+  "summary": "A repo‑local workflow that creates a structured task folder, installs project‑scoped Codex and Claude subagents, and manages a repeatable spec‑freeze → build → evidence → verify → fix loop. It updates AGENTS.md and the repository’s Claude guide with managed workflow blocks and provides a set of CLI commands to drive each phase. The skill is designed for large coding tasks that require auditable proof of implementation.",
+  "source": {
+    "repository": "DenisSergeevitch/repo-task-proof-loop",
+    "repository_url": "https://github.com/DenisSergeevitch/repo-task-proof-loop",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/DenisSergeevitch/repo-task-proof-loop/blob/853622144588798dc1b3babc81ed9499328321bf/SKILL.md",
+    "api_sha": "fb37a44f7938b37903e5435173a7a0ac43f0613b",
+    "repo_stars": 728,
+    "repo_forks": 46,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-09-01T15:40:02+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:25+00:00",
+  "accepted_at": "2026-09-09T12:24:57+00:00",
+  "content_hash": "35349432b693066c9eb051afe69a900d987754bb701b1133dd970d221375519c",
+  "source_excerpt": "--- name: repo-task-proof-loop description: Repo-local workflow skill for large coding tasks. Initializes .agent/tasks/TASK_ID artifacts, installs project-scoped Codex and Claude subagents, updates AGENTS.md plus the repo's Claude guide file with the workflow, and runs a spec-freeze → build → evidence → verify → fix loop with fresh-session verification. license: Apache-2.0 compatibility: Skills-compatible coding agents. Integrates with Codex and Claude Code project-scoped subagents. Bundled scripts require Python 3.10+. metadata: author: OpenAI version: \"1.0.0\" --- # Repo Task Proof Loop Use this skill when the user wants a repeatable, auditable implementation workflow for a non-trivial coding task, especially a feature, refactor, migration…",
+  "review": {
+    "decision": "accept",
+    "title": "Repo Task Proof Loop",
+    "category": "programming",
+    "summary": "A repo‑local workflow that creates a structured task folder, installs project‑scoped Codex and Claude subagents, and manages a repeatable spec‑freeze → build → evidence → verify → fix loop. It updates AGENTS.md and the repository’s Claude guide with managed workflow blocks and provides a set of CLI commands to drive each phase. The skill is designed for large coding tasks that require auditable proof of implementation.",
+    "quality_score": 84,
+    "uniqueness_score": 71,
+    "usefulness_score": 82,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Clear, step‑by‑step workflow description",
+      "Explicit command list with usage examples",
+      "Well‑defined artifact set and verification requirements",
+      "Supports both Codex and Claude subagents",
+      "Includes guardrails and validation steps"
+    ],
+    "weaknesses": [
+      "Very long and dense documentation may be hard to skim",
+      "Some sections repeat similar guidance, adding redundancy",
+      "Lacks concrete end‑to‑end example with sample task ID",
+      "Assumes presence of specific subagent templates without describing their contents"
+    ],
+    "tags": [
+      "repo",
+      "workflow",
+      "coding",
+      "automation",
+      "subagents"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise quick‑start example that walks through init, run, and status for a sample TASK_ID",
+      "Summarize the most critical commands in a table for faster reference",
+      "Provide a brief description of the expected directory layout for the subagent templates",
+      "Consider splitting the long “Codex adaptive fan‑out” section into a separate optional appendix"
+    ],
+    "normalized_skill_markdown": "---\nname: repo-task-proof-loop\ndescription: Repo‑local workflow skill for large coding tasks, providing a repeatable proof loop with spec freeze, build, evidence, verification, and fix phases.\n---\n\n# Repo Task Proof Loop\n\nUse this skill when the user wants a repeatable, auditable implementation workflow for a non‑trivial coding task, especially a feature, refactor, migration, or bug fix that should leave repo‑local proof in `.agent/tasks/<TASK_ID>/`.\n\nAll task artifacts created by this workflow must stay inside the repository.\n\nWhen the examples below mention `scripts/task_loop.py`, that path is relative to this skill root. Run it while your shell working directory is inside the target repository.\n\n## What this skill does\n1. Initializes a strict repo‑local task folder under `.agent/tasks/<TASK_ID>/`.\n2. Seeds or updates the required artifact files.\n3. Installs project‑scoped Codex and Claude subagent templates into `.codex/agents/` and `.claude/agents/`.\n4. Updates the repo‑root `AGENTS.md` Codex baseline plus the repo's Claude guide file (`CLAUDE.md` or `.claude/CLAUDE.md`) with a managed block that explains the workflow.\n5. Guides the agent through a strict loop: spec freeze → builder implementation → evidence packing → fresh verification → minimal fix → fresh verification again until `PASS`.\n\nSee:\n- `references/REFERENCE.md`\n- `references/COMMANDS.md`\n- `references/SUBAGENTS.md`\n- `references/SCHEMAS.md`\n\n## Commands this skill supports\nTreat the following words as commands when the user invokes this skill:\n\n- `init <TASK_ID>`: create `.agent/tasks/<TASK_ID>/`, install or refresh subagent templates, and update `AGENTS.md` plus the repo's Claude guide file.\n- `freeze <TASK_ID>`: create or refine `spec.md` from the user task, task file, and repo guidance.\n- `build <TASK_ID>`: implement the task against the frozen spec.\n- `evidence <TASK_ID>`: create or refresh `evidence.md`, `evidence.json`, and raw artifacts without changing production code.\n- `verify <TASK_ID>`: run a fresh verifier pass and write `verdict.json`, plus `problems.md` when needed.\n- `fix <TASK_ID>`: apply the smallest safe fix set from `problems.md`, then refresh the evidence bundle.\n- `run <TASK_ID>`: execute the full loop from spec freeze through verification.\n- `status <TASK_ID>`: summarize current artifact status.\n\nIf the user does not supply a command, infer the next step from repo state:\n- If the task folder does not exist, run `init` first.\n- If `spec.md` is missing or placeholder‑only, do `freeze`.\n- If implementation is not yet complete, do `build`.\n- If evidence is stale or missing, do `evidence`.\n- If no fresh verdict exists, do `verify`.\n- If verdict is not `PASS`, do `fix`.\n\n## Initialization step\nRun the bundled initializer from the repository root or current working directory inside the repo:\n\n```bash\nscripts/task_loop.py init --task-id <TASK_ID>\n```\n\nOptional task seeding:\n\n```bash\nscripts/task_loop.py init --task-id <TASK_ID> --task-file path/to/task.md\nscripts/task_loop.py init --task-id <TASK_ID> --task-text \"User task text\"\n```\n\nThe initializer will:\n- resolve the repo root\n- create `.agent/tasks/<TASK_ID>/`\n- create all required artifacts, including placeholders under `raw/`\n- install project‑scoped subagent files\n- insert or refresh managed workflow blocks in `AGENTS.md` and the repo's Claude guide file\n\nFor Codex, the managed workflow block is kept in the repo‑root `AGENTS.md`. For Claude Code, it is kept in the repo‑root `CLAUDE.md`.\n\n## Heavy‑task default workflow\nFor large tasks, keep the user‑facing request simple. In Codex, continue serially unless the user explicitly asks for delegation or parallel agent work.\n\n### Preferred delegated sequence\n1. `init <TASK_ID>` (if needed) and confirm `spec.md` exists.\n2. Spawn exactly one spec‑freezer subagent and wait for it.\n3. Spawn exactly one builder subagent and let it implement.\n4. Continue with the same builder session for evidence packing.\n5. Spawn exactly one fresh verifier subagent and wait for it.\n6. If verdict is not `PASS`, spawn exactly one fixer subagent.\n7. Spawn one fresh verifier subagent again.\n8. Repeat steps 6‑7 until the verifier returns `PASS` or the user stops the loop.\n\n### Codex adaptive fan‑out (optional)\nUse only after explicit user authorization and when the task benefits from bounded parallel work. Limit parallel helpers to a maximum of three and keep the overall orchestration shallow.\n\n## Spec freeze requirements\n`spec.md` must contain at least:\n- original task statement\n- explicit acceptance criteria labeled `AC1`, `AC2`, …\n- constraints\n- non‑goals\n\nDo not edit production code during spec freeze.\n\n## Evidence packing requirements\n`evidence.md` and `evidence.json` must judge each acceptance criterion independently with `PASS`, `FAIL`, or `UNKNOWN`. Every `PASS` must cite concrete proof such as file paths, commands run, exit codes, output summaries, or artifact paths under `raw/`.\n\n## Fresh verification requirements\nThe verifier must run in a fresh session or fresh subagent and must not modify production code. It writes:\n- `.agent/tasks/<TASK_ID>/verdict.json`\n- `.agent/tasks/<TASK_ID>/problems.md` (only when overall verdict is not `PASS`).\n\n## Fixer requirements\nThe fixer reads only `spec.md`, `verdict.json`, and `problems.md`. It must reconfirm each listed problem before editing, make the smallest safe change set, avoid regressing passing criteria, regenerate evidence artifacts, and stop without writing a final sign‑off.\n\n## Validation\nBefore claiming the workflow is correctly initialized or the artifact set is complete, run:\n\n```bash\nscripts/task_loop.py validate --task-id <TASK_ID>\n```\n\nRun `validate` only after `init` has fully finished.\n\nFor a quick summary:\n\n```bash\nscripts/task_loop.py status --task-id <TASK_ID>\n```\n\n## Guardrails\n- Keep `.agent/tasks/<TASK_ID>/` inside the repo.\n- Treat UI checklists as ephemeral; the durable state lives in the task folder.\n- Never claim task completion unless every acceptance criterion is `PASS`.\n- Separate evaluator and fixer roles.\n- Preserve existing user guidance outside the managed blocks in `AGENTS.md` and the repo's Claude guide file."
+  }
+}

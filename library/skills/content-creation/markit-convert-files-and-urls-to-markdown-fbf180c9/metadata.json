@@ -1,0 +1,73 @@
+{
+  "library_id": "content-creation/markit-convert-files-and-urls-to-markdown-fbf180c9",
+  "title": "Markit – Convert Files and URLs to Markdown",
+  "category": "content-creation",
+  "tags": [
+    "content_creation",
+    "markdown",
+    "cli",
+    "sdk",
+    "nodejs",
+    "file_conversion"
+  ],
+  "summary": "Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK.",
+  "source": {
+    "repository": "shift-labs-ai/markit",
+    "repository_url": "https://github.com/shift-labs-ai/markit",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/shift-labs-ai/markit/blob/4197c76a651607421c5dcd05c0f94555ad1d6a9c/SKILL.md",
+    "api_sha": "f6788c298f71b797b1c1ecd045a9fbd8688d6d84",
+    "repo_stars": 1318,
+    "repo_forks": 54,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-03T10:27:17+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:27+00:00",
+  "accepted_at": "2026-09-09T12:25:11+00:00",
+  "content_hash": "45a892c5b5fb709bad8210f4adf2701daa5aa5ba47f516aac68b3211aa81e3f2",
+  "source_excerpt": "--- name: markit description: Convert files and URLs to Markdown. Supports PDF, DOCX, PPTX, XLSX, HTML, EPUB, CSV, JSON, GitHub URLs, images, audio, ZIP, and more. Use when you need to extract content from any document format. --- # markit Convert anything to Markdown. ## CLI ```bash # Convert a file npx @shiftlabs/markit report.pdf -q # Convert a URL npx @shiftlabs/markit https://en.wikipedia.org/wiki/Markdown -q # GitHub URLs (repos, files, gists, issues, PRs) npx @shiftlabs/markit https://github.com/owner/repo -q npx @shiftlabs/markit https://github.com/owner/repo/issues/42 -q npx @shiftlabs/markit https://gist.github.com/user/id -q # Write to file npx @shiftlabs/markit document.docx -q -o output.md # See all options npx @shiftlabs/marki…",
+  "review": {
+    "decision": "accept",
+    "title": "Markit – Convert Files and URLs to Markdown",
+    "category": "content_creation",
+    "summary": "Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK.",
+    "quality_score": 70,
+    "uniqueness_score": 75,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 83,
+    "strengths": [
+      "Clear name and description",
+      "Comprehensive list of supported formats",
+      "Both CLI and SDK examples",
+      "Simple one‑line commands",
+      "Shows how to output to file and request JSON"
+    ],
+    "weaknesses": [
+      "Missing explicit prerequisites (Node.js, npm)",
+      "No installation instructions",
+      "Outputs are described only briefly",
+      "No verification or error‑handling guidance",
+      "No version or licensing information"
+    ],
+    "tags": [
+      "content_creation",
+      "markdown",
+      "cli",
+      "sdk",
+      "nodejs",
+      "file_conversion"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section (Node.js version, npm)",
+      "Provide installation command (e.g., npm install -g @shiftlabs/markit)",
+      "Document the full set of CLI flags and their meanings",
+      "Explain the structure of the JSON output and how to handle errors",
+      "Include a brief verification step (e.g., preview first few lines of output)",
+      "State versioning and licensing information"
+    ],
+    "normalized_skill_markdown": "---\nname: markit\ndescription: Convert files, URLs, and GitHub resources to clean Markdown. Supports PDF, DOCX, PPTX, XLSX, HTML, EPUB, CSV, JSON, images, audio, ZIP, and more.\n---\n\n# Markit\n\n## Overview\nMarkit is a Node.js‑based tool that extracts the textual content of a wide range of document formats and returns it as Markdown. It can be used from the command line or programmatically via its TypeScript SDK.\n\n## Prerequisites\n- Node.js (v14 or later)\n- npm (comes with Node.js)\n\n## Installation\n```bash\nnpm install -g @shiftlabs/markit\n```\n\n## CLI Usage\n```bash\n# Convert a local file to raw markdown\nnpx @shiftlabs/markit report.pdf -q\n\n# Convert a remote URL\nnpx @shiftlabs/markit https://en.wikipedia.org/wiki/Markdown -q\n\n# Convert a GitHub repository, file, gist, issue, or pull request\nnpx @shiftlabs/markit https://github.com/owner/repo -q\nnpx @shiftlabs/markit https://github.com/owner/repo/issues/42 -q\nnpx @shiftlabs/markit https://gist.github.com/user/id -q\n\n# Write output to a file\nnpx @shiftlabs/markit document.docx -q -o output.md\n\n# Get structured JSON output (markdown + inferred title)\nnpx @shiftlabs/markit report.pdf --json\n\n# List all supported input formats\nnpx @shiftlabs/markit formats\n\n# Show full help\nnpx @shiftlabs/markit --help\n```\n\n- `-q` – Return raw markdown (no additional metadata).\n- `--json` – Return a JSON object `{ \"markdown\": \"...\", \"title\": \"...\" }`.\n- `-o <file>` – Write the result to the specified file.\n\n## SDK (TypeScript) Usage\n```typescript\nimport { Markit } from \"@shiftlabs/markit\";\n\nconst markit = new Markit();\n\n// Convert a local file\nconst { markdown, title } = await markit.convertFile(\"report.pdf\");\n\n// Convert a remote URL\nconst { markdown: urlMd } = await markit.convertUrl(\"https://example.com\");\n\n// Convert a raw buffer with an explicit extension\nimport { readFile } from \"fs/promises\";\nconst buffer = await readFile(\"document.docx\");\nconst { markdown: bufMd } = await markit.convert(buffer, { extension: \".docx\" });\n```\n\nThe SDK methods return a promise that resolves to an object containing at least `markdown` and, when possible, a `title`.\n\n## Verification\nAfter conversion, you can quickly verify the output by previewing the first few lines:\n```bash\nhead -n 10 output.md\n```\nOr, when using `--json`, inspect the JSON structure:\n```bash\nnpx @shiftlabs/markit report.pdf --json | jq '.'\n```\n\n## Limitations & Notes\n- Complex layouts (e.g., multi‑column PDFs) may lose some visual fidelity.\n- Binary‑only files (e.g., pure images) are converted to Markdown image links when possible.\n- Large archives are processed file‑by‑file; the tool extracts each supported document inside the archive.\n\n---"
+  }
+}
