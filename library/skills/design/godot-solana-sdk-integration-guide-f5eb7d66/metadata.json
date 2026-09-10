@@ -1,0 +1,67 @@
+{
+  "library_id": "design/godot-solana-sdk-integration-guide-f5eb7d66",
+  "title": "Godot Solana SDK Integration Guide",
+  "category": "design",
+  "tags": [
+    "godot",
+    "solana",
+    "blockchain",
+    "gdscript",
+    "sdk",
+    "gaming"
+  ],
+  "summary": "This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot.",
+  "source": {
+    "repository": "Virus-Axel/godot-solana-sdk",
+    "repository_url": "https://github.com/Virus-Axel/godot-solana-sdk",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Virus-Axel/godot-solana-sdk/blob/c7f89894df0135c76b66e4bd053649211d698818/SKILL.md",
+    "api_sha": "c4746b32b1065714641e748bc358b52e0c3e0a71",
+    "repo_stars": 78,
+    "repo_forks": 20,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-18T15:10:36+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:47+00:00",
+  "accepted_at": "2026-09-10T12:21:03+00:00",
+  "content_hash": "58438da8659259f9e4e320f340f9879a6f399ed9d64367a902dd1ea84bdb3719",
+  "source_excerpt": "--- name: godot-solana-sdk description: > Use this skill when building Solana-enabled games or apps in Godot 4 with the Godot Solana SDK. Triggers include: Solana transactions in GDScript, SPL tokens or NFTs in a Godot project, connecting browser or mobile wallets (Phantom, Solflare, Backpack) in a Godot game, calling Anchor smart contracts from GDScript, working with Candy Machine in Godot, or any mention of SolanaClient, Transaction, Pubkey, Keypair, WalletAdapter, or AnchorProgram in a Godot context. Do NOT use for non-Godot Solana SDKs (solana-py, solana-go, solana-web3.js). --- # Godot Solana SDK A GDExtension (C++) plugin for Godot 4 that brings full Solana blockchain support to game development. Write GDScript to send transactions, m…",
+  "review": {
+    "decision": "accept",
+    "title": "Godot Solana SDK Integration Guide",
+    "category": "design",
+    "summary": "This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot.",
+    "quality_score": 92,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 92,
+    "strengths": [
+      "Very detailed with code snippets for every major component",
+      "Clear installation and configuration instructions",
+      "Practical workflow examples for transactions and wallet integration",
+      "Comprehensive reference tables for nodes and resources"
+    ],
+    "weaknesses": [
+      "Lengthy; may overwhelm beginners",
+      "Assumes familiarity with Godot editor and GDScript",
+      "Relies on external services (Helius, RPC endpoints) without fallback guidance"
+    ],
+    "tags": [
+      "godot",
+      "solana",
+      "blockchain",
+      "gdscript",
+      "sdk",
+      "gaming"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise quick‑start example that creates a minimal project and sends a test transaction",
+      "Provide version compatibility notes for Godot 4.x and the SDK release",
+      "Include troubleshooting tips for common RPC errors and wallet connection failures"
+    ],
+    "normalized_skill_markdown": "---\nname: godot-solana-sdk\ndescription: >\n  Use this skill when building Solana-enabled games or apps in Godot 4 with the Godot Solana SDK.\n---\n\n# Godot Solana SDK\n\nA GDExtension (C++) plugin for Godot 4 that brings full Solana blockchain support to game development. Write GDScript to send transactions, manage wallets, mint NFTs, and interact with Anchor programs — on Windows, Linux, macOS, Web, Android, and iOS.\n\n- **Repo:** https://github.com/Virus-Axel/godot-solana-sdk\n- **Docs:** https://zenwiki.gitbook.io/solana-godot-sdk-docs\n- **Demo:** https://zenrepublic.github.io/GodotSolanaSDKDemos/\n- **Asset Library:** https://godotengine.org/asset-library/asset/3232\n- **Discord:** https://discord.gg/9aFDCvqPgt\n\n> **Security:** Mainnet use is not yet security‑audited. Crypto can be stolen. Use with care.\n\n## Installation\n\n**Via Godot Asset Library (recommended)**\n1. Search for **\"Solana\"** in the Godot Asset Library and install.\n2. Installation must go into the `addons/` folder at the project root.\n3. Open **Project → Project Settings → Plugins** and enable **SolanaSDK**.\n4. Verify **`SolanaService`** appears under **Project Settings → Autoload**.\n\n**Via GitHub Releases (manual)**\nDownload binaries from the Releases page, place them under `res://bin/`, and reload the project.\n\n## Configuration\n\nAfter enabling the plugin, `SolanaService` is automatically added as an autoload singleton.\n\n- **RPC cluster:** Select Mainnet or Devnet in the SolanaService inspector. Provide a custom RPC URL (e.g., from Helius) for better performance. The URL is also read from `Project Settings → solana_sdk/client/default_url`.\n- **Wallet:** The `WalletService` child node handles auth.\n  - *Use Generated* — deterministic wallet seeded from your machine ID (testing only).\n  - *Custom Wallet* — path to a JSON file with the private key as a 64‑byte array.\n\n## Core Nodes\n\n| Node | Inherits | Purpose |\n|---|---|---|\n| `SolanaClient` | `Node` | Low‑level RPC calls to the Solana network |\n| `Transaction` | `SolanaClient` | Build, sign, and send transactions |\n| `WalletAdapter` | `Node` | Browser / mobile wallet integration |\n| `Account` | `Node` | Mirror of an on‑chain account, auto‑syncs |\n| `AccountFetcher` | `SolanaClient` | Bulk‑fetch a list of Account nodes |\n| `SystemProgram` | `Node` | SOL transfers and account creation |\n| `TokenProgram` | `Node` | SPL Token instructions |\n| `AssociatedTokenAccountProgram` | `Node` | Create Associated Token Accounts |\n| `ComputeBudget` | `Node` | Set compute unit limits and priority fees |\n| `MplCandyMachine` | `Node` | Candy Machine v3 minting |\n| `MplCandyGuard` | `Node` | Candy Guard configuration |\n| `MplTokenMetadata` | `Node` | Metaplex token metadata |\n| `AnchorProgram` | `Node` | Generic interface for any Anchor program |\n| `SolanaUtils` | `Node` | Base58/Base64 encoding, hashing utilities |\n\n## Core Resources\n\n| Resource | Purpose |\n|---|---|\n| `Pubkey` | 32‑byte Solana public key / address |\n| `Keypair` | ed25519 keypair for signing |\n| `Instruction` | A single transaction instruction |\n| `AccountMeta` | Account metadata entry in an instruction |\n| `CandyMachineData` | Candy Machine configuration |\n\n## Pubkey\n```gdscript\nvar pk: Pubkey = Pubkey.new_from_string(\"78GVwUb8ojcJVrEVkwCU5tfUKTfJuiazRrysGwgjqsif\")\nvar pk_bytes: Pubkey = Pubkey.new_from_bytes(some_packed_byte_array)\nvar program_key := Pubkey.new_from_string(\"CndyV3LdqHUfDLmE5naZjVN8rBZz4tqhdefbAnjHG3JR\")\nvar pda: Pubkey = Pubkey.new_pda([\"Level1\"], program_key)\nvar pda_bytes: Pubkey = Pubkey.new_pda_bytes([some_pubkey.to_bytes()], program_key)\nvar ata: Pubkey = Pubkey.new_associated_token_address(owner, mint, TokenProgram.get_pid())\nvar random_pk: Pubkey = Pubkey.new_random()\nprint(pk.to_string())\nprint(pk.to_bytes())\n```\n> `Pubkey.new_pda` searches for a valid bump; `new_program_address` does not.\n\n## Keypair\n```gdscript\nvar kp: Keypair = Keypair.new_random()\nvar seed = PackedByteArray(); seed.resize(32)\nvar kp_seed: Keypair = Keypair.new_from_seed(seed)\nvar kp_phantom: Keypair = Keypair.new_from_bytes(\"3wUbDHMtMVQ...\")\nvar kp_file: Keypair = Keypair.new_from_file(\"res://payer.json\")\nkp.save_to_file(\"keypair.json\")\nprint(kp.get_public_string())\nprint(kp.get_private_bytes())\nvar sig = kp.sign_message(\"hello\".to_ascii_buffer())\nvar ok = kp.verify_signature(sig, \"hello\".to_ascii_buffer())\n```\n\n## SolanaClient (RPC)\n```gdscript\nvar client: SolanaClient = SolanaClient.new()\nadd_child(client)\nclient.set_url_override(\"https://api.devnet.solana.com\")\nclient.set_commitment(\"confirmed\")\nclient.get_account_info(\"4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZAMdL4VZHirAn\")\nvar response: Dictionary = (await client.http_request_completed)[1]\nif response.has(\"result\"):\n    print(response[\"result\"])\nremove_child(client)\nclient.queue_free()\n```\n*All RPC methods emit `http_request_completed`; listen to the signal for results.*\n\n## Transaction\n```gdscript\nvar payer: Keypair = Keypair.new_from_file(\"res://payer.json\")\nvar receiver: Pubkey = Pubkey.new_from_string(\"78GVwUb8ojcJVrEVkwCU5tfUKTfJuiazRrysGwgjqsif\")\nvar tx = Transaction.new()\nadd_child(tx)\ntx.set_payer(payer)\ntx.add_instruction(SystemProgram.transfer(payer, receiver, 500_000))\ntx.update_latest_blockhash()\ntx.sign_and_send()\nvar resp = await tx.transaction_response_received\nif resp.has(\"result\"):\n    print(\"Signature:\", resp[\"result\"])\nawait tx.confirmed\nawait tx.finalized\n```\n\n## SystemProgram, TokenProgram, AssociatedTokenAccountProgram, ComputeBudget, WalletAdapter, AnchorProgram, MplCandyMachine, SolanaUtils, SolanaService\n*Sections omitted for brevity – the original skill contains full GDScript examples for each.*\n\n## Error Handling\n```gdscript\nvar params = await client.http_request_completed\nvar error: Error = params[0]\nvar response: Dictionary = params[1]\nif error != OK:\n    push_error(\"Connection error: %d\" % error)\n    return\nif response.is_empty() or response.has(\"error\"):\n    push_error(\"RPC error: \" + str(response.get(\"error\", {}).get(\"message\", \"unknown\")))\n    return\nvar result = response[\"result\"]\n```\n\n## Common Pitfalls\n- `SolanaClient` must be added to the scene tree before making requests.\n- Use `TokenProgram.transfer_checked` instead of `transfer`.\n- Derive ATAs with `Pubkey.new_associated_token_address`.\n- After `Transaction.new_from_bytes`, re‑assign signers before signing.\n- Load Anchor IDL via the inspector, not from code.\n- `Pubkey.new_pda` can return `null`; always check.\n- `WalletAdapter` is primarily for web exports; use `Keypair` for desktop.\n"
+  }
+}

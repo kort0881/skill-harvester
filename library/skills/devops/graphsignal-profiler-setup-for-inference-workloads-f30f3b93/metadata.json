@@ -1,0 +1,78 @@
+{
+  "library_id": "devops/graphsignal-profiler-setup-for-inference-workloads-f30f3b93",
+  "title": "Graphsignal Profiler Setup for Inference Workloads",
+  "category": "devops",
+  "tags": [
+    "gpu",
+    "profiling",
+    "inference",
+    "vllm",
+    "sglang",
+    "pytorch",
+    "dstack",
+    "devops",
+    "otel",
+    "prometheus"
+  ],
+  "summary": "This skill explains how to install, configure, and run the Graphsignal Profiler for GPU‑accelerated inference services such as vLLM, SGLang, PyTorch, and dstack. It covers both the CLI sidecar (`graphsignal‑run`) and the in‑process Python entry point (`graphsignal.watch()`), including optional OpenTelemetry tracing and Docker usage. The guide provides concrete commands, environment variables, and engine‑specific notes to get profiling and monitoring up and running quickly.",
+  "source": {
+    "repository": "graphsignal/graphsignal-profiler",
+    "repository_url": "https://github.com/graphsignal/graphsignal-profiler",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/graphsignal/graphsignal-profiler/blob/dd4e33a6c134ae82f2b3d8a81602e3cfa699d8db/SKILL.md",
+    "api_sha": "7fee8ca1d7c5dacb74a15becfade33d011df4c77",
+    "repo_stars": 244,
+    "repo_forks": 12,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-08-25T10:11:35+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:44+00:00",
+  "accepted_at": "2026-09-10T12:19:10+00:00",
+  "content_hash": "be2f51ae0e5d7f1f293414c44dc9e26859a84dc5667b51544592a94b290bd63f",
+  "source_excerpt": "--- name: graphsignal-profiler description: >- Set up the Graphsignal Profiler for inference workloads — vLLM, SGLang, PyTorch, and dstack services. Use when the user wants GPU profiling, tracing, or monitoring for inference, asks about `graphsignal-run` or `graphsignal.watch()`, or asks about CUPTI / Prometheus / OTLP setup. --- # Graphsignal Profiler Graphsignal observes inference workloads from a **sidecar process** — the profiler. It never shares a process with CUDA: the profiler watches the workload externally via CUPTI, OTLP/gRPC, Prometheus scraping, and NVML. Auto-instrumentation covers vLLM, SGLang, and PyTorch out of the box. ## Install Two install patterns depending on how you'll launch the profiler. **For `graphsignal-run` (CLI,…",
+  "review": {
+    "decision": "accept",
+    "title": "Graphsignal Profiler Setup for Inference Workloads",
+    "category": "devops",
+    "summary": "This skill explains how to install, configure, and run the Graphsignal Profiler for GPU‑accelerated inference services such as vLLM, SGLang, PyTorch, and dstack. It covers both the CLI sidecar (`graphsignal‑run`) and the in‑process Python entry point (`graphsignal.watch()`), including optional OpenTelemetry tracing and Docker usage. The guide provides concrete commands, environment variables, and engine‑specific notes to get profiling and monitoring up and running quickly.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Clear step‑by‑step installation instructions for both CLI and Python usage",
+      "Comprehensive engine‑specific examples (vLLM, SGLang, PyTorch, dstack)",
+      "Includes Docker snippets and OpenTelemetry opt‑in",
+      "Well‑structured tables for configuration variables",
+      "Provides reference URLs for further reading"
+    ],
+    "weaknesses": [
+      "Lacks explicit verification steps to confirm profiling is active",
+      "No sample output or dashboard screenshots",
+      "Troubleshooting section is minimal",
+      "Does not explain how to view collected metrics in Graphsignal UI"
+    ],
+    "tags": [
+      "gpu",
+      "profiling",
+      "inference",
+      "vllm",
+      "sglang",
+      "pytorch",
+      "dstack",
+      "devops",
+      "otel",
+      "prometheus"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a verification checklist (e.g., checking Prometheus metrics endpoint or confirming sidecar process is running)",
+      "Include example of expected Graphsignal UI view or CLI output",
+      "Expand troubleshooting with common error messages and their fixes",
+      "Provide guidance on securing the API key (e.g., using secret managers)"
+    ],
+    "normalized_skill_markdown": "---\nname: graphsignal-profiler\ndescription: >-\n  Set up the Graphsignal Profiler for inference workloads — vLLM, SGLang, PyTorch, and dstack services. Use when the user wants GPU profiling, tracing, or monitoring for inference, asks about `graphsignal-run` or `graphsignal.watch()`, or asks about CUPTI / Prometheus / OTLP setup.\n---\n\n# Graphsignal Profiler\n\nGraphsignal observes inference workloads from a **sidecar process** — the profiler. It never shares a process with CUDA: the profiler watches the workload externally via CUPTI, OTLP/gRPC, Prometheus scraping, and NVML. Auto‑instrumentation covers vLLM, SGLang, and PyTorch out of the box.\n\n## Install\n\nTwo install patterns depending on how you'll launch the profiler.\n\n**For `graphsignal-run` (CLI, recommended):** install as a uv tool, isolated from your workload env.\n\n```bash\nUV_TOOL_BIN_DIR=/usr/local/bin uv tool install 'graphsignal[cu12]'   # CUDA 12.x\n# or\nUV_TOOL_BIN_DIR=/usr/local/bin uv tool install 'graphsignal[cu13]'   # CUDA 13.x\n```\n\n`UV_TOOL_BIN_DIR=/usr/local/bin` puts `graphsignal-run` in a directory that is already on `PATH` for every shell, including non‑interactive scripts and containers.\n\n**For `graphsignal.watch()` (in‑process Python entry point):** install into the app's own env.\n\n```bash\nuv add 'graphsignal[cu12]'    # or pip install -U 'graphsignal[cu12]'\n```\n\nThe `cu12` / `cu13` extras are Linux‑only and only needed for GPU profiling.\n\n## Configure\n\nThe profiler reads its config from environment variables.\n\n| Variable | Purpose |\n|---|---|\n| `GRAPHSIGNAL_API_KEY` *(required)* | Account API key. |\n| `GRAPHSIGNAL_API_BASE` | Override the API endpoint (defaults to `https://api.graphsignal.com`). |\n| `GRAPHSIGNAL_TAG_<KEY>=<value>` | Arbitrary tag attached to all signals (e.g. `GRAPHSIGNAL_TAG_DEPLOYMENT=us-prod`). |\n\nSet these before invoking `graphsignal-run` or calling `graphsignal.watch()`.\n\n## Run\n\n### Option A — `graphsignal-run` CLI (recommended)\n\nWrap the launch command for your workload.\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run vllm serve Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nThe CLI enables GPU profiling, starts the profiler sidecar, and launches the workload.\n\n### Option B — `graphsignal.watch()` from Python\n\nFor applications that bootstrap themselves (long‑lived servers, scripts, notebooks), call `graphsignal.watch()` once during startup, **before any CUDA work happens**.\n\n```python\nimport graphsignal\n\ngraphsignal.watch()\n# ... your application code (PyTorch, vLLM, SGLang, etc.) ...\n```\n\nIt enables GPU profiling in this process and starts the profiler sidecar to observe it. Returns the `subprocess.Popen` so the caller can `wait()` or `terminate()` it.\n\n### OpenTelemetry tracing (opt‑in)\n\nDistributed traces (engine / scheduler / attention spans over OTLP/gRPC) are **off by default**. Enable them with `--enable-otel`, which must come *before* the workload command:\n\n```bash\ngraphsignal-run --enable-otel sglang serve --model-path Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nThis captures the engine's request traces via a local OTLP collector. It requires OpenTelemetry installed in the **engine's** environment (e.g. `pip install opentelemetry-sdk opentelemetry-exporter-otlp`) — graphsignal can't provide it when installed in a separate env (e.g. `uv tool`), and SGLang ≥ 0.5.10 errors at startup if tracing is enabled without it. Prometheus metrics and GPU profiling are captured regardless of this flag; OTEL tracing applies only to `graphsignal-run` (not `graphsignal.watch()`).\n\n## Engine‑specific notes\n\n### vLLM\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run vllm serve Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nOr from Python (before importing vLLM):\n\n```python\nimport graphsignal\ngraphsignal.watch()\nimport vllm\n# ...\n```\n\nCaptures vLLM's Prometheus metrics and CUPTI GPU profiling out of the box. Engine / scheduler / KV‑cache / attention / output‑processing OTEL spans are added with `--enable-otel` (see [OpenTelemetry tracing](#opentelemetry-tracing-opt-in) above).\n\nvLLM Docker (image without CUPTI):\n\n```bash\ndocker run --gpus all \\\n  -p 8000:8000 --ipc=host \\\n  -e GRAPHSIGNAL_API_KEY=YOUR_API_KEY \\\n  -v ~/.cache/huggingface:/root/.cache/huggingface \\\n  --entrypoint bash \\\n  vllm/vllm-openai:latest \\\n  -lc 'pip install --no-cache-dir graphsignal[cu12] \\\n       && exec graphsignal-run vllm serve \\\n           --model Qwen/Qwen2-VL-7B-Instruct \\\n           --trust-remote-code'\n```\n\n### SGLang\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run sglang serve \\\n  --model-path Qwen/Qwen1.5-7B-Chat \\\n  --port 8000\n```\n\nCaptures SGLang's Prometheus metrics and operation‑level GPU profiling out of the box. OTEL spans are added with `--enable-otel` (see above).\n\nSGLang Docker:\n\n```bash\ndocker run --gpus all \\\n  -p 8000:8000 --ipc=host \\\n  -e GRAPHSIGNAL_API_KEY=YOUR_API_KEY \\\n  -v ~/.cache/huggingface:/root/.cache/huggingface \\\n  --entrypoint bash \\\n  your-sglang-image:latest \\\n  -lc 'pip install --no-cache-dir graphsignal[cu12] \\\n       && exec graphsignal-run sglang serve \\\n           --model-path Qwen/Qwen2.5-1.5B-Instruct \\\n           --port 8000'\n```\n\n### PyTorch\n\nAuto‑instrumented for common PyTorch operator / module hot paths and CUDA memory metrics. Use either CLI or `watch()`:\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run python my_app.py\n```\n\n```python\nimport graphsignal\ngraphsignal.watch()\nimport torch\n# ...\n```\n\n### dstack\n\ndstack runs inference as services. Use `graphsignal-run` around the launch command, exactly like bare‑metal SGLang/vLLM.\n\n```yaml\ntype: service\nname: deepseek-r1\n\nimage: lmsysorg/sglang:latest\nenv:\n  - MODEL_ID=deepseek-ai/DeepSeek-R1-Distill-Llama-8B\n  - GRAPHSIGNAL_API_KEY\n\ncommands:\n  - |\n    pip install --no-cache-dir 'graphsignal[cu12]' && \\\n    graphsignal-run python3 -m sglang.launch_server \\\n      --model-path $MODEL_ID \\\n      --port 8000 \\\n      --trust-remote-code\n\nport: 8000\nmodel: deepseek-ai/DeepSeek-R1-Distill-Llama-8B\n\nresources:\n  gpu: 24GB\n```\n\nDeploy:\n\n```bash\ndstack apply -f service.dstack.yml\n```\n\n## Troubleshooting\n\nEnsure outgoing connections to `https://api.graphsignal.com` are allowed.\n\n## Reference\n\n- Full Profiler API: https://graphsignal.com/docs/reference/profiler-api/\n- vLLM integration: https://graphsignal.com/docs/integrations/vllm/\n- SGLang integration: https://graphsignal.com/docs/integrations/sglang/\n- dstack integration: https://graphsignal.com/docs/integrations/dstack/\n"
+  }
+}

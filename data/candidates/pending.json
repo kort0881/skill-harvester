@@ -1,270 +1,6 @@
 {
   "items": [
     {
-      "candidate_id": "34556e8f08365698484bce01",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:40+00:00",
-      "source": {
-        "repository": "larashero3-dotcom/lieflat-less-ai-tone",
-        "repository_url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/27d29232f10124db904ca9c0536d0b67cb3b2833/SKILL.md",
-        "api_sha": "6d07d49649c676619f8ca53f09014665109f51ba",
-        "repo_stars": 648,
-        "repo_forks": 46,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-06T10:22:40+00:00"
-      },
-      "raw_file": "raw/larashero3-dotcom-lieflat-less-ai-tone/SKILL.md",
-      "title": "lieflat-less-ai-tone",
-      "category_hint": "content_creation",
-      "content_hash": "c55dec1765c2d6ce31f9e03e62876b36a3a65af830350d4d0d5bab6df766b042",
-      "content_characters": 11062
-    },
-    {
-      "candidate_id": "f90d5837af8d8361b151baa8",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:42+00:00",
-      "source": {
-        "repository": "gsd-build/gsd-browser",
-        "repository_url": "https://github.com/gsd-build/gsd-browser",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/gsd-build/gsd-browser/blob/e5ec085e3b726e2ecb3ad1f7f805c39272d5f42c/SKILL.md",
-        "api_sha": "76c4017d38e19342f0607819ec394f01a9ef2d0d",
-        "repo_stars": 264,
-        "repo_forks": 18,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-09-02T11:17:37+00:00"
-      },
-      "raw_file": "raw/gsd-build-gsd-browser/SKILL.md",
-      "title": "gsd-browser",
-      "category_hint": "automation",
-      "content_hash": "c0d8b124707a2c9ff2341a323819da31c7b8a60f1df3183edf1e814061b3b8b3",
-      "content_characters": 30007
-    },
-    {
-      "candidate_id": "f30f3b9318accccb72b527d7",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:44+00:00",
-      "source": {
-        "repository": "graphsignal/graphsignal-profiler",
-        "repository_url": "https://github.com/graphsignal/graphsignal-profiler",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/graphsignal/graphsignal-profiler/blob/dd4e33a6c134ae82f2b3d8a81602e3cfa699d8db/SKILL.md",
-        "api_sha": "7fee8ca1d7c5dacb74a15becfade33d011df4c77",
-        "repo_stars": 244,
-        "repo_forks": 12,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-08-25T10:11:35+00:00"
-      },
-      "raw_file": "raw/graphsignal-graphsignal-profiler/SKILL.md",
-      "title": "graphsignal-profiler",
-      "category_hint": "devops",
-      "content_hash": "be2f51ae0e5d7f1f293414c44dc9e26859a84dc5667b51544592a94b290bd63f",
-      "content_characters": 6791
-    },
-    {
-      "candidate_id": "52c958e28bcc71f565485492",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:45+00:00",
-      "source": {
-        "repository": "haloshin/ip-diagram-creator",
-        "repository_url": "https://github.com/haloshin/ip-diagram-creator",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/haloshin/ip-diagram-creator/blob/dd64ab5d972893f7ca271d9c560362d7788eb2d6/SKILL.md",
-        "api_sha": "010fd6ea6e6180c4c9c96e23fe3ffedb4d5cc6be",
-        "repo_stars": 254,
-        "repo_forks": 38,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-06T05:04:25+00:00"
-      },
-      "raw_file": "raw/haloshin-ip-diagram-creator/SKILL.md",
-      "title": "ip-diagram-creator",
-      "category_hint": "automation",
-      "content_hash": "b24dca47b3fec3f90a91747e589ad4e782311fbf6f023f67c383666d42eabd6a",
-      "content_characters": 6491
-    },
-    {
-      "candidate_id": "f5eb7d66aa0b0e69a3e19578",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:47+00:00",
-      "source": {
-        "repository": "Virus-Axel/godot-solana-sdk",
-        "repository_url": "https://github.com/Virus-Axel/godot-solana-sdk",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/Virus-Axel/godot-solana-sdk/blob/c7f89894df0135c76b66e4bd053649211d698818/SKILL.md",
-        "api_sha": "c4746b32b1065714641e748bc358b52e0c3e0a71",
-        "repo_stars": 78,
-        "repo_forks": 20,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-08-18T15:10:36+00:00"
-      },
-      "raw_file": "raw/virus-axel-godot-solana-sdk/SKILL.md",
-      "title": "godot-solana-sdk",
-      "category_hint": "design",
-      "content_hash": "58438da8659259f9e4e320f340f9879a6f399ed9d64367a902dd1ea84bdb3719",
-      "content_characters": 19239
-    },
-    {
-      "candidate_id": "866f6ac26d1827e7d5e91f48",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:49+00:00",
-      "source": {
-        "repository": "Yonkoo11/hermes-dojo",
-        "repository_url": "https://github.com/Yonkoo11/hermes-dojo",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/Yonkoo11/hermes-dojo/blob/ee114e72e18b13d3aeb4b76a8d1ade0916972248/SKILL.md",
-        "api_sha": "a4a39ae0c0880a59802fe3af00293ed282d64d6c",
-        "repo_stars": 160,
-        "repo_forks": 14,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-05T18:53:50+00:00"
-      },
-      "raw_file": "raw/yonkoo11-hermes-dojo/SKILL.md",
-      "title": "hermes-dojo",
-      "category_hint": "research",
-      "content_hash": "69f1383cd2f2a4c0d5a7e642c1c9a52649b5e0195482e4ab767cdeeab6b042de",
-      "content_characters": 4885
-    },
-    {
-      "candidate_id": "3c5ad66e4eea776f69fdefc3",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:51+00:00",
-      "source": {
-        "repository": "luofengmacheng/algorithms",
-        "repository_url": "https://github.com/luofengmacheng/algorithms",
-        "default_branch": "master",
-        "path": "skill.md",
-        "html_url": "https://github.com/luofengmacheng/algorithms/blob/31ca8d9342a9fe63eda646e781430a3f906b03bd/skill.md",
-        "api_sha": "118c36991b434c95f6c9a2fcf87916d92d6368af",
-        "repo_stars": 69,
-        "repo_forks": 70,
-        "repo_license": null,
-        "repo_updated_at": "2026-06-07T10:48:20+00:00"
-      },
-      "raw_file": "raw/luofengmacheng-algorithms/skill.md",
-      "title": "",
-      "category_hint": "devops",
-      "content_hash": "88b11df2842014eb358a08eb33d88196665ceb7854de77eade96c55cbe1bc064",
-      "content_characters": 548
-    },
-    {
-      "candidate_id": "b2d42f9aed95de367219f281",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:53+00:00",
-      "source": {
-        "repository": "aashaexo/soundshuman",
-        "repository_url": "https://github.com/aashaexo/soundshuman",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/aashaexo/soundshuman/blob/a45cfbba9fde843d670e553a0aa98f6a23d7fb28/SKILL.md",
-        "api_sha": "5076cc1dd357c693b0e70aefa14299001ff908c9",
-        "repo_stars": 292,
-        "repo_forks": 13,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-06T06:40:07+00:00"
-      },
-      "raw_file": "raw/aashaexo-soundshuman/SKILL.md",
-      "title": "humanize",
-      "category_hint": "content_creation",
-      "content_hash": "47db572a5ebd4bcd198f84ddea6c1a10ed142e7f44887db52868570644d023b8",
-      "content_characters": 27568
-    },
-    {
-      "candidate_id": "cb83536716b47a53138d7d8c",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:54+00:00",
-      "source": {
-        "repository": "xiaohuailabs/xiaohu-ip-studio",
-        "repository_url": "https://github.com/xiaohuailabs/xiaohu-ip-studio",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/xiaohuailabs/xiaohu-ip-studio/blob/9d3091e8a1ff26ec5ce5f613cd3b36b35c9b98f6/SKILL.md",
-        "api_sha": "f62bbede931b6f95fe5697220698bbde223472f5",
-        "repo_stars": 280,
-        "repo_forks": 52,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-05T01:28:42+00:00"
-      },
-      "raw_file": "raw/xiaohuailabs-xiaohu-ip-studio/SKILL.md",
-      "title": "xiaohu-ip-studio",
-      "category_hint": "programming",
-      "content_hash": "dddc8e853dad6a8ab9a48caecbca0ae22f92888e0f1a694b4abb3a5ca7f00935",
-      "content_characters": 10367
-    },
-    {
-      "candidate_id": "0a87892112d068374d117613",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:56+00:00",
-      "source": {
-        "repository": "tinyhumansai/tiny.place",
-        "repository_url": "https://github.com/tinyhumansai/tiny.place",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/tinyhumansai/tiny.place/blob/a28827be6c1d6aee8108a5d27b0f9df5fb0b40c4/SKILL.md",
-        "api_sha": "398b33cd87b18d601c5db33a82d17747f9e44a38",
-        "repo_stars": 132,
-        "repo_forks": 29,
-        "repo_license": "GNU General Public License v3.0",
-        "repo_updated_at": "2026-09-01T12:47:31+00:00"
-      },
-      "raw_file": "raw/tinyhumansai-tiny-place/SKILL.md",
-      "title": "tinyplace",
-      "category_hint": "automation",
-      "content_hash": "4f87d9bce58620a5b7c94f22433e9fbed1b483c4a9ec32854c823c6b23707a7c",
-      "content_characters": 20442
-    },
-    {
-      "candidate_id": "16ec9d2389849df3e0840b45",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:03:58+00:00",
-      "source": {
-        "repository": "ParthJadhav/ios-marketing-capture",
-        "repository_url": "https://github.com/ParthJadhav/ios-marketing-capture",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/ParthJadhav/ios-marketing-capture/blob/5d78311bd4868c82cbaad3046298f28ed296fcb2/SKILL.md",
-        "api_sha": "07851b9df3a81b9f431efd0df514454f2531556b",
-        "repo_stars": 259,
-        "repo_forks": 14,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-05T08:14:50+00:00"
-      },
-      "raw_file": "raw/parthjadhav-ios-marketing-capture/SKILL.md",
-      "title": "ios-marketing-capture",
-      "category_hint": "design",
-      "content_hash": "9e04a0f02810fc6457c59575463593976e21ad16ad5abf091eca9a2abde6feae",
-      "content_characters": 24293
-    },
-    {
-      "candidate_id": "829953d7f2ac7c5db6080f05",
-      "status": "pending",
-      "discovered_at": "2026-09-06T11:04:00+00:00",
-      "source": {
-        "repository": "Scottcjn/iota-agent-mcp",
-        "repository_url": "https://github.com/Scottcjn/iota-agent-mcp",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/Scottcjn/iota-agent-mcp/blob/7d2ae3f8b44bf468de37be08ddded19ca3069167/SKILL.md",
-        "api_sha": "bdef8e8d500dc049649caa7474dbb4c353c0e6e3",
-        "repo_stars": 66,
-        "repo_forks": 11,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-05T13:41:18+00:00"
-      },
-      "raw_file": "raw/scottcjn-iota-agent-mcp/SKILL.md",
-      "title": "iota-agent-mcp",
-      "category_hint": "automation",
-      "content_hash": "003d17602f1e4655f976b7e7fb4a2bd967da01ad4844477a754ea746ae455e40",
-      "content_characters": 4649
-    },
-    {
       "candidate_id": "2261ec1353caf493ef9bdfe2",
       "status": "pending",
       "discovered_at": "2026-09-06T11:04:01+00:00",
@@ -1601,7 +1337,99 @@
       "content_hash": "027290858a5dd8cabf01eb8f2c57d62256155771f28c590c3d448f32f57c4388",
       "content_characters": 20899,
       "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8038, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "candidate_id": "34556e8f08365698484bce01",
+      "status": "pending",
+      "discovered_at": "2026-09-06T11:03:40+00:00",
+      "source": {
+        "repository": "larashero3-dotcom/lieflat-less-ai-tone",
+        "repository_url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/27d29232f10124db904ca9c0536d0b67cb3b2833/SKILL.md",
+        "api_sha": "6d07d49649c676619f8ca53f09014665109f51ba",
+        "repo_stars": 648,
+        "repo_forks": 46,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-06T10:22:40+00:00"
+      },
+      "raw_file": "raw/larashero3-dotcom-lieflat-less-ai-tone/SKILL.md",
+      "title": "lieflat-less-ai-tone",
+      "category_hint": "content_creation",
+      "content_hash": "c55dec1765c2d6ce31f9e03e62876b36a3a65af830350d4d0d5bab6df766b042",
+      "content_characters": 11062,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8943, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "candidate_id": "b2d42f9aed95de367219f281",
+      "status": "pending",
+      "discovered_at": "2026-09-06T11:03:53+00:00",
+      "source": {
+        "repository": "aashaexo/soundshuman",
+        "repository_url": "https://github.com/aashaexo/soundshuman",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/aashaexo/soundshuman/blob/a45cfbba9fde843d670e553a0aa98f6a23d7fb28/SKILL.md",
+        "api_sha": "5076cc1dd357c693b0e70aefa14299001ff908c9",
+        "repo_stars": 292,
+        "repo_forks": 13,
+        "repo_license": "Other",
+        "repo_updated_at": "2026-09-06T06:40:07+00:00"
+      },
+      "raw_file": "raw/aashaexo-soundshuman/SKILL.md",
+      "title": "humanize",
+      "category_hint": "content_creation",
+      "content_hash": "47db572a5ebd4bcd198f84ddea6c1a10ed142e7f44887db52868570644d023b8",
+      "content_characters": 27568,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8815, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "candidate_id": "cb83536716b47a53138d7d8c",
+      "status": "pending",
+      "discovered_at": "2026-09-06T11:03:54+00:00",
+      "source": {
+        "repository": "xiaohuailabs/xiaohu-ip-studio",
+        "repository_url": "https://github.com/xiaohuailabs/xiaohu-ip-studio",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/xiaohuailabs/xiaohu-ip-studio/blob/9d3091e8a1ff26ec5ce5f613cd3b36b35c9b98f6/SKILL.md",
+        "api_sha": "f62bbede931b6f95fe5697220698bbde223472f5",
+        "repo_stars": 280,
+        "repo_forks": 52,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-05T01:28:42+00:00"
+      },
+      "raw_file": "raw/xiaohuailabs-xiaohu-ip-studio/SKILL.md",
+      "title": "xiaohu-ip-studio",
+      "category_hint": "programming",
+      "content_hash": "dddc8e853dad6a8ab9a48caecbca0ae22f92888e0f1a694b4abb3a5ca7f00935",
+      "content_characters": 10367,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 9818, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "candidate_id": "16ec9d2389849df3e0840b45",
+      "status": "pending",
+      "discovered_at": "2026-09-06T11:03:58+00:00",
+      "source": {
+        "repository": "ParthJadhav/ios-marketing-capture",
+        "repository_url": "https://github.com/ParthJadhav/ios-marketing-capture",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/ParthJadhav/ios-marketing-capture/blob/5d78311bd4868c82cbaad3046298f28ed296fcb2/SKILL.md",
+        "api_sha": "07851b9df3a81b9f431efd0df514454f2531556b",
+        "repo_stars": 259,
+        "repo_forks": 14,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-05T08:14:50+00:00"
+      },
+      "raw_file": "raw/parthjadhav-ios-marketing-capture/SKILL.md",
+      "title": "ios-marketing-capture",
+      "category_hint": "design",
+      "content_hash": "9e04a0f02810fc6457c59575463593976e21ad16ad5abf091eca9a2abde6feae",
+      "content_characters": 24293,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8624, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
     }
   ],
-  "updated_at": "2026-09-09T12:29:52+00:00"
+  "updated_at": "2026-09-10T12:23:19+00:00"
 }

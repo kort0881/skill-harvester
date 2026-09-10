@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-09T12:29:52+00:00",
+  "updated_at": "2026-09-10T12:23:19+00:00",
   "skills": [
     {
       "library_id": "programming/repo-task-proof-loop-3324eff9",
@@ -215,6 +215,216 @@
           "Document backup retention and cleanup policy in more detail"
         ],
         "normalized_skill_markdown": "---\nname: total-recall\ndescription: Autonomous memory skill for OpenClaw agents that observes, compresses, and consolidates conversation logs without external databases.\n---\n\n# Total Recall — Autonomous Agent Memory\n\n**The only memory skill that watches on its own.**\n\nTotal Recall captures recent conversation transcripts, compresses them with an LLM into prioritized notes, and stores them in `observations.md`. It automatically consolidates older entries, recovers missed sessions, and can run a nightly “Dream Cycle” to archive and decay memories. No external databases or vector stores are required.\n\n## Architecture\n\n```\nLayer 1: Observer (cron, every 15‑30 min) → compresses recent messages → observations.md\nLayer 2: Reflector (auto‑triggered when observations > 8000 words) → consolidates, removes superseded info\nLayer 3: Session Recovery (runs on every /new or /reset) → captures any missed session data\nLayer 4: Reactive Watcher (inotify daemon, Linux only) → triggers Observer after 40+ new JSONL writes\nLayer 5: Pre‑compaction hook (memoryFlush) → emergency capture before OpenClaw compacts context\n```\n\n## Quick Start\n\n1. **Install the skill**\n   ```bash\n   clawdhub install total-recall\n   ```\n2. **Set your API key** (add to `.env` or OpenClaw config)\n   ```bash\n   OPENROUTER_API_KEY=sk-or‑v1‑xxxxx\n   ```\n3. **Run the setup script**\n   ```bash\n   bash skills/total-recall/scripts/setup.sh\n   ```\n   - Creates `memory/`, `logs/`, and backup directories.\n   - Installs a systemd user service for the reactive watcher (Linux).\n   - Prints the cron entries you need to add.\n4. **Load observations at agent startup**\n   Add to your agent’s startup prompt:\n   ```\n   At session startup, read `memory/observations.md` for cross‑session context.\n   ```\n\n## Platform Support\n\n| Platform | Observer + Reflector + Recovery | Reactive Watcher |\n|----------|-------------------------------|-----------------|\n| Linux (Debian/Ubuntu) | Full | With `inotify-tools` |\n| macOS | Full (cron only) | Not available |\n\nAll core scripts are portable Bash; platform‑specific helpers are in `_compat.sh`.\n\n## Configuration\n\nEnvironment variables (with defaults) control behaviour:\n\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `OPENROUTER_API_KEY` | (required) | API key for LLM calls |\n| `MEMORY_DIR` | `$OPENCLAW_WORKSPACE/memory` | Directory for `observations.md` |\n| `SESSIONS_DIR` | `~/.openclaw/agents/main/sessions` | Where session JSONL files live |\n| `OBSERVER_MODEL` | `stepfun/step-3.5-flash:free` | Primary compression model |\n| `REFLECTOR_MODEL` | `nvidia/nemotron-3-super-120b-a12b:free` | Consolidation model |\n| `LLM_BASE_URL` | `https://openrouter.ai/api/v1` | Base URL for OpenAI‑compatible APIs |\n| `LLM_MODEL` | `deepseek/deepseek-v3.2` | Default model for LLM calls |\n| `REFLECTOR_WORD_THRESHOLD` | `8000` | Word count that triggers the reflector |\n| `OBSERVER_LINE_THRESHOLD` | `40` | Lines that trigger the reactive watcher |\n| `OBSERVER_COOLDOWN_SECS` | `300` | Cool‑down between watcher triggers |\n\n### Provider Examples\n\n```bash\n# OpenRouter (default)\nexport OPENROUTER_API_KEY=\"your-key\"\n\n# Ollama (local)\nexport LLM_BASE_URL=\"http://localhost:11434/v1\"\nexport LLM_API_KEY=\"ollama\"\nexport LLM_MODEL=\"llama3.1:8b\"\n\n# Groq\nexport LLM_BASE_URL=\"https://api.groq.com/openai/v1\"\nexport LLM_API_KEY=\"your-groq-key\"\nexport LLM_MODEL=\"llama-3.3-70b-versatile\"\n```\n\n## Files Created\n\n```\nmemory/\n  observations.md          # Main observation log\n  observation-backups/     # Reflector backups (last 10 kept)\n  .observer-last-run       # Timestamp of last observer run\n  .observer-last-hash      # MD5 hash of last processed messages\nlogs/\n  observer.log\n  reflector.log\n  session-recovery.log\n  observer-watcher.log\n```\n\n## Cron Jobs (added by `setup.sh`)\n\n| Job | Schedule | Description |\n|-----|----------|-------------|\n| `memory-observer` | Every 15 min | Compress recent conversation |\n| `memory-reflector` | Hourly | Consolidate observations when large |\n\n## Reactive Watcher (Linux only)\n\n```bash\n# Install inotify-tools (Debian/Ubuntu)\nsudo apt install inotify-tools\n\n# Check watcher status\nsystemctl --user status total-recall-watcher\n\n# View logs\njournalctl --user -u total-recall-watcher -f\n```\n\n## Cost\n\nAll default models are free‑tier on OpenRouter, resulting in ~$0.00/month for typical usage (15‑30 cron runs per day, each processing a few hundred tokens).\n\n## How It Works (Technical Overview)\n\n### Observer\n1. Locate recent session JSONL files.\n2. Filter out sub‑agent/cron sessions.\n3. Extract user and assistant messages within the look‑back window.\n4. Deduplicate using an MD5 hash.\n5. Send the extracted text to the LLM with a compression prompt.\n6. Append the LLM’s prioritized notes to `observations.md`.\n7. If the word count exceeds the threshold, trigger the reflector.\n\n### Reflector\n1. Back up the current `observations.md`.\n2. Send the full log to the LLM with a consolidation prompt.\n3. Verify the output is shorter than the input.\n4. Replace the original file with the consolidated version.\n5. Prune old backups, keeping the most recent ten.\n\n### Session Recovery\nRuns on every `/new` or `/reset` command:\n1. Hash recent lines of the last session file.\n2. Compare with the stored observer hash.\n3. If they differ, run the observer with a longer look‑back (4 hours).\n4. Fallback to raw message extraction if the LLM call fails.\n\n### Reactive Watcher\n1. Monitor the session directory with `inotifywait`.\n2. After 40+ new JSONL lines, trigger the observer (subject to a 5‑minute cooldown).\n3. Reset the counter when a cron‑based observer run occurs.\n\n## Dream Cycle (Optional Nightly Archival)\n\nThe Dream Cycle runs as a full agent turn (not a direct bash call) and performs deeper archiving:\n- Classifies observations by impact and age.\n- Archives items that exceed their TTL.\n- Adds semantic hooks for alternative search phrasing.\n- Applies confidence scores and importance decay.\n- Promotes recurring patterns to “staging” for human review.\n\n### Setup\n1. Ensure `setup.sh` has created the Dream Cycle directories.\n2. Add a nightly cron entry that invokes the agent with the `dream-cycle-prompt.md` system prompt (see the skill for the exact command).\n3. Start with `READ_ONLY_MODE=true` to review logs before committing changes.\n\n### Configuration\n| Variable | Default | Description |\n|----------|---------|-------------|\n| `DREAM_TOKEN_TARGET` | `8000` | Desired token count after consolidation |\n| `READ_ONLY_MODE` | `false` | When `true`, the cycle runs in dry‑run mode |\n\n## Troubleshooting\n\n- **Observer not running?** Check `logs/observer.log`, verify the API key, and ensure the cron entry is active (`crontab -l`).\n- **Observations not loaded?** Confirm your agent’s startup prompt reads `memory/observations.md` and that `MEMORY_DIR` points to the correct location.\n- **Watcher not triggering (Linux)?** Verify `inotify-tools` is installed, and inspect the systemd service status.\n- **Dream Cycle too aggressive?** Enable `READ_ONLY_MODE=true` and adjust `DREAM_TOKEN_TARGET` upward.\n- **Dream Cycle not archiving enough?** Lower `DREAM_TOKEN_TARGET` to increase consolidation.\n\n---"
+      }
+    },
+    {
+      "library_id": "devops/graphsignal-profiler-setup-for-inference-workloads-f30f3b93",
+      "title": "Graphsignal Profiler Setup for Inference Workloads",
+      "category": "devops",
+      "tags": [
+        "gpu",
+        "profiling",
+        "inference",
+        "vllm",
+        "sglang",
+        "pytorch",
+        "dstack",
+        "devops",
+        "otel",
+        "prometheus"
+      ],
+      "summary": "This skill explains how to install, configure, and run the Graphsignal Profiler for GPU‑accelerated inference services such as vLLM, SGLang, PyTorch, and dstack. It covers both the CLI sidecar (`graphsignal‑run`) and the in‑process Python entry point (`graphsignal.watch()`), including optional OpenTelemetry tracing and Docker usage. The guide provides concrete commands, environment variables, and engine‑specific notes to get profiling and monitoring up and running quickly.",
+      "source": {
+        "repository": "graphsignal/graphsignal-profiler",
+        "repository_url": "https://github.com/graphsignal/graphsignal-profiler",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/graphsignal/graphsignal-profiler/blob/dd4e33a6c134ae82f2b3d8a81602e3cfa699d8db/SKILL.md",
+        "api_sha": "7fee8ca1d7c5dacb74a15becfade33d011df4c77",
+        "repo_stars": 244,
+        "repo_forks": 12,
+        "repo_license": "Apache License 2.0",
+        "repo_updated_at": "2026-08-25T10:11:35+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:44+00:00",
+      "accepted_at": "2026-09-10T12:19:10+00:00",
+      "content_hash": "be2f51ae0e5d7f1f293414c44dc9e26859a84dc5667b51544592a94b290bd63f",
+      "source_excerpt": "--- name: graphsignal-profiler description: >- Set up the Graphsignal Profiler for inference workloads — vLLM, SGLang, PyTorch, and dstack services. Use when the user wants GPU profiling, tracing, or monitoring for inference, asks about `graphsignal-run` or `graphsignal.watch()`, or asks about CUPTI / Prometheus / OTLP setup. --- # Graphsignal Profiler Graphsignal observes inference workloads from a **sidecar process** — the profiler. It never shares a process with CUDA: the profiler watches the workload externally via CUPTI, OTLP/gRPC, Prometheus scraping, and NVML. Auto-instrumentation covers vLLM, SGLang, and PyTorch out of the box. ## Install Two install patterns depending on how you'll launch the profiler. **For `graphsignal-run` (CLI,…",
+      "review": {
+        "decision": "accept",
+        "title": "Graphsignal Profiler Setup for Inference Workloads",
+        "category": "devops",
+        "summary": "This skill explains how to install, configure, and run the Graphsignal Profiler for GPU‑accelerated inference services such as vLLM, SGLang, PyTorch, and dstack. It covers both the CLI sidecar (`graphsignal‑run`) and the in‑process Python entry point (`graphsignal.watch()`), including optional OpenTelemetry tracing and Docker usage. The guide provides concrete commands, environment variables, and engine‑specific notes to get profiling and monitoring up and running quickly.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Clear step‑by‑step installation instructions for both CLI and Python usage",
+          "Comprehensive engine‑specific examples (vLLM, SGLang, PyTorch, dstack)",
+          "Includes Docker snippets and OpenTelemetry opt‑in",
+          "Well‑structured tables for configuration variables",
+          "Provides reference URLs for further reading"
+        ],
+        "weaknesses": [
+          "Lacks explicit verification steps to confirm profiling is active",
+          "No sample output or dashboard screenshots",
+          "Troubleshooting section is minimal",
+          "Does not explain how to view collected metrics in Graphsignal UI"
+        ],
+        "tags": [
+          "gpu",
+          "profiling",
+          "inference",
+          "vllm",
+          "sglang",
+          "pytorch",
+          "dstack",
+          "devops",
+          "otel",
+          "prometheus"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a verification checklist (e.g., checking Prometheus metrics endpoint or confirming sidecar process is running)",
+          "Include example of expected Graphsignal UI view or CLI output",
+          "Expand troubleshooting with common error messages and their fixes",
+          "Provide guidance on securing the API key (e.g., using secret managers)"
+        ],
+        "normalized_skill_markdown": "---\nname: graphsignal-profiler\ndescription: >-\n  Set up the Graphsignal Profiler for inference workloads — vLLM, SGLang, PyTorch, and dstack services. Use when the user wants GPU profiling, tracing, or monitoring for inference, asks about `graphsignal-run` or `graphsignal.watch()`, or asks about CUPTI / Prometheus / OTLP setup.\n---\n\n# Graphsignal Profiler\n\nGraphsignal observes inference workloads from a **sidecar process** — the profiler. It never shares a process with CUDA: the profiler watches the workload externally via CUPTI, OTLP/gRPC, Prometheus scraping, and NVML. Auto‑instrumentation covers vLLM, SGLang, and PyTorch out of the box.\n\n## Install\n\nTwo install patterns depending on how you'll launch the profiler.\n\n**For `graphsignal-run` (CLI, recommended):** install as a uv tool, isolated from your workload env.\n\n```bash\nUV_TOOL_BIN_DIR=/usr/local/bin uv tool install 'graphsignal[cu12]'   # CUDA 12.x\n# or\nUV_TOOL_BIN_DIR=/usr/local/bin uv tool install 'graphsignal[cu13]'   # CUDA 13.x\n```\n\n`UV_TOOL_BIN_DIR=/usr/local/bin` puts `graphsignal-run` in a directory that is already on `PATH` for every shell, including non‑interactive scripts and containers.\n\n**For `graphsignal.watch()` (in‑process Python entry point):** install into the app's own env.\n\n```bash\nuv add 'graphsignal[cu12]'    # or pip install -U 'graphsignal[cu12]'\n```\n\nThe `cu12` / `cu13` extras are Linux‑only and only needed for GPU profiling.\n\n## Configure\n\nThe profiler reads its config from environment variables.\n\n| Variable | Purpose |\n|---|---|\n| `GRAPHSIGNAL_API_KEY` *(required)* | Account API key. |\n| `GRAPHSIGNAL_API_BASE` | Override the API endpoint (defaults to `https://api.graphsignal.com`). |\n| `GRAPHSIGNAL_TAG_<KEY>=<value>` | Arbitrary tag attached to all signals (e.g. `GRAPHSIGNAL_TAG_DEPLOYMENT=us-prod`). |\n\nSet these before invoking `graphsignal-run` or calling `graphsignal.watch()`.\n\n## Run\n\n### Option A — `graphsignal-run` CLI (recommended)\n\nWrap the launch command for your workload.\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run vllm serve Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nThe CLI enables GPU profiling, starts the profiler sidecar, and launches the workload.\n\n### Option B — `graphsignal.watch()` from Python\n\nFor applications that bootstrap themselves (long‑lived servers, scripts, notebooks), call `graphsignal.watch()` once during startup, **before any CUDA work happens**.\n\n```python\nimport graphsignal\n\ngraphsignal.watch()\n# ... your application code (PyTorch, vLLM, SGLang, etc.) ...\n```\n\nIt enables GPU profiling in this process and starts the profiler sidecar to observe it. Returns the `subprocess.Popen` so the caller can `wait()` or `terminate()` it.\n\n### OpenTelemetry tracing (opt‑in)\n\nDistributed traces (engine / scheduler / attention spans over OTLP/gRPC) are **off by default**. Enable them with `--enable-otel`, which must come *before* the workload command:\n\n```bash\ngraphsignal-run --enable-otel sglang serve --model-path Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nThis captures the engine's request traces via a local OTLP collector. It requires OpenTelemetry installed in the **engine's** environment (e.g. `pip install opentelemetry-sdk opentelemetry-exporter-otlp`) — graphsignal can't provide it when installed in a separate env (e.g. `uv tool`), and SGLang ≥ 0.5.10 errors at startup if tracing is enabled without it. Prometheus metrics and GPU profiling are captured regardless of this flag; OTEL tracing applies only to `graphsignal-run` (not `graphsignal.watch()`).\n\n## Engine‑specific notes\n\n### vLLM\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run vllm serve Qwen/Qwen1.5-7B-Chat --port 8000\n```\n\nOr from Python (before importing vLLM):\n\n```python\nimport graphsignal\ngraphsignal.watch()\nimport vllm\n# ...\n```\n\nCaptures vLLM's Prometheus metrics and CUPTI GPU profiling out of the box. Engine / scheduler / KV‑cache / attention / output‑processing OTEL spans are added with `--enable-otel` (see [OpenTelemetry tracing](#opentelemetry-tracing-opt-in) above).\n\nvLLM Docker (image without CUPTI):\n\n```bash\ndocker run --gpus all \\\n  -p 8000:8000 --ipc=host \\\n  -e GRAPHSIGNAL_API_KEY=YOUR_API_KEY \\\n  -v ~/.cache/huggingface:/root/.cache/huggingface \\\n  --entrypoint bash \\\n  vllm/vllm-openai:latest \\\n  -lc 'pip install --no-cache-dir graphsignal[cu12] \\\n       && exec graphsignal-run vllm serve \\\n           --model Qwen/Qwen2-VL-7B-Instruct \\\n           --trust-remote-code'\n```\n\n### SGLang\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run sglang serve \\\n  --model-path Qwen/Qwen1.5-7B-Chat \\\n  --port 8000\n```\n\nCaptures SGLang's Prometheus metrics and operation‑level GPU profiling out of the box. OTEL spans are added with `--enable-otel` (see above).\n\nSGLang Docker:\n\n```bash\ndocker run --gpus all \\\n  -p 8000:8000 --ipc=host \\\n  -e GRAPHSIGNAL_API_KEY=YOUR_API_KEY \\\n  -v ~/.cache/huggingface:/root/.cache/huggingface \\\n  --entrypoint bash \\\n  your-sglang-image:latest \\\n  -lc 'pip install --no-cache-dir graphsignal[cu12] \\\n       && exec graphsignal-run sglang serve \\\n           --model-path Qwen/Qwen2.5-1.5B-Instruct \\\n           --port 8000'\n```\n\n### PyTorch\n\nAuto‑instrumented for common PyTorch operator / module hot paths and CUDA memory metrics. Use either CLI or `watch()`:\n\n```bash\nexport GRAPHSIGNAL_API_KEY=\"...\"\ngraphsignal-run python my_app.py\n```\n\n```python\nimport graphsignal\ngraphsignal.watch()\nimport torch\n# ...\n```\n\n### dstack\n\ndstack runs inference as services. Use `graphsignal-run` around the launch command, exactly like bare‑metal SGLang/vLLM.\n\n```yaml\ntype: service\nname: deepseek-r1\n\nimage: lmsysorg/sglang:latest\nenv:\n  - MODEL_ID=deepseek-ai/DeepSeek-R1-Distill-Llama-8B\n  - GRAPHSIGNAL_API_KEY\n\ncommands:\n  - |\n    pip install --no-cache-dir 'graphsignal[cu12]' && \\\n    graphsignal-run python3 -m sglang.launch_server \\\n      --model-path $MODEL_ID \\\n      --port 8000 \\\n      --trust-remote-code\n\nport: 8000\nmodel: deepseek-ai/DeepSeek-R1-Distill-Llama-8B\n\nresources:\n  gpu: 24GB\n```\n\nDeploy:\n\n```bash\ndstack apply -f service.dstack.yml\n```\n\n## Troubleshooting\n\nEnsure outgoing connections to `https://api.graphsignal.com` are allowed.\n\n## Reference\n\n- Full Profiler API: https://graphsignal.com/docs/reference/profiler-api/\n- vLLM integration: https://graphsignal.com/docs/integrations/vllm/\n- SGLang integration: https://graphsignal.com/docs/integrations/sglang/\n- dstack integration: https://graphsignal.com/docs/integrations/dstack/\n"
+      }
+    },
+    {
+      "library_id": "automation/personal-ip-diagram-creator-52c958e2",
+      "title": "Personal IP Diagram Creator",
+      "category": "automation",
+      "tags": [
+        "personal ip",
+        "visual generation",
+        "automation",
+        "content creation"
+      ],
+      "summary": "A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps.",
+      "source": {
+        "repository": "haloshin/ip-diagram-creator",
+        "repository_url": "https://github.com/haloshin/ip-diagram-creator",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/haloshin/ip-diagram-creator/blob/dd64ab5d972893f7ca271d9c560362d7788eb2d6/SKILL.md",
+        "api_sha": "010fd6ea6e6180c4c9c96e23fe3ffedb4d5cc6be",
+        "repo_stars": 254,
+        "repo_forks": 38,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-06T05:04:25+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:45+00:00",
+      "accepted_at": "2026-09-10T12:20:06+00:00",
+      "content_hash": "b24dca47b3fec3f90a91747e589ad4e782311fbf6f023f67c383666d42eabd6a",
+      "source_excerpt": "--- name: ip-diagram-creator description: 个人 IP 图解创作器。用你的 IP 形象，生成专属内容图解。用于把用户授权提供的照片、主页截图、简介、账号资料或角色档案转成稳定的极简手绘图解角色，并继续生成长文配图、图文号知识卡、手机海报、方法拆解图、分镜故事图、IP 演讲 PPT、直播分享课件和全图化手绘 PPT 页面等内容视觉。它强调 IP 主角 + 执行 Agent 的知识图解系统：用户 IP 做主讲、拆解、批注和调度，执行 Agent 做搬卡片、反馈、试错、标记风险和递交结果。用户想做个人 IP 形象、用自己的形象做知识图、图文号知识卡、文章配图、课程图解、内容海报、方法拆解图、IP 演讲 PPT、直播分享课件，或上传照片/主页截图/简介希望做内容视觉时，使用本 Skill。 license: MIT --- # 个人 IP 图解创作器 用你的 IP 形象，生成专属内容图解。 底层原则：先定角色，再拆内容，最后生成图解。 本 Skill 不是头像生成器，也不是自由风格生图器。它的目标是把用户授权提供的个人材料转成一套可长期复用的极简手绘图解角色，再用这个角色和执行 Agent 一起参与内容表达。 ## 推荐运行环境 推荐在支持图片读取、较高推理强度和图像生成工具的 Agent 环境中使用。这样可以直接完成图片读取、角色建档、三张角色资产生成、内容图解生成和返修。 如果当前环境支持 `image_gen`、GPT Image 2 或其他图像生成工具，可以在用户明确说“生成 / 出图 / 直接做图”时直出图片。建议在角色建档、长文拆解、知识卡设计和角色一致性返修时使用较高推理强度。 如果当前环境没有图像生成工具，不要假装已经出图。改为…",
+      "review": {
+        "decision": "accept",
+        "title": "Personal IP Diagram Creator",
+        "category": "automation",
+        "summary": "A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps.",
+        "quality_score": 70,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 95,
+        "total_score": 83,
+        "strengths": [
+          "Very detailed end‑to‑end workflow",
+          "Clear safety guidance on authorized images",
+          "Supports multiple visual modes (illustration, knowledge‑card, PPT)",
+          "Environment‑aware handling of image‑generation capabilities"
+        ],
+        "weaknesses": [
+          "Relies on external reference files that are not included in the markdown",
+          "Lacks concrete example prompts and sample outputs",
+          "Input/output specifications are implicit rather than explicit",
+          "Long narrative makes quick onboarding harder"
+        ],
+        "tags": [
+          "personal ip",
+          "visual generation",
+          "automation",
+          "content creation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise “Inputs” and “Outputs” table",
+          "Provide at least one concrete prompt example for each visual mode",
+          "Include a short example interaction (user request → skill response)",
+          "Bundle or reference the external `references/*.md` files or embed essential excerpts"
+        ],
+        "normalized_skill_markdown": "---\nname: ip-diagram-creator\ndescription: |\n  Generate a reusable set of minimalist hand‑drawn visual assets from a user’s personal photo, profile screenshot, bio or other identity material, and use those assets to illustrate long‑form content, knowledge cards, or PPT presentations.\n---\n\n# Personal IP Diagram Creator\n\n## Overview\nThis skill helps an AI agent transform a user‑provided personal identity (photo, homepage screenshot, bio, etc.) into a stable **IP character** and then create visual content (hand‑drawn illustrations, knowledge‑cards, or PPT slides) that consistently features that character.\n\n## Prerequisites\n- The execution environment must be able to **read images** (or accept a textual description if images are unavailable).\n- Either an **image‑generation tool** (e.g., `image_gen`, Stable Diffusion, DALL·E) is available **or** the agent can output a prompt that the user can copy into an external generator.\n- The user must **explicitly authorize** any personal photos or screenshots they provide.\n\n## Inputs\n| Parameter | Description |\n|-----------|-------------|\n| `identity_material` | One or more of: personal photo, homepage screenshot, avatar, short bio, account profile. |\n| `content_source` | Text to be visualised – can be a long article, outline, script, or a single sentence. |\n| `mode` (optional) | Desired visual mode: `illustration`, `knowledge_card`, or `ppt`. If omitted the skill selects the best mode automatically. |\n| `generate_now` (optional) | Boolean flag. When `true` and an image‑generation tool is present, the skill will issue the generation call; otherwise it returns a ready‑to‑copy prompt. |\n\n## Outputs\n- **Role‑building cards** – a *Character Info Card* and three *Asset Prompts* (`01_role_anchor`, `02_role_spec`, `03_action_scene`).\n- **Content Confirmation Card** – summarises core points, layout, and visual specifications.\n- **Prompt(s)** for image generation (or the generated images if the environment supports it).\n- **Repair prompts** for any required revisions.\n\n## Workflow\n1. **Environment Check** – Detect image‑generation capability and image‑reading ability.\n2. **Entry Point Determination** – Decide whether the user needs a new character, already has assets, or only wants visual assets.\n3. **Character Construction**\n   - Extract identity cues from `identity_material`.\n   - Produce a *Character Info Card*.\n   - Generate three asset prompts:\n     1. `01_角色主锚图` – main anchor portrait.\n     2. `02_角色规范说明图` – style & restriction guide.\n     3. `03_动作_表情_小比例场景扩展图` – action/scene variations.\n   - Ask the user to confirm or request revisions.\n4. **Content Understanding**\n   - Parse `content_source` to identify core ideas, turning points, and visual anchors.\n   - Create a *Shot List* (for long texts) or expand a single‑sentence theme.\n5. **Visual Mode Selection**\n   - Choose among **hand‑drawn illustration**, **knowledge‑card**, or **PPT** based on content size and user intent.\n   - Output a *Visual Mode Recommendation* block containing:\n     - Mode, preferred image type, default size, information density, layout suggestion, role distribution, and rationale.\n6. **Confirmation Card**\n   - Present a structured card (type, size, core viewpoint, titles, text, metaphor, role actions, required elements, etc.) for user approval.\n7. **Generation / Prompt Export**\n   - If an image tool is present and `generate_now` is true, call it with the fully‑formed prompt.\n   - Otherwise, return the prompt(s) plus a *repair prompt* for later tweaking.\n8. **QA & Repair**\n   - Verify that the character matches the anchor, that the visual conveys the confirmed points, and that style constraints are met.\n   - If any check fails, produce a concise repair instruction.\n\n## Example Interaction\n**User:** \"帮我把我的个人简介和这张头像做成一套手绘风格的知识卡。\"\n\n**Skill Response (summary):**\n1. *Character Info Card* created from the uploaded photo and bio.\n2. Asset prompts generated for the three role assets.\n3. Content parsed – core ideas: *创新、协作、成长*.\n4. Visual mode: **knowledge_card** – 3‑card set, A4 size, moderate information density.\n5. *Content Confirmation Card* displayed for approval.\n6. Since no image generator is detected, the skill returns the three ready‑to‑copy prompts and corresponding repair prompts.\n\n## Safety & Authorization\n- Only process images **explicitly provided by the user** and confirmed as their own.\n- Never request or store images of third parties without clear consent.\n- All generated assets are for the user’s personal or professional use; they must not be redistributed as public domain assets without permission.\n- The skill never fabricates a likeness when insufficient visual data is supplied – it will ask the user for more description.\n\n## References (internal)\n- `references/identity-and-character.md`\n- `references/visual-language.md`\n- `references/content-workflow.md`\n- `references/modes-and-sizes.md`\n- `references/ppt-presentation-mode.md`\n- `references/prompt-templates.md`\n- `references/qa-repair.md`\n- `references/safety-and-assets.md`\n"
+      }
+    },
+    {
+      "library_id": "design/godot-solana-sdk-integration-guide-f5eb7d66",
+      "title": "Godot Solana SDK Integration Guide",
+      "category": "design",
+      "tags": [
+        "godot",
+        "solana",
+        "blockchain",
+        "gdscript",
+        "sdk",
+        "gaming"
+      ],
+      "summary": "This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot.",
+      "source": {
+        "repository": "Virus-Axel/godot-solana-sdk",
+        "repository_url": "https://github.com/Virus-Axel/godot-solana-sdk",
+        "default_branch": "master",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/Virus-Axel/godot-solana-sdk/blob/c7f89894df0135c76b66e4bd053649211d698818/SKILL.md",
+        "api_sha": "c4746b32b1065714641e748bc358b52e0c3e0a71",
+        "repo_stars": 78,
+        "repo_forks": 20,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-08-18T15:10:36+00:00"
+      },
+      "discovered_at": "2026-09-06T11:03:47+00:00",
+      "accepted_at": "2026-09-10T12:21:03+00:00",
+      "content_hash": "58438da8659259f9e4e320f340f9879a6f399ed9d64367a902dd1ea84bdb3719",
+      "source_excerpt": "--- name: godot-solana-sdk description: > Use this skill when building Solana-enabled games or apps in Godot 4 with the Godot Solana SDK. Triggers include: Solana transactions in GDScript, SPL tokens or NFTs in a Godot project, connecting browser or mobile wallets (Phantom, Solflare, Backpack) in a Godot game, calling Anchor smart contracts from GDScript, working with Candy Machine in Godot, or any mention of SolanaClient, Transaction, Pubkey, Keypair, WalletAdapter, or AnchorProgram in a Godot context. Do NOT use for non-Godot Solana SDKs (solana-py, solana-go, solana-web3.js). --- # Godot Solana SDK A GDExtension (C++) plugin for Godot 4 that brings full Solana blockchain support to game development. Write GDScript to send transactions, m…",
+      "review": {
+        "decision": "accept",
+        "title": "Godot Solana SDK Integration Guide",
+        "category": "design",
+        "summary": "This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot.",
+        "quality_score": 92,
+        "uniqueness_score": 85,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 92,
+        "strengths": [
+          "Very detailed with code snippets for every major component",
+          "Clear installation and configuration instructions",
+          "Practical workflow examples for transactions and wallet integration",
+          "Comprehensive reference tables for nodes and resources"
+        ],
+        "weaknesses": [
+          "Lengthy; may overwhelm beginners",
+          "Assumes familiarity with Godot editor and GDScript",
+          "Relies on external services (Helius, RPC endpoints) without fallback guidance"
+        ],
+        "tags": [
+          "godot",
+          "solana",
+          "blockchain",
+          "gdscript",
+          "sdk",
+          "gaming"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise quick‑start example that creates a minimal project and sends a test transaction",
+          "Provide version compatibility notes for Godot 4.x and the SDK release",
+          "Include troubleshooting tips for common RPC errors and wallet connection failures"
+        ],
+        "normalized_skill_markdown": "---\nname: godot-solana-sdk\ndescription: >\n  Use this skill when building Solana-enabled games or apps in Godot 4 with the Godot Solana SDK.\n---\n\n# Godot Solana SDK\n\nA GDExtension (C++) plugin for Godot 4 that brings full Solana blockchain support to game development. Write GDScript to send transactions, manage wallets, mint NFTs, and interact with Anchor programs — on Windows, Linux, macOS, Web, Android, and iOS.\n\n- **Repo:** https://github.com/Virus-Axel/godot-solana-sdk\n- **Docs:** https://zenwiki.gitbook.io/solana-godot-sdk-docs\n- **Demo:** https://zenrepublic.github.io/GodotSolanaSDKDemos/\n- **Asset Library:** https://godotengine.org/asset-library/asset/3232\n- **Discord:** https://discord.gg/9aFDCvqPgt\n\n> **Security:** Mainnet use is not yet security‑audited. Crypto can be stolen. Use with care.\n\n## Installation\n\n**Via Godot Asset Library (recommended)**\n1. Search for **\"Solana\"** in the Godot Asset Library and install.\n2. Installation must go into the `addons/` folder at the project root.\n3. Open **Project → Project Settings → Plugins** and enable **SolanaSDK**.\n4. Verify **`SolanaService`** appears under **Project Settings → Autoload**.\n\n**Via GitHub Releases (manual)**\nDownload binaries from the Releases page, place them under `res://bin/`, and reload the project.\n\n## Configuration\n\nAfter enabling the plugin, `SolanaService` is automatically added as an autoload singleton.\n\n- **RPC cluster:** Select Mainnet or Devnet in the SolanaService inspector. Provide a custom RPC URL (e.g., from Helius) for better performance. The URL is also read from `Project Settings → solana_sdk/client/default_url`.\n- **Wallet:** The `WalletService` child node handles auth.\n  - *Use Generated* — deterministic wallet seeded from your machine ID (testing only).\n  - *Custom Wallet* — path to a JSON file with the private key as a 64‑byte array.\n\n## Core Nodes\n\n| Node | Inherits | Purpose |\n|---|---|---|\n| `SolanaClient` | `Node` | Low‑level RPC calls to the Solana network |\n| `Transaction` | `SolanaClient` | Build, sign, and send transactions |\n| `WalletAdapter` | `Node` | Browser / mobile wallet integration |\n| `Account` | `Node` | Mirror of an on‑chain account, auto‑syncs |\n| `AccountFetcher` | `SolanaClient` | Bulk‑fetch a list of Account nodes |\n| `SystemProgram` | `Node` | SOL transfers and account creation |\n| `TokenProgram` | `Node` | SPL Token instructions |\n| `AssociatedTokenAccountProgram` | `Node` | Create Associated Token Accounts |\n| `ComputeBudget` | `Node` | Set compute unit limits and priority fees |\n| `MplCandyMachine` | `Node` | Candy Machine v3 minting |\n| `MplCandyGuard` | `Node` | Candy Guard configuration |\n| `MplTokenMetadata` | `Node` | Metaplex token metadata |\n| `AnchorProgram` | `Node` | Generic interface for any Anchor program |\n| `SolanaUtils` | `Node` | Base58/Base64 encoding, hashing utilities |\n\n## Core Resources\n\n| Resource | Purpose |\n|---|---|\n| `Pubkey` | 32‑byte Solana public key / address |\n| `Keypair` | ed25519 keypair for signing |\n| `Instruction` | A single transaction instruction |\n| `AccountMeta` | Account metadata entry in an instruction |\n| `CandyMachineData` | Candy Machine configuration |\n\n## Pubkey\n```gdscript\nvar pk: Pubkey = Pubkey.new_from_string(\"78GVwUb8ojcJVrEVkwCU5tfUKTfJuiazRrysGwgjqsif\")\nvar pk_bytes: Pubkey = Pubkey.new_from_bytes(some_packed_byte_array)\nvar program_key := Pubkey.new_from_string(\"CndyV3LdqHUfDLmE5naZjVN8rBZz4tqhdefbAnjHG3JR\")\nvar pda: Pubkey = Pubkey.new_pda([\"Level1\"], program_key)\nvar pda_bytes: Pubkey = Pubkey.new_pda_bytes([some_pubkey.to_bytes()], program_key)\nvar ata: Pubkey = Pubkey.new_associated_token_address(owner, mint, TokenProgram.get_pid())\nvar random_pk: Pubkey = Pubkey.new_random()\nprint(pk.to_string())\nprint(pk.to_bytes())\n```\n> `Pubkey.new_pda` searches for a valid bump; `new_program_address` does not.\n\n## Keypair\n```gdscript\nvar kp: Keypair = Keypair.new_random()\nvar seed = PackedByteArray(); seed.resize(32)\nvar kp_seed: Keypair = Keypair.new_from_seed(seed)\nvar kp_phantom: Keypair = Keypair.new_from_bytes(\"3wUbDHMtMVQ...\")\nvar kp_file: Keypair = Keypair.new_from_file(\"res://payer.json\")\nkp.save_to_file(\"keypair.json\")\nprint(kp.get_public_string())\nprint(kp.get_private_bytes())\nvar sig = kp.sign_message(\"hello\".to_ascii_buffer())\nvar ok = kp.verify_signature(sig, \"hello\".to_ascii_buffer())\n```\n\n## SolanaClient (RPC)\n```gdscript\nvar client: SolanaClient = SolanaClient.new()\nadd_child(client)\nclient.set_url_override(\"https://api.devnet.solana.com\")\nclient.set_commitment(\"confirmed\")\nclient.get_account_info(\"4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZAMdL4VZHirAn\")\nvar response: Dictionary = (await client.http_request_completed)[1]\nif response.has(\"result\"):\n    print(response[\"result\"])\nremove_child(client)\nclient.queue_free()\n```\n*All RPC methods emit `http_request_completed`; listen to the signal for results.*\n\n## Transaction\n```gdscript\nvar payer: Keypair = Keypair.new_from_file(\"res://payer.json\")\nvar receiver: Pubkey = Pubkey.new_from_string(\"78GVwUb8ojcJVrEVkwCU5tfUKTfJuiazRrysGwgjqsif\")\nvar tx = Transaction.new()\nadd_child(tx)\ntx.set_payer(payer)\ntx.add_instruction(SystemProgram.transfer(payer, receiver, 500_000))\ntx.update_latest_blockhash()\ntx.sign_and_send()\nvar resp = await tx.transaction_response_received\nif resp.has(\"result\"):\n    print(\"Signature:\", resp[\"result\"])\nawait tx.confirmed\nawait tx.finalized\n```\n\n## SystemProgram, TokenProgram, AssociatedTokenAccountProgram, ComputeBudget, WalletAdapter, AnchorProgram, MplCandyMachine, SolanaUtils, SolanaService\n*Sections omitted for brevity – the original skill contains full GDScript examples for each.*\n\n## Error Handling\n```gdscript\nvar params = await client.http_request_completed\nvar error: Error = params[0]\nvar response: Dictionary = params[1]\nif error != OK:\n    push_error(\"Connection error: %d\" % error)\n    return\nif response.is_empty() or response.has(\"error\"):\n    push_error(\"RPC error: \" + str(response.get(\"error\", {}).get(\"message\", \"unknown\")))\n    return\nvar result = response[\"result\"]\n```\n\n## Common Pitfalls\n- `SolanaClient` must be added to the scene tree before making requests.\n- Use `TokenProgram.transfer_checked` instead of `transfer`.\n- Derive ATAs with `Pubkey.new_associated_token_address`.\n- After `Transaction.new_from_bytes`, re‑assign signers before signing.\n- Load Anchor IDL via the inspector, not from code.\n- `Pubkey.new_pda` can return `null`; always check.\n- `WalletAdapter` is primarily for web exports; use `Keypair` for desktop.\n"
       }
     }
   ],

@@ -1,0 +1,65 @@
+{
+  "library_id": "automation/personal-ip-diagram-creator-52c958e2",
+  "title": "Personal IP Diagram Creator",
+  "category": "automation",
+  "tags": [
+    "personal ip",
+    "visual generation",
+    "automation",
+    "content creation"
+  ],
+  "summary": "A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps.",
+  "source": {
+    "repository": "haloshin/ip-diagram-creator",
+    "repository_url": "https://github.com/haloshin/ip-diagram-creator",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/haloshin/ip-diagram-creator/blob/dd64ab5d972893f7ca271d9c560362d7788eb2d6/SKILL.md",
+    "api_sha": "010fd6ea6e6180c4c9c96e23fe3ffedb4d5cc6be",
+    "repo_stars": 254,
+    "repo_forks": 38,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-06T05:04:25+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:45+00:00",
+  "accepted_at": "2026-09-10T12:20:06+00:00",
+  "content_hash": "b24dca47b3fec3f90a91747e589ad4e782311fbf6f023f67c383666d42eabd6a",
+  "source_excerpt": "--- name: ip-diagram-creator description: 个人 IP 图解创作器。用你的 IP 形象，生成专属内容图解。用于把用户授权提供的照片、主页截图、简介、账号资料或角色档案转成稳定的极简手绘图解角色，并继续生成长文配图、图文号知识卡、手机海报、方法拆解图、分镜故事图、IP 演讲 PPT、直播分享课件和全图化手绘 PPT 页面等内容视觉。它强调 IP 主角 + 执行 Agent 的知识图解系统：用户 IP 做主讲、拆解、批注和调度，执行 Agent 做搬卡片、反馈、试错、标记风险和递交结果。用户想做个人 IP 形象、用自己的形象做知识图、图文号知识卡、文章配图、课程图解、内容海报、方法拆解图、IP 演讲 PPT、直播分享课件，或上传照片/主页截图/简介希望做内容视觉时，使用本 Skill。 license: MIT --- # 个人 IP 图解创作器 用你的 IP 形象，生成专属内容图解。 底层原则：先定角色，再拆内容，最后生成图解。 本 Skill 不是头像生成器，也不是自由风格生图器。它的目标是把用户授权提供的个人材料转成一套可长期复用的极简手绘图解角色，再用这个角色和执行 Agent 一起参与内容表达。 ## 推荐运行环境 推荐在支持图片读取、较高推理强度和图像生成工具的 Agent 环境中使用。这样可以直接完成图片读取、角色建档、三张角色资产生成、内容图解生成和返修。 如果当前环境支持 `image_gen`、GPT Image 2 或其他图像生成工具，可以在用户明确说“生成 / 出图 / 直接做图”时直出图片。建议在角色建档、长文拆解、知识卡设计和角色一致性返修时使用较高推理强度。 如果当前环境没有图像生成工具，不要假装已经出图。改为…",
+  "review": {
+    "decision": "accept",
+    "title": "Personal IP Diagram Creator",
+    "category": "automation",
+    "summary": "A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps.",
+    "quality_score": 70,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 95,
+    "total_score": 83,
+    "strengths": [
+      "Very detailed end‑to‑end workflow",
+      "Clear safety guidance on authorized images",
+      "Supports multiple visual modes (illustration, knowledge‑card, PPT)",
+      "Environment‑aware handling of image‑generation capabilities"
+    ],
+    "weaknesses": [
+      "Relies on external reference files that are not included in the markdown",
+      "Lacks concrete example prompts and sample outputs",
+      "Input/output specifications are implicit rather than explicit",
+      "Long narrative makes quick onboarding harder"
+    ],
+    "tags": [
+      "personal ip",
+      "visual generation",
+      "automation",
+      "content creation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise “Inputs” and “Outputs” table",
+      "Provide at least one concrete prompt example for each visual mode",
+      "Include a short example interaction (user request → skill response)",
+      "Bundle or reference the external `references/*.md` files or embed essential excerpts"
+    ],
+    "normalized_skill_markdown": "---\nname: ip-diagram-creator\ndescription: |\n  Generate a reusable set of minimalist hand‑drawn visual assets from a user’s personal photo, profile screenshot, bio or other identity material, and use those assets to illustrate long‑form content, knowledge cards, or PPT presentations.\n---\n\n# Personal IP Diagram Creator\n\n## Overview\nThis skill helps an AI agent transform a user‑provided personal identity (photo, homepage screenshot, bio, etc.) into a stable **IP character** and then create visual content (hand‑drawn illustrations, knowledge‑cards, or PPT slides) that consistently features that character.\n\n## Prerequisites\n- The execution environment must be able to **read images** (or accept a textual description if images are unavailable).\n- Either an **image‑generation tool** (e.g., `image_gen`, Stable Diffusion, DALL·E) is available **or** the agent can output a prompt that the user can copy into an external generator.\n- The user must **explicitly authorize** any personal photos or screenshots they provide.\n\n## Inputs\n| Parameter | Description |\n|-----------|-------------|\n| `identity_material` | One or more of: personal photo, homepage screenshot, avatar, short bio, account profile. |\n| `content_source` | Text to be visualised – can be a long article, outline, script, or a single sentence. |\n| `mode` (optional) | Desired visual mode: `illustration`, `knowledge_card`, or `ppt`. If omitted the skill selects the best mode automatically. |\n| `generate_now` (optional) | Boolean flag. When `true` and an image‑generation tool is present, the skill will issue the generation call; otherwise it returns a ready‑to‑copy prompt. |\n\n## Outputs\n- **Role‑building cards** – a *Character Info Card* and three *Asset Prompts* (`01_role_anchor`, `02_role_spec`, `03_action_scene`).\n- **Content Confirmation Card** – summarises core points, layout, and visual specifications.\n- **Prompt(s)** for image generation (or the generated images if the environment supports it).\n- **Repair prompts** for any required revisions.\n\n## Workflow\n1. **Environment Check** – Detect image‑generation capability and image‑reading ability.\n2. **Entry Point Determination** – Decide whether the user needs a new character, already has assets, or only wants visual assets.\n3. **Character Construction**\n   - Extract identity cues from `identity_material`.\n   - Produce a *Character Info Card*.\n   - Generate three asset prompts:\n     1. `01_角色主锚图` – main anchor portrait.\n     2. `02_角色规范说明图` – style & restriction guide.\n     3. `03_动作_表情_小比例场景扩展图` – action/scene variations.\n   - Ask the user to confirm or request revisions.\n4. **Content Understanding**\n   - Parse `content_source` to identify core ideas, turning points, and visual anchors.\n   - Create a *Shot List* (for long texts) or expand a single‑sentence theme.\n5. **Visual Mode Selection**\n   - Choose among **hand‑drawn illustration**, **knowledge‑card**, or **PPT** based on content size and user intent.\n   - Output a *Visual Mode Recommendation* block containing:\n     - Mode, preferred image type, default size, information density, layout suggestion, role distribution, and rationale.\n6. **Confirmation Card**\n   - Present a structured card (type, size, core viewpoint, titles, text, metaphor, role actions, required elements, etc.) for user approval.\n7. **Generation / Prompt Export**\n   - If an image tool is present and `generate_now` is true, call it with the fully‑formed prompt.\n   - Otherwise, return the prompt(s) plus a *repair prompt* for later tweaking.\n8. **QA & Repair**\n   - Verify that the character matches the anchor, that the visual conveys the confirmed points, and that style constraints are met.\n   - If any check fails, produce a concise repair instruction.\n\n## Example Interaction\n**User:** \"帮我把我的个人简介和这张头像做成一套手绘风格的知识卡。\"\n\n**Skill Response (summary):**\n1. *Character Info Card* created from the uploaded photo and bio.\n2. Asset prompts generated for the three role assets.\n3. Content parsed – core ideas: *创新、协作、成长*.\n4. Visual mode: **knowledge_card** – 3‑card set, A4 size, moderate information density.\n5. *Content Confirmation Card* displayed for approval.\n6. Since no image generator is detected, the skill returns the three ready‑to‑copy prompts and corresponding repair prompts.\n\n## Safety & Authorization\n- Only process images **explicitly provided by the user** and confirmed as their own.\n- Never request or store images of third parties without clear consent.\n- All generated assets are for the user’s personal or professional use; they must not be redistributed as public domain assets without permission.\n- The skill never fabricates a likeness when insufficient visual data is supplied – it will ask the user for more description.\n\n## References (internal)\n- `references/identity-and-character.md`\n- `references/visual-language.md`\n- `references/content-workflow.md`\n- `references/modes-and-sizes.md`\n- `references/ppt-presentation-mode.md`\n- `references/prompt-templates.md`\n- `references/qa-repair.md`\n- `references/safety-and-assets.md`\n"
+  }
+}
