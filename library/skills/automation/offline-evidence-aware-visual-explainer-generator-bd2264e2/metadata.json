@@ -1,0 +1,65 @@
+{
+  "library_id": "automation/offline-evidence-aware-visual-explainer-generator-bd2264e2",
+  "title": "Offline Evidence‑Aware Visual Explainer Generator",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "visualization",
+    "evidence",
+    "offline",
+    "nodejs"
+  ],
+  "summary": "A Node.js‑based workflow that turns a technical concept, module, trade‑off, or incident into a self‑contained, evidence‑tagged HTML explainer. It defines a strict spec‑first approach, validation steps, and deterministic rendering without any network access.",
+  "source": {
+    "repository": "yizhiyanhua-ai/fireworks-open-eli5",
+    "repository_url": "https://github.com/yizhiyanhua-ai/fireworks-open-eli5",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/yizhiyanhua-ai/fireworks-open-eli5/blob/e90d5f9dae1bb823573388654e381a9844169e1b/SKILL.md",
+    "api_sha": "8dcdb66a651eb507e35242076650fd3b2abf879f",
+    "repo_stars": 182,
+    "repo_forks": 10,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-09-05T08:55:27+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:05+00:00",
+  "accepted_at": "2026-09-11T12:17:54+00:00",
+  "content_hash": "7417f90611eede4ca21a04f9bb3b3ae9fca29e718b73cf5f5a6314a43aba9890",
+  "source_excerpt": "--- name: fireworks-open-eli5 description: Create evidence-aware, interactive visual explainers as self-contained offline HTML. Use when a user asks to explain a concept, repository module, engineering tradeoff, or incident with a diagram, walkthrough, ELI5 treatment, data/request trace, failure view, or teach-back. Do not use for a plain short answer, ordinary prose rewrite, generic website implementation, or unsupported claims presented as facts. license: Apache-2.0 compatibility: Codex, Claude Code, or another Agent Skills-compatible host with Node.js 18+ and local file access; no npm packages or network access required at render time. Native Pages export optionally requires macOS and Apple Pages. --- # Fireworks Open ELI5 Turn a difficu…",
+  "review": {
+    "decision": "accept",
+    "title": "Offline Evidence‑Aware Visual Explainer Generator",
+    "category": "automation",
+    "summary": "A Node.js‑based workflow that turns a technical concept, module, trade‑off, or incident into a self‑contained, evidence‑tagged HTML explainer. It defines a strict spec‑first approach, validation steps, and deterministic rendering without any network access.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 70,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Clear, step‑by‑step workflow",
+      "Strong safety boundaries (no network, no publishing without consent)",
+      "Comprehensive validation and export checks",
+      "Well‑defined evidence labeling system"
+    ],
+    "weaknesses": [
+      "No concrete example spec or rendered output shown",
+      "Heavy reliance on external reference files that are not included in the skill description",
+      "Language is dense; may be intimidating for beginners"
+    ],
+    "tags": [
+      "automation",
+      "visualization",
+      "evidence",
+      "offline",
+      "nodejs"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a minimal example JSON spec and the resulting HTML snippet to illustrate the workflow",
+      "Provide a quick‑start section that lists required files and a one‑line command to run the validator/render scripts",
+      "Simplify some of the dense prose for easier onboarding"
+    ],
+    "normalized_skill_markdown": "---\nname: fireworks-open-eli5\ndescription: Create evidence‑aware, interactive visual explainers as self‑contained offline HTML. Use when a user asks to explain a concept, repository module, engineering trade‑off, or incident with a diagram, walkthrough, ELI5 treatment, data/request trace, failure view, or teach‑back.\n---\n\n# Fireworks Open ELI5\n\nTurn a difficult system into a truthful visual story. Produce a portable JSON spec first, then a deterministic, self‑contained HTML explainer.\n\n## Non‑negotiable boundary\n\n- Evidence comes before visual polish. Label every evidence item `verified`, `inferred`, or `analogy`.\n- Never make an analogy look like implementation truth.\n- Generated HTML files are **local only** – they are not published, uploaded, or sent without explicit user request.\n- Rendering performs **no network calls**. Any cited URL is a reader‑facing link, not a runtime dependency.\n- Browser‑local history, favorites, and annotations are disabled until the reader opts‑in.\n- PDF export invokes the browser print dialog. PNG exports one scene; PPTX and DOCX export one scene per slide or page. Native `.pages` output is allowed only after the installed Pages app actually saves it.\n\n## Workflow\n\n1. **Identify** audience, question, language, and the core element that travels through the story (e.g., request, packet, decision, event, or user action).\n2. **Choose a story grammar** (pick exactly one):\n   - `concept`: intuition → mechanism → boundary.\n   - `module`: entry point → transformations → outputs/dependencies.\n   - `tradeoff`: shared goal → competing options → consequences/decision rule.\n   - `incident`: normal path → break and propagation → detection/recovery.\n3. **Gather evidence** – inspect local files for repository work; use authoritative sources for external claims and record uncertainty explicitly.\n4. **Create a version‑1 JSON spec** following `references/spec-contract.md`. Use 3–7 scenes, 2–6 nodes per scene, a complete truth ladder, trace, glossary, teach‑back, evidence map, and the required mode‑specific `modeData`. Include failure information where relevant.\n5. **Validate before rendering**:\n   ```bash\n   node scripts/validate.mjs path/to/spec.json\n   ```\n6. **Render** to a new local file:\n   ```bash\n   node scripts/render.mjs path/to/spec.json path/to/explainer.html\n   ```\n   The renderer refuses to overwrite an existing file unless `--force` is supplied, in which case it performs an atomic replacement and still rejects symbolic links.\n7. **Validate the spec and artifact together**:\n   ```bash\n   node scripts/validate.mjs path/to/spec.json path/to/explainer.html\n   ```\n8. **Manual QA** (when a browser is available): open the HTML at desktop width and at 390 px, verify layout, focus handling, interactive sections, zero remote requests, and that each evidence card displays its status, core basis, and source locator.\n9. **Workspace interaction test**: open/dismiss the modal drawer via mouse and keyboard, confirm focus return, enable the library intentionally, reload and verify that favorites and plain‑text annotations persist only for same‑origin explainers.\n10. **Export verification**: check print stylesheet, PNG signature and dimensions, PPTX/DOCX ZIP signatures and required OOXML parts, and the fallback download link when automatic downloads are suppressed. For native Pages export, run `scripts/serve.mjs`, verify the `.pages` package contains `Index/Document.iwa`, reopen in Pages, then re‑run validators after any change.\n\n## Report language\n\n- The final QA, status, handoff, and generated‑artifact report default to the language of the user’s latest substantive request.\n- An explicit `report-language` request overrides the default.\n- `spec.language` only controls the generated explainer interface; it does **not** force the conversation report language.\n- In mixed‑language conversations, ignore short acknowledgements when choosing the report language. Preserve code, commands, paths, identifiers, exact errors, and source titles when translation would reduce precision.\n\n## Story construction rules\n\n- Title must be a concrete promise, not a generic label.\n- Keep the summary to one sentence and each node to one responsibility.\n- Prefer 3–5 scenes; use 6–7 only when omitting a stage would distort causality.\n- Edges are short‑verb relationships or actions.\n- The trace must visit real node IDs in a meaningful order.\n- Include failure data only when impact, visible symptom, and fallback are known.\n- Place limitations in `truthLadder.caveat`, not in tiny disclaimers.\n- Cite source IDs on the scenes or nodes they support; do not cite a source merely because it is adjacent to the claim.\n\n## Quality gate\n\nThe work is ready as a local artifact only when:\n- The validator returns `ok: true` for both the spec and rendered HTML.\n- All IDs and references resolve.\n- Every required interactive section has content.\n- The selected story mode satisfies its semantic contract.\n- The HTML is deterministic and includes a spec SHA‑256 meta tag.\n- The artifact byte‑matches the supplied spec and uses trusted CSP hashes.\n- No external resources, unsafe runtime APIs, or remote fonts are present.\n- Persisted reader state is opt‑in, namespaced, bounded, same‑origin, and kept outside the deterministic spec hash.\n- Annotations render as plain text and cannot create executable markup.\n- Global and local playback share a single state machine and never run together.\n- Each trace step activates the real outgoing relationship path (or a sink’s incoming path), keeping label and arrow state aligned, and highlights only the evidence that supports that step.\n- Scene evidence cards preserve `verified`/`inferred`/`analogy` boundaries and expose core text plus an actionable locator without fetching remote previews.\n- Exported PNG, PPTX, and DOCX packages have the expected signatures and structure and contain their evidence footer; a claimed native Pages export has also reopened in Pages.\n- Mobile uses the stacked flow rather than shrinking the desktop SVG.\n- The final report follows the user’s current interaction language, names the generated spec and HTML paths, and states whether desktop, mobile, persistence, playback, evidence, and export browser QA were run.\n\nIf evidence is incomplete, generate only when the evidence map and caveat make the gap unmistakable; otherwise stop and report the missing evidence."
+  }
+}

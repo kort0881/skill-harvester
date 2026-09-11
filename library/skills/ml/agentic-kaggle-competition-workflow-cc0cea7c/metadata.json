@@ -1,0 +1,67 @@
+{
+  "library_id": "ml/agentic-kaggle-competition-workflow-cc0cea7c",
+  "title": "Agentic Kaggle Competition Workflow",
+  "category": "ml",
+  "tags": [
+    "kaggle",
+    "machine‑learning",
+    "competition",
+    "workflow",
+    "automation"
+  ],
+  "summary": "A comprehensive, step‑by‑step workflow for running end‑to‑end Kaggle competitions, covering validation, data handling, model development, multi‑notebook pipelines, off‑loading to Kaggle, and submission tracking. Includes resource references, default procedures, hygiene guidelines, and ready‑to‑run helper scripts.",
+  "source": {
+    "repository": "FrankS-IntelLab/agentic-kaggle-skill",
+    "repository_url": "https://github.com/FrankS-IntelLab/agentic-kaggle-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/FrankS-IntelLab/agentic-kaggle-skill/blob/f07e4fa5434807fb4ca5bb8090800793020e9e2c/SKILL.md",
+    "api_sha": "f99b4940dd9065cf7849b6a0725835c64824b7bf",
+    "repo_stars": 184,
+    "repo_forks": 13,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-05T10:46:44+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:03+00:00",
+  "accepted_at": "2026-09-11T12:17:05+00:00",
+  "content_hash": "e2935002f38d975dc3d2b68249e5398fbe9421ecfaa9842c2e1fa741e658b934",
+  "source_excerpt": "--- name: agentic-kaggle-skill description: Kaggle-first end-to-end competition workflow for scored submissions. Use when Codex must run Kaggle or competitive ML workflows through scored submission, including code competitions, validation, metrics, policy-safe public notebook/discussion intel, tabular/text/image modeling, tuning, ensembling/stacking, proactive multi-notebook architectures, producer notebooks that train models and export private Kaggle artifact datasets, downstream consumer notebooks, Kaggle GPU offload, kagglehub access, hidden-test debugging, and public score retrieval. --- # Agentic Kaggle Skill ## Operating Loop Treat every competition as a validation problem first and a modeling problem second. The default target platfo…",
+  "review": {
+    "decision": "accept",
+    "title": "Agentic Kaggle Competition Workflow",
+    "category": "ml",
+    "summary": "A comprehensive, step‑by‑step workflow for running end‑to‑end Kaggle competitions, covering validation, data handling, model development, multi‑notebook pipelines, off‑loading to Kaggle, and submission tracking. Includes resource references, default procedures, hygiene guidelines, and ready‑to‑run helper scripts.",
+    "quality_score": 78,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Very detailed operating loop",
+      "Covers both classic file‑submission and code‑competition formats",
+      "Provides concrete helper scripts and command examples",
+      "Emphasizes reproducibility, versioning, and competition hygiene"
+    ],
+    "weaknesses": [
+      "Prerequisites (Kaggle account, Python environment) are implicit",
+      "References to external markdown files are not included in the skill",
+      "No concrete example of input/output artifacts (e.g., OOF file format)",
+      "Lengthy prose may overwhelm beginners"
+    ],
+    "tags": [
+      "kaggle",
+      "machine‑learning",
+      "competition",
+      "workflow",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an explicit prerequisites section (Kaggle credentials, required libraries)",
+      "Include a minimal example of an OOF prediction file and how it is used in ensembling",
+      "Provide short snippets showing how to load a private Kaggle dataset in a notebook",
+      "Summarize the external reference files or embed key excerpts"
+    ],
+    "normalized_skill_markdown": "---\nname: agentic-kaggle-skill\ndescription: End‑to‑end workflow for Kaggle competitions, covering validation, data preparation, model development, multi‑notebook pipelines, off‑loading to Kaggle, and submission tracking.\n---\n\n# Agentic Kaggle Skill\n\n## Overview\nThis skill guides an AI agent (or a data scientist) through a full Kaggle competition lifecycle, from reading the competition page to retrieving the final public score. It supports both classic file‑submission competitions and code‑competition notebooks, and it leverages Kaggle‑hosted notebooks/datasets for heavy compute or data‑access needs.\n\n## Prerequisites\n- Kaggle account with API token configured (`kaggle.json`).\n- Python 3.9+ with common ML libraries (pandas, scikit‑learn, LightGBM, CatBoost, XGBoost, PyTorch/TensorFlow as needed).\n- Access to the repository’s `scripts/` folder (included in the source repo).\n- Sufficient local or Kaggle compute resources for the chosen model complexity.\n\n## Operating Loop\n1. **Read competition page** – Identify submission type (file vs. notebook), rules, data‑use policy, metric, and any leakage warnings.\n2. **Gather intel** – If available, browse top public notebooks and discussion threads for clues (not as authority).\n3. **Classify task** – Binary, multiclass, multilabel, regression, ranking, image, text, time‑series, etc.\n4. **Design folds** – Add a `fold` column to the training set (use `scripts/make_folds.py`).\n5. **Build baseline** – Create a metric‑correct baseline and generate out‑of‑fold (OOF) predictions plus a valid submission file.\n6. **Plan stronger architecture** – Once the baseline is trustworthy, outline diverse model families, feature/embedding producers, pseudo‑labeling, distillation, calibration, and an ensemble/stacker.\n7. **Iterate with validation gates** – Change one thing at a time, or run parallel producer notebooks that generate independent artifacts.\n8. **Off‑load heavy jobs** – Use Kaggle notebooks/scripts for GPU‑intensive or memory‑heavy stages.\n9. **Multi‑notebook pipeline** –\n   - Producer notebooks generate private Kaggle datasets (features, embeddings, model checkpoints, OOF predictions).\n   - Consumer notebook attaches those datasets (`/kaggle/input/...`) and creates the final OOF/test predictions and submission.\n10. **Submit** – Upload the final artifact (file or notebook) to Kaggle and retrieve the score.\n11. **Debug code‑competition failures** – Pull logs, classify the failure, patch, rerun, and resubmit until a concrete result is obtained.\n12. **Track metadata** – Log CV scores, public LB, seeds, code version, data version, and artifact paths for every run.\n13. **Ensemble responsibly** – Only with OOF predictions that have no in‑fold leakage.\n\n## Resource Map (internal references)\n- `references/method-map.md` – High‑level workflow diagram.\n- `references/information-sharing-policy.md` – Rules for publishing code/datasets.\n- `references/competition-intel.md` – How to incorporate competition‑specific intel.\n- `references/cross-validation-and-metrics.md` – Fold and metric selection guidance.\n- `references/tabular-workflow.md` – Feature engineering for tabular data.\n- `references/image-text-workflow.md` – Tips for vision/NLP tasks.\n- `references/kaggle-code-competition-pipeline.md` – Notebook‑scored competition specifics.\n- `references/advanced-notebook-architecture.md` – Multi‑producer pipelines.\n- `references/kaggle-offload.md` – When and how to run on Kaggle.\n- `references/kaggle-pipeline-datasets.md` – Managing intermediate Kaggle datasets.\n- `references/submission-endgame.md` – Final submission checklist.\n- `references/code-competition-debugging.md` – Debugging hidden‑run failures.\n- `references/ensembling-and-reproducibility.md` – Best practices for stacking/blending.\n\n## Default Kaggle Procedure\n### Validation first\n- Re‑implement the competition metric locally (including clipping, thresholds, sample weights).\n- Verify allowed external data, pretrained models, and public code.\n- Choose folds that mimic the hidden test distribution (StratifiedKFold, GroupKFold, TimeSplit, etc.).\n- Save OOF predictions for every model – they are the currency for analysis and ensembling.\n\n### Baseline ladder\n1. **Metric‑only / constant baseline** – sanity‑check submission format.\n2. **Fast classical baseline** – LightGBM/CatBoost/XGBoost for tabular, TF‑IDF + linear model for text, pretrained backbone for images.\n3. **Strong baseline** – Stable folds, clean artifacts, OOF predictions.\n4. **Feature/model experiments** – One primary metric per experiment, log changes.\n5. **Ensembling / stacking** – After several diverse models are validated.\n\n### Off‑loading\nWhen RAM/VRAM limits are hit, use `scripts/prepare_kaggle_kernel.py` to create a Kaggle kernel folder, run it, and collect `experiment_log.json`, `metrics.jsonl`, and an artifact manifest via `kaggle kernels output`.\n\n## Definition of Done\nThe skill is complete only when **one** of the following is recorded:\n- A submission has been sent, processed, and the public score (or status) is logged.\n- For a code competition, the final consumer notebook has been submitted and its score retrieved.\n- A concrete blocker (missing credentials, quota exhausted, competition closed, etc.) is documented with the next required action.\n\n## Validation Choices (quick map)\n| Scenario | Recommended splitter |\n|---|---|\n| Balanced classification | `StratifiedKFold` |\n| Imbalanced classification | Stratified + class weights |\n| Regression | `KFold` or binned stratified |\n| Grouped entities (patient, session, etc.) | `GroupKFold` |\n| Time series / forecasting | Time‑aware split |\n| Image groups | Group by subject/scene |\n| Text duplicates | Group by source key |\n| Tiny data | Increase number of folds |\n\n## Modeling Priorities\n- **Tabular** – Start with tree boosting; add CatBoost for heavy categorical interactions.\n- **Linear / NN** – Scale numeric features, encode categoricals carefully.\n- **Target encoding** – Compute OOF, apply smoothing, avoid leakage.\n- **Images** – Verify dataset, transforms, and metric before changing architecture.\n- **Text** – Keep a TF‑IDF baseline even when using transformers.\n- **Hyper‑parameter search** – Only after stable folds and baseline; tune LR, depth, regularization, sampling, n_estimators with early stopping.\n\n## Competition Hygiene\n- Keep raw data read‑only.\n- Do not commit private datasets, model checkpoints, or credentials to public repos.\n- Store all mutable parameters in config files or CLI args.\n- Seed all libraries (Python, NumPy, torch, etc.).\n- Log run IDs, git commit, hardware, elapsed time, and artifact paths.\n- Maintain a pipeline manifest linking producer kernels, dataset versions, and consumer runs.\n- Keep intermediate datasets private unless competition rules allow public sharing.\n- Record submission metadata (message, timestamp, status, score, errors).\n- Never train a stacker on in‑sample base predictions or use validation targets outside fold boundaries.\n\n## Useful Commands\n```bash\n# Scaffold a new competition workspace\npython3 <skill-dir>/scripts/scaffold_competition.py --root .\n\n# Create stratified folds\npython3 <skill-dir>/scripts/make_folds.py \\\n  --input input/train.csv \\\n  --output input/train_folds.csv \\\n  --target target \\\n  --strategy stratified \\\n  --n-splits 5\n\n# Create grouped folds\npython3 <skill-dir>/scripts/make_folds.py \\\n  --input input/train.csv \\\n  --output input/train_folds.csv \\\n  --target target \\\n  --group-col patient_id \\\n  --strategy group\n\n# Prepare a Kaggle GPU kernel folder\npython3 <skill-dir>/scripts/prepare_kaggle_kernel.py \\\n  --output kaggle_kernels/exp_lgbm_gpu \\\n  --username kaggle-user \\\n  --slug exp-lgbm-gpu \\\n  --title \"exp lgbm gpu\" \\\n  --competition playground-series-sample \\\n  --accelerator NvidiaTeslaT4\n\n# Prepare a private Kaggle dataset for feature artifacts\npython3 <skill-dir>/scripts/prepare_kaggle_dataset.py \\\n  --output kaggle_datasets/exp_features_v1 \\\n  --username kaggle-user \\\n  --slug exp-features-v1 \\\n  --title \"exp features v1\" \\\n  --description \"OOF‑safe feature artifacts for experiment exp_features_v1\"\n\n# Prepare a private Kaggle dataset for model artifacts\npython3 <skill-dir>/scripts/prepare_kaggle_dataset.py \\\n  --output kaggle_datasets/exp_model_v1 \\\n  --username kaggle-user \\\n  --slug exp-model-v1 \\\n  --title \"exp model v1\" \\\n  --description \"Trained model artifacts for experiment exp_model_v1\" \\\n  --artifact-kind model\n```"
+  }
+}

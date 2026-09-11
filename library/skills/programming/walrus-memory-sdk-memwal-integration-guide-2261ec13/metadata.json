@@ -1,0 +1,76 @@
+{
+  "library_id": "programming/walrus-memory-sdk-memwal-integration-guide-2261ec13",
+  "title": "Walrus Memory SDK (memwal) Integration Guide",
+  "category": "programming",
+  "tags": [
+    "memory",
+    "sdk",
+    "walrus",
+    "sui",
+    "typescript",
+    "semantic-search",
+    "encryption",
+    "agent",
+    "integration"
+  ],
+  "summary": "This skill provides a comprehensive guide to integrating the Walrus Memory SDK (memwal) into applications. It covers installation, configuration, API usage, Vercel AI SDK middleware, and troubleshooting, enabling developers to add portable, encrypted, and semantically searchable memory to AI agents. The documentation includes practical code snippets for TypeScript and notes on namespace management and security best practices.",
+  "source": {
+    "repository": "MystenLabs/MemWal",
+    "repository_url": "https://github.com/MystenLabs/MemWal",
+    "default_branch": "dev",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/MystenLabs/MemWal/blob/34d5cd1e47d5d21479e9df909d3560f12b7f762d/SKILL.md",
+    "api_sha": "51495f557c592cd693daf2fa1a915479e1b887a1",
+    "repo_stars": 89,
+    "repo_forks": 30,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-09-06T08:12:28+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:01+00:00",
+  "accepted_at": "2026-09-11T12:16:27+00:00",
+  "content_hash": "4da6409093f0aef0d7a8dac0a07e1cff20c6b584122f40206ae22d01b3e75091",
+  "source_excerpt": "--- name: memwal version: 0.0.1 description: | Walrus Memory SDK — portable agent memory that works across apps, sessions, and workflows. Use when users say: - \"add memory to my app\" - \"portable agent memory\" - \"integrate Walrus Memory\" - \"AI agent memory\" - \"memory across agents\" - \"Walrus memory storage\" - \"setup Walrus Memory\" - \"recall memories\" keywords: - memwal - walrus memory - memory sdk - ai memory - portable memory - walrus storage - sui blockchain - delegate key - semantic search - vercel ai sdk --- # Walrus Memory — Portable Agent Memory Walrus Memory enables AI agents to operate reliably across apps and sessions, without losing context. It stores memories on Walrus (decentralized storage), encrypts them with SEAL, enforces own…",
+  "review": {
+    "decision": "accept",
+    "title": "Walrus Memory SDK (memwal) Integration Guide",
+    "category": "programming",
+    "summary": "This skill provides a comprehensive guide to integrating the Walrus Memory SDK (memwal) into applications. It covers installation, configuration, API usage, Vercel AI SDK middleware, and troubleshooting, enabling developers to add portable, encrypted, and semantically searchable memory to AI agents. The documentation includes practical code snippets for TypeScript and notes on namespace management and security best practices.",
+    "quality_score": 90,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 89,
+    "strengths": [
+      "Clear structure with sections for installation, quick start, API reference, and troubleshooting",
+      "Concrete code examples for common workflows",
+      "Detailed explanation of namespace semantics and isolation guarantees",
+      "Guidance on secure handling of delegate keys",
+      "Includes integration with Vercel AI SDK and OpenClaw plugin"
+    ],
+    "weaknesses": [
+      "Focuses solely on TypeScript; lacks examples for other languages like Python",
+      "Relies on external relayer services without offline fallback",
+      "Security guidance could be expanded (e.g., key rotation, secret management)",
+      "Long document may be overwhelming for beginners"
+    ],
+    "tags": [
+      "memory",
+      "sdk",
+      "walrus",
+      "sui",
+      "typescript",
+      "semantic-search",
+      "encryption",
+      "agent",
+      "integration"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add Python (and possibly Rust) usage examples to broaden language support",
+      "Provide a concise quick‑reference cheat sheet for common commands",
+      "Expand security section with best practices for secret storage and rotation",
+      "Include a small FAQ addressing common integration pitfalls"
+    ],
+    "normalized_skill_markdown": "---\nname: memwal\ndescription: |\n  Walrus Memory SDK – portable agent memory across apps, sessions, and workflows.\n---\n\n# Walrus Memory — Portable Agent Memory\n\nWalrus Memory enables AI agents to operate reliably across apps and sessions without losing context. It stores memories on Walrus (decentralized storage), encrypts them with SEAL, enforces ownership on‑chain via Sui smart contracts, and retrieves them with semantic (vector) search. Memory is portable by design— not tied to a single runtime or provider— and scoped by `owner + namespace` for isolation and coordination.\n\n## When to Use\n\n- **Portable memory** – persists outside prompts and context windows, moves across agents, apps, and workflows\n- **Full owner control** – programmable permissions and explicit ownership define how memory is shared and accessed\n- **Agent coordination** – shared memory spaces help agents coordinate across long‑running and multi‑step workflows\n- **Semantic recall** – retrieve memories by meaning, not just keywords\n- **Verifiable integrity** – memory integrity can be independently verified without centralized trust\n- **Cross‑app memory** – not tied to a single runtime or provider, share memory between apps via delegate keys\n\n## When NOT to Use\n\n- Temporary conversation context that only matters in the current session\n- Large file storage (Walrus Memory is optimized for text memories)\n- Use cases that don't need encryption or decentralization\n\n## Installation\n\n```bash\n# Install the SDK\npnpm add @mysten-incubation/memwal\n\n# Optional: for Vercel AI SDK integration\npnpm add ai zod\n\n# Optional: for manual client (client‑side SEAL encryption)\npnpm add @mysten/sui @mysten/seal @mysten/walrus\n```\n\n## Quick Start\n\n### 1. Get Your Credentials\nYou need a **delegate key** (Ed25519 private key) and **account ID** (Walrus Memory account object ID on Sui). Generate them at:\n- Production: https://memory.walrus.xyz\n- Staging: https://staging.memory.walrus.xyz\n\n### 2. Initialize the SDK\n\n```ts\nimport { MemWal } from \"@mysten-incubation/memwal\";\n\nconst memwal = MemWal.create({\n  key: process.env.MEMWAL_PRIVATE_KEY!,\n  accountId: process.env.MEMWAL_ACCOUNT_ID!,\n  serverUrl: process.env.MEMWAL_SERVER_URL ?? \"https://relayer.memory.walrus.xyz\",\n  namespace: \"my-app\",\n});\n```\n\n### 3. Store and Recall Memories\n\n```ts\n// Store one already‑distilled fact and wait until it is indexed.\nawait memwal.rememberAndWait(\n  \"User prefers dark mode and works in TypeScript.\",\n  undefined,\n  { timeoutMs: 30_000 },\n);\n\n// Recall by meaning\nconst result = await memwal.recall({ query: \"What are the user's preferences?\" });\nconsole.log(result.results);\n\n// Extract facts from free‑form text and wait until all accepted facts are indexed.\nconst analyzed = await memwal.analyzeAndWait(\n  \"I live in Hanoi and prefer dark mode.\",\n  undefined,\n  { timeoutMs: 30_000 },\n);\nconsole.log(analyzed.facts.map((f) => f.text));\n\n// Check relayer health\nawait memwal.health();\n```\n\nUse `*AndWait` when a UI saves and then immediately recalls in the same flow. Indexing can lag a few seconds, so `remember()` / `analyze()` may return before recall can find the new memory. Manual polling is still available for advanced async UIs:\n\n```ts\nconst accepted = await memwal.remember(\"User likes Sui.\");\nconst stored = await memwal.waitForRememberJob(accepted.job_id, {\n  pollIntervalMs: 750,\n  timeoutMs: 30_000,\n});\n```\n\n## SDK Entry Points\n\n| Entry Point | Import | Description |\n|---|---|---|\n| `MemWal` | `@mysten-incubation/memwal` | Default. Relayer handles embedding, SEAL encryption, Walrus upload, vector search |\n| `MemWalManual` | `@mysten-incubation/memwal/manual` | Manual flow – client handles embedding and SEAL encryption |\n| `withMemWal` | `@mysten-incubation/memwal/ai` | Vercel AI SDK middleware – auto recall + save around AI conversations |\n| Account utils | `@mysten-incubation/memwal/account` | Account creation, delegate key management |\n\n## API Surface\n\n### Walrus Memory Methods\n\n| Method | Description | Returns |\n|---|---|---|\n| `remember(text, namespace?)` | Accept one memory job immediately | `{ job_id, status }` |\n| `rememberAndWait(text, namespace?, opts?)` | Store one memory and wait for completion | `{ id, job_id, blob_id, owner, namespace }` |\n| `recall({ query, limit?, topK?, namespace?, maxDistance? })` *(preferred)* | Semantic search for memories | `{ results: [{ blob_id, text, distance }], total }` |\n| `analyze(text, namespace?)` | Extract facts and accept one memory job per fact | `{ job_ids, facts, fact_count, status, owner }` |\n| `analyzeAndWait(text, namespace?, opts?)` | Extract facts and wait for all fact jobs to complete | `{ results, facts, total, succeeded, failed, owner }` |\n| `restore(namespace, limit?)` | Rebuild missing index entries from Walrus | `{ restored, skipped, total, namespace, owner }` |\n| `health()` | Check relayer health | `{ status, version }` |\n| `getPublicKeyHex()` | Get hex‑encoded public key | `string` |\n\n### Lower‑Level Methods\n\n| Method | Description |\n|---|---|\n| `rememberManual({ encryptedData, vector, namespace? })` | Send SEAL‑encrypted bytes + pre‑computed vector; relayer uploads |\n| `recallManual({ vector, limit?, namespace? })` | Search with pre‑computed vector (returns blob IDs only) |\n| `embed(text)` | Generate embedding vector (no storage) |\n\n*(Full TypeScript response interfaces are omitted for brevity.)*\n\n## Namespace Semantics\n\nA namespace is an **opaque, flat string label** scoped to a single owner. It isolates memory: a recall in namespace `A` never returns entries written to namespace `B`, even for the same owner, and never returns entries belonging to other owners.\n\n- Validation: any non‑empty string is accepted; no length cap or character whitelist.\n- Flat, not hierarchical: slashes and dots have no special meaning.\n- Overwrite behavior: `remember()` always appends; it never upserts.\n- Isolation guarantees are enforced at the SQL level, ensuring no cross‑owner or cross‑namespace leakage.\n\n## Restore Semantics\n\n`restore(namespace, limit?)` rebuilds **missing** local index entries for a namespace from Walrus. It is a recovery operation, not a full sync. Defaults to a limit of `10`; larger limits increase latency linearly.\n\n## Recall Distance and Filtering\n\n`recall()` returns the closest K memories by vector distance. Use `maxDistance` or client‑side filtering to discard weak matches:\n\n```ts\nconst memories = await memwal.recall({\n  query: \"what did I eat yesterday?\",\n  limit: 10,\n  namespace: \"reading-tracker\",\n  maxDistance: 0.7,\n});\n```\n\n## Configuration\n\n```ts\nMemWal.create({\n  key: \"<delegate‑private‑key>\",\n  accountId: \"<account‑object‑id>\",\n  serverUrl: \"https://relayer.memory.walrus.xyz\", // optional\n  namespace: \"default\", // optional\n});\n```\n\n## Vercel AI SDK Integration\n\n```ts\nimport { openai } from \"@ai-sdk/openai\";\nimport { streamText } from \"ai\";\nimport { withMemWal } from \"@mysten-incubation/memwal/ai\";\n\nconst model = withMemWal(openai(\"gpt-4o\"), {\n  key: process.env.MEMWAL_PRIVATE_KEY!,\n  accountId: process.env.MEMWAL_ACCOUNT_ID!,\n  serverUrl: \"https://relayer.memory.walrus.xyz\",\n  namespace: \"chat\",\n  maxMemories: 5,\n  autoSave: true,\n  minRelevance: 0.3,\n});\n\nconst result = streamText({\n  model,\n  messages: [{ role: \"user\", content: \"What do you remember about me?\" }],\n});\n```\n\nThe middleware automatically recalls relevant memories before generation and extracts/saves facts after generation.\n\n## OpenClaw / NemoClaw Plugin\n\n```bash\nopenclaw plugins install @mysten-incubation/oc-memwal\n```\n\nConfigure in `~/.openclaw/openclaw.json`:\n\n```json\n{\n  \"plugins\": {\n    \"slots\": { \"memory\": \"oc-memwal\" },\n    \"entries\": {\n      \"oc-memwal\": {\n        \"enabled\": true,\n        \"config\": {\n          \"privateKey\": \"${MEMWAL_PRIVATE_KEY}\",\n          \"accountId\": \"0x...\",\n          \"serverUrl\": \"https://relayer.memory.walrus.xyz\"\n        }\n      }\n    }\n  }\n}\n```\n\nLifecycle hooks inject memories before prompts and capture facts after agent responses.\n\n## Troubleshooting\n\n| Symptom | Fix |\n|---|---|\n| `health()` returns error | Verify relayer URL and network connectivity |\n| `recall()` returns empty | Ensure the namespace matches the one used in `remember()` |\n| `recall()` returns unrelated filler | Apply `maxDistance` filter or increase relevance threshold |\n| `401 Unauthorized` | Check that `MEMWAL_PRIVATE_KEY` and `MEMWAL_ACCOUNT_ID` correspond to the selected relayer (staging vs production) |\n| SDK import errors | Ensure Node.js ≥ 18 and the package is installed |\n| Manual client errors | Install peer dependencies `@mysten/sui @mysten/seal @mysten/walrus` |\n| Forget expectations unclear | `POST /api/forget` removes vector index rows; blobs remain on‑chain until epoch expiry |\n\n## Brand Terminology\n\n| Surface | Canonical term | Notes |\n|---|---|---|\n| Product / docs / UI | **Walrus Memory** | User‑facing name |\n| Package / env vars / internal shorthand | **memwal** | Code and tooling identifier |\n\n## Links\n\n- Docs: https://memory.walrus.xyz\n- SDK on npm: https://www.npmjs.com/package/@mysten-incubation/memwal\n- GitHub: https://github.com/MystenLabs/MemWal\n- Dashboard: https://memory.walrus.xyz\n"
+  }
+}

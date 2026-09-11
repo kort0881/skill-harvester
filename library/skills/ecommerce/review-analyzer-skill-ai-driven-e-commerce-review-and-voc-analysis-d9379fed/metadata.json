@@ -1,0 +1,68 @@
+{
+  "library_id": "ecommerce/review-analyzer-skill-ai-driven-e-commerce-review-and-voc-analysis-d9379fed",
+  "title": "Review Analyzer Skill – AI‑driven e‑commerce review and VOC analysis",
+  "category": "ecommerce",
+  "tags": [
+    "ecommerce",
+    "review‑analysis",
+    "voc",
+    "report‑generation",
+    "visualization",
+    "feishu‑sync"
+  ],
+  "summary": "The skill ingests product reviews (CSV or Sellersprite) and produces a 22‑dimension AI‑tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu synchronization. It guides the agent through parameter collection, deterministic Python steps and LLM‑driven tagging/report writing. The workflow is modular, resumable and suitable for both autonomous agents and CLI use.",
+  "source": {
+    "repository": "buluslan/review-analyzer-skill",
+    "repository_url": "https://github.com/buluslan/review-analyzer-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/buluslan/review-analyzer-skill/blob/f37aeb1c134c7e5a61e79db077fc50d08b4c358e/SKILL.md",
+    "api_sha": "a8919b3026756f35649cdd93d7e02d61561e00be",
+    "repo_stars": 122,
+    "repo_forks": 10,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-04T09:27:51+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:33+00:00",
+  "accepted_at": "2026-09-11T12:22:20+00:00",
+  "content_hash": "0e47792db053d6934bf882211bf4baeef5497124a5ec0d5ca45bc23d5562817e",
+  "source_excerpt": "--- name: review-analyzer-skill author: Buluu@新西楼.AI description: | review-analyzer-skill是由buluslan（公众号：新西楼.AI）研发的电商评论深度分析Skill（VOC 客户之声分析），他会帮你把一堆产品评论变成一份能落地的决策依据——22 维 AI 打标提炼用户画像、痛点和真实需求，输出 15 章深度洞察报告和可视化看板，从差评里挖出产品优化机会点、从好评里找到爆款基因。 更多跨境电商 AI 实战内容，请关注公众号「新西楼.AI」。 Deep-dive e-commerce review & VOC analysis: 22-dimension AI tagging, 15-chapter insight report with anomaly signal cards, 6 themed visualization dashboards, CSV-primary multi-source input (SellerSprite optional), Feishu sync. 当用户需要以下功能时触发：分析电商产品评论（Amazon等平台）/ 从评论中提取用户画像、痛点和VOC（客户之声）/ 生成产品洞察报告和机会点分析 / 创建可视化分析看板 / 通过卖家精灵获取评论数据（可选增强；CSV为主源）/ 将分析结果同步到飞书文档。 触发关键词：电商评论分析、评论分析、竞品分析、用户洞察、VOC分析、产品优化、市场调研、评论数据挖掘、卖家精灵、sellersprite。 NOT for 关键词调研/选品雷达类任务（那些有专门工具）。 license: MIT metadata: cat…",
+  "review": {
+    "decision": "accept",
+    "title": "Review Analyzer Skill – AI‑driven e‑commerce review and VOC analysis",
+    "category": "ecommerce",
+    "summary": "The skill ingests product reviews (CSV or Sellersprite) and produces a 22‑dimension AI‑tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu synchronization. It guides the agent through parameter collection, deterministic Python steps and LLM‑driven tagging/report writing. The workflow is modular, resumable and suitable for both autonomous agents and CLI use.",
+    "quality_score": 80,
+    "uniqueness_score": 75,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 80,
+    "strengths": [
+      "Clear end‑to‑end workflow",
+      "Resumable `--resume` design",
+      "Supports both CSV and Sellersprite sources",
+      "Produces structured report and visual dashboards",
+      "Well‑documented CLI options"
+    ],
+    "weaknesses": [
+      "Mixed Chinese/English text may confuse non‑Chinese users",
+      "Relies on external Sellersprite secret‑key without guidance on secure handling",
+      "No explicit validation examples for input CSV format"
+    ],
+    "tags": [
+      "ecommerce",
+      "review‑analysis",
+      "voc",
+      "report‑generation",
+      "visualization",
+      "feishu‑sync"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Provide a concise CSV schema example in the skill description",
+      "Add guidance on storing and passing the Sellersprite secret safely (e.g., env var)",
+      "Separate English and Chinese sections for broader audience"
+    ],
+    "normalized_skill_markdown": "---\nname: review-analyzer-skill\ndescription: |\n  AI‑driven e‑commerce review and VOC analysis. Generates a 22‑dimension tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu sync from CSV or Sellersprite source.\n---\n\n# Review Analyzer Skill (v2.2)\n\n## Overview\nThe skill transforms raw product reviews into actionable insights:\n- **22‑dimensional AI tagging** (demographics, sentiment, quality, etc.)\n- **15‑chapter insight report** with anomaly cards and data appendix\n- **6 optional visual dashboards** (premium‑gold, posthog‑analytics, stripe‑executive, linear‑minimal, dark‑tech, warm‑editorial)\n- **Feishu synchronization** of documents and charts\n\n## Prerequisites\n- Python 3.8+\n- `pip install pandas jinja2 requests python-dotenv tqdm`\n- (Optional) Sellersprite API key if you want to fetch reviews directly from Sellersprite.\n- (Optional) `lark-cli` installed and authenticated for Feishu sync.\n\n## Installation\n```bash\npip install pandas jinja2 requests python-dotenv tqdm\n```\n\n## Usage\n### 1. Prepare input\n- **CSV source (recommended)** – a file containing at least `review_id`, `title`, `content`, `rating` columns.\n- **Sellersprite source (optional)** – provide `--source sellersprite --asin <ASIN> --site <region>`; the tool will fetch reviews using the supplied API key.\n\n### 2. Run the pipeline\n```bash\n# CSV example\npython3 main.py \"reviews.csv\" --llm agent --max-reviews 100 --creator \"AI Assistant\"\n\n# Sellersprite example\npython3 main.py --source sellersprite --asin B001OAXE0S --site US \\\n    --llm agent --max-reviews 100 --creator \"AI Assistant\"\n```\nAvailable flags:\n- `--max-reviews N` – limit number of reviews (default 100).\n- `--template <name>` – choose a dashboard template (default `premium-gold`).\n- `--feishu-sync` – upload results to Feishu.\n- `--resume <workdir>` – resume a previously started run (idempotent).\n\n### 3. Interactive parameter collection (for agents)\nWhen invoked by an autonomous agent, the skill expects the following questions to be asked in order:\n1. **Data source** – CSV or Sellersprite.\n2. **Number of reviews** – 100 (default), 300, or all.\n3. **Feishu sync** – yes/no.\n4. **Dashboard template** – none or one of the six styles.\n5. **Report author** – default `AI Assistant` or custom (only if a template is chosen).\nThe agent must collect these answers before proceeding.\n\n### 4. Resume workflow (deterministic steps)\n1. `python3 main.py …` – loads data, creates batch prompts, writes them to `workdir/tagging/`.\n2. Agent reads each `batch_XXX_prompt.md`, generates JSON tags, and saves `batch_XXX.json`.\n3. `python3 main.py --resume <workdir>` – aggregates tags, creates `report_prompt.md`.\n4. Agent writes the full 15‑chapter markdown report to `workdir/report_draft.md` following the prompt.\n5. Final `--resume` call produces:\n   - `评论采集及打标数据_{ASIN}.csv`\n   - `分析洞察报告_{ASIN}.md`\n   - Optional `可视化洞察报告_{ASIN}.html`\n   - Optional Feishu document.\n\n## Output files\n| File | Description |\n|------|-------------|\n| `评论采集及打标数据_{ASIN}.csv` | 22‑dimensional tag table |\n| `分析洞察报告_{ASIN}.md` | 15‑chapter insight report |\n| `可视化洞察报告_{ASIN}.html` | Dashboard (if a template was selected) |\n| Feishu doc | Full report + charts (if sync enabled) |\n\n## License\nMIT © Buluu@新西楼.AI\n"
+  }
+}

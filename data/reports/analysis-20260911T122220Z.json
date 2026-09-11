@@ -1,0 +1,483 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-11T12:22:20+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 7,
+  "accepted": 6,
+  "rejected": 1,
+  "items": [
+    {
+      "candidate_id": "2261ec1353caf493ef9bdfe2",
+      "candidate": {
+        "candidate_id": "2261ec1353caf493ef9bdfe2",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:01+00:00",
+        "source": {
+          "repository": "MystenLabs/MemWal",
+          "repository_url": "https://github.com/MystenLabs/MemWal",
+          "default_branch": "dev",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/MystenLabs/MemWal/blob/34d5cd1e47d5d21479e9df909d3560f12b7f762d/SKILL.md",
+          "api_sha": "51495f557c592cd693daf2fa1a915479e1b887a1",
+          "repo_stars": 89,
+          "repo_forks": 30,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-09-06T08:12:28+00:00"
+        },
+        "raw_file": "raw/mystenlabs-memwal/SKILL.md",
+        "title": "memwal",
+        "category_hint": "automation",
+        "content_hash": "4da6409093f0aef0d7a8dac0a07e1cff20c6b584122f40206ae22d01b3e75091",
+        "content_characters": 19477
+      },
+      "reviewed_at": "2026-09-11T12:16:27+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Walrus Memory SDK (memwal) Integration Guide",
+        "category": "programming",
+        "summary": "This skill provides a comprehensive guide to integrating the Walrus Memory SDK (memwal) into applications. It covers installation, configuration, API usage, Vercel AI SDK middleware, and troubleshooting, enabling developers to add portable, encrypted, and semantically searchable memory to AI agents. The documentation includes practical code snippets for TypeScript and notes on namespace management and security best practices.",
+        "quality_score": 90,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 89,
+        "strengths": [
+          "Clear structure with sections for installation, quick start, API reference, and troubleshooting",
+          "Concrete code examples for common workflows",
+          "Detailed explanation of namespace semantics and isolation guarantees",
+          "Guidance on secure handling of delegate keys",
+          "Includes integration with Vercel AI SDK and OpenClaw plugin"
+        ],
+        "weaknesses": [
+          "Focuses solely on TypeScript; lacks examples for other languages like Python",
+          "Relies on external relayer services without offline fallback",
+          "Security guidance could be expanded (e.g., key rotation, secret management)",
+          "Long document may be overwhelming for beginners"
+        ],
+        "tags": [
+          "memory",
+          "sdk",
+          "walrus",
+          "sui",
+          "typescript",
+          "semantic-search",
+          "encryption",
+          "agent",
+          "integration"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add Python (and possibly Rust) usage examples to broaden language support",
+          "Provide a concise quick‑reference cheat sheet for common commands",
+          "Expand security section with best practices for secret storage and rotation",
+          "Include a small FAQ addressing common integration pitfalls"
+        ],
+        "normalized_skill_markdown": "---\nname: memwal\ndescription: |\n  Walrus Memory SDK – portable agent memory across apps, sessions, and workflows.\n---\n\n# Walrus Memory — Portable Agent Memory\n\nWalrus Memory enables AI agents to operate reliably across apps and sessions without losing context. It stores memories on Walrus (decentralized storage), encrypts them with SEAL, enforces ownership on‑chain via Sui smart contracts, and retrieves them with semantic (vector) search. Memory is portable by design— not tied to a single runtime or provider— and scoped by `owner + namespace` for isolation and coordination.\n\n## When to Use\n\n- **Portable memory** – persists outside prompts and context windows, moves across agents, apps, and workflows\n- **Full owner control** – programmable permissions and explicit ownership define how memory is shared and accessed\n- **Agent coordination** – shared memory spaces help agents coordinate across long‑running and multi‑step workflows\n- **Semantic recall** – retrieve memories by meaning, not just keywords\n- **Verifiable integrity** – memory integrity can be independently verified without centralized trust\n- **Cross‑app memory** – not tied to a single runtime or provider, share memory between apps via delegate keys\n\n## When NOT to Use\n\n- Temporary conversation context that only matters in the current session\n- Large file storage (Walrus Memory is optimized for text memories)\n- Use cases that don't need encryption or decentralization\n\n## Installation\n\n```bash\n# Install the SDK\npnpm add @mysten-incubation/memwal\n\n# Optional: for Vercel AI SDK integration\npnpm add ai zod\n\n# Optional: for manual client (client‑side SEAL encryption)\npnpm add @mysten/sui @mysten/seal @mysten/walrus\n```\n\n## Quick Start\n\n### 1. Get Your Credentials\nYou need a **delegate key** (Ed25519 private key) and **account ID** (Walrus Memory account object ID on Sui). Generate them at:\n- Production: https://memory.walrus.xyz\n- Staging: https://staging.memory.walrus.xyz\n\n### 2. Initialize the SDK\n\n```ts\nimport { MemWal } from \"@mysten-incubation/memwal\";\n\nconst memwal = MemWal.create({\n  key: process.env.MEMWAL_PRIVATE_KEY!,\n  accountId: process.env.MEMWAL_ACCOUNT_ID!,\n  serverUrl: process.env.MEMWAL_SERVER_URL ?? \"https://relayer.memory.walrus.xyz\",\n  namespace: \"my-app\",\n});\n```\n\n### 3. Store and Recall Memories\n\n```ts\n// Store one already‑distilled fact and wait until it is indexed.\nawait memwal.rememberAndWait(\n  \"User prefers dark mode and works in TypeScript.\",\n  undefined,\n  { timeoutMs: 30_000 },\n);\n\n// Recall by meaning\nconst result = await memwal.recall({ query: \"What are the user's preferences?\" });\nconsole.log(result.results);\n\n// Extract facts from free‑form text and wait until all accepted facts are indexed.\nconst analyzed = await memwal.analyzeAndWait(\n  \"I live in Hanoi and prefer dark mode.\",\n  undefined,\n  { timeoutMs: 30_000 },\n);\nconsole.log(analyzed.facts.map((f) => f.text));\n\n// Check relayer health\nawait memwal.health();\n```\n\nUse `*AndWait` when a UI saves and then immediately recalls in the same flow. Indexing can lag a few seconds, so `remember()` / `analyze()` may return before recall can find the new memory. Manual polling is still available for advanced async UIs:\n\n```ts\nconst accepted = await memwal.remember(\"User likes Sui.\");\nconst stored = await memwal.waitForRememberJob(accepted.job_id, {\n  pollIntervalMs: 750,\n  timeoutMs: 30_000,\n});\n```\n\n## SDK Entry Points\n\n| Entry Point | Import | Description |\n|---|---|---|\n| `MemWal` | `@mysten-incubation/memwal` | Default. Relayer handles embedding, SEAL encryption, Walrus upload, vector search |\n| `MemWalManual` | `@mysten-incubation/memwal/manual` | Manual flow – client handles embedding and SEAL encryption |\n| `withMemWal` | `@mysten-incubation/memwal/ai` | Vercel AI SDK middleware – auto recall + save around AI conversations |\n| Account utils | `@mysten-incubation/memwal/account` | Account creation, delegate key management |\n\n## API Surface\n\n### Walrus Memory Methods\n\n| Method | Description | Returns |\n|---|---|---|\n| `remember(text, namespace?)` | Accept one memory job immediately | `{ job_id, status }` |\n| `rememberAndWait(text, namespace?, opts?)` | Store one memory and wait for completion | `{ id, job_id, blob_id, owner, namespace }` |\n| `recall({ query, limit?, topK?, namespace?, maxDistance? })` *(preferred)* | Semantic search for memories | `{ results: [{ blob_id, text, distance }], total }` |\n| `analyze(text, namespace?)` | Extract facts and accept one memory job per fact | `{ job_ids, facts, fact_count, status, owner }` |\n| `analyzeAndWait(text, namespace?, opts?)` | Extract facts and wait for all fact jobs to complete | `{ results, facts, total, succeeded, failed, owner }` |\n| `restore(namespace, limit?)` | Rebuild missing index entries from Walrus | `{ restored, skipped, total, namespace, owner }` |\n| `health()` | Check relayer health | `{ status, version }` |\n| `getPublicKeyHex()` | Get hex‑encoded public key | `string` |\n\n### Lower‑Level Methods\n\n| Method | Description |\n|---|---|\n| `rememberManual({ encryptedData, vector, namespace? })` | Send SEAL‑encrypted bytes + pre‑computed vector; relayer uploads |\n| `recallManual({ vector, limit?, namespace? })` | Search with pre‑computed vector (returns blob IDs only) |\n| `embed(text)` | Generate embedding vector (no storage) |\n\n*(Full TypeScript response interfaces are omitted for brevity.)*\n\n## Namespace Semantics\n\nA namespace is an **opaque, flat string label** scoped to a single owner. It isolates memory: a recall in namespace `A` never returns entries written to namespace `B`, even for the same owner, and never returns entries belonging to other owners.\n\n- Validation: any non‑empty string is accepted; no length cap or character whitelist.\n- Flat, not hierarchical: slashes and dots have no special meaning.\n- Overwrite behavior: `remember()` always appends; it never upserts.\n- Isolation guarantees are enforced at the SQL level, ensuring no cross‑owner or cross‑namespace leakage.\n\n## Restore Semantics\n\n`restore(namespace, limit?)` rebuilds **missing** local index entries for a namespace from Walrus. It is a recovery operation, not a full sync. Defaults to a limit of `10`; larger limits increase latency linearly.\n\n## Recall Distance and Filtering\n\n`recall()` returns the closest K memories by vector distance. Use `maxDistance` or client‑side filtering to discard weak matches:\n\n```ts\nconst memories = await memwal.recall({\n  query: \"what did I eat yesterday?\",\n  limit: 10,\n  namespace: \"reading-tracker\",\n  maxDistance: 0.7,\n});\n```\n\n## Configuration\n\n```ts\nMemWal.create({\n  key: \"<delegate‑private‑key>\",\n  accountId: \"<account‑object‑id>\",\n  serverUrl: \"https://relayer.memory.walrus.xyz\", // optional\n  namespace: \"default\", // optional\n});\n```\n\n## Vercel AI SDK Integration\n\n```ts\nimport { openai } from \"@ai-sdk/openai\";\nimport { streamText } from \"ai\";\nimport { withMemWal } from \"@mysten-incubation/memwal/ai\";\n\nconst model = withMemWal(openai(\"gpt-4o\"), {\n  key: process.env.MEMWAL_PRIVATE_KEY!,\n  accountId: process.env.MEMWAL_ACCOUNT_ID!,\n  serverUrl: \"https://relayer.memory.walrus.xyz\",\n  namespace: \"chat\",\n  maxMemories: 5,\n  autoSave: true,\n  minRelevance: 0.3,\n});\n\nconst result = streamText({\n  model,\n  messages: [{ role: \"user\", content: \"What do you remember about me?\" }],\n});\n```\n\nThe middleware automatically recalls relevant memories before generation and extracts/saves facts after generation.\n\n## OpenClaw / NemoClaw Plugin\n\n```bash\nopenclaw plugins install @mysten-incubation/oc-memwal\n```\n\nConfigure in `~/.openclaw/openclaw.json`:\n\n```json\n{\n  \"plugins\": {\n    \"slots\": { \"memory\": \"oc-memwal\" },\n    \"entries\": {\n      \"oc-memwal\": {\n        \"enabled\": true,\n        \"config\": {\n          \"privateKey\": \"${MEMWAL_PRIVATE_KEY}\",\n          \"accountId\": \"0x...\",\n          \"serverUrl\": \"https://relayer.memory.walrus.xyz\"\n        }\n      }\n    }\n  }\n}\n```\n\nLifecycle hooks inject memories before prompts and capture facts after agent responses.\n\n## Troubleshooting\n\n| Symptom | Fix |\n|---|---|\n| `health()` returns error | Verify relayer URL and network connectivity |\n| `recall()` returns empty | Ensure the namespace matches the one used in `remember()` |\n| `recall()` returns unrelated filler | Apply `maxDistance` filter or increase relevance threshold |\n| `401 Unauthorized` | Check that `MEMWAL_PRIVATE_KEY` and `MEMWAL_ACCOUNT_ID` correspond to the selected relayer (staging vs production) |\n| SDK import errors | Ensure Node.js ≥ 18 and the package is installed |\n| Manual client errors | Install peer dependencies `@mysten/sui @mysten/seal @mysten/walrus` |\n| Forget expectations unclear | `POST /api/forget` removes vector index rows; blobs remain on‑chain until epoch expiry |\n\n## Brand Terminology\n\n| Surface | Canonical term | Notes |\n|---|---|---|\n| Product / docs / UI | **Walrus Memory** | User‑facing name |\n| Package / env vars / internal shorthand | **memwal** | Code and tooling identifier |\n\n## Links\n\n- Docs: https://memory.walrus.xyz\n- SDK on npm: https://www.npmjs.com/package/@mysten-incubation/memwal\n- GitHub: https://github.com/MystenLabs/MemWal\n- Dashboard: https://memory.walrus.xyz\n"
+      },
+      "library_id": "programming/walrus-memory-sdk-memwal-integration-guide-2261ec13"
+    },
+    {
+      "candidate_id": "cc0cea7c40bfd788e0822d4f",
+      "candidate": {
+        "candidate_id": "cc0cea7c40bfd788e0822d4f",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:03+00:00",
+        "source": {
+          "repository": "FrankS-IntelLab/agentic-kaggle-skill",
+          "repository_url": "https://github.com/FrankS-IntelLab/agentic-kaggle-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/FrankS-IntelLab/agentic-kaggle-skill/blob/f07e4fa5434807fb4ca5bb8090800793020e9e2c/SKILL.md",
+          "api_sha": "f99b4940dd9065cf7849b6a0725835c64824b7bf",
+          "repo_stars": 184,
+          "repo_forks": 13,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-05T10:46:44+00:00"
+        },
+        "raw_file": "raw/franks-intellab-agentic-kaggle-skill/SKILL.md",
+        "title": "agentic-kaggle-skill",
+        "category_hint": "design",
+        "content_hash": "e2935002f38d975dc3d2b68249e5398fbe9421ecfaa9842c2e1fa741e658b934",
+        "content_characters": 16091
+      },
+      "reviewed_at": "2026-09-11T12:17:05+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Agentic Kaggle Competition Workflow",
+        "category": "ml",
+        "summary": "A comprehensive, step‑by‑step workflow for running end‑to‑end Kaggle competitions, covering validation, data handling, model development, multi‑notebook pipelines, off‑loading to Kaggle, and submission tracking. Includes resource references, default procedures, hygiene guidelines, and ready‑to‑run helper scripts.",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Very detailed operating loop",
+          "Covers both classic file‑submission and code‑competition formats",
+          "Provides concrete helper scripts and command examples",
+          "Emphasizes reproducibility, versioning, and competition hygiene"
+        ],
+        "weaknesses": [
+          "Prerequisites (Kaggle account, Python environment) are implicit",
+          "References to external markdown files are not included in the skill",
+          "No concrete example of input/output artifacts (e.g., OOF file format)",
+          "Lengthy prose may overwhelm beginners"
+        ],
+        "tags": [
+          "kaggle",
+          "machine‑learning",
+          "competition",
+          "workflow",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit prerequisites section (Kaggle credentials, required libraries)",
+          "Include a minimal example of an OOF prediction file and how it is used in ensembling",
+          "Provide short snippets showing how to load a private Kaggle dataset in a notebook",
+          "Summarize the external reference files or embed key excerpts"
+        ],
+        "normalized_skill_markdown": "---\nname: agentic-kaggle-skill\ndescription: End‑to‑end workflow for Kaggle competitions, covering validation, data preparation, model development, multi‑notebook pipelines, off‑loading to Kaggle, and submission tracking.\n---\n\n# Agentic Kaggle Skill\n\n## Overview\nThis skill guides an AI agent (or a data scientist) through a full Kaggle competition lifecycle, from reading the competition page to retrieving the final public score. It supports both classic file‑submission competitions and code‑competition notebooks, and it leverages Kaggle‑hosted notebooks/datasets for heavy compute or data‑access needs.\n\n## Prerequisites\n- Kaggle account with API token configured (`kaggle.json`).\n- Python 3.9+ with common ML libraries (pandas, scikit‑learn, LightGBM, CatBoost, XGBoost, PyTorch/TensorFlow as needed).\n- Access to the repository’s `scripts/` folder (included in the source repo).\n- Sufficient local or Kaggle compute resources for the chosen model complexity.\n\n## Operating Loop\n1. **Read competition page** – Identify submission type (file vs. notebook), rules, data‑use policy, metric, and any leakage warnings.\n2. **Gather intel** – If available, browse top public notebooks and discussion threads for clues (not as authority).\n3. **Classify task** – Binary, multiclass, multilabel, regression, ranking, image, text, time‑series, etc.\n4. **Design folds** – Add a `fold` column to the training set (use `scripts/make_folds.py`).\n5. **Build baseline** – Create a metric‑correct baseline and generate out‑of‑fold (OOF) predictions plus a valid submission file.\n6. **Plan stronger architecture** – Once the baseline is trustworthy, outline diverse model families, feature/embedding producers, pseudo‑labeling, distillation, calibration, and an ensemble/stacker.\n7. **Iterate with validation gates** – Change one thing at a time, or run parallel producer notebooks that generate independent artifacts.\n8. **Off‑load heavy jobs** – Use Kaggle notebooks/scripts for GPU‑intensive or memory‑heavy stages.\n9. **Multi‑notebook pipeline** –\n   - Producer notebooks generate private Kaggle datasets (features, embeddings, model checkpoints, OOF predictions).\n   - Consumer notebook attaches those datasets (`/kaggle/input/...`) and creates the final OOF/test predictions and submission.\n10. **Submit** – Upload the final artifact (file or notebook) to Kaggle and retrieve the score.\n11. **Debug code‑competition failures** – Pull logs, classify the failure, patch, rerun, and resubmit until a concrete result is obtained.\n12. **Track metadata** – Log CV scores, public LB, seeds, code version, data version, and artifact paths for every run.\n13. **Ensemble responsibly** – Only with OOF predictions that have no in‑fold leakage.\n\n## Resource Map (internal references)\n- `references/method-map.md` – High‑level workflow diagram.\n- `references/information-sharing-policy.md` – Rules for publishing code/datasets.\n- `references/competition-intel.md` – How to incorporate competition‑specific intel.\n- `references/cross-validation-and-metrics.md` – Fold and metric selection guidance.\n- `references/tabular-workflow.md` – Feature engineering for tabular data.\n- `references/image-text-workflow.md` – Tips for vision/NLP tasks.\n- `references/kaggle-code-competition-pipeline.md` – Notebook‑scored competition specifics.\n- `references/advanced-notebook-architecture.md` – Multi‑producer pipelines.\n- `references/kaggle-offload.md` – When and how to run on Kaggle.\n- `references/kaggle-pipeline-datasets.md` – Managing intermediate Kaggle datasets.\n- `references/submission-endgame.md` – Final submission checklist.\n- `references/code-competition-debugging.md` – Debugging hidden‑run failures.\n- `references/ensembling-and-reproducibility.md` – Best practices for stacking/blending.\n\n## Default Kaggle Procedure\n### Validation first\n- Re‑implement the competition metric locally (including clipping, thresholds, sample weights).\n- Verify allowed external data, pretrained models, and public code.\n- Choose folds that mimic the hidden test distribution (StratifiedKFold, GroupKFold, TimeSplit, etc.).\n- Save OOF predictions for every model – they are the currency for analysis and ensembling.\n\n### Baseline ladder\n1. **Metric‑only / constant baseline** – sanity‑check submission format.\n2. **Fast classical baseline** – LightGBM/CatBoost/XGBoost for tabular, TF‑IDF + linear model for text, pretrained backbone for images.\n3. **Strong baseline** – Stable folds, clean artifacts, OOF predictions.\n4. **Feature/model experiments** – One primary metric per experiment, log changes.\n5. **Ensembling / stacking** – After several diverse models are validated.\n\n### Off‑loading\nWhen RAM/VRAM limits are hit, use `scripts/prepare_kaggle_kernel.py` to create a Kaggle kernel folder, run it, and collect `experiment_log.json`, `metrics.jsonl`, and an artifact manifest via `kaggle kernels output`.\n\n## Definition of Done\nThe skill is complete only when **one** of the following is recorded:\n- A submission has been sent, processed, and the public score (or status) is logged.\n- For a code competition, the final consumer notebook has been submitted and its score retrieved.\n- A concrete blocker (missing credentials, quota exhausted, competition closed, etc.) is documented with the next required action.\n\n## Validation Choices (quick map)\n| Scenario | Recommended splitter |\n|---|---|\n| Balanced classification | `StratifiedKFold` |\n| Imbalanced classification | Stratified + class weights |\n| Regression | `KFold` or binned stratified |\n| Grouped entities (patient, session, etc.) | `GroupKFold` |\n| Time series / forecasting | Time‑aware split |\n| Image groups | Group by subject/scene |\n| Text duplicates | Group by source key |\n| Tiny data | Increase number of folds |\n\n## Modeling Priorities\n- **Tabular** – Start with tree boosting; add CatBoost for heavy categorical interactions.\n- **Linear / NN** – Scale numeric features, encode categoricals carefully.\n- **Target encoding** – Compute OOF, apply smoothing, avoid leakage.\n- **Images** – Verify dataset, transforms, and metric before changing architecture.\n- **Text** – Keep a TF‑IDF baseline even when using transformers.\n- **Hyper‑parameter search** – Only after stable folds and baseline; tune LR, depth, regularization, sampling, n_estimators with early stopping.\n\n## Competition Hygiene\n- Keep raw data read‑only.\n- Do not commit private datasets, model checkpoints, or credentials to public repos.\n- Store all mutable parameters in config files or CLI args.\n- Seed all libraries (Python, NumPy, torch, etc.).\n- Log run IDs, git commit, hardware, elapsed time, and artifact paths.\n- Maintain a pipeline manifest linking producer kernels, dataset versions, and consumer runs.\n- Keep intermediate datasets private unless competition rules allow public sharing.\n- Record submission metadata (message, timestamp, status, score, errors).\n- Never train a stacker on in‑sample base predictions or use validation targets outside fold boundaries.\n\n## Useful Commands\n```bash\n# Scaffold a new competition workspace\npython3 <skill-dir>/scripts/scaffold_competition.py --root .\n\n# Create stratified folds\npython3 <skill-dir>/scripts/make_folds.py \\\n  --input input/train.csv \\\n  --output input/train_folds.csv \\\n  --target target \\\n  --strategy stratified \\\n  --n-splits 5\n\n# Create grouped folds\npython3 <skill-dir>/scripts/make_folds.py \\\n  --input input/train.csv \\\n  --output input/train_folds.csv \\\n  --target target \\\n  --group-col patient_id \\\n  --strategy group\n\n# Prepare a Kaggle GPU kernel folder\npython3 <skill-dir>/scripts/prepare_kaggle_kernel.py \\\n  --output kaggle_kernels/exp_lgbm_gpu \\\n  --username kaggle-user \\\n  --slug exp-lgbm-gpu \\\n  --title \"exp lgbm gpu\" \\\n  --competition playground-series-sample \\\n  --accelerator NvidiaTeslaT4\n\n# Prepare a private Kaggle dataset for feature artifacts\npython3 <skill-dir>/scripts/prepare_kaggle_dataset.py \\\n  --output kaggle_datasets/exp_features_v1 \\\n  --username kaggle-user \\\n  --slug exp-features-v1 \\\n  --title \"exp features v1\" \\\n  --description \"OOF‑safe feature artifacts for experiment exp_features_v1\"\n\n# Prepare a private Kaggle dataset for model artifacts\npython3 <skill-dir>/scripts/prepare_kaggle_dataset.py \\\n  --output kaggle_datasets/exp_model_v1 \\\n  --username kaggle-user \\\n  --slug exp-model-v1 \\\n  --title \"exp model v1\" \\\n  --description \"Trained model artifacts for experiment exp_model_v1\" \\\n  --artifact-kind model\n```"
+      },
+      "library_id": "ml/agentic-kaggle-competition-workflow-cc0cea7c"
+    },
+    {
+      "candidate_id": "bd2264e2fdf458610b27aee5",
+      "candidate": {
+        "candidate_id": "bd2264e2fdf458610b27aee5",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:05+00:00",
+        "source": {
+          "repository": "yizhiyanhua-ai/fireworks-open-eli5",
+          "repository_url": "https://github.com/yizhiyanhua-ai/fireworks-open-eli5",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/yizhiyanhua-ai/fireworks-open-eli5/blob/e90d5f9dae1bb823573388654e381a9844169e1b/SKILL.md",
+          "api_sha": "8dcdb66a651eb507e35242076650fd3b2abf879f",
+          "repo_stars": 182,
+          "repo_forks": 10,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-09-05T08:55:27+00:00"
+        },
+        "raw_file": "raw/yizhiyanhua-ai-fireworks-open-eli5/SKILL.md",
+        "title": "fireworks-open-eli5",
+        "category_hint": "automation",
+        "content_hash": "7417f90611eede4ca21a04f9bb3b3ae9fca29e718b73cf5f5a6314a43aba9890",
+        "content_characters": 8793
+      },
+      "reviewed_at": "2026-09-11T12:17:54+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Offline Evidence‑Aware Visual Explainer Generator",
+        "category": "automation",
+        "summary": "A Node.js‑based workflow that turns a technical concept, module, trade‑off, or incident into a self‑contained, evidence‑tagged HTML explainer. It defines a strict spec‑first approach, validation steps, and deterministic rendering without any network access.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 70,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Clear, step‑by‑step workflow",
+          "Strong safety boundaries (no network, no publishing without consent)",
+          "Comprehensive validation and export checks",
+          "Well‑defined evidence labeling system"
+        ],
+        "weaknesses": [
+          "No concrete example spec or rendered output shown",
+          "Heavy reliance on external reference files that are not included in the skill description",
+          "Language is dense; may be intimidating for beginners"
+        ],
+        "tags": [
+          "automation",
+          "visualization",
+          "evidence",
+          "offline",
+          "nodejs"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a minimal example JSON spec and the resulting HTML snippet to illustrate the workflow",
+          "Provide a quick‑start section that lists required files and a one‑line command to run the validator/render scripts",
+          "Simplify some of the dense prose for easier onboarding"
+        ],
+        "normalized_skill_markdown": "---\nname: fireworks-open-eli5\ndescription: Create evidence‑aware, interactive visual explainers as self‑contained offline HTML. Use when a user asks to explain a concept, repository module, engineering trade‑off, or incident with a diagram, walkthrough, ELI5 treatment, data/request trace, failure view, or teach‑back.\n---\n\n# Fireworks Open ELI5\n\nTurn a difficult system into a truthful visual story. Produce a portable JSON spec first, then a deterministic, self‑contained HTML explainer.\n\n## Non‑negotiable boundary\n\n- Evidence comes before visual polish. Label every evidence item `verified`, `inferred`, or `analogy`.\n- Never make an analogy look like implementation truth.\n- Generated HTML files are **local only** – they are not published, uploaded, or sent without explicit user request.\n- Rendering performs **no network calls**. Any cited URL is a reader‑facing link, not a runtime dependency.\n- Browser‑local history, favorites, and annotations are disabled until the reader opts‑in.\n- PDF export invokes the browser print dialog. PNG exports one scene; PPTX and DOCX export one scene per slide or page. Native `.pages` output is allowed only after the installed Pages app actually saves it.\n\n## Workflow\n\n1. **Identify** audience, question, language, and the core element that travels through the story (e.g., request, packet, decision, event, or user action).\n2. **Choose a story grammar** (pick exactly one):\n   - `concept`: intuition → mechanism → boundary.\n   - `module`: entry point → transformations → outputs/dependencies.\n   - `tradeoff`: shared goal → competing options → consequences/decision rule.\n   - `incident`: normal path → break and propagation → detection/recovery.\n3. **Gather evidence** – inspect local files for repository work; use authoritative sources for external claims and record uncertainty explicitly.\n4. **Create a version‑1 JSON spec** following `references/spec-contract.md`. Use 3–7 scenes, 2–6 nodes per scene, a complete truth ladder, trace, glossary, teach‑back, evidence map, and the required mode‑specific `modeData`. Include failure information where relevant.\n5. **Validate before rendering**:\n   ```bash\n   node scripts/validate.mjs path/to/spec.json\n   ```\n6. **Render** to a new local file:\n   ```bash\n   node scripts/render.mjs path/to/spec.json path/to/explainer.html\n   ```\n   The renderer refuses to overwrite an existing file unless `--force` is supplied, in which case it performs an atomic replacement and still rejects symbolic links.\n7. **Validate the spec and artifact together**:\n   ```bash\n   node scripts/validate.mjs path/to/spec.json path/to/explainer.html\n   ```\n8. **Manual QA** (when a browser is available): open the HTML at desktop width and at 390 px, verify layout, focus handling, interactive sections, zero remote requests, and that each evidence card displays its status, core basis, and source locator.\n9. **Workspace interaction test**: open/dismiss the modal drawer via mouse and keyboard, confirm focus return, enable the library intentionally, reload and verify that favorites and plain‑text annotations persist only for same‑origin explainers.\n10. **Export verification**: check print stylesheet, PNG signature and dimensions, PPTX/DOCX ZIP signatures and required OOXML parts, and the fallback download link when automatic downloads are suppressed. For native Pages export, run `scripts/serve.mjs`, verify the `.pages` package contains `Index/Document.iwa`, reopen in Pages, then re‑run validators after any change.\n\n## Report language\n\n- The final QA, status, handoff, and generated‑artifact report default to the language of the user’s latest substantive request.\n- An explicit `report-language` request overrides the default.\n- `spec.language` only controls the generated explainer interface; it does **not** force the conversation report language.\n- In mixed‑language conversations, ignore short acknowledgements when choosing the report language. Preserve code, commands, paths, identifiers, exact errors, and source titles when translation would reduce precision.\n\n## Story construction rules\n\n- Title must be a concrete promise, not a generic label.\n- Keep the summary to one sentence and each node to one responsibility.\n- Prefer 3–5 scenes; use 6–7 only when omitting a stage would distort causality.\n- Edges are short‑verb relationships or actions.\n- The trace must visit real node IDs in a meaningful order.\n- Include failure data only when impact, visible symptom, and fallback are known.\n- Place limitations in `truthLadder.caveat`, not in tiny disclaimers.\n- Cite source IDs on the scenes or nodes they support; do not cite a source merely because it is adjacent to the claim.\n\n## Quality gate\n\nThe work is ready as a local artifact only when:\n- The validator returns `ok: true` for both the spec and rendered HTML.\n- All IDs and references resolve.\n- Every required interactive section has content.\n- The selected story mode satisfies its semantic contract.\n- The HTML is deterministic and includes a spec SHA‑256 meta tag.\n- The artifact byte‑matches the supplied spec and uses trusted CSP hashes.\n- No external resources, unsafe runtime APIs, or remote fonts are present.\n- Persisted reader state is opt‑in, namespaced, bounded, same‑origin, and kept outside the deterministic spec hash.\n- Annotations render as plain text and cannot create executable markup.\n- Global and local playback share a single state machine and never run together.\n- Each trace step activates the real outgoing relationship path (or a sink’s incoming path), keeping label and arrow state aligned, and highlights only the evidence that supports that step.\n- Scene evidence cards preserve `verified`/`inferred`/`analogy` boundaries and expose core text plus an actionable locator without fetching remote previews.\n- Exported PNG, PPTX, and DOCX packages have the expected signatures and structure and contain their evidence footer; a claimed native Pages export has also reopened in Pages.\n- Mobile uses the stacked flow rather than shrinking the desktop SVG.\n- The final report follows the user’s current interaction language, names the generated spec and HTML paths, and states whether desktop, mobile, persistence, playback, evidence, and export browser QA were run.\n\nIf evidence is incomplete, generate only when the evidence map and caveat make the gap unmistakable; otherwise stop and report the missing evidence."
+      },
+      "library_id": "automation/offline-evidence-aware-visual-explainer-generator-bd2264e2"
+    },
+    {
+      "candidate_id": "0e1e519a76c693f766928d2d",
+      "candidate": {
+        "candidate_id": "0e1e519a76c693f766928d2d",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:07+00:00",
+        "source": {
+          "repository": "Vivixiao980/xhs-cover-skill",
+          "repository_url": "https://github.com/Vivixiao980/xhs-cover-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Vivixiao980/xhs-cover-skill/blob/25a7279ff36931fc4eab069999adb1ad988b5d27/SKILL.md",
+          "api_sha": "a0a0725a0e252d37e88aee3ddf94fc5f4771afdf",
+          "repo_stars": 183,
+          "repo_forks": 15,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-06T04:09:08+00:00"
+        },
+        "raw_file": "raw/vivixiao980-xhs-cover-skill/SKILL.md",
+        "title": "xhs-cover",
+        "category_hint": "design",
+        "content_hash": "8c7128165d3be9085f51641ed4ba123348b07d6fd5b97a5bbaef7dfb1670b56e",
+        "content_characters": 11654
+      },
+      "reviewed_at": "2026-09-11T12:18:35+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "XHS Cover Image Generator",
+        "category": "design",
+        "summary": "A command‑line skill that creates and edits Xiaohongshu (RedNote) cover images using GPT‑Image‑2/Codex image generation, with Gemini CLI as a fallback. It guides users through onboarding, API configuration, style selection, generation, and optional style‑learning workflows, handling both new covers and modifications of existing ones.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 85,
+        "safety_score": 95,
+        "total_score": 86,
+        "strengths": [
+          "Comprehensive end‑to‑end workflow",
+          "Clear separation of generation, editing, and style‑learning paths",
+          "Detailed prompts and configuration steps",
+          "Supports custom user‑defined styles",
+          "Provides troubleshooting guidance"
+        ],
+        "weaknesses": [
+          "Long and dense documentation may overwhelm beginners",
+          "No concrete example outputs shown",
+          "Reliance on external APIs without built‑in cost warnings"
+        ],
+        "tags": [
+          "xiaohongshu",
+          "cover",
+          "image-generation",
+          "style-learning",
+          "cli"
+        ],
+        "safety_flags": [
+          "requires_api_key",
+          "network_access"
+        ],
+        "recommended_improvements": [
+          "Add a concise quick‑start example with sample commands",
+          "Include sample generated image previews or mock output paths",
+          "Provide explicit cost disclaimer for Google Gemini usage",
+          "Offer a summary table of required tools and versions"
+        ],
+        "normalized_skill_markdown": "---\nname: xhs-cover\ndescription: >\n  Generate Xiaohongshu (RedNote) cover images using GPT Image 2 / Codex, with Gemini CLI fallback. Supports cover creation, editing, and style learning.\n---\n\n# Xiaohongshu Cover Generator\n\nThis skill creates or modifies Xiaohongshu (RedNote) cover images from the command line. It prefers GPT‑Image‑2 / Codex for generation and falls back to the legacy Gemini CLI when needed.\n\n## Prerequisites\n- `node` runtime installed.\n- An API key for either Google AI Studio (Gemini) or a compatible third‑party image‑generation service.\n- Environment variable `OPENAI_API_KEY` (or the key stored in `~/.config/xhs-cover/config.json`).\n\n## Directory Layout\nAll scripts live in the skill directory (`SKILL_DIR`). Typical locations:\n```\n~/.codex/skills/xhs-cover-skill   # Codex\n~/.claude/skills/xhs-cover        # Claude Code\n~/.openclaw/skills/xhs-cover      # OpenClaw\n```\nAll references to `${SKILL_DIR}` point to this path.\n\n## Workflow Overview\n1. **Detect intent** – generate a new cover, edit an existing one, or learn a new style.\n2. **Onboarding / configuration** – collect API credentials and output directory.\n3. **Collect generation parameters** – image path, title, subtitle, aspect ratio, style, count.\n4. **Run generation** – invoke `scripts/generate.mjs` with the gathered arguments.\n5. **Show results** – read and display the generated images.\n\n### 1. Intent Detection\n- **Generate** – default when the user asks for a cover.\n- **Edit** – requires a previous cover image as input.\n- **Learn style** – user uploads reference images to create a custom style.\n\n### 2. Onboarding (Run once)\n```bash\ncat ~/.config/xhs-cover/config.json 2>/dev/null\n```\nIf the file does not exist or lacks `apiKey`, run the onboarding steps:\n1. Explain the skill to the user.\n2. Ask the user to choose an API source (Google AI Studio or third‑party).\n3. Collect the required fields (API key, base URL, model name) via `AskUserQuestion`.\n4. Ask for an optional output directory (default `~/Desktop/XHS封面`).\n5. Write the configuration to `~/.config/xhs-cover/config.json` and set permissions `chmod 600`.\n6. Test the connection with:\n```bash\nnode ${SKILL_DIR}/scripts/generate.mjs --test\n```\nIf the test fails, guide the user to re‑configure.\n\n### 3. Parameter Collection\nPrompt the user (single `AskUserQuestion`) for:\n- **Cover image path** (required)\n- **Main title** (required)\n- **Subtitle** (optional)\n- **Extra notes** (optional)\n- **Aspect ratio** (default `3:4` – options: `3:4`, `1:1`, `9:16`, `4:3`)\n- **Number of images** (default `1`, max `5`)\n\n### 4. Style Selection\nOffer three options:\n- **A. Auto‑match** – suggest 1‑2 styles based on title content.\n- **B. List selection** – show the 18 built‑in styles with IDs.\n- **C. Preview on website** – direct the user to https://xhscover.vivi.wiki.\nCollect the chosen style ID.\n\n### 5. Generation Command\n```bash\nnode ${SKILL_DIR}/scripts/generate.mjs \\\n  --image \"<image_path>\" \\\n  --style \"<style_id>\" \\\n  --title \"<main_title>\" \\\n  --subtitle \"<subtitle>\" \\\n  --extra \"<extra>\" \\\n  --count <num> \\\n  --aspect-ratio \"<ratio>\" \\\n  --output-dir \"<output_dir>\"\n```\nThe script reads API credentials from the config file; no keys are passed on the command line.\n\n### 6. Result Presentation\nUse the `Read` tool to display each generated image with its file path so the user can preview directly in the chat.\n\n## Configuration Management\n- **Update API** – repeat onboarding steps; overwrite the existing config.\n- **View config** – `cat ~/.config/xhs-cover/config.json` (mask the middle of `apiKey`).\n\n## Common Issues\n- **Invalid API key (401/403)** – verify the key format (`AIza…`) and network access.\n- **TLS timeout** – avoid concurrent requests; insert a short `sleep 8` between calls.\n- **Large image failures** – use a lower‑resolution photo.\n- **Unexpected text in output** – add `--extra \"strictly use provided text\"`.\n\n## Style‑Learning Workflow\n1. **Upload 1‑5 reference covers**.\n2. The skill reads each image and extracts:\n   - Dominant colors (hex values)\n   - Font weight & style\n   - Layout details (text placement, whitespace)\n   - Decorative elements (borders, stickers, textures)\n   - Overall mood keywords\n3. Present the analysis to the user for confirmation.\n4. After confirmation, ask the user to name the new style.\n5. Create a JSON file in `styles/` matching the built‑in format, e.g.:\n```json\n{\n  \"name\": \"暖橙励志\",\n  \"prompt\": \"...generated prompt...\"\n}\n```\n6. Optionally test the new style with a quick generation.\n7. Offer to contribute the style to the community via a pull request.\n\n---"
+      }
+    },
+    {
+      "candidate_id": "cbb3f2a7f3be3d01bb4c4406",
+      "candidate": {
+        "candidate_id": "cbb3f2a7f3be3d01bb4c4406",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:09+00:00",
+        "source": {
+          "repository": "coinluu/resume-jd-optimizer-cn",
+          "repository_url": "https://github.com/coinluu/resume-jd-optimizer-cn",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/coinluu/resume-jd-optimizer-cn/blob/114c85c32dc77bc9ec7315976a21a1f761868664/SKILL.md",
+          "api_sha": "04280b5d1bb635147e2c22f0d65ebddf9b52283a",
+          "repo_stars": 168,
+          "repo_forks": 7,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-04T09:10:20+00:00"
+        },
+        "raw_file": "raw/coinluu-resume-jd-optimizer-cn/SKILL.md",
+        "title": "resume-jd-optimizer-cn",
+        "category_hint": "automation",
+        "content_hash": "53e87baf7dbcb04b00c37094879b18f74402d81ec91c8a4e0bd1fc0700cc915d",
+        "content_characters": 5097
+      },
+      "reviewed_at": "2026-09-11T12:19:35+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Chinese Resume JD Optimizer",
+        "category": "automation",
+        "summary": "A comprehensive workflow for optimizing Chinese resumes against specific job descriptions. It guides users through input collection, JD parsing, gap analysis, targeted questioning, resume rewriting, and multi‑layered risk checks, ensuring factual accuracy and ATS/HR friendliness. The skill enforces strict anti‑fabrication rules and adapts to various input scenarios (full JD + resume, resume‑only, JD‑only, or insufficient data).",
+        "quality_score": 85,
+        "uniqueness_score": 90,
+        "usefulness_score": 88,
+        "safety_score": 100,
+        "total_score": 90,
+        "strengths": [
+          "Extremely detailed step‑by‑step workflow",
+          "Strong safety and anti‑fabrication safeguards",
+          "Tailored to Chinese mainland recruiting ecosystem",
+          "Clear input requirements and scenario routing"
+        ],
+        "weaknesses": [
+          "No concrete example inputs or output snippets",
+          "Complex for beginners without tooling support",
+          "Lengthy specification may be hard to follow quickly"
+        ],
+        "tags": [
+          "resume",
+          "jd",
+          "optimization",
+          "chinese",
+          "automation",
+          "career"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short end‑to‑end example showing input JD, resume excerpt, and final optimized resume",
+          "Provide ready‑to‑use prompt templates or command snippets for each step",
+          "Summarize the 8‑step workflow in a visual diagram or checklist"
+        ],
+        "normalized_skill_markdown": "---\nname: resume-jd-optimizer-cn\ndescription: 基于目标岗位 JD、中文简历和用户确认的真实经历，完成中国大陆求职场景下的 JD 解析、证据映射、缺口诊断、素材追问、定制简历重写、ATS/HR/面试官审查及投递沟通材料生成。\n---\n\n# 国内求职者简历 JD 优化\n\n## 目标\n把目标 JD 的要求映射到用户可验证的真实经历，生成适合中国大陆招聘场景、ATS 可读、HR 易判断、面试可自洽的定制简历。不要只润色语言。\n\n## 先遵守的硬规则\n1. 只使用用户简历、用户补充回答和明确标注的合理估算。\\\n2. 不编造学校、公司、岗位、项目、证书、工具、职责、数据或 AI/RAG/Agent 经历。\\\n3. 把信息标记为 `已确认`、`待确认` 或 `模型推断`；只有 `已确认` 可进入最终简历。\\\n4. 信息不足时先输出需要补充的高价值问题（不超过 8 条）。\\\n5. 不为关键词堆砌，关键词必须绑定真实行动或成果。\\\n6. 每条重写经历必须能被面试追问验证，无法验证的内容必须删除或降级。\\\n7. 评分仅用于材料质量诊断，不是 ATS、面试或录用概率。\\\n8. 先判定输入完整度，再执行对应阶段；不得用模型推断补齐缺失输入。\\\n9. 用户要求造假时立即停止并提供真实替代路径。\\\n10. “包装得高级、亮眼、专业”等请求默认提升信息密度与结构，不得提升职责、职级或结果强度。\n\n## 适用与不适用\n**适用**：明确 JD 优化简历、转岗证据映射、投递前检查、Boss/猎头介绍、面试追问准备、多 JD 定制版本。\\\n**不适用**：虚构经历、伪造证明、单纯视觉排版、没有目标方向的万能简历、承诺无法证明的成果。\n\n## 输入要求\n- 完整 JD、现有简历、求职目标、当前背景、是否转行、作品或项目链接、投递反馈。\\\n- 提醒用户脱敏电话、身份证、住址、客户机密和未公开数据。\n- 若缺 JD，仅做基础诊断并说明无法完成岗位匹配评分。\\\n- 若缺简历，仅解析 JD 并生成素材采集问题。\n\n## 阶段响应契约\n| 场景 | 可执行 | 必须输出 | 禁止输出 |\n|---|---|---|---|\n| A：简历 + JD 充分 | 完整 8 步流程 | 完整报告、定制简历、ATS 版、HR 摘要、面试追问、风险 | 未确认事实 |\n| A2：简历 + 多个 JD | 共用事实底稿 + 各 JD Step 2‑8 | 每 JD 独立匹配表、版本差异表、独立简历与风险 | 万能混合版、跨版本改变事实 |\n| B：仅简历 | 简历解析、基础 ATS 检查、通用面试风险、素材追问 | 基础诊断、缺失 JD 说明、具体追问、可验证风险 | JD 匹配分、JD 定制版、关键词覆盖结论 |\n| C：仅 JD | JD 解析、权重排序、素材采集问题 | JD 要求表、淘汰风险、简历素材清单 | 用户匹配结论、任何简历版本、五项总分 |\n| D：信息严重不足 | 输入收集 | 缺失项、最多 6 个具体问题、明确阻断说明 | 评分、简历重写、ATS 版、匹配结论 |\n| E：造假请求 | 真实性拒绝与真实替代路径 | 明确拒绝、风险、可使用的真实表达、待补充证据 | 评分、虚假重写、ATS 版、最终报告 |\n\n## 8 步工作流\n1. **收集输入**：确认材料、目标、转行状态与隐私边界。\\\n2. **解析 JD**：使用 `prompts/jd_parser.md`，输出岗位、硬性条件、技能、业务、工具、行业、隐性偏好、淘汰风险、关键词及权重。\\\n3. **解析简历**：使用 `prompts/resume_parser.md`，提取教育、工作、项目、技能、指标、行业、职级、可信证据和表达问题。\\\n4. **缺口分析**：使用 `prompts/gap_analyzer.md`，标记已覆盖、弱覆盖、未覆盖、可追问和不建议硬凑。\\\n5. **素材追问**：使用 `prompts/experience_interviewer.md`，只追问会改变简历结论的关键缺口。\\\n6. **简历重写**：使用 `prompts/resume_rewriter.md`，生成 JD 定制版、ATS 纯文本版、HR 摘要、Boss 开场白和猎头话术。\\\n7. **风险检查**：依次使用 `prompts/ats_checker.md`、`prompts/hr_reviewer.md`、`prompts/interview_question_generator.md`、`prompts/risk_checker.md`。\\\n8. **最终报告**：使用 `prompts/final_report_generator.md`，说明评分、证据、修改逻辑、风险和下一步。\n\n## 诊断与解析规则\n- 将 JD 要求分为硬性门槛、核心职责、核心技能、业务/行业偏好、工具平台、加分项、招聘话术。\\\n- 权重仅用于排序，不自动视为硬门槛。\\\n- 每项要求映射到简历中的具体句子或用户回答，记录证据强度。\\\n- 保留原文依据，区分直接证据、间接/可迁移证据和无证据。\\\n- 同义词仅在语义和使用深度一致时视为覆盖。\\\n- 区分“用户拥有但简历未表达”“证据较弱”“真实缺失”“不适用”。\\\n- 对转行用户优先提取可迁移能力，明确不建议硬凑的行业、工具和资历要求。\n\n## 素材追问规则\n- 优先追问高权重且弱覆盖的要求。\\\n- 每轮最多 8 个问题，同类合并，避免审讯式。\\\n- 每问题指明对应 JD 要求或简历风险，询问可直接用于判断的事实。\\\n- 围绕背景、目标、个人职责、具体动作、方法/工具、协作对象、结果、数据来源、复盘。\\\n- 若无精确数据，询问规模、频次、前后变化、区间或可验证的定性结果。\\\n- 允许用户确认“约、超过、近、区间”等估算，必须保留估算属性。\n\n## 简历重写规则\n- 使用 “业务背景 + 个人动作 + 方法/工具 + 量化或可验证结果 + 自然出现的 JD 关键词”。\\\n- 动词选用：负责、参与、主导、协同、推动、搭建、优化、分析、落地、提升、降低、覆盖、支持。\\\n- 真实贡献与团队成果边界明确，删除或压缩低相关内容。\\\n- 避免空话（赋能、闭环等）除非有具体语境。\\\n- 同一关键词原则上只在最有证据的位置出现。\\\n- 动词强度随证据选择：支持/协助 < 参与 < 负责 < 推动 < 主导。\n\n## 三方检查与评分\n- **ATS**：使用 `rubrics/ats_score.md` 检查标题、关键词覆盖、纯文本结构等。\\\n- **HR**：使用 `rubrics/hr_score.md` 检查求职方向、亮点、相关性、结果、风险、简洁度。\\\n- **面试官**：使用 `rubrics/interview_readiness_score.md` 检查背景、个人贡献、方法决策、结果来源、复盘、JD 关联。\\\n- 同时使用 `rubrics/jd_match_score.md` 与 `rubrics/credibility_score.md`。\\\n- 所有分数必须附证据、扣分原因和补分动作；缺信息维度标注“暂无法评分”。\\\n- 仅在同时拥有 JD 和可解析简历时计算 JD 匹配总分；造假请求时停止全部评分。\n\n## 多版本策略\n1. 建立共用事实底稿，记录经历、证据状态、数据来源和贡献边界。\\\n2. 为每个 JD 独立解析、映射、评分和排序，不跨 JD 合并关键词。\\\n3. 每版本只调整摘要、经历顺序、篇幅、关键词和表达重点，不改变事实。\\\n4. 输出版本差异表，说明目标、前置经历、保留/压缩内容、核心缺口和高风险。\\\n5. 若缺高权重直接证据，明确“不建议用当前事实底稿生成强匹配版本”。\\\n\n## 输出格式（材料充分时）\n1. 简历诊断结论\\\n2. JD 匹配评分\\\n3. 关键缺口\\\n4. 需要用户补充的问题（如仍有）\\\n5. 优化后的简历\\\n6. ATS 纯文本版本\\\n7. Boss 直聘开场白与猎头介绍\\\n8. 面试官可能追问\\\n9. 风险提示\\\n10. 下一步建议\n\n## 真实性与质量验收\n- 每新增事实都有用户来源；每数字有来源或估算标记。\\\n- 每核心经历能回答 “为什么做、你做了什么、结果如何、如何证明”。\\\n- 不把团队成果全部归给个人，也不把参与写成主导。\\\n- JD 核心要求逐项映射，未覆盖项明确指出。\\\n- 关键词自然出现，ATS 纯文本版可直接复制。\\\n- HR 能快速判断方向和亮点，面试官能据此追问。\\\n- 输出解释修改逻辑、暴露风险、避免 AI 味并适配国内招聘语境。\n"
+      },
+      "library_id": "automation/chinese-resume-jd-optimizer-cbb3f2a7"
+    },
+    {
+      "candidate_id": "ef60e7624efdcabe488084c3",
+      "candidate": {
+        "candidate_id": "ef60e7624efdcabe488084c3",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:31+00:00",
+        "source": {
+          "repository": "zy-zmc/tianming-skill",
+          "repository_url": "https://github.com/zy-zmc/tianming-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/zy-zmc/tianming-skill/blob/b5ef6e30817e086022ecbd09f9c2d2e781dd8b43/SKILL.md",
+          "api_sha": "973a005c8ce0cd2d7bbd65284b133e2caee60f78",
+          "repo_stars": 139,
+          "repo_forks": 30,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-04T08:02:33+00:00"
+        },
+        "raw_file": "raw/zy-zmc-tianming-skill/SKILL.md",
+        "title": "tianming-novel-system",
+        "category_hint": "networking",
+        "content_hash": "292a0f6bf9fa93d139eb9fdcbd4c46dafc8d27ae8f9023e2a8d60e99c457a821",
+        "content_characters": 7545
+      },
+      "reviewed_at": "2026-09-11T12:21:36+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Tianming Novel Collaborative Writing System",
+        "category": "writing",
+        "summary": "A structured AI‑assisted system for co‑authoring long‑form novels. It defines a set of commands (outline, plan, directory, draft, manuscript, health‑check, archive) that operate on a user‑provided knowledge base to ensure world‑building consistency, narrative pacing, and stylistic coherence. The skill enforces strict safety and quality gates and uses only read‑only tools (Read, Glob, Grep).",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Comprehensive command taxonomy for novel creation",
+          "Clear separation of protocol, codex, and aesthetic layers",
+          "Explicit knowledge‑base contracts and fallback handling",
+          "Strong safety constraints preventing fabrications",
+          "Self‑contained module directory structure"
+        ],
+        "weaknesses": [
+          "Heavy reliance on custom REF/KERNEL_REF syntax may be opaque to newcomers",
+          "Limited concrete usage examples and sample outputs",
+          "Complex initialization flow could hinder quick adoption"
+        ],
+        "tags": [
+          "novel",
+          "collaborative",
+          "writing",
+          "ai",
+          "content-generation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short end‑to‑end example showing a user issuing a \"天命：大纲\" command and the resulting outline",
+          "Provide a quick‑start guide that abstracts the REF/KERNEL_REF system for beginners",
+          "Include sample rendered outputs for each command type",
+          "Consider simplifying the reference naming convention"
+        ],
+        "normalized_skill_markdown": "---\nname: tianming-novel-system\ndescription: \"A collaborative long‑form novel creation system that assists writers through structured commands (outline, plan, directory, draft, manuscript, health‑check, archive) while ensuring world‑building consistency via user‑provided knowledge base files.\"\nallowed-tools: [Read, Glob, Grep]\n---\n\n# 天命 · 长篇小说协同创作系统\n\n## 1. 工作哲学\n本系统由 **执笔者**（用户） 与 **天命**（系统） 共同完成长篇小说创作，遵循三层结构：\n1. **法则之躯（Codex）** – 绝对法典，永远优先。\n2. **运行协议（Protocols）** – 对每条指令的具体执行流程。\n3. **事实神谕（Knowledge Base）** – 用户提供的世界观文件。\n\n核心原则：**法则 > 事实 > 生成**。当法则与事实冲突时，事实拥有时效性；当生成行为与法则冲突时，法则必胜。\n\n## 2. 执行闭环\n每条 `「天命：…」` 指令必须经历 **识别 → 装配 → 校验 → 生成 → 仪表盘/续令** 五步。\n\n| 步骤 | 必做动作 | 失败处理 |\n|---|---|---|\n| 1. 指令识别 | 解析指令类型、卷号、章序、附加标记 | 未识别时要求用户重新表述 |\n| 2. 依赖装配 | 加载对应的 protocol、codex、常数表和美学模块 | 缺文件时触发 `[REF:codex.security.broken_reference_handler]` |\n| 3. 知识库绑定 | 读取《世界基石.md》及四件静态基石 | 缺核心文件时报告绑定失败，禁止捏造 |\n| 4. 前置校验 | 校验蓝图、章节顺序、实体、输出模板等 | 触发 `FATAL_ERROR` 或修复指令 |\n| 5. 交付收束 | 输出主产物并返回仪表盘/续令 | 若异常则优先报告异常 |\n\n### 冷启动必加载（首次 `初始化`）\n```\ncore/boot-sequence.md\ncore/arbitration.md\ncore/session-state.md\nconstants/global-constants.md\n```\n\n## 3. 指令集（唯一官方入口）\n| 用户指令 | API 标识 | 加载协议文件 | 关联加载 | 调用协议 ID |\n|---|---|---|---|---|\n| `「天命：大纲」` | `api.run.mandate_outline` | `protocols/outline.md` | `codex/narrative-structure.md`, `codex/consistency.md`, `codex/system-protocols.md` | `[REF:protocol.outline]` |\n| `「天命：规划」` / `「天命：规划 | 卷[X]」` | `api.run.mandate_plan` | `protocols/toc.md`（模式一） | `codex/narrative-structure.md`, `codex/system-protocols.md` | `[REF:protocol.toc.unified_command]` |\n| `「天命：目录 | 卷[X] 第[Y]-[Z]章」` | `api.run.mandate_directory` | `protocols/toc.md`（模式二） | `codex/consistency.md`, `codex/security.md`, `codex/system-protocols.md`, `codex/output-discipline.md` | `[REF:protocol.toc.unified_command]` |\n| `「天命：草案 | 卷[X] 第[Y]章」` | `api.run.mandate_draft` | `protocols/draft.md` | `aesthetic/*.md`, `codex/output-discipline.md` | `[REF:protocol.interaction.core_api]` |\n| `「天命：正文 | 卷[X]，第[Y]章 …」` | `api.run.mandate_manifest` | `protocols/main-body.md` | `aesthetic/*.md`, `codex/output-discipline.md`, `codex/system-protocols.md`, `codex/consistency.md` | `[REF:protocol.main_body]` |\n| `「天命：体检」` | `api.run.mandate_health_check` | `protocols/health-check.md` | `codex/consistency.md`, `codex/system-protocols.md` | `[REF:protocol.health_check]` |\n| `「天命：存档」` | `api.run.mandate_archive` | `protocols/archive.md` | — | `[REF:protocol.system.patch_generator]` |\n\n**指令格式**：使用竖线 `|` 分隔指令名与参数（如 `「天命：目录 | 卷1 第2-5章」`），亦支持省略竖线的简写形式。\n\n## 4. 知识库要求\n系统依赖以下 **统一知识库核心**（用户必须提供）：\n| 文件 | 角色 | 必须 | 备注 |\n|---|---|---|---|\n| 《世界基石.md》 | 动态核心，最高权威 | 必须 | 覆盖所有静态基石 |\n| 《世界观规则.md》 | 静态基石，硬性法则 | 必须 | — |\n| 《角色档案.md》 | 静态基石，角色信息 | 必须 | — |\n| 《档案事件.md》 | 静态基石，时间锚点 | 可空（但文件必须存在） | — |\n| 《文风样本.md》 | 静态基石，文体基准 | 必须 | — |\n\n### 装配契约要点\n1. **真实文件优先**：同名文件以用户项目中的为准。\n2. **模板仅作骨架**：`kb-templates/*.template.md` 只能提示结构，不能参与生成。\n3. **动态覆盖静态**：冲突时以《世界基石.md》为准。\n4. **缺失即报告**：缺文件或关键字段时必须报错，禁止捏造。\n5. **事实不足不补设定**：未出现的事实只能标记为“待决议”。\n6. **交付前二次确认**：所有输出必须确认引用自统一知识库核心。\n\n## 5. 初始化报告模板\n在收到 `「初始化」` 指令后，系统必须返回如下 Markdown 报告：\n```markdown\n【天命系统初始化报告】\n\n- 系统核心 ............ 已绑定\n- 绝对法典 ............ 已绑定\n- 全局常数与内置知识库 ... [已绑定 / 绑定失败：核心缺失，原因：...]\n- 运行协议 ............ 已绑定\n\n【统一知识库核心状态】\n- 动态核心《世界基石.md》: [已连接 / 缺失]\n- 静态基石（四件套）: [已连接 / 部分缺失：...]\n\n【能力状态】\n- 大纲/规划: [可用 / 受限：原因]\n- 目录: [可用 / 禁止：原因]\n- 草案: [可用 / 禁止：原因]\n- 正文: [可用 / 禁止：原因]\n- 体检: [可用 / 受限：原因]\n- 存档: [可用 / 空状态：原因]\n\n所有协议已与执笔者的最终意志同步。天命已定，双神已就位。\n执笔者，请下达您的第一道指令。天命将为您解析意图，共筑蓝图。\n```\n\n## 6. 关键安全约束\n1. **最高裁定** `[REF:codex.security.adjudication]` – 绝对法典禁令永远胜出。\n2. **失效引用处理** `[REF:codex.security.broken_reference_handler]` – 找不到 REF 时严禁捏造，按概念继承。\n3. **角色烙印** `[REF:codex.consistency.character_imprint]` – 任何奇点事件均不能突破角色设定。\n4. **输出封装** `[REF:codex.output.encapsulation]` – `「天命：正文」` 必须包裹在 ```markdown ... ``` 代码块中。\n5. **统一输出** `[REF:codex.sanctum.unified_output]` – 最终交付禁止残留内部标记。\n6. **完整性** `[REF:protocol.system.output_consistency]` – 规划、目录、体检、存档不得省略字段。\n7. **事实源裁定** `[REF:protocol.kb.source_adjudication]` – 所有事实必须可追溯至核心知识库。\n8. **类型穿透** `[REF:protocol.system.type_penetration]` – 目录中的「类型」决定正文渲染方式，正文不得自行改类型。\n\n## 7. 交付质量门\n| 任务 | 必检项目 | 失败处理 |\n|---|---|---|\n| 大纲 | 哲学母题、卷战略、节奏宪章完整性 | 补齐后再交付 |\n| 规划 | 所有卷、阶段、章节范围、指令序列连续性 | 禁止省略，必要时分段 |\n| 目录 | 表头七列、章序连续、类型、冲突值、载体DNA、悬念钩子边界 | 重构目录行 |\n| 草案 | ≤300 字、起承转合、钩子不改动 | 重写草案 |\n| 正文 | 蓝图保真、文风贴合、3500‑4000 字、代码块封装、仪表盘 | 进入稳定器或熔断 |\n| 体检 | 缺口定位、风险分级、可执行修复项 | 补齐报告 |\n| 存档 | 新实体分类、待决议事项、空分类保留 | 补齐模板 |\n\n## 8. 模块清单\n```\ntianming-skill/\n├── SKILL.md                # 本文件\n├── README.md               # 使用说明 + 术语表\n├── core/\n│   ├── boot-sequence.md\n│   ├── arbitration.md\n│   └── session-state.md\n├── codex/\n│   ├── consistency.md\n│   ├── narrative-structure.md\n│   ├── output-discipline.md\n│   ├── security.md\n│   └── system-protocols.md\n├── protocols/\n│   ├── outline.md\n│   ├── toc.md\n│   ├── draft.md\n│   ├── main-body.md\n│   ├── health-check.md\n│   └── archive.md\n├── aesthetic/\n│   ├── style-genesis.md\n│   ├── writing-edicts.md\n│   ├── rendering-tools.md\n│   └── ai-signature-blacklist.md\n├── constants/\n│   └── global-constants.md\n├── kb-templates/\n│   ├── world-stone.template.md\n│   ├── world-rules.template.md\n│   ├── character-archive.template.md\n│   ├── archive-events.template.md\n│   └── style-sample.template.md\n├── scripts/\n│   ├── reference-linter.ps1\n│   └── conflict-score.py\n└── examples/\n    └── mini-volume/\n        ├── README.md\n        ├── 世界基石.md\n        ├── 世界观规则.md\n        ├── 角色档案.md\n        ├── 档案事件.md\n        └── 文风样本.md\n```\n"
+      },
+      "library_id": "writing/tianming-novel-collaborative-writing-system-ef60e762"
+    },
+    {
+      "candidate_id": "d9379fed541356fa2ced354a",
+      "candidate": {
+        "candidate_id": "d9379fed541356fa2ced354a",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:04:33+00:00",
+        "source": {
+          "repository": "buluslan/review-analyzer-skill",
+          "repository_url": "https://github.com/buluslan/review-analyzer-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/buluslan/review-analyzer-skill/blob/f37aeb1c134c7e5a61e79db077fc50d08b4c358e/SKILL.md",
+          "api_sha": "a8919b3026756f35649cdd93d7e02d61561e00be",
+          "repo_stars": 122,
+          "repo_forks": 10,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-04T09:27:51+00:00"
+        },
+        "raw_file": "raw/buluslan-review-analyzer-skill/SKILL.md",
+        "title": "review-analyzer-skill",
+        "category_hint": "research",
+        "content_hash": "0e47792db053d6934bf882211bf4baeef5497124a5ec0d5ca45bc23d5562817e",
+        "content_characters": 4486
+      },
+      "reviewed_at": "2026-09-11T12:22:20+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Review Analyzer Skill – AI‑driven e‑commerce review and VOC analysis",
+        "category": "ecommerce",
+        "summary": "The skill ingests product reviews (CSV or Sellersprite) and produces a 22‑dimension AI‑tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu synchronization. It guides the agent through parameter collection, deterministic Python steps and LLM‑driven tagging/report writing. The workflow is modular, resumable and suitable for both autonomous agents and CLI use.",
+        "quality_score": 80,
+        "uniqueness_score": 75,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 80,
+        "strengths": [
+          "Clear end‑to‑end workflow",
+          "Resumable `--resume` design",
+          "Supports both CSV and Sellersprite sources",
+          "Produces structured report and visual dashboards",
+          "Well‑documented CLI options"
+        ],
+        "weaknesses": [
+          "Mixed Chinese/English text may confuse non‑Chinese users",
+          "Relies on external Sellersprite secret‑key without guidance on secure handling",
+          "No explicit validation examples for input CSV format"
+        ],
+        "tags": [
+          "ecommerce",
+          "review‑analysis",
+          "voc",
+          "report‑generation",
+          "visualization",
+          "feishu‑sync"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Provide a concise CSV schema example in the skill description",
+          "Add guidance on storing and passing the Sellersprite secret safely (e.g., env var)",
+          "Separate English and Chinese sections for broader audience"
+        ],
+        "normalized_skill_markdown": "---\nname: review-analyzer-skill\ndescription: |\n  AI‑driven e‑commerce review and VOC analysis. Generates a 22‑dimension tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu sync from CSV or Sellersprite source.\n---\n\n# Review Analyzer Skill (v2.2)\n\n## Overview\nThe skill transforms raw product reviews into actionable insights:\n- **22‑dimensional AI tagging** (demographics, sentiment, quality, etc.)\n- **15‑chapter insight report** with anomaly cards and data appendix\n- **6 optional visual dashboards** (premium‑gold, posthog‑analytics, stripe‑executive, linear‑minimal, dark‑tech, warm‑editorial)\n- **Feishu synchronization** of documents and charts\n\n## Prerequisites\n- Python 3.8+\n- `pip install pandas jinja2 requests python-dotenv tqdm`\n- (Optional) Sellersprite API key if you want to fetch reviews directly from Sellersprite.\n- (Optional) `lark-cli` installed and authenticated for Feishu sync.\n\n## Installation\n```bash\npip install pandas jinja2 requests python-dotenv tqdm\n```\n\n## Usage\n### 1. Prepare input\n- **CSV source (recommended)** – a file containing at least `review_id`, `title`, `content`, `rating` columns.\n- **Sellersprite source (optional)** – provide `--source sellersprite --asin <ASIN> --site <region>`; the tool will fetch reviews using the supplied API key.\n\n### 2. Run the pipeline\n```bash\n# CSV example\npython3 main.py \"reviews.csv\" --llm agent --max-reviews 100 --creator \"AI Assistant\"\n\n# Sellersprite example\npython3 main.py --source sellersprite --asin B001OAXE0S --site US \\\n    --llm agent --max-reviews 100 --creator \"AI Assistant\"\n```\nAvailable flags:\n- `--max-reviews N` – limit number of reviews (default 100).\n- `--template <name>` – choose a dashboard template (default `premium-gold`).\n- `--feishu-sync` – upload results to Feishu.\n- `--resume <workdir>` – resume a previously started run (idempotent).\n\n### 3. Interactive parameter collection (for agents)\nWhen invoked by an autonomous agent, the skill expects the following questions to be asked in order:\n1. **Data source** – CSV or Sellersprite.\n2. **Number of reviews** – 100 (default), 300, or all.\n3. **Feishu sync** – yes/no.\n4. **Dashboard template** – none or one of the six styles.\n5. **Report author** – default `AI Assistant` or custom (only if a template is chosen).\nThe agent must collect these answers before proceeding.\n\n### 4. Resume workflow (deterministic steps)\n1. `python3 main.py …` – loads data, creates batch prompts, writes them to `workdir/tagging/`.\n2. Agent reads each `batch_XXX_prompt.md`, generates JSON tags, and saves `batch_XXX.json`.\n3. `python3 main.py --resume <workdir>` – aggregates tags, creates `report_prompt.md`.\n4. Agent writes the full 15‑chapter markdown report to `workdir/report_draft.md` following the prompt.\n5. Final `--resume` call produces:\n   - `评论采集及打标数据_{ASIN}.csv`\n   - `分析洞察报告_{ASIN}.md`\n   - Optional `可视化洞察报告_{ASIN}.html`\n   - Optional Feishu document.\n\n## Output files\n| File | Description |\n|------|-------------|\n| `评论采集及打标数据_{ASIN}.csv` | 22‑dimensional tag table |\n| `分析洞察报告_{ASIN}.md` | 15‑chapter insight report |\n| `可视化洞察报告_{ASIN}.html` | Dashboard (if a template was selected) |\n| Feishu doc | Full report + charts (if sync enabled) |\n\n## License\nMIT © Buluu@新西楼.AI\n"
+      },
+      "library_id": "ecommerce/review-analyzer-skill-ai-driven-e-commerce-review-and-voc-analysis-d9379fed"
+    }
+  ]
+}

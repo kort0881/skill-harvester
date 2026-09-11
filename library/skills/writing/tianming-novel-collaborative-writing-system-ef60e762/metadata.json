@@ -1,0 +1,67 @@
+{
+  "library_id": "writing/tianming-novel-collaborative-writing-system-ef60e762",
+  "title": "Tianming Novel Collaborative Writing System",
+  "category": "writing",
+  "tags": [
+    "novel",
+    "collaborative",
+    "writing",
+    "ai",
+    "content-generation"
+  ],
+  "summary": "A structured AI‑assisted system for co‑authoring long‑form novels. It defines a set of commands (outline, plan, directory, draft, manuscript, health‑check, archive) that operate on a user‑provided knowledge base to ensure world‑building consistency, narrative pacing, and stylistic coherence. The skill enforces strict safety and quality gates and uses only read‑only tools (Read, Glob, Grep).",
+  "source": {
+    "repository": "zy-zmc/tianming-skill",
+    "repository_url": "https://github.com/zy-zmc/tianming-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/zy-zmc/tianming-skill/blob/b5ef6e30817e086022ecbd09f9c2d2e781dd8b43/SKILL.md",
+    "api_sha": "973a005c8ce0cd2d7bbd65284b133e2caee60f78",
+    "repo_stars": 139,
+    "repo_forks": 30,
+    "repo_license": "Other",
+    "repo_updated_at": "2026-09-04T08:02:33+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:31+00:00",
+  "accepted_at": "2026-09-11T12:21:36+00:00",
+  "content_hash": "292a0f6bf9fa93d139eb9fdcbd4c46dafc8d27ae8f9023e2a8d60e99c457a821",
+  "source_excerpt": "--- name: tianming-novel-system version: 2.0.0 description: | 「天命」长篇小说协同创作系统。当用户使用「天命：大纲」「天命：规划」「天命：目录」 「天命：草案」「天命：正文」「天命：体检」「天命：存档」等指令进行多卷长篇小说写作， 或需要保证跨章节的世界观一致性、伏笔回收、节奏控制、文风稳定时使用本 Skill。 本系统依赖外部知识库：《世界基石.md》《世界观规则.md》《角色档案.md》《档案事件.md》《文风样本.md》。 allowed-tools: Read, Glob, Grep --- # 天命 · 长篇小说协同创作系统 ## 一、本 Skill 的工作哲学 本 Skill 由「执笔者」（用户）与「天命」（系统）共同完成长篇小说创作。 系统的所有行为都遵循三层结构： 1. **法则之躯（Codex）** — 不可违背的绝对法典 2. **运行协议（Protocols）** — 响应具体指令的执行流程 3. **事实神谕（Knowledge Base）** — 用户提供的世界观知识库 **核心原则**：法则塑造事实，事实更新法则。当二者冲突时，「事实神谕」拥有更高时效性； 当生成行为与法则冲突时，「绝对法典」永远胜出。 --- ## 二、加载策略（渐进式披露 + 执行闭环） 本 Skill 采用「入口轻、协议重、事实外置」的运行方式： 1. **入口轻**：`SKILL.md` 只负责识别意图、装配依赖、建立执行闭环。 2. **协议重**：具体生成逻辑必须进入对应 `protocols/`、`codex/`、`aesthetic/` 文件执行。 3. **事实外置**：所有世界观事实都来自用户项目中的…",
+  "review": {
+    "decision": "accept",
+    "title": "Tianming Novel Collaborative Writing System",
+    "category": "writing",
+    "summary": "A structured AI‑assisted system for co‑authoring long‑form novels. It defines a set of commands (outline, plan, directory, draft, manuscript, health‑check, archive) that operate on a user‑provided knowledge base to ensure world‑building consistency, narrative pacing, and stylistic coherence. The skill enforces strict safety and quality gates and uses only read‑only tools (Read, Glob, Grep).",
+    "quality_score": 78,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Comprehensive command taxonomy for novel creation",
+      "Clear separation of protocol, codex, and aesthetic layers",
+      "Explicit knowledge‑base contracts and fallback handling",
+      "Strong safety constraints preventing fabrications",
+      "Self‑contained module directory structure"
+    ],
+    "weaknesses": [
+      "Heavy reliance on custom REF/KERNEL_REF syntax may be opaque to newcomers",
+      "Limited concrete usage examples and sample outputs",
+      "Complex initialization flow could hinder quick adoption"
+    ],
+    "tags": [
+      "novel",
+      "collaborative",
+      "writing",
+      "ai",
+      "content-generation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short end‑to‑end example showing a user issuing a \"天命：大纲\" command and the resulting outline",
+      "Provide a quick‑start guide that abstracts the REF/KERNEL_REF system for beginners",
+      "Include sample rendered outputs for each command type",
+      "Consider simplifying the reference naming convention"
+    ],
+    "normalized_skill_markdown": "---\nname: tianming-novel-system\ndescription: \"A collaborative long‑form novel creation system that assists writers through structured commands (outline, plan, directory, draft, manuscript, health‑check, archive) while ensuring world‑building consistency via user‑provided knowledge base files.\"\nallowed-tools: [Read, Glob, Grep]\n---\n\n# 天命 · 长篇小说协同创作系统\n\n## 1. 工作哲学\n本系统由 **执笔者**（用户） 与 **天命**（系统） 共同完成长篇小说创作，遵循三层结构：\n1. **法则之躯（Codex）** – 绝对法典，永远优先。\n2. **运行协议（Protocols）** – 对每条指令的具体执行流程。\n3. **事实神谕（Knowledge Base）** – 用户提供的世界观文件。\n\n核心原则：**法则 > 事实 > 生成**。当法则与事实冲突时，事实拥有时效性；当生成行为与法则冲突时，法则必胜。\n\n## 2. 执行闭环\n每条 `「天命：…」` 指令必须经历 **识别 → 装配 → 校验 → 生成 → 仪表盘/续令** 五步。\n\n| 步骤 | 必做动作 | 失败处理 |\n|---|---|---|\n| 1. 指令识别 | 解析指令类型、卷号、章序、附加标记 | 未识别时要求用户重新表述 |\n| 2. 依赖装配 | 加载对应的 protocol、codex、常数表和美学模块 | 缺文件时触发 `[REF:codex.security.broken_reference_handler]` |\n| 3. 知识库绑定 | 读取《世界基石.md》及四件静态基石 | 缺核心文件时报告绑定失败，禁止捏造 |\n| 4. 前置校验 | 校验蓝图、章节顺序、实体、输出模板等 | 触发 `FATAL_ERROR` 或修复指令 |\n| 5. 交付收束 | 输出主产物并返回仪表盘/续令 | 若异常则优先报告异常 |\n\n### 冷启动必加载（首次 `初始化`）\n```\ncore/boot-sequence.md\ncore/arbitration.md\ncore/session-state.md\nconstants/global-constants.md\n```\n\n## 3. 指令集（唯一官方入口）\n| 用户指令 | API 标识 | 加载协议文件 | 关联加载 | 调用协议 ID |\n|---|---|---|---|---|\n| `「天命：大纲」` | `api.run.mandate_outline` | `protocols/outline.md` | `codex/narrative-structure.md`, `codex/consistency.md`, `codex/system-protocols.md` | `[REF:protocol.outline]` |\n| `「天命：规划」` / `「天命：规划 | 卷[X]」` | `api.run.mandate_plan` | `protocols/toc.md`（模式一） | `codex/narrative-structure.md`, `codex/system-protocols.md` | `[REF:protocol.toc.unified_command]` |\n| `「天命：目录 | 卷[X] 第[Y]-[Z]章」` | `api.run.mandate_directory` | `protocols/toc.md`（模式二） | `codex/consistency.md`, `codex/security.md`, `codex/system-protocols.md`, `codex/output-discipline.md` | `[REF:protocol.toc.unified_command]` |\n| `「天命：草案 | 卷[X] 第[Y]章」` | `api.run.mandate_draft` | `protocols/draft.md` | `aesthetic/*.md`, `codex/output-discipline.md` | `[REF:protocol.interaction.core_api]` |\n| `「天命：正文 | 卷[X]，第[Y]章 …」` | `api.run.mandate_manifest` | `protocols/main-body.md` | `aesthetic/*.md`, `codex/output-discipline.md`, `codex/system-protocols.md`, `codex/consistency.md` | `[REF:protocol.main_body]` |\n| `「天命：体检」` | `api.run.mandate_health_check` | `protocols/health-check.md` | `codex/consistency.md`, `codex/system-protocols.md` | `[REF:protocol.health_check]` |\n| `「天命：存档」` | `api.run.mandate_archive` | `protocols/archive.md` | — | `[REF:protocol.system.patch_generator]` |\n\n**指令格式**：使用竖线 `|` 分隔指令名与参数（如 `「天命：目录 | 卷1 第2-5章」`），亦支持省略竖线的简写形式。\n\n## 4. 知识库要求\n系统依赖以下 **统一知识库核心**（用户必须提供）：\n| 文件 | 角色 | 必须 | 备注 |\n|---|---|---|---|\n| 《世界基石.md》 | 动态核心，最高权威 | 必须 | 覆盖所有静态基石 |\n| 《世界观规则.md》 | 静态基石，硬性法则 | 必须 | — |\n| 《角色档案.md》 | 静态基石，角色信息 | 必须 | — |\n| 《档案事件.md》 | 静态基石，时间锚点 | 可空（但文件必须存在） | — |\n| 《文风样本.md》 | 静态基石，文体基准 | 必须 | — |\n\n### 装配契约要点\n1. **真实文件优先**：同名文件以用户项目中的为准。\n2. **模板仅作骨架**：`kb-templates/*.template.md` 只能提示结构，不能参与生成。\n3. **动态覆盖静态**：冲突时以《世界基石.md》为准。\n4. **缺失即报告**：缺文件或关键字段时必须报错，禁止捏造。\n5. **事实不足不补设定**：未出现的事实只能标记为“待决议”。\n6. **交付前二次确认**：所有输出必须确认引用自统一知识库核心。\n\n## 5. 初始化报告模板\n在收到 `「初始化」` 指令后，系统必须返回如下 Markdown 报告：\n```markdown\n【天命系统初始化报告】\n\n- 系统核心 ............ 已绑定\n- 绝对法典 ............ 已绑定\n- 全局常数与内置知识库 ... [已绑定 / 绑定失败：核心缺失，原因：...]\n- 运行协议 ............ 已绑定\n\n【统一知识库核心状态】\n- 动态核心《世界基石.md》: [已连接 / 缺失]\n- 静态基石（四件套）: [已连接 / 部分缺失：...]\n\n【能力状态】\n- 大纲/规划: [可用 / 受限：原因]\n- 目录: [可用 / 禁止：原因]\n- 草案: [可用 / 禁止：原因]\n- 正文: [可用 / 禁止：原因]\n- 体检: [可用 / 受限：原因]\n- 存档: [可用 / 空状态：原因]\n\n所有协议已与执笔者的最终意志同步。天命已定，双神已就位。\n执笔者，请下达您的第一道指令。天命将为您解析意图，共筑蓝图。\n```\n\n## 6. 关键安全约束\n1. **最高裁定** `[REF:codex.security.adjudication]` – 绝对法典禁令永远胜出。\n2. **失效引用处理** `[REF:codex.security.broken_reference_handler]` – 找不到 REF 时严禁捏造，按概念继承。\n3. **角色烙印** `[REF:codex.consistency.character_imprint]` – 任何奇点事件均不能突破角色设定。\n4. **输出封装** `[REF:codex.output.encapsulation]` – `「天命：正文」` 必须包裹在 ```markdown ... ``` 代码块中。\n5. **统一输出** `[REF:codex.sanctum.unified_output]` – 最终交付禁止残留内部标记。\n6. **完整性** `[REF:protocol.system.output_consistency]` – 规划、目录、体检、存档不得省略字段。\n7. **事实源裁定** `[REF:protocol.kb.source_adjudication]` – 所有事实必须可追溯至核心知识库。\n8. **类型穿透** `[REF:protocol.system.type_penetration]` – 目录中的「类型」决定正文渲染方式，正文不得自行改类型。\n\n## 7. 交付质量门\n| 任务 | 必检项目 | 失败处理 |\n|---|---|---|\n| 大纲 | 哲学母题、卷战略、节奏宪章完整性 | 补齐后再交付 |\n| 规划 | 所有卷、阶段、章节范围、指令序列连续性 | 禁止省略，必要时分段 |\n| 目录 | 表头七列、章序连续、类型、冲突值、载体DNA、悬念钩子边界 | 重构目录行 |\n| 草案 | ≤300 字、起承转合、钩子不改动 | 重写草案 |\n| 正文 | 蓝图保真、文风贴合、3500‑4000 字、代码块封装、仪表盘 | 进入稳定器或熔断 |\n| 体检 | 缺口定位、风险分级、可执行修复项 | 补齐报告 |\n| 存档 | 新实体分类、待决议事项、空分类保留 | 补齐模板 |\n\n## 8. 模块清单\n```\ntianming-skill/\n├── SKILL.md                # 本文件\n├── README.md               # 使用说明 + 术语表\n├── core/\n│   ├── boot-sequence.md\n│   ├── arbitration.md\n│   └── session-state.md\n├── codex/\n│   ├── consistency.md\n│   ├── narrative-structure.md\n│   ├── output-discipline.md\n│   ├── security.md\n│   └── system-protocols.md\n├── protocols/\n│   ├── outline.md\n│   ├── toc.md\n│   ├── draft.md\n│   ├── main-body.md\n│   ├── health-check.md\n│   └── archive.md\n├── aesthetic/\n│   ├── style-genesis.md\n│   ├── writing-edicts.md\n│   ├── rendering-tools.md\n│   └── ai-signature-blacklist.md\n├── constants/\n│   └── global-constants.md\n├── kb-templates/\n│   ├── world-stone.template.md\n│   ├── world-rules.template.md\n│   ├── character-archive.template.md\n│   ├── archive-events.template.md\n│   └── style-sample.template.md\n├── scripts/\n│   ├── reference-linter.ps1\n│   └── conflict-score.py\n└── examples/\n    └── mini-volume/\n        ├── README.md\n        ├── 世界基石.md\n        ├── 世界观规则.md\n        ├── 角色档案.md\n        ├── 档案事件.md\n        └── 文风样本.md\n```\n"
+  }
+}
