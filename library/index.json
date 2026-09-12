@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-11T12:22:20+00:00",
+  "updated_at": "2026-09-12T11:43:02+00:00",
   "skills": [
     {
       "library_id": "programming/repo-task-proof-loop-3324eff9",
@@ -835,6 +835,265 @@
           "Separate English and Chinese sections for broader audience"
         ],
         "normalized_skill_markdown": "---\nname: review-analyzer-skill\ndescription: |\n  AI‑driven e‑commerce review and VOC analysis. Generates a 22‑dimension tagged dataset, a 15‑chapter insight report, optional visual dashboards and Feishu sync from CSV or Sellersprite source.\n---\n\n# Review Analyzer Skill (v2.2)\n\n## Overview\nThe skill transforms raw product reviews into actionable insights:\n- **22‑dimensional AI tagging** (demographics, sentiment, quality, etc.)\n- **15‑chapter insight report** with anomaly cards and data appendix\n- **6 optional visual dashboards** (premium‑gold, posthog‑analytics, stripe‑executive, linear‑minimal, dark‑tech, warm‑editorial)\n- **Feishu synchronization** of documents and charts\n\n## Prerequisites\n- Python 3.8+\n- `pip install pandas jinja2 requests python-dotenv tqdm`\n- (Optional) Sellersprite API key if you want to fetch reviews directly from Sellersprite.\n- (Optional) `lark-cli` installed and authenticated for Feishu sync.\n\n## Installation\n```bash\npip install pandas jinja2 requests python-dotenv tqdm\n```\n\n## Usage\n### 1. Prepare input\n- **CSV source (recommended)** – a file containing at least `review_id`, `title`, `content`, `rating` columns.\n- **Sellersprite source (optional)** – provide `--source sellersprite --asin <ASIN> --site <region>`; the tool will fetch reviews using the supplied API key.\n\n### 2. Run the pipeline\n```bash\n# CSV example\npython3 main.py \"reviews.csv\" --llm agent --max-reviews 100 --creator \"AI Assistant\"\n\n# Sellersprite example\npython3 main.py --source sellersprite --asin B001OAXE0S --site US \\\n    --llm agent --max-reviews 100 --creator \"AI Assistant\"\n```\nAvailable flags:\n- `--max-reviews N` – limit number of reviews (default 100).\n- `--template <name>` – choose a dashboard template (default `premium-gold`).\n- `--feishu-sync` – upload results to Feishu.\n- `--resume <workdir>` – resume a previously started run (idempotent).\n\n### 3. Interactive parameter collection (for agents)\nWhen invoked by an autonomous agent, the skill expects the following questions to be asked in order:\n1. **Data source** – CSV or Sellersprite.\n2. **Number of reviews** – 100 (default), 300, or all.\n3. **Feishu sync** – yes/no.\n4. **Dashboard template** – none or one of the six styles.\n5. **Report author** – default `AI Assistant` or custom (only if a template is chosen).\nThe agent must collect these answers before proceeding.\n\n### 4. Resume workflow (deterministic steps)\n1. `python3 main.py …` – loads data, creates batch prompts, writes them to `workdir/tagging/`.\n2. Agent reads each `batch_XXX_prompt.md`, generates JSON tags, and saves `batch_XXX.json`.\n3. `python3 main.py --resume <workdir>` – aggregates tags, creates `report_prompt.md`.\n4. Agent writes the full 15‑chapter markdown report to `workdir/report_draft.md` following the prompt.\n5. Final `--resume` call produces:\n   - `评论采集及打标数据_{ASIN}.csv`\n   - `分析洞察报告_{ASIN}.md`\n   - Optional `可视化洞察报告_{ASIN}.html`\n   - Optional Feishu document.\n\n## Output files\n| File | Description |\n|------|-------------|\n| `评论采集及打标数据_{ASIN}.csv` | 22‑dimensional tag table |\n| `分析洞察报告_{ASIN}.md` | 15‑chapter insight report |\n| `可视化洞察报告_{ASIN}.html` | Dashboard (if a template was selected) |\n| Feishu doc | Full report + charts (if sync enabled) |\n\n## License\nMIT © Buluu@新西楼.AI\n"
+      }
+    },
+    {
+      "library_id": "research/security-audit-rlm-for-large-net-codebases-6b9811bb",
+      "title": "Security Audit RLM for Large .NET Codebases",
+      "category": "research",
+      "tags": [
+        "security",
+        "audit",
+        "rlm",
+        "dotnet",
+        "automation"
+      ],
+      "summary": "This skill provides a step‑by‑step workflow to run a privacy‑preserving, tool‑driven RLM security audit on large legacy .NET repositories using the provided `audit.py` script. It covers prerequisites, execution, tuning parameters for big codebases, troubleshooting, and the required markdown/json deliverable format.",
+      "source": {
+        "repository": "mitkox/megacode",
+        "repository_url": "https://github.com/mitkox/megacode",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/mitkox/megacode/blob/41d1ce2259c1cab03e6a050d716ca8b04b47d156/SKILL.md",
+        "api_sha": "7255f3c8c730b34784cc48069cfa6650b6f31c4f",
+        "repo_stars": 78,
+        "repo_forks": 18,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-08-31T13:41:15+00:00"
+      },
+      "discovered_at": "2026-09-06T11:04:38+00:00",
+      "accepted_at": "2026-09-12T11:41:20+00:00",
+      "content_hash": "0740abcafe2a0489b7664a6b274be3f5d1c61d1fe138577bce10004992a6d958",
+      "source_excerpt": "--- name: security-audit-rlm description: Run and troubleshoot privacy-preserving, local DSPy RLM security audits for large legacy .NET codebases. Use when asked to scan repositories for vulnerabilities, tune RLM/tool limits, fix truncation/stall issues, or produce actionable markdown/json audit outputs without loading entire codebases into model context. --- # Security Audit RLM Use this skill to operate `audit.py` as a tool-driven RLM workflow for large repositories. Repository: `https://github.com/mitkox/megacode` ## Execute 1. Verify prerequisites: - `deno --version` - model endpoint is reachable (default `http://localhost:8000/v1`) 2. Run a baseline audit: - `AUDIT_VERBOSE=1 python audit.py --source-root <repo-path>` 3. Confirm outputs…",
+      "review": {
+        "decision": "accept",
+        "title": "Security Audit RLM for Large .NET Codebases",
+        "category": "research",
+        "summary": "This skill provides a step‑by‑step workflow to run a privacy‑preserving, tool‑driven RLM security audit on large legacy .NET repositories using the provided `audit.py` script. It covers prerequisites, execution, tuning parameters for big codebases, troubleshooting, and the required markdown/json deliverable format.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 78,
+        "safety_score": 100,
+        "total_score": 86,
+        "strengths": [
+          "Clear prerequisite checklist",
+          "Concrete command examples",
+          "Tuning guidance for large repos",
+          "Troubleshooting section",
+          "Defined output format"
+        ],
+        "weaknesses": [
+          "Missing explicit Python version and dependency list",
+          "No sample output snippet for verification",
+          "Assumes `audit.py` is already present without installation steps"
+        ],
+        "tags": [
+          "security",
+          "audit",
+          "rlm",
+          "dotnet",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a brief installation section for `audit.py` and its Python dependencies",
+          "Specify required Python version and any virtual‑env setup",
+          "Include a short example of the generated `security_audit_report.md`",
+          "Provide a verification step to compare report size or checksum"
+        ],
+        "normalized_skill_markdown": "---\nname: security-audit-rlm\ndescription: Run and troubleshoot privacy‑preserving, local RLM security audits for large legacy .NET codebases, producing actionable markdown and JSON reports without loading the entire repository into model context.\n---\n\n# Security Audit RLM\n\nUse this skill to operate `audit.py` as a tool‑driven RLM workflow for large repositories.\n\n**Repository:** `https://github.com/mitkox/megacode`\n\n## Prerequisites\n- Deno installed (`deno --version`)\n- Python 3.9+ installed and accessible in PATH\n- Required Python packages installed (see `requirements.txt` in the repo)\n- Model endpoint reachable (default `http://localhost:8000/v1`)\n\n## Execution Steps\n1. **Run a baseline audit**\n   ```bash\n   AUDIT_VERBOSE=1 python audit.py --source-root <repo-path>\n   ```\n2. **Confirm generated outputs**\n   - `security_audit_report.md`\n   - `security_audit_metadata.json`\n   - `security_audit_manifest.jsonl`\n\n## Tuning for Large Legacy Repos\nAdjust the following flags to keep the RLM workflow within resource limits:\n- **Planner churn**: `--max-iterations 8..12`\n- **LLM call budget**: `--rlm-max-llm-calls 60..100`\n- **REPL output size**: `--rlm-max-output-chars 15000..30000`\n- **Tool payload limits**:\n  - `--tool-max-lines 200..400`\n  - `--tool-max-chars 20000..40000`\n  - `--search-max-files 800..2000`\n  - `--search-max-matches 200..600`\n- **Runtime limits**: `--timeout-seconds 600..1800`, `--retries 1..2`\n\n## Operating Rules\n- Keep analysis local when privacy constraints require it.\n- Use RLM tool access only; avoid full‑context repository injection.\n- Keep intermediate output concise and deterministic.\n- Prioritize high‑severity findings with file/line evidence and concrete fixes.\n\n## Troubleshooting\n- **Stalled run**: enable verbose mode, reduce `--max-iterations` or `--rlm-max-output-chars`.\n- **Model truncation**: increase `--lm-max-tokens` if the backend supports it, or further reduce tool output limits.\n- **Path/file access errors**: ensure the audit flow uses tool‑only repository access (`list_manifest`, `read_file`, `search_pattern` tools) and re‑run after confirming `audit.py` includes those tools.\n\n## Deliverable Format\nThe final report must contain the following sections in `security_audit_report.md`:\n1. Executive Summary\n2. Critical Findings (CRITICAL/HIGH) – include file path, line number, and remediation steps.\n3. Other Findings (MEDIUM/LOW)\n4. Remediation – actionable recommendations for each finding.\n\n---"
+      }
+    },
+    {
+      "library_id": "automation/research-mode-anti-hallucination-citation-workflow-e3f569b3",
+      "title": "Research Mode – Anti‑Hallucination Citation Workflow",
+      "category": "automation",
+      "tags": [
+        "research",
+        "anti-hallucination",
+        "citation",
+        "llm",
+        "automation"
+      ],
+      "summary": "The skill defines a research mode that enforces strict citation and grounding requirements for LLM responses. It prescribes a hierarchy of source lookup (local files, web snippets, full fetches, scholarly gateways) and limits tool usage to keep costs low, while providing clear exit instructions.",
+      "source": {
+        "repository": "assafkip/research-mode",
+        "repository_url": "https://github.com/assafkip/research-mode",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/assafkip/research-mode/blob/fbf5e50f672012ad2bbaddf30a6440a9528a6aed/SKILL.md",
+        "api_sha": "84fed8f10d0219cc3d85a2484c2fabf0012a8838",
+        "repo_stars": 150,
+        "repo_forks": 16,
+        "repo_license": null,
+        "repo_updated_at": "2026-09-02T00:36:49+00:00"
+      },
+      "discovered_at": "2026-09-06T11:04:40+00:00",
+      "accepted_at": "2026-09-12T11:41:34+00:00",
+      "content_hash": "d1a78a36aeecb51b7fb55242796dc750cfe68d8dbbd7abff8b049283749fa7af",
+      "source_excerpt": "--- name: research-mode description: Anti-hallucination research mode. Toggle on to enforce citation requirements, source grounding, and \"I don't know\" behavior. Toggle off for creative work. --- # Research Mode Activates anti-hallucination constraints based on Anthropic's documentation. Stay in this mode until the user says to exit. Source: [Anthropic - Reduce Hallucinations](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations) ## Constraints (ALL active simultaneously) ### 1. Say \"I don't know\" If you don't have a credible source for a claim, say so. Don't guess. Don't infer. \"I don't have data on this\" is always a valid answer. ### 2. Verify with citations Every recommendation, claim, or piece…",
+      "review": {
+        "decision": "accept",
+        "title": "Research Mode – Anti‑Hallucination Citation Workflow",
+        "category": "automation",
+        "summary": "The skill defines a research mode that enforces strict citation and grounding requirements for LLM responses. It prescribes a hierarchy of source lookup (local files, web snippets, full fetches, scholarly gateways) and limits tool usage to keep costs low, while providing clear exit instructions.",
+        "quality_score": 78,
+        "uniqueness_score": 70,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 83,
+        "strengths": [
+          "Well‑structured constraints and source‑lookup hierarchy",
+          "Explicit token‑budget limits for web operations",
+          "Clear definition of what counts as a citation",
+          "Simple exit mechanism"
+        ],
+        "weaknesses": [
+          "No concrete input/output specification",
+          "Lacks example interactions showing the mode in practice",
+          "Assumes availability of specific tools (Grep, WebSearch, Scholar Gateway) without stating prerequisites"
+        ],
+        "tags": [
+          "research",
+          "anti-hallucination",
+          "citation",
+          "llm",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short example dialogue illustrating activation, a citation request, and exit",
+          "Specify required tool integrations (e.g., Grep, WebSearch) and how the skill checks for their presence",
+          "Define the expected input (e.g., a user command) and output format (e.g., response with citations)"
+        ],
+        "normalized_skill_markdown": "---\nname: research-mode\ndescription: Anti‑hallucination research mode that enforces citation requirements, source grounding, and \"I don't know\" behavior.\n---\n\n# Research Mode\n\nActivates anti‑hallucination constraints based on Anthropic's documentation. Stay in this mode until the user says to exit.\n\n**Source**: [Anthropic – Reduce Hallucinations](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations)\n\n## Constraints (all active simultaneously)\n\n1. **Say \"I don't know\"** – If you lack a credible source for a claim, respond with \"I don't know\" or a similar statement. Do not guess or infer.\n2. **Verify with citations** – Every recommendation, claim, or piece of advice must cite a specific source:\n   - A file in the current project\n   - An external source found via web search (with URL)\n   - A named expert, paper, or researcher\n   - Official documentation\n   If you cannot find a supporting source, retract the claim.\n3. **Direct quotes for factual grounding** – When working from documents, extract the exact text first before analyzing. Reference the quote when making your point.\n\n## Source lookup order (ENFORCED)\n\n| Level | Method | Cost | When to use |\n|-------|--------|------|-------------|\n| 1 | Local files (Grep/Read) | Zero | Any claim about the current project. |\n| 2 | WebSearch snippets | Low | Use snippet text as citation; avoid full fetch unless needed. |\n| 3 | WebFetch (full page) | High | Only if snippet is ambiguous, user requests a direct quote, or you need precise numbers/dates. |\n| 4 | Scholar Gateway (academic) | Variable | For academic papers or research findings. |\n\n## Token budget\n- Maximum **5** WebSearch calls per research question.\n- Maximum **3** WebFetch calls per research question.\n- If limits are reached, summarize findings, list unverified items, and ask the user whether to continue deeper.\n\n## What counts as \"cited\"\n- Local file path + line number.\n- WebSearch snippet + URL.\n- Named paper/author + year (add `{{VERIFY_URL}}` if no link).\n- \"I recall from training data\" **does not** count as a citation.\n\n## What this mode is NOT\n- The default mode for creative brainstorming.\n- A guarantee of speed; it aims for efficient research.\n- A restriction against synthesis – you may combine sources, but each synthesized claim must be grounded in cited material.\n\n## How to exit\nSay **\"exit research mode\"** or switch to any other task.\n"
+      }
+    },
+    {
+      "library_id": "automation/sourcesage-cli-generate-repository-summaries-392d093d",
+      "title": "SourceSage CLI – Generate Repository Summaries",
+      "category": "automation",
+      "tags": [
+        "automation",
+        "documentation",
+        "cli"
+      ],
+      "summary": "The skill describes how to use the SourceSage CLI to create AI‑friendly documentation for a repository. It covers locating the tool, selecting appropriate command options, verifying generated artifacts, and handling side‑effects. The workflow is concrete, with example commands for various scenarios and validation steps.",
+      "source": {
+        "repository": "Sunwood-ai-labs/SourceSage",
+        "repository_url": "https://github.com/Sunwood-ai-labs/SourceSage",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/Sunwood-ai-labs/SourceSage/blob/c10b14234239de6248a0347bf9051507e8b2eb2a/SKILL.md",
+        "api_sha": "d549df067932a262245ea842249b6e13d2f96c0a",
+        "repo_stars": 72,
+        "repo_forks": 1,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-03-14T15:27:52+00:00"
+      },
+      "discovered_at": "2026-09-06T11:04:42+00:00",
+      "accepted_at": "2026-09-12T11:42:04+00:00",
+      "content_hash": "3c48c3dd5e8421068735b0f1c7f6744c03c586e5042b46ddcabccba1785c186d",
+      "source_excerpt": "--- name: sourcesage-cli description: Generate AI-friendly repository documentation with the SourceSage CLI. Use when Codex needs to run `sage` or `sourcesage` to create `.SourceSageAssets/Repository_summary.md`, analyze the current repository or another local repository, switch the output language between English and Japanese, use `--lite` to keep the summary small, change the output directory, or optionally create a deprecated tag-diff release report with `--diff`. --- # SourceSage CLI ## Overview Use the SourceSage CLI from this repository checkout to generate repository summaries for the current repo or another local repo. Prefer the local checkout over assuming `sourcesage` is globally installed. In this repository layout, the SourceSa…",
+      "review": {
+        "decision": "accept",
+        "title": "SourceSage CLI – Generate Repository Summaries",
+        "category": "automation",
+        "summary": "The skill describes how to use the SourceSage CLI to create AI‑friendly documentation for a repository. It covers locating the tool, selecting appropriate command options, verifying generated artifacts, and handling side‑effects. The workflow is concrete, with example commands for various scenarios and validation steps.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Clear, step‑by‑step workflow",
+          "Concrete example commands for multiple use‑cases",
+          "Verification steps ensure generated files exist and are summarized",
+          "Guidance on handling side‑effects and avoiding common pitfalls"
+        ],
+        "weaknesses": [
+          "No explicit prerequisite list (e.g., required tools, Python version)",
+          "Missing example of the generated markdown output",
+          "Error handling and fallback strategies are only briefly mentioned"
+        ],
+        "tags": [
+          "automation",
+          "documentation",
+          "cli"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise prerequisites section (uv, Python version, repository layout).",
+          "Include a short example of the Repository_summary.md content.",
+          "Provide explicit error‑handling guidance for missing tools or permission issues."
+        ],
+        "normalized_skill_markdown": "---\nname: sourcesage-cli\ndescription: Generate AI-friendly repository documentation with the SourceSage CLI.\n---\n\n# SourceSage CLI\n\n## Overview\nUse the SourceSage CLI from a local checkout to generate a repository summary for the current repository or any other local repository. Prefer the local checkout over a globally installed `sourcesage` binary. The tool root is the directory containing this `SKILL.md`.\n\n## Prerequisites\n- Python 3.9+ and `uv` installed.\n- Access to the repository you want to analyse (local path).\n- The SourceSage source tree (contains `pyproject.toml` and `sourcesage/cli.py`).\n\n## Workflow\n1. **Determine the tool root and target repository**\n   - If no target is specified, analyse the current workspace.\n   - If the current workspace is *not* the SourceSage repo, invoke the CLI from its checkout using `uv run --directory <sourcesage-root> sage …`.\n2. **Select the minimal command that satisfies the request**\n   - Current repo summary: `uv run sage`\n   - Lite mode: `uv run sage --lite`\n   - Japanese output: `uv run sage -l ja`\n   - Analyse another repo (default output): `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\"`\n   - Lite mode for another repo: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" --lite`\n   - Custom output directory: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" -o \"<output-dir>\"`\n   - Deprecated diff report: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" --diff`\n3. **Verify generated artifacts**\n   - Repository summary: `<output-dir>/.SourceSageAssets/Repository_summary.md`\n   - Diff report (if requested): `<output-dir>/.SourceSageAssets/RELEASE_REPORT/Report_<latest-tag>.md`\n   - Open the markdown file and provide a short human‑readable summary of its contents.\n   - In `--lite` mode, ensure the file contains the tree, Git info, statistics, and root README files, but omits the `## File Contents` section.\n4. **Report side‑effects**\n   - Expect a `.SourceSageignore` file to be created if absent.\n   - Use `--ignore-file` to override ignore rules; avoid `--use-ignore` unless the CLI is updated.\n\n## Command Notes\n- Inside the SourceSage repo: `uv run sage` (entry points are defined in `pyproject.toml`).\n- Outside the repo: `uv run --directory <sourcesage-root> sage …` to avoid a global install.\n- Fallback to `sourcesage` or `sage` only when the package is already installed and `uv` is unavailable.\n- Language selection: `-l ja` for Japanese, `-l en` for English.\n- Use `--lite` for a lightweight first pass.\n- Use `-o <output-dir>` to place artifacts outside the repository root.\n- Use `--repo <path>` to analyse a different repository.\n\n## Validation\n- Execute the chosen command; do not merely describe it.\n- Confirm the expected markdown file exists.\n- Read the file and report its path plus a concise summary of the content.\n- If you modify any execution instructions, re‑run the exact command to ensure consistency.\n\n## Avoid\n- Do not rely on README examples that differ from the actual implementation in `sourcesage/cli.py`.\n- Do not silently overwrite existing artifacts when a specific destination is requested.\n- Do not describe usage from memory; inspect the source files when possible.\n"
+      }
+    },
+    {
+      "library_id": "design/yueban-image-to-code-750px-pixel-perfect-conversion-466457ef",
+      "title": "Yueban Image‑to‑Code 750px Pixel‑Perfect Conversion",
+      "category": "design",
+      "tags": [
+        "design-to-code",
+        "pixel‑perfect",
+        "ui‑slicing",
+        "manifest",
+        "png‑export"
+      ],
+      "summary": "A step‑by‑step workflow that converts a UI screenshot or design image into exact HTML/CSS/JS code and generates transparent PNG assets, all locked to a 750 px wide canvas. It enforces strict pixel‑perfect scaling, manifest‑driven slicing, and detailed verification to ensure the output matches the source image without any visual optimisation or redesign.",
+      "source": {
+        "repository": "SemineChen/yueban-image-to-code",
+        "repository_url": "https://github.com/SemineChen/yueban-image-to-code",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/SemineChen/yueban-image-to-code/blob/e9f2e8ae66964083abc8481ff1e6a458359107f1/SKILL.md",
+        "api_sha": "16807f596e70d49c1003a49035f999964863f486",
+        "repo_stars": 123,
+        "repo_forks": 22,
+        "repo_license": null,
+        "repo_updated_at": "2026-09-03T11:24:18+00:00"
+      },
+      "discovered_at": "2026-09-06T11:04:45+00:00",
+      "accepted_at": "2026-09-12T11:43:02+00:00",
+      "content_hash": "6c0c9c09053db9de05adc158e699238b8eb3df8acc6943155885ba2547d78002",
+      "source_excerpt": "--- name: yueban-image-to-code description: 像素级 750px 图片转代码与切图工作流。当 Codex 需要把当前选中的 UI 图片、截图、App/Web 设计稿、Figma 图片导出稿或设计长图转换为代码，并输出独立透明 PNG 切图资源时使用。适用于严格 1:1 等比例还原、画板宽度精确 750px、禁止自动排版优化、文本可编辑、简单图形原生矢量/代码化、图标和位图独立透明 PNG 提取，以及按矢量层、文本层、位图/图标切图三类模块独立验收的任务。 --- # Yueban Image To Code ## 目标 把用户提供或当前选中的 UI 图片还原为代码，并导出必要的独立切图资源。 原图就是视觉合同。不要把它重新设计成“更合理”的界面，不要做排版优化，不要主观调整间距。必须先按 750px 宽度等比归一化，再按原图元素的位置、比例、层级、颜色、透明度和样式进行还原。 ## 最高优先级规则 当用户要求“严格等比例缩放至画板宽度精确 750px”时，这条规则高于所有常规前端、设计和响应式建议。 - 整体画板宽度必须精确为 `750px`。 - 画板高度必须根据原图宽高比自动计算，不能人为设定或优化。 - 所有元素必须使用同一个全局缩放比例。 - 保持所有元素的相对位置、相对大小、层级关系、堆叠顺序、颜色、透明度、阴影、渐变、圆角、描边和样式属性。 - 禁止自动调整任何元素的位置、大小、对齐、间距、排版或视觉层级。 - 禁止重新设计、优化布局、合并独立元素、拉伸素材、改变颜色或简化效果。 - 禁止把图标或位图强行转换为矢量路径。 - 禁止使用相似图标库、相似插画、AI 生成图、CSS 临摹图或占位素材替代原图中的图标/位图。 - …",
+      "review": {
+        "decision": "accept",
+        "title": "Yueban Image‑to‑Code 750px Pixel‑Perfect Conversion",
+        "category": "design",
+        "summary": "A step‑by‑step workflow that converts a UI screenshot or design image into exact HTML/CSS/JS code and generates transparent PNG assets, all locked to a 750 px wide canvas. It enforces strict pixel‑perfect scaling, manifest‑driven slicing, and detailed verification to ensure the output matches the source image without any visual optimisation or redesign.",
+        "quality_score": 82,
+        "uniqueness_score": 71,
+        "usefulness_score": 77,
+        "safety_score": 100,
+        "total_score": 81,
+        "strengths": [
+          "Very detailed execution flow",
+          "Clear manifest schema and scaling math",
+          "Strong emphasis on visual fidelity and verification",
+          "Comprehensive slicing and transparency rules"
+        ],
+        "weaknesses": [
+          "Long and repetitive; could be more concise",
+          "References to external scripts without providing them",
+          "No concrete example of final HTML/CSS output",
+          "Prerequisites (e.g., image measurement tools) are implicit"
+        ],
+        "tags": [
+          "design-to-code",
+          "pixel‑perfect",
+          "ui‑slicing",
+          "manifest",
+          "png‑export"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a minimal end‑to‑end example showing input image, generated manifest, a snippet of HTML/CSS and a PNG asset",
+          "Provide or link to the referenced helper scripts or describe their expected behavior in more detail",
+          "Summarise the most critical rules in a quick‑reference table for easier consumption"
+        ],
+        "normalized_skill_markdown": "---\nname: yueban-image-to-code\ndescription: 像素级 750px 图片转代码与切图工作流。将 UI 截图、设计稿或 Figma 导出图精准等比缩放至 750px 宽度，生成对应的代码、透明 PNG 切图以及 layers.manifest.json，确保 1:1 视觉还原。\n---\n\n# Yueban Image To Code\n\n## 目标\n把用户提供或当前选中的 UI 图片还原为代码，并导出必要的独立切图资源。原图即视觉合同，禁止任何自动排版优化或主观调整。\n\n## 最高优先级规则\n- 画板宽度必须 **精确 750 px**，高度按等比计算。\n- 所有元素使用同一全局缩放比例，保持相对位置、大小、层级、颜色、透明度等属性。\n- 禁止自动布局、合并元素、替换图标或使用相似素材。\n- 仅在需要切图时导出独立 PNG，切图必须基于 manifest 中的 bbox。\n\n## 跨目录调用一致性\n每次调用都必须重新读取、测量并生成当前源图的层级表和 manifest，不能复用旧项目的素材或布局参数。\n\n## 执行流程\n1. **检查输入**：确认图片尺寸、目标平台、技术栈、输出需求（代码、切图或两者）。\n2. **750 px 等比归一化**：`scale = 750 / source_width`，将所有坐标、尺寸、圆角、阴影等乘以同一 `scale`。\n3. **生成 `layers.manifest.json`**：记录每个图层的原始 bbox、缩放后 bbox、类型、z‑index、导出文件名等。\n4. **依据 manifest 导出 PNG**：使用 `scripts/extract_png_asset.py`（或等效工具）按 bbox 导出透明 PNG。\n5. **在 750 px 画板中实现代码**：使用绝对定位或 CSS 变量，严格按照 manifest 坐标绘制。\n6. **分模块校验**：分别检查矢量、文本、位图切图的准确性。\n7. **整页叠图复核**：将生成的页面截图与归一化原图叠加对比。\n8. **迭代修正**：根据差异继续调整 manifest、切图或代码。\n9. **交付**：代码、切图资源、`layers.manifest.json` 与简短还原报告。\n\n## 输入检查\n- 原图尺寸与宽高比\n- 目标类型（网页、移动端、组件、海报等）\n- 项目框架/技术栈\n- 输出需求（代码、切图或两者）\n- 必须可编辑的文字\n- 需要保留为 PNG 的复杂图形\n\n## 750 px 等比归一化公式\n```text\nscale = 750 / source_width\nfinal_width = 750\nfinal_height = round(source_height * scale)\nscaled_x = original_x * scale\nscaled_y = original_y * scale\nscaled_width = original_width * scale\nscaled_height = original_height * scale\n```\n同一 `scale` 适用于坐标、尺寸、圆角、描边、阴影、渐变、文字字号等所有属性。\n\n## 强制 Manifest 示例\n```json\n{\n  \"id\": \"card-wallet-illustration\",\n  \"type\": \"bitmap\",\n  \"source_bbox\": { \"x\": 338, \"y\": 520, \"width\": 116, \"height\": 122 },\n  \"scaled_bbox\": { \"x\": 338, \"y\": 520, \"width\": 116, \"height\": 122 },\n  \"z_index\": 24,\n  \"asset\": \"assets/illustrations/card-wallet-illustration.png\",\n  \"transparent_required\": true,\n  \"notes\": \"从当前源图裁切，保持原图露出比例\"\n}\n```\n- `source_bbox` 必须直接测量得到。\n- `scaled_bbox` 必须由同一 `scale` 计算。\n- 每个代码层必须能追溯到 manifest 条目。\n\n## Bbox 测量与预览\n1. 在原图尺寸上测量 `source_bbox`（不要在浏览器缩放后估算）。\n2. 使用 `scripts/preview_bboxes.py` 将 manifest 中的 bbox 绘制在源图上生成预览。\n3. 仅当预览框完全覆盖目标元素且不包含相邻内容时才进行切图。\n4. 如有不确定，生成 2‑3 个候选 bbox 并选取最安全的。\n\n## 图层分类规则\n- **文本层**：完整还原为可编辑文本，保留字体、字号、字重、行高、颜色、透明度、对齐等。\n- **简单矢量/规则图形**：矩形、圆形、线条、按钮背景等转为 CSS 或原生 SVG。\n- **位图/图标**：所有图标、头像、插画、复杂位图必须从源图裁切为独立透明 PNG，禁止使用相似图标库或 CSS 绘制替代。\n- **复杂图表/可视化**：整体保留为 PNG，文字部分单独提取为文本层。\n\n## 代码实现要点\n- 在 750 px 画板中使用 **绝对定位** 或 **CSS 变量** 实现像素级定位。\n- 禁止使用自动布局（flex/grid）除非坐标完全匹配 manifest。\n- 代码结构保持与原图层级一致，避免额外的容器或装饰层。\n- 响应式适配是第二阶段任务，不能影响 750 px 定稿。\n\n## 验收与复核\n1. 启动本地服务器，截取 750 px 画板截图。\n2. 与归一化原图进行叠图对比。\n3. 使用 `scripts/compare_images.py`（或等效工具）检查像素差异。\n4. 逐项校验矢量、文本、位图切图的坐标、尺寸、颜色、透明度。\n5. 运行 `scripts/audit_png_assets.py --require-transparent-bg` 确认 PNG 透明度与边界。\n6. 记录所有校验步骤并在交付报告中说明。\n\n## 交付说明\n- 代码文件（HTML/CSS/JS 或 React/Vite）\n- 切图资源目录（PNG）\n- `layers.manifest.json`\n- Bbox 预览图或等效说明\n- QA 对照截图与差异报告\n- PNG 审计结果\n- 已知限制（缺少原字体、遮挡元素等）\n\n---"
       }
     }
   ],

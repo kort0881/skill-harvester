@@ -1,0 +1,61 @@
+{
+  "library_id": "automation/sourcesage-cli-generate-repository-summaries-392d093d",
+  "title": "SourceSage CLI – Generate Repository Summaries",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "documentation",
+    "cli"
+  ],
+  "summary": "The skill describes how to use the SourceSage CLI to create AI‑friendly documentation for a repository. It covers locating the tool, selecting appropriate command options, verifying generated artifacts, and handling side‑effects. The workflow is concrete, with example commands for various scenarios and validation steps.",
+  "source": {
+    "repository": "Sunwood-ai-labs/SourceSage",
+    "repository_url": "https://github.com/Sunwood-ai-labs/SourceSage",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Sunwood-ai-labs/SourceSage/blob/c10b14234239de6248a0347bf9051507e8b2eb2a/SKILL.md",
+    "api_sha": "d549df067932a262245ea842249b6e13d2f96c0a",
+    "repo_stars": 72,
+    "repo_forks": 1,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-03-14T15:27:52+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:42+00:00",
+  "accepted_at": "2026-09-12T11:42:04+00:00",
+  "content_hash": "3c48c3dd5e8421068735b0f1c7f6744c03c586e5042b46ddcabccba1785c186d",
+  "source_excerpt": "--- name: sourcesage-cli description: Generate AI-friendly repository documentation with the SourceSage CLI. Use when Codex needs to run `sage` or `sourcesage` to create `.SourceSageAssets/Repository_summary.md`, analyze the current repository or another local repository, switch the output language between English and Japanese, use `--lite` to keep the summary small, change the output directory, or optionally create a deprecated tag-diff release report with `--diff`. --- # SourceSage CLI ## Overview Use the SourceSage CLI from this repository checkout to generate repository summaries for the current repo or another local repo. Prefer the local checkout over assuming `sourcesage` is globally installed. In this repository layout, the SourceSa…",
+  "review": {
+    "decision": "accept",
+    "title": "SourceSage CLI – Generate Repository Summaries",
+    "category": "automation",
+    "summary": "The skill describes how to use the SourceSage CLI to create AI‑friendly documentation for a repository. It covers locating the tool, selecting appropriate command options, verifying generated artifacts, and handling side‑effects. The workflow is concrete, with example commands for various scenarios and validation steps.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Clear, step‑by‑step workflow",
+      "Concrete example commands for multiple use‑cases",
+      "Verification steps ensure generated files exist and are summarized",
+      "Guidance on handling side‑effects and avoiding common pitfalls"
+    ],
+    "weaknesses": [
+      "No explicit prerequisite list (e.g., required tools, Python version)",
+      "Missing example of the generated markdown output",
+      "Error handling and fallback strategies are only briefly mentioned"
+    ],
+    "tags": [
+      "automation",
+      "documentation",
+      "cli"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise prerequisites section (uv, Python version, repository layout).",
+      "Include a short example of the Repository_summary.md content.",
+      "Provide explicit error‑handling guidance for missing tools or permission issues."
+    ],
+    "normalized_skill_markdown": "---\nname: sourcesage-cli\ndescription: Generate AI-friendly repository documentation with the SourceSage CLI.\n---\n\n# SourceSage CLI\n\n## Overview\nUse the SourceSage CLI from a local checkout to generate a repository summary for the current repository or any other local repository. Prefer the local checkout over a globally installed `sourcesage` binary. The tool root is the directory containing this `SKILL.md`.\n\n## Prerequisites\n- Python 3.9+ and `uv` installed.\n- Access to the repository you want to analyse (local path).\n- The SourceSage source tree (contains `pyproject.toml` and `sourcesage/cli.py`).\n\n## Workflow\n1. **Determine the tool root and target repository**\n   - If no target is specified, analyse the current workspace.\n   - If the current workspace is *not* the SourceSage repo, invoke the CLI from its checkout using `uv run --directory <sourcesage-root> sage …`.\n2. **Select the minimal command that satisfies the request**\n   - Current repo summary: `uv run sage`\n   - Lite mode: `uv run sage --lite`\n   - Japanese output: `uv run sage -l ja`\n   - Analyse another repo (default output): `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\"`\n   - Lite mode for another repo: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" --lite`\n   - Custom output directory: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" -o \"<output-dir>\"`\n   - Deprecated diff report: `uv run --directory <sourcesage-root> sage --repo \"<target-repo>\" --diff`\n3. **Verify generated artifacts**\n   - Repository summary: `<output-dir>/.SourceSageAssets/Repository_summary.md`\n   - Diff report (if requested): `<output-dir>/.SourceSageAssets/RELEASE_REPORT/Report_<latest-tag>.md`\n   - Open the markdown file and provide a short human‑readable summary of its contents.\n   - In `--lite` mode, ensure the file contains the tree, Git info, statistics, and root README files, but omits the `## File Contents` section.\n4. **Report side‑effects**\n   - Expect a `.SourceSageignore` file to be created if absent.\n   - Use `--ignore-file` to override ignore rules; avoid `--use-ignore` unless the CLI is updated.\n\n## Command Notes\n- Inside the SourceSage repo: `uv run sage` (entry points are defined in `pyproject.toml`).\n- Outside the repo: `uv run --directory <sourcesage-root> sage …` to avoid a global install.\n- Fallback to `sourcesage` or `sage` only when the package is already installed and `uv` is unavailable.\n- Language selection: `-l ja` for Japanese, `-l en` for English.\n- Use `--lite` for a lightweight first pass.\n- Use `-o <output-dir>` to place artifacts outside the repository root.\n- Use `--repo <path>` to analyse a different repository.\n\n## Validation\n- Execute the chosen command; do not merely describe it.\n- Confirm the expected markdown file exists.\n- Read the file and report its path plus a concise summary of the content.\n- If you modify any execution instructions, re‑run the exact command to ensure consistency.\n\n## Avoid\n- Do not rely on README examples that differ from the actual implementation in `sourcesage/cli.py`.\n- Do not silently overwrite existing artifacts when a specific destination is requested.\n- Do not describe usage from memory; inspect the source files when possible.\n"
+  }
+}

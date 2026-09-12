@@ -1,0 +1,67 @@
+{
+  "library_id": "research/security-audit-rlm-for-large-net-codebases-6b9811bb",
+  "title": "Security Audit RLM for Large .NET Codebases",
+  "category": "research",
+  "tags": [
+    "security",
+    "audit",
+    "rlm",
+    "dotnet",
+    "automation"
+  ],
+  "summary": "This skill provides a step‑by‑step workflow to run a privacy‑preserving, tool‑driven RLM security audit on large legacy .NET repositories using the provided `audit.py` script. It covers prerequisites, execution, tuning parameters for big codebases, troubleshooting, and the required markdown/json deliverable format.",
+  "source": {
+    "repository": "mitkox/megacode",
+    "repository_url": "https://github.com/mitkox/megacode",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/mitkox/megacode/blob/41d1ce2259c1cab03e6a050d716ca8b04b47d156/SKILL.md",
+    "api_sha": "7255f3c8c730b34784cc48069cfa6650b6f31c4f",
+    "repo_stars": 78,
+    "repo_forks": 18,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-31T13:41:15+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:38+00:00",
+  "accepted_at": "2026-09-12T11:41:20+00:00",
+  "content_hash": "0740abcafe2a0489b7664a6b274be3f5d1c61d1fe138577bce10004992a6d958",
+  "source_excerpt": "--- name: security-audit-rlm description: Run and troubleshoot privacy-preserving, local DSPy RLM security audits for large legacy .NET codebases. Use when asked to scan repositories for vulnerabilities, tune RLM/tool limits, fix truncation/stall issues, or produce actionable markdown/json audit outputs without loading entire codebases into model context. --- # Security Audit RLM Use this skill to operate `audit.py` as a tool-driven RLM workflow for large repositories. Repository: `https://github.com/mitkox/megacode` ## Execute 1. Verify prerequisites: - `deno --version` - model endpoint is reachable (default `http://localhost:8000/v1`) 2. Run a baseline audit: - `AUDIT_VERBOSE=1 python audit.py --source-root <repo-path>` 3. Confirm outputs…",
+  "review": {
+    "decision": "accept",
+    "title": "Security Audit RLM for Large .NET Codebases",
+    "category": "research",
+    "summary": "This skill provides a step‑by‑step workflow to run a privacy‑preserving, tool‑driven RLM security audit on large legacy .NET repositories using the provided `audit.py` script. It covers prerequisites, execution, tuning parameters for big codebases, troubleshooting, and the required markdown/json deliverable format.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 78,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Clear prerequisite checklist",
+      "Concrete command examples",
+      "Tuning guidance for large repos",
+      "Troubleshooting section",
+      "Defined output format"
+    ],
+    "weaknesses": [
+      "Missing explicit Python version and dependency list",
+      "No sample output snippet for verification",
+      "Assumes `audit.py` is already present without installation steps"
+    ],
+    "tags": [
+      "security",
+      "audit",
+      "rlm",
+      "dotnet",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a brief installation section for `audit.py` and its Python dependencies",
+      "Specify required Python version and any virtual‑env setup",
+      "Include a short example of the generated `security_audit_report.md`",
+      "Provide a verification step to compare report size or checksum"
+    ],
+    "normalized_skill_markdown": "---\nname: security-audit-rlm\ndescription: Run and troubleshoot privacy‑preserving, local RLM security audits for large legacy .NET codebases, producing actionable markdown and JSON reports without loading the entire repository into model context.\n---\n\n# Security Audit RLM\n\nUse this skill to operate `audit.py` as a tool‑driven RLM workflow for large repositories.\n\n**Repository:** `https://github.com/mitkox/megacode`\n\n## Prerequisites\n- Deno installed (`deno --version`)\n- Python 3.9+ installed and accessible in PATH\n- Required Python packages installed (see `requirements.txt` in the repo)\n- Model endpoint reachable (default `http://localhost:8000/v1`)\n\n## Execution Steps\n1. **Run a baseline audit**\n   ```bash\n   AUDIT_VERBOSE=1 python audit.py --source-root <repo-path>\n   ```\n2. **Confirm generated outputs**\n   - `security_audit_report.md`\n   - `security_audit_metadata.json`\n   - `security_audit_manifest.jsonl`\n\n## Tuning for Large Legacy Repos\nAdjust the following flags to keep the RLM workflow within resource limits:\n- **Planner churn**: `--max-iterations 8..12`\n- **LLM call budget**: `--rlm-max-llm-calls 60..100`\n- **REPL output size**: `--rlm-max-output-chars 15000..30000`\n- **Tool payload limits**:\n  - `--tool-max-lines 200..400`\n  - `--tool-max-chars 20000..40000`\n  - `--search-max-files 800..2000`\n  - `--search-max-matches 200..600`\n- **Runtime limits**: `--timeout-seconds 600..1800`, `--retries 1..2`\n\n## Operating Rules\n- Keep analysis local when privacy constraints require it.\n- Use RLM tool access only; avoid full‑context repository injection.\n- Keep intermediate output concise and deterministic.\n- Prioritize high‑severity findings with file/line evidence and concrete fixes.\n\n## Troubleshooting\n- **Stalled run**: enable verbose mode, reduce `--max-iterations` or `--rlm-max-output-chars`.\n- **Model truncation**: increase `--lm-max-tokens` if the backend supports it, or further reduce tool output limits.\n- **Path/file access errors**: ensure the audit flow uses tool‑only repository access (`list_manifest`, `read_file`, `search_pattern` tools) and re‑run after confirming `audit.py` includes those tools.\n\n## Deliverable Format\nThe final report must contain the following sections in `security_audit_report.md`:\n1. Executive Summary\n2. Critical Findings (CRITICAL/HIGH) – include file path, line number, and remediation steps.\n3. Other Findings (MEDIUM/LOW)\n4. Remediation – actionable recommendations for each finding.\n\n---"
+  }
+}

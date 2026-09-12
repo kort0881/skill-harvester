@@ -1,0 +1,65 @@
+{
+  "library_id": "automation/research-mode-anti-hallucination-citation-workflow-e3f569b3",
+  "title": "Research Mode – Anti‑Hallucination Citation Workflow",
+  "category": "automation",
+  "tags": [
+    "research",
+    "anti-hallucination",
+    "citation",
+    "llm",
+    "automation"
+  ],
+  "summary": "The skill defines a research mode that enforces strict citation and grounding requirements for LLM responses. It prescribes a hierarchy of source lookup (local files, web snippets, full fetches, scholarly gateways) and limits tool usage to keep costs low, while providing clear exit instructions.",
+  "source": {
+    "repository": "assafkip/research-mode",
+    "repository_url": "https://github.com/assafkip/research-mode",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/assafkip/research-mode/blob/fbf5e50f672012ad2bbaddf30a6440a9528a6aed/SKILL.md",
+    "api_sha": "84fed8f10d0219cc3d85a2484c2fabf0012a8838",
+    "repo_stars": 150,
+    "repo_forks": 16,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-02T00:36:49+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:40+00:00",
+  "accepted_at": "2026-09-12T11:41:34+00:00",
+  "content_hash": "d1a78a36aeecb51b7fb55242796dc750cfe68d8dbbd7abff8b049283749fa7af",
+  "source_excerpt": "--- name: research-mode description: Anti-hallucination research mode. Toggle on to enforce citation requirements, source grounding, and \"I don't know\" behavior. Toggle off for creative work. --- # Research Mode Activates anti-hallucination constraints based on Anthropic's documentation. Stay in this mode until the user says to exit. Source: [Anthropic - Reduce Hallucinations](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations) ## Constraints (ALL active simultaneously) ### 1. Say \"I don't know\" If you don't have a credible source for a claim, say so. Don't guess. Don't infer. \"I don't have data on this\" is always a valid answer. ### 2. Verify with citations Every recommendation, claim, or piece…",
+  "review": {
+    "decision": "accept",
+    "title": "Research Mode – Anti‑Hallucination Citation Workflow",
+    "category": "automation",
+    "summary": "The skill defines a research mode that enforces strict citation and grounding requirements for LLM responses. It prescribes a hierarchy of source lookup (local files, web snippets, full fetches, scholarly gateways) and limits tool usage to keep costs low, while providing clear exit instructions.",
+    "quality_score": 78,
+    "uniqueness_score": 70,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 83,
+    "strengths": [
+      "Well‑structured constraints and source‑lookup hierarchy",
+      "Explicit token‑budget limits for web operations",
+      "Clear definition of what counts as a citation",
+      "Simple exit mechanism"
+    ],
+    "weaknesses": [
+      "No concrete input/output specification",
+      "Lacks example interactions showing the mode in practice",
+      "Assumes availability of specific tools (Grep, WebSearch, Scholar Gateway) without stating prerequisites"
+    ],
+    "tags": [
+      "research",
+      "anti-hallucination",
+      "citation",
+      "llm",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short example dialogue illustrating activation, a citation request, and exit",
+      "Specify required tool integrations (e.g., Grep, WebSearch) and how the skill checks for their presence",
+      "Define the expected input (e.g., a user command) and output format (e.g., response with citations)"
+    ],
+    "normalized_skill_markdown": "---\nname: research-mode\ndescription: Anti‑hallucination research mode that enforces citation requirements, source grounding, and \"I don't know\" behavior.\n---\n\n# Research Mode\n\nActivates anti‑hallucination constraints based on Anthropic's documentation. Stay in this mode until the user says to exit.\n\n**Source**: [Anthropic – Reduce Hallucinations](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations)\n\n## Constraints (all active simultaneously)\n\n1. **Say \"I don't know\"** – If you lack a credible source for a claim, respond with \"I don't know\" or a similar statement. Do not guess or infer.\n2. **Verify with citations** – Every recommendation, claim, or piece of advice must cite a specific source:\n   - A file in the current project\n   - An external source found via web search (with URL)\n   - A named expert, paper, or researcher\n   - Official documentation\n   If you cannot find a supporting source, retract the claim.\n3. **Direct quotes for factual grounding** – When working from documents, extract the exact text first before analyzing. Reference the quote when making your point.\n\n## Source lookup order (ENFORCED)\n\n| Level | Method | Cost | When to use |\n|-------|--------|------|-------------|\n| 1 | Local files (Grep/Read) | Zero | Any claim about the current project. |\n| 2 | WebSearch snippets | Low | Use snippet text as citation; avoid full fetch unless needed. |\n| 3 | WebFetch (full page) | High | Only if snippet is ambiguous, user requests a direct quote, or you need precise numbers/dates. |\n| 4 | Scholar Gateway (academic) | Variable | For academic papers or research findings. |\n\n## Token budget\n- Maximum **5** WebSearch calls per research question.\n- Maximum **3** WebFetch calls per research question.\n- If limits are reached, summarize findings, list unverified items, and ask the user whether to continue deeper.\n\n## What counts as \"cited\"\n- Local file path + line number.\n- WebSearch snippet + URL.\n- Named paper/author + year (add `{{VERIFY_URL}}` if no link).\n- \"I recall from training data\" **does not** count as a citation.\n\n## What this mode is NOT\n- The default mode for creative brainstorming.\n- A guarantee of speed; it aims for efficient research.\n- A restriction against synthesis – you may combine sources, but each synthesized claim must be grounded in cited material.\n\n## How to exit\nSay **\"exit research mode\"** or switch to any other task.\n"
+  }
+}
