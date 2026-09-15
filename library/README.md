@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-14T14:17:18+00:00`
+Последнее обновление: `2026-09-15T12:46:03+00:00`
 
-Активных skills: **16**
+Активных skills: **17**
 
 ## Категории
 
@@ -12,6 +12,7 @@
 
 | Skill | Описание | Теги | Источник |
 |---|---|---|---|
+| [AgentRecall Persistent Memory for AI Agents](./skills/automation/agentrecall-persistent-memory-for-ai-agents-706899ef/SKILL.md) | AgentRecall provides a local‑only, persistent memory system for AI agents. It offers a minimal five‑tool surface for session handling, remembering, recalling and checking, with an optional full‑mode exposing 18 tools. The skill includes clear setup instructions, tool specifications, example calls, and a strong security model with no network or credential requirements. | memory, persistence, multi-session, mcp, cross-project, feedback-loop | Goldentrii/AgentRecall-X |
 | [Chinese Resume JD Optimizer](./skills/automation/chinese-resume-jd-optimizer-cbb3f2a7/SKILL.md) | A comprehensive workflow for optimizing Chinese resumes against specific job descriptions. It guides users through input collection, JD parsing, gap analysis, targeted questioning, resume rewriting, and multi‑layered risk checks, ensuring factual accuracy and ATS/HR friendliness. The skill enforces strict anti‑fabrication rules and adapts to various input scenarios (full JD + resume, resume‑only, JD‑only, or insufficient data). | resume, jd, optimization, chinese, automation, career | coinluu/resume-jd-optimizer-cn |
 | [Offline Evidence‑Aware Visual Explainer Generator](./skills/automation/offline-evidence-aware-visual-explainer-generator-bd2264e2/SKILL.md) | A Node.js‑based workflow that turns a technical concept, module, trade‑off, or incident into a self‑contained, evidence‑tagged HTML explainer. It defines a strict spec‑first approach, validation steps, and deterministic rendering without any network access. | automation, visualization, evidence, offline, nodejs | yizhiyanhua-ai/fireworks-open-eli5 |
 | [Personal IP Diagram Creator](./skills/automation/personal-ip-diagram-creator-52c958e2/SKILL.md) | A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps. | personal ip, visual generation, automation, content creation | haloshin/ip-diagram-creator |

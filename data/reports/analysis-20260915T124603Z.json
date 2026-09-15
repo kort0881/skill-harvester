@@ -1,0 +1,82 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-15T12:46:03+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 1,
+  "accepted": 1,
+  "rejected": 0,
+  "items": [
+    {
+      "candidate_id": "706899efbed909dc107878f6",
+      "candidate": {
+        "candidate_id": "706899efbed909dc107878f6",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:03:38+00:00",
+        "source": {
+          "repository": "Goldentrii/AgentRecall-X",
+          "repository_url": "https://github.com/Goldentrii/AgentRecall-X",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Goldentrii/AgentRecall-X/blob/bcc480d3bf4bfa6cc55e6bb305e9fe7c6f9f392e/SKILL.md",
+          "api_sha": "8b705348cc1af8c473a608c73cdfbce171085412",
+          "repo_stars": 371,
+          "repo_forks": 57,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-03T22:05:36+00:00"
+        },
+        "raw_file": "raw/goldentrii-agentrecall-x/SKILL.md",
+        "title": "agent-recall",
+        "category_hint": "automation",
+        "content_hash": "027290858a5dd8cabf01eb8f2c57d62256155771f28c590c3d448f32f57c4388",
+        "content_characters": 20899,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8038, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-09-15T12:45:59+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "AgentRecall Persistent Memory for AI Agents",
+        "category": "automation",
+        "summary": "AgentRecall provides a local‑only, persistent memory system for AI agents. It offers a minimal five‑tool surface for session handling, remembering, recalling and checking, with an optional full‑mode exposing 18 tools. The skill includes clear setup instructions, tool specifications, example calls, and a strong security model with no network or credential requirements.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Comprehensive tool descriptions with inputs, outputs and examples",
+          "Clear installation steps for multiple MCP clients",
+          "Well‑defined safety and privacy guarantees",
+          "Includes feedback loop for improving recall relevance",
+          "Supports both minimal and full feature sets"
+        ],
+        "weaknesses": [
+          "Very long document; could benefit from a concise quick‑start section",
+          "Assumes familiarity with MCP infrastructure; no fallback for non‑MCP environments",
+          "Limited to local markdown storage; no built‑in cloud sync"
+        ],
+        "tags": [
+          "memory",
+          "persistence",
+          "multi-session",
+          "mcp",
+          "cross-project",
+          "feedback-loop",
+          "auto-naming",
+          "knowledge-graph",
+          "obsidian",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a one‑page quick‑start cheat sheet",
+          "Provide a minimal non‑MCP usage example or wrapper script",
+          "Include automated tests or validation scripts for tool contracts"
+        ],
+        "normalized_skill_markdown": "---\nname: agent-recall\ndescription: Persistent compounding memory system for AI agents, providing session management, recall, and insight tracking. Supports a default 5‑tool surface and an optional 18‑tool full mode. Local‑only storage, Obsidian‑compatible, optional Supabase backend.\nversion: 3.4.30\nauthor: Goldentrii\n---\n\n# AgentRecall v3.4.30 – Quick Overview\n\nAgentRecall is a **local‑only** memory layer for AI agents. It stores journals, insights, and knowledge rooms as markdown/JSON under `~/.agent-recall/`. The system works without network access, telemetry, or external credentials.\n\n## Core Concepts\n- **Two‑verb model** – `session_start` (inhale) loads context; `session_end` (exhale) saves and compounds.\n- **Default surface (5 tools)** – `session_start`, `session_end`, `remember`, `recall`, `check`.\n- **Full surface (18 tools)** – enabled with `npx agent-recall-mcp --full` for pipelines, project boards, bootstrap, etc.\n- **Palace rooms** – hierarchical markdown folders that hold persistent knowledge, decisions, and insights.\n- **Salience scoring** – relevance = recency + access + connections; stale rooms are flagged.\n\n## Installation (once)\n```bash\n# Add the MCP server for any compatible client\nnpx -y agent-recall-mcp\n```\nConfigure your MCP client (Claude, Cursor, VS Code, etc.) to point to the server, e.g.:\n```json\n{ \"mcpServers\": { \"agent-recall\": { \"command\": \"npx\", \"args\": [\"-y\",\"agent-recall-mcp\"] } } }\n```\n\n## Default Tools\n### `session_start({project})`\nLoads prior context.\n**Returns**: `project`, `identity`, `insights`, `active_rooms`, `cross_project`, `recent`, `watch_for`, `corrections`, `resume`.\n**Typical use**:\n```js\nsession_start({project:\"my-app\"})\n```\nRead the returned fields and brief the human.\n\n### `remember({content, context})`\nStores a piece of knowledge. The system auto‑classifies and routes it.\n**Returns**: `routed_to`, `classification`, `auto_name`.\n```js\nremember({content:\"We switched to GraphQL for flexible queries\", context:\"architecture decision\"})\n```\n\n### `recall({query, limit})`\nSearches all stores (palace, journal, insights) using RRF ranking.\n**Returns**: array of ranked results with stable IDs.\n```js\nrecall({query:\"JWT httpOnly cookies\", limit:5})\n```\nOptionally provide feedback to improve future rankings:\n```js\nrecall({query:\"auth patterns\", feedback:[{id:\"abc123\",useful:true}]})\n```\n\n### `session_end({summary, insights, trajectory})`\nCompounds the session: writes a journal entry, updates awareness, consolidates palace rooms.\n**Returns**: `journal_written`, `awareness_updated`, `palace_consolidated`, `insights_processed`, `card`.\n```js\nsession_end({\n  summary:\"Implemented auth module with JWT refresh rotation.\",\n  insights:[{title:\"JWT refresh tokens need httpOnly cookies\", evidence:\"XSS vector discovered\", applies_when:[\"auth\",\"jwt\"], severity:\"critical\"}],\n  trajectory:\"Next: add rate limiting\"\n})\n```\n\n### `check({goal, confidence, assumptions, …})`\nBefore a complex task, records the agent’s understanding and returns warnings (`watch_for`) and similar past mistakes.\nTwo‑call pattern:\n1. **Pre‑check** – verify intent.\n2. **Post‑correction** – record human correction.\n```js\ncheck({goal:\"Build REST API\", confidence:\"medium\", assumptions:[\"CRUD endpoints\"]})\n```\nAfter correction:\n```js\ncheck({goal:\"Build REST API\", confidence:\"high\", human_correction:\"Use GraphQL\", delta:\"API style\"})\n```\n\n## Full‑Mode Tools (optional)\nEnable with `npx agent-recall-mcp --full`. Highlights:\n- `project_board()` – list all projects with status.\n- `project_status({project})` – quick health snapshot.\n- `bootstrap_scan()` / `bootstrap_import()` – import existing git/Claude projects into AgentRecall.\n- Pipeline and skill management tools for advanced workflows.\n\n## Typical Session Flow\n1. `session_start()` → load context.\n2. `check()` if the task is ambiguous.\n3. During work, call `remember()` whenever you learn something.\n4. Use `recall()` to fetch past decisions or patterns.\n5. After any correction, call `check()` again to record it.\n6. `session_end()` → persist everything.\n\n## Security & Privacy\n- **Zero network** – all operations are local.\n- **No credentials** – does not require API keys.\n- **Filesystem scope** – reads/writes only under `~/.agent-recall/` (configurable via `--root`).\n- **No code execution** – the MCP server never runs arbitrary shell commands.\n- **Transparent storage** – all data is plain markdown/JSON, viewable in any editor or Obsidian vault.\n\n## Storage Layout (example)\n```\n~/.agent-recall/\n  awareness.md\n  awareness-state.json\n  projects/<name>/\n    journal/YYYY-MM-DD.md\n    palace/rooms/<room>/\n    palace/identity.md\n    palace/graph.json\n```\n\n## License\nMIT – see the repository at https://github.com/Goldentrii/AgentRecall-X.\n"
+      },
+      "library_id": "automation/agentrecall-persistent-memory-for-ai-agents-706899ef"
+    }
+  ]
+}

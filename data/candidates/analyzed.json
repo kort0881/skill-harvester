@@ -2049,7 +2049,79 @@
         "normalized_skill_markdown": "---\nname: yueban-image-to-code\ndescription: 像素级 750px 图片转代码与切图工作流。将 UI 截图、设计稿或 Figma 导出图精准等比缩放至 750px 宽度，生成对应的代码、透明 PNG 切图以及 layers.manifest.json，确保 1:1 视觉还原。\n---\n\n# Yueban Image To Code\n\n## 目标\n把用户提供或当前选中的 UI 图片还原为代码，并导出必要的独立切图资源。原图即视觉合同，禁止任何自动排版优化或主观调整。\n\n## 最高优先级规则\n- 画板宽度必须 **精确 750 px**，高度按等比计算。\n- 所有元素使用同一全局缩放比例，保持相对位置、大小、层级、颜色、透明度等属性。\n- 禁止自动布局、合并元素、替换图标或使用相似素材。\n- 仅在需要切图时导出独立 PNG，切图必须基于 manifest 中的 bbox。\n\n## 跨目录调用一致性\n每次调用都必须重新读取、测量并生成当前源图的层级表和 manifest，不能复用旧项目的素材或布局参数。\n\n## 执行流程\n1. **检查输入**：确认图片尺寸、目标平台、技术栈、输出需求（代码、切图或两者）。\n2. **750 px 等比归一化**：`scale = 750 / source_width`，将所有坐标、尺寸、圆角、阴影等乘以同一 `scale`。\n3. **生成 `layers.manifest.json`**：记录每个图层的原始 bbox、缩放后 bbox、类型、z‑index、导出文件名等。\n4. **依据 manifest 导出 PNG**：使用 `scripts/extract_png_asset.py`（或等效工具）按 bbox 导出透明 PNG。\n5. **在 750 px 画板中实现代码**：使用绝对定位或 CSS 变量，严格按照 manifest 坐标绘制。\n6. **分模块校验**：分别检查矢量、文本、位图切图的准确性。\n7. **整页叠图复核**：将生成的页面截图与归一化原图叠加对比。\n8. **迭代修正**：根据差异继续调整 manifest、切图或代码。\n9. **交付**：代码、切图资源、`layers.manifest.json` 与简短还原报告。\n\n## 输入检查\n- 原图尺寸与宽高比\n- 目标类型（网页、移动端、组件、海报等）\n- 项目框架/技术栈\n- 输出需求（代码、切图或两者）\n- 必须可编辑的文字\n- 需要保留为 PNG 的复杂图形\n\n## 750 px 等比归一化公式\n```text\nscale = 750 / source_width\nfinal_width = 750\nfinal_height = round(source_height * scale)\nscaled_x = original_x * scale\nscaled_y = original_y * scale\nscaled_width = original_width * scale\nscaled_height = original_height * scale\n```\n同一 `scale` 适用于坐标、尺寸、圆角、描边、阴影、渐变、文字字号等所有属性。\n\n## 强制 Manifest 示例\n```json\n{\n  \"id\": \"card-wallet-illustration\",\n  \"type\": \"bitmap\",\n  \"source_bbox\": { \"x\": 338, \"y\": 520, \"width\": 116, \"height\": 122 },\n  \"scaled_bbox\": { \"x\": 338, \"y\": 520, \"width\": 116, \"height\": 122 },\n  \"z_index\": 24,\n  \"asset\": \"assets/illustrations/card-wallet-illustration.png\",\n  \"transparent_required\": true,\n  \"notes\": \"从当前源图裁切，保持原图露出比例\"\n}\n```\n- `source_bbox` 必须直接测量得到。\n- `scaled_bbox` 必须由同一 `scale` 计算。\n- 每个代码层必须能追溯到 manifest 条目。\n\n## Bbox 测量与预览\n1. 在原图尺寸上测量 `source_bbox`（不要在浏览器缩放后估算）。\n2. 使用 `scripts/preview_bboxes.py` 将 manifest 中的 bbox 绘制在源图上生成预览。\n3. 仅当预览框完全覆盖目标元素且不包含相邻内容时才进行切图。\n4. 如有不确定，生成 2‑3 个候选 bbox 并选取最安全的。\n\n## 图层分类规则\n- **文本层**：完整还原为可编辑文本，保留字体、字号、字重、行高、颜色、透明度、对齐等。\n- **简单矢量/规则图形**：矩形、圆形、线条、按钮背景等转为 CSS 或原生 SVG。\n- **位图/图标**：所有图标、头像、插画、复杂位图必须从源图裁切为独立透明 PNG，禁止使用相似图标库或 CSS 绘制替代。\n- **复杂图表/可视化**：整体保留为 PNG，文字部分单独提取为文本层。\n\n## 代码实现要点\n- 在 750 px 画板中使用 **绝对定位** 或 **CSS 变量** 实现像素级定位。\n- 禁止使用自动布局（flex/grid）除非坐标完全匹配 manifest。\n- 代码结构保持与原图层级一致，避免额外的容器或装饰层。\n- 响应式适配是第二阶段任务，不能影响 750 px 定稿。\n\n## 验收与复核\n1. 启动本地服务器，截取 750 px 画板截图。\n2. 与归一化原图进行叠图对比。\n3. 使用 `scripts/compare_images.py`（或等效工具）检查像素差异。\n4. 逐项校验矢量、文本、位图切图的坐标、尺寸、颜色、透明度。\n5. 运行 `scripts/audit_png_assets.py --require-transparent-bg` 确认 PNG 透明度与边界。\n6. 记录所有校验步骤并在交付报告中说明。\n\n## 交付说明\n- 代码文件（HTML/CSS/JS 或 React/Vite）\n- 切图资源目录（PNG）\n- `layers.manifest.json`\n- Bbox 预览图或等效说明\n- QA 对照截图与差异报告\n- PNG 审计结果\n- 已知限制（缺少原字体、遮挡元素等）\n\n---"
       },
       "library_id": "design/yueban-image-to-code-750px-pixel-perfect-conversion-466457ef"
+    },
+    {
+      "candidate_id": "706899efbed909dc107878f6",
+      "candidate": {
+        "candidate_id": "706899efbed909dc107878f6",
+        "status": "pending",
+        "discovered_at": "2026-09-06T11:03:38+00:00",
+        "source": {
+          "repository": "Goldentrii/AgentRecall-X",
+          "repository_url": "https://github.com/Goldentrii/AgentRecall-X",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Goldentrii/AgentRecall-X/blob/bcc480d3bf4bfa6cc55e6bb305e9fe7c6f9f392e/SKILL.md",
+          "api_sha": "8b705348cc1af8c473a608c73cdfbce171085412",
+          "repo_stars": 371,
+          "repo_forks": 57,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-03T22:05:36+00:00"
+        },
+        "raw_file": "raw/goldentrii-agentrecall-x/SKILL.md",
+        "title": "agent-recall",
+        "category_hint": "automation",
+        "content_hash": "027290858a5dd8cabf01eb8f2c57d62256155771f28c590c3d448f32f57c4388",
+        "content_characters": 20899,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8038, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-09-15T12:45:59+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "AgentRecall Persistent Memory for AI Agents",
+        "category": "automation",
+        "summary": "AgentRecall provides a local‑only, persistent memory system for AI agents. It offers a minimal five‑tool surface for session handling, remembering, recalling and checking, with an optional full‑mode exposing 18 tools. The skill includes clear setup instructions, tool specifications, example calls, and a strong security model with no network or credential requirements.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Comprehensive tool descriptions with inputs, outputs and examples",
+          "Clear installation steps for multiple MCP clients",
+          "Well‑defined safety and privacy guarantees",
+          "Includes feedback loop for improving recall relevance",
+          "Supports both minimal and full feature sets"
+        ],
+        "weaknesses": [
+          "Very long document; could benefit from a concise quick‑start section",
+          "Assumes familiarity with MCP infrastructure; no fallback for non‑MCP environments",
+          "Limited to local markdown storage; no built‑in cloud sync"
+        ],
+        "tags": [
+          "memory",
+          "persistence",
+          "multi-session",
+          "mcp",
+          "cross-project",
+          "feedback-loop",
+          "auto-naming",
+          "knowledge-graph",
+          "obsidian",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a one‑page quick‑start cheat sheet",
+          "Provide a minimal non‑MCP usage example or wrapper script",
+          "Include automated tests or validation scripts for tool contracts"
+        ],
+        "normalized_skill_markdown": "---\nname: agent-recall\ndescription: Persistent compounding memory system for AI agents, providing session management, recall, and insight tracking. Supports a default 5‑tool surface and an optional 18‑tool full mode. Local‑only storage, Obsidian‑compatible, optional Supabase backend.\nversion: 3.4.30\nauthor: Goldentrii\n---\n\n# AgentRecall v3.4.30 – Quick Overview\n\nAgentRecall is a **local‑only** memory layer for AI agents. It stores journals, insights, and knowledge rooms as markdown/JSON under `~/.agent-recall/`. The system works without network access, telemetry, or external credentials.\n\n## Core Concepts\n- **Two‑verb model** – `session_start` (inhale) loads context; `session_end` (exhale) saves and compounds.\n- **Default surface (5 tools)** – `session_start`, `session_end`, `remember`, `recall`, `check`.\n- **Full surface (18 tools)** – enabled with `npx agent-recall-mcp --full` for pipelines, project boards, bootstrap, etc.\n- **Palace rooms** – hierarchical markdown folders that hold persistent knowledge, decisions, and insights.\n- **Salience scoring** – relevance = recency + access + connections; stale rooms are flagged.\n\n## Installation (once)\n```bash\n# Add the MCP server for any compatible client\nnpx -y agent-recall-mcp\n```\nConfigure your MCP client (Claude, Cursor, VS Code, etc.) to point to the server, e.g.:\n```json\n{ \"mcpServers\": { \"agent-recall\": { \"command\": \"npx\", \"args\": [\"-y\",\"agent-recall-mcp\"] } } }\n```\n\n## Default Tools\n### `session_start({project})`\nLoads prior context.\n**Returns**: `project`, `identity`, `insights`, `active_rooms`, `cross_project`, `recent`, `watch_for`, `corrections`, `resume`.\n**Typical use**:\n```js\nsession_start({project:\"my-app\"})\n```\nRead the returned fields and brief the human.\n\n### `remember({content, context})`\nStores a piece of knowledge. The system auto‑classifies and routes it.\n**Returns**: `routed_to`, `classification`, `auto_name`.\n```js\nremember({content:\"We switched to GraphQL for flexible queries\", context:\"architecture decision\"})\n```\n\n### `recall({query, limit})`\nSearches all stores (palace, journal, insights) using RRF ranking.\n**Returns**: array of ranked results with stable IDs.\n```js\nrecall({query:\"JWT httpOnly cookies\", limit:5})\n```\nOptionally provide feedback to improve future rankings:\n```js\nrecall({query:\"auth patterns\", feedback:[{id:\"abc123\",useful:true}]})\n```\n\n### `session_end({summary, insights, trajectory})`\nCompounds the session: writes a journal entry, updates awareness, consolidates palace rooms.\n**Returns**: `journal_written`, `awareness_updated`, `palace_consolidated`, `insights_processed`, `card`.\n```js\nsession_end({\n  summary:\"Implemented auth module with JWT refresh rotation.\",\n  insights:[{title:\"JWT refresh tokens need httpOnly cookies\", evidence:\"XSS vector discovered\", applies_when:[\"auth\",\"jwt\"], severity:\"critical\"}],\n  trajectory:\"Next: add rate limiting\"\n})\n```\n\n### `check({goal, confidence, assumptions, …})`\nBefore a complex task, records the agent’s understanding and returns warnings (`watch_for`) and similar past mistakes.\nTwo‑call pattern:\n1. **Pre‑check** – verify intent.\n2. **Post‑correction** – record human correction.\n```js\ncheck({goal:\"Build REST API\", confidence:\"medium\", assumptions:[\"CRUD endpoints\"]})\n```\nAfter correction:\n```js\ncheck({goal:\"Build REST API\", confidence:\"high\", human_correction:\"Use GraphQL\", delta:\"API style\"})\n```\n\n## Full‑Mode Tools (optional)\nEnable with `npx agent-recall-mcp --full`. Highlights:\n- `project_board()` – list all projects with status.\n- `project_status({project})` – quick health snapshot.\n- `bootstrap_scan()` / `bootstrap_import()` – import existing git/Claude projects into AgentRecall.\n- Pipeline and skill management tools for advanced workflows.\n\n## Typical Session Flow\n1. `session_start()` → load context.\n2. `check()` if the task is ambiguous.\n3. During work, call `remember()` whenever you learn something.\n4. Use `recall()` to fetch past decisions or patterns.\n5. After any correction, call `check()` again to record it.\n6. `session_end()` → persist everything.\n\n## Security & Privacy\n- **Zero network** – all operations are local.\n- **No credentials** – does not require API keys.\n- **Filesystem scope** – reads/writes only under `~/.agent-recall/` (configurable via `--root`).\n- **No code execution** – the MCP server never runs arbitrary shell commands.\n- **Transparent storage** – all data is plain markdown/JSON, viewable in any editor or Obsidian vault.\n\n## Storage Layout (example)\n```\n~/.agent-recall/\n  awareness.md\n  awareness-state.json\n  projects/<name>/\n    journal/YYYY-MM-DD.md\n    palace/rooms/<room>/\n    palace/identity.md\n    palace/graph.json\n```\n\n## License\nMIT – see the repository at https://github.com/Goldentrii/AgentRecall-X.\n"
+      },
+      "library_id": "automation/agentrecall-persistent-memory-for-ai-agents-706899ef"
     }
   ],
-  "updated_at": "2026-09-14T14:17:18+00:00"
+  "updated_at": "2026-09-15T12:46:03+00:00"
 }
