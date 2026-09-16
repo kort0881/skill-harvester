@@ -1,0 +1,68 @@
+{
+  "library_id": "automation/bpmn-2-0-diagram-generator-with-llm-extraction-and-validation-76918c8f",
+  "title": "BPMN 2.0 Diagram Generator with LLM Extraction and Validation",
+  "category": "automation",
+  "tags": [
+    "bpmn",
+    "automation",
+    "workflow",
+    "generation",
+    "validation",
+    "nodejs"
+  ],
+  "summary": "This skill converts natural‑language process descriptions into OMG‑compliant BPMN 2.0 XML files and SVG previews via a four‑phase pipeline (intent extraction, validation, auto‑layout, serialization). It supports full‑featured BPMN elements, multi‑pool collaborations, and an optional optimisation mode that suggests non‑blocking redesign advisories. The skill can be run from the CLI, programmatically, or via an HTTP API, and includes strict validation and rollback mechanisms to guarantee structural soundness.",
+  "source": {
+    "repository": "Stieges/bpmn-generator",
+    "repository_url": "https://github.com/Stieges/bpmn-generator",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Stieges/bpmn-generator/blob/f87bc8bd5d3a855c1c7a5694c03710d7bb4ba85a/SKILL.md",
+    "api_sha": "061ad77ca9d36a2c74da3ce4ce9bbb4f1bf58173",
+    "repo_stars": 38,
+    "repo_forks": 7,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-06T06:01:06+00:00"
+  },
+  "discovered_at": "2026-09-06T11:04:44+00:00",
+  "accepted_at": "2026-09-16T12:45:08+00:00",
+  "content_hash": "6bcd38539935387e02fa6018384038a9bf6c3ae8a22307ab7b6012e534c35cd6",
+  "source_excerpt": "--- name: bpmn-generator description: > Enterprise BPMN 2.0 diagram generator — converts natural language process descriptions into OMG-compliant BPMN 2.0 XML files and SVG previews via a 4-phase pipeline: Intent Extraction (LLM → JSON Logic-Core) → Validation (deadlock detection, structural soundness) → ElkJS Auto-Layout → BPMN XML + SVG output. Supports: multi-pool collaborations, message flows, boundary events (timer/error/signal), loop/multi-instance markers, data objects, all gateway types with correct gatewayDirection, and all BPMN 2.0 task types. Use this skill whenever the user wants to create, generate, or model a BPMN diagram, process flow, or workflow — even if they say \"draw a process\", \"model this workflow\", \"make a BPMN for...…",
+  "review": {
+    "decision": "accept",
+    "title": "BPMN 2.0 Diagram Generator with LLM Extraction and Validation",
+    "category": "automation",
+    "summary": "This skill converts natural‑language process descriptions into OMG‑compliant BPMN 2.0 XML files and SVG previews via a four‑phase pipeline (intent extraction, validation, auto‑layout, serialization). It supports full‑featured BPMN elements, multi‑pool collaborations, and an optional optimisation mode that suggests non‑blocking redesign advisories. The skill can be run from the CLI, programmatically, or via an HTTP API, and includes strict validation and rollback mechanisms to guarantee structural soundness.",
+    "quality_score": 90,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 91,
+    "strengths": [
+      "Comprehensive end‑to‑end pipeline",
+      "Clear separation of document vs optimise modes",
+      "Deterministic redesign toolbox with rollback",
+      "Strict validation and dead‑lock detection",
+      "Rich support for BPMN 2.0 elements"
+    ],
+    "weaknesses": [
+      "Requires Node.js environment and familiarity with the repository",
+      "Complexity may be overwhelming for non‑technical users",
+      "Documentation assumes access to internal reference files"
+    ],
+    "tags": [
+      "bpmn",
+      "automation",
+      "workflow",
+      "generation",
+      "validation",
+      "nodejs"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise quick‑start guide for non‑developers",
+      "Provide a Dockerfile or pre‑built binary for easier deployment",
+      "Include sample input JSON files and expected output artifacts"
+    ],
+    "normalized_skill_markdown": "---\nname: bpmn-generator\ndescription: >\n  Enterprise‑grade BPMN 2.0 diagram generator that turns natural‑language process\n  descriptions into OMG‑compliant BPMN XML files and SVG previews. The tool runs a\n  four‑phase pipeline – Intent Extraction (LLM → JSON Logic‑Core), Validation\n  (dead‑lock detection, structural soundness), Auto‑Layout (ElkJS) and\n  Serialization – and supports full BPMN 2.0 element set, multi‑pool\n  collaborations, and an optional optimisation mode that emits non‑blocking\n  redesign advisories.\n---\n\n# Overview\n\nThe generator can be used via CLI, programmatic API, or HTTP endpoint. It is\ndesigned for enterprise environments where strict compliance and deterministic\nbehaviour are required.\n\n## Pipeline\n\n```\nUser Text → Intent Extraction (LLM) → JSON Logic‑Core\n          ↓ Validation (rules, dead‑lock detection)\n          ↓ Auto‑Layout (ElkJS Sugiyama algorithm)\n          ↓ Serialization (pipeline.js)\n          → BPMN 2.0 XML + SVG preview\n```\n\n*The LLM never handles coordinates – layout is fully algorithmic.*\n\n## Modes\n\n- **Document (default, IST)** – faithfully capture the described process.\n- **Optimize (Soll)** – enable the optimisation advisory layer which suggests\n  redesigns (parallelisation, task merging, lane relocation, etc.) as\n  non‑blocking `advisories`. Advisories are never applied automatically.\n\n### Selecting a mode\n\n| Entry point | Command / payload |\n|-------------|-------------------|\n| CLI | `node bpmn/pipeline.js in.json out --optimize` |\n| Programmatic | `runPipeline(lc, {mode: \"optimize\"})` |\n| HTTP | POST `{ \"logicCore\": {...}, \"mode\": \"optimize\" }` to `/api/v1/generate` |\n| MCP | `mode: \"optimize\"` on `generate_bpmn` etc. |\n\n## Redesign Toolbox (optimise mode)\n\nTransforms are deterministic JavaScript functions located in\n`scripts/bpmn/redesign.js`. Each transform provides a `preview*` (feasibility) and\n`apply*` (execution) function and returns a change record `{added, removed,\nmodified}`. Examples:\n\n- `parallelize` – split a linear task chain into a parallel‑gateway split/join.\n- `mergeTasks` – collapse a linear chain into a single task (requires explicit name).\n- `relane` – move a node to a different lane.\n- `reorderKnockouts` – reorder exclusive‑gateway checks (requires explicit order).\n- `isolateException` – convert an inline exception branch into a boundary event.\n\nAll transforms perform a sound‑ness check after execution and roll back on\nstructural errors.\n\n## Validation (Phase 2)\n\nThe pipeline enforces the following **errors** (pipeline aborts):\n- At least one `startEvent` and one `endEvent`.\n- All edge `source`/`target` IDs must exist.\n- No XOR‑split feeding an AND‑join (dead‑lock detection).\n- Message flows reference valid pool/node IDs.\n\n**Warnings** are reported but do not stop the pipeline unless `--strict` is\nused, which treats warnings as fatal.\n\n## Running the Generator\n\n```bash\n# Install dependencies (once)\ncd scripts && npm install\n\n# Generate from a JSON Logic‑Core file\nnode bpmn/pipeline.js my-process.json my-process\n\n# Inline mode (no script execution) – generate artifacts directly in the\n# conversation as code blocks.\n```\n\nOutputs:\n- `my-process.bpmn` – BPMN 2.0 XML with DI coordinates.\n- `my-process.svg` – SVG preview.\n- `my-process_logic.json` – Logic‑Core JSON for future amendments.\n\n## Amendment Flow\n\nTo edit an existing diagram, load its Logic‑Core JSON, apply atomic changes\nusing the amendment prompt, re‑validate, and re‑run the pipeline. IDs are\npreserved.\n\n## Safety & Compliance\n\n- No LLM calls are made during the redesign phase.\n- All generated XML complies with OMG BPMN 2.0.2 specifications (gatewayDirection,\n  event definitions, DI bounds, etc.).\n- Strict mode (`--strict`) ensures no warnings are shipped.\n\n---"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "library_id": "content-creation/humanize-remove-ai-writing-patterns-b2d42f9a",
+  "title": "Humanize: Remove AI Writing Patterns",
+  "category": "content-creation",
+  "tags": [
+    "content",
+    "editing",
+    "ai-detection",
+    "writing",
+    "humanization"
+  ],
+  "summary": "This skill provides a comprehensive catalog of 41 AI‑generated writing patterns and a step‑by‑step workflow to rewrite prose so it sounds natural and human. It includes voice calibration, statistical tells, and multiple invocation modes (pasted text, file, repo audit, embedded). The output is a draft audit, a cleaned rewrite, and optional git‑aware file updates.",
+  "source": {
+    "repository": "aashaexo/soundshuman",
+    "repository_url": "https://github.com/aashaexo/soundshuman",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/aashaexo/soundshuman/blob/a45cfbba9fde843d670e553a0aa98f6a23d7fb28/SKILL.md",
+    "api_sha": "5076cc1dd357c693b0e70aefa14299001ff908c9",
+    "repo_stars": 292,
+    "repo_forks": 13,
+    "repo_license": "Other",
+    "repo_updated_at": "2026-09-06T06:40:07+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:53+00:00",
+  "accepted_at": "2026-09-16T12:40:57+00:00",
+  "content_hash": "47db572a5ebd4bcd198f84ddea6c1a10ed142e7f44887db52868570644d023b8",
+  "source_excerpt": "--- name: humanize description: | Remove signs of AI-generated writing from prose, and keep it out of a repo. Use when drafting, editing, or reviewing text to make it sound natural and human, or when auditing a whole docs folder for AI slop. Detects 41 patterns across content, language, style, communication, filler, and rhetoric, including: significance inflation, promotional language, -ing tails, vague attributions, AI vocabulary, copula avoidance, negative parallelisms, false agency, em dash overuse, chatbot artifacts, hedging stacks, staccato drama, and aphorism formulas. Includes voice calibration, a no-fabrication rule, statistical tells, and a draft -> audit -> final rewrite loop. license: MIT metadata: version: \"1.0.0\" lineage: blade…",
+  "review": {
+    "decision": "accept",
+    "title": "Humanize: Remove AI Writing Patterns",
+    "category": "content_creation",
+    "summary": "This skill provides a comprehensive catalog of 41 AI‑generated writing patterns and a step‑by‑step workflow to rewrite prose so it sounds natural and human. It includes voice calibration, statistical tells, and multiple invocation modes (pasted text, file, repo audit, embedded). The output is a draft audit, a cleaned rewrite, and optional git‑aware file updates.",
+    "quality_score": 70,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Extremely detailed pattern catalog (41 items)",
+      "Clear editorial guidelines and voice calibration",
+      "Multiple invocation modes for flexible use",
+      "Includes statistical tells and verification guidance"
+    ],
+    "weaknesses": [
+      "Missing explicit input/output schema",
+      "Process section is truncated and lacks concrete examples",
+      "No automated verification script provided beyond a reference to a non‑existent CLI",
+      "Large amount of text may overwhelm casual users"
+    ],
+    "tags": [
+      "content",
+      "editing",
+      "ai-detection",
+      "writing",
+      "humanization"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise Input/Output specification (e.g., text string → draft, audit list, final rewrite)",
+      "Provide a short end‑to‑end example for each invocation mode",
+      "Include a concrete verification step or reference to an existing tool (e.g., sloplint) with installation instructions",
+      "Complete the truncated Process and Output sections"
+    ],
+    "normalized_skill_markdown": "---\nname: humanize\ndescription: |\n  Detect and remove AI‑generated writing patterns from prose, producing a natural, human‑like rewrite. The skill scans for 41 known patterns, applies statistical tells, and supports voice calibration based on a user‑provided writing sample.\n---\n\n# Humanize – Remove AI Writing Patterns\n\n## Overview\nThe **humanize** skill acts as a writing editor that identifies AI‑style artifacts and rewrites text to sound natural. It merges pattern catalogs from several open‑source projects and adds statistical signals (burstiness, type‑token ratio, etc.).\n\n## How to Invoke\n| Mode | Input | Output |\n|------|-------|--------|\n| **Pasted text** (default) | Raw text supplied in the conversation | Draft audit, bullet‑point list of detected patterns, and final rewritten text |\n| **File mode** | Path to a markdown/text file | In‑place rewrite (git‑aware) with a short change summary |\n| **Repo audit mode** | Directory path | Ranking of files by AI‑flavor, dominant patterns per file, optional batch rewrite |\n| **Embedded mode** | Text supplied by another agent | Only the final rewritten text (no audit) |\n\n## Process\n1. **Scan** the input for the 41 patterns listed below and compute statistical tells.\n2. **Draft** a rewrite that removes the patterns while preserving all factual information.\n3. **Audit** – produce a bullet list of each detected pattern and the change applied.\n4. **Finalize** – apply the audit fixes, ensure no em‑dash or en‑dash characters remain (unless a user sample explicitly uses them), and output the final text.\n\n## Voice Calibration (optional)\nIf the user provides a writing sample:\n1. Analyse sentence length, vocabulary, punctuation, recurring phrases, and transitions.\n2. Mirror those habits in the rewrite, overriding default style rules (e.g., em‑dash usage).\nIf no sample is given, the default style rules apply.\n\n## Pattern Catalog (selected examples)\n### 1. Significance inflation\n*Watch for*: “pivotal moment”, “crucial role”, “underscores its importance”.\n*Fix*: Remove exaggerated framing while keeping the fact.\n### 2. Notability name‑dropping\n*Watch for*: Lists of media outlets without context.\n*Fix*: Keep only citations that the source actually provides.\n### 3. Superficial –ing analyses\n*Watch for*: “…symbolizing…”, “…reflecting…”.\n*Fix*: Replace with concrete description.\n### 4. Promotional language\n*Watch for*: “vibrant”, “groundbreaking”, “state‑of‑the‑art”.\n*Fix*: Use neutral wording.\n### 5. Vague attributions\n*Watch for*: “Experts believe…”, “Industry reports say…”.\n*Fix*: Cite a real source or drop the claim.\n… *(the remaining 36 patterns are included in the full skill document)*\n\n## Statistical Tells\n| Signal | Human | AI |\n|--------|-------|----|\n| Burstiness (sentence‑length variation) | High | Low |\n| Type‑token ratio | 0.5‑0.7 | 0.3‑0.5 |\n| Trigram repetition | Low | High |\n| Paragraph uniformity | Varied | Even |\n\nWhen rewriting, explicitly vary sentence length, avoid synonym cycling, and keep paragraph sizes uneven.\n\n## Verification\nThe bundled `sloplint` CLI (if installed) can be used to measure the four statistical tells:\n```bash\nsloplint scan <file-or-dir>\n```\nRun it on the draft and on the final rewrite; the final version should show higher burstiness and a higher type‑token ratio.\n\n## Output Formats\n* **Default (pasted text)** – returns a JSON object with three fields: `draft`, `audit` (array of pattern‑change strings), and `final`.\n* **File / Repo modes** – writes the final text back to the file(s) and prints a concise markdown table summarising changes.\n* **Embedded** – prints only the `final` string.\n\n## Safety & Ethics\n* Never fabricate facts. If a claim requires external detail that is not present, either ask the user for clarification or omit the detail.\n* Respect the author’s voice: only add personality when the content type (blog, essay, personal) calls for it.\n* The skill does **not** modify code blocks, front‑matter, or link targets.\n\n---"
+  }
+}

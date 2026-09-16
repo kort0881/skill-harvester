@@ -1,0 +1,69 @@
+{
+  "library_id": "design/automated-ios-marketing-screenshot-capture-16ec9d23",
+  "title": "Automated iOS Marketing Screenshot Capture",
+  "category": "design",
+  "tags": [
+    "ios",
+    "swiftui",
+    "marketing",
+    "screenshots",
+    "automation",
+    "swiftdata",
+    "simctl"
+  ],
+  "summary": "A step‑by‑step guide to capture full‑screen marketing screenshots and isolated UI elements from a SwiftUI iOS app using an in‑app DEBUG‑only capture system. It covers requirement gathering, navigation analysis, code generation, a shell script for locale loops, and verification checklist.",
+  "source": {
+    "repository": "ParthJadhav/ios-marketing-capture",
+    "repository_url": "https://github.com/ParthJadhav/ios-marketing-capture",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/ParthJadhav/ios-marketing-capture/blob/5d78311bd4868c82cbaad3046298f28ed296fcb2/SKILL.md",
+    "api_sha": "07851b9df3a81b9f431efd0df514454f2531556b",
+    "repo_stars": 259,
+    "repo_forks": 14,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-05T08:14:50+00:00"
+  },
+  "discovered_at": "2026-09-06T11:03:58+00:00",
+  "accepted_at": "2026-09-16T12:42:58+00:00",
+  "content_hash": "9e04a0f02810fc6457c59575463593976e21ad16ad5abf091eca9a2abde6feae",
+  "source_excerpt": "--- name: ios-marketing-capture description: Use when the user wants to automate capture of marketing screenshots for a SwiftUI iOS app across multiple locales, devices, or appearances. Covers full-screen shots, isolated element renders (carousel cards, widgets), and reproducible output naming. Triggers on marketing screenshots, locale screenshots, widget renders, App Store assets, fastlane-alternative, simctl screenshots. --- # iOS Marketing Capture ## Overview Automate reproducible marketing screenshot capture for a SwiftUI iOS app across multiple locales, with two parallel output streams: 1. **Full-screen captures** — every marketing-relevant screen, with deterministic seeded data, real status bar / safe-area chrome 2. **Element captures…",
+  "review": {
+    "decision": "accept",
+    "title": "Automated iOS Marketing Screenshot Capture",
+    "category": "design",
+    "summary": "A step‑by‑step guide to capture full‑screen marketing screenshots and isolated UI elements from a SwiftUI iOS app using an in‑app DEBUG‑only capture system. It covers requirement gathering, navigation analysis, code generation, a shell script for locale loops, and verification checklist.",
+    "quality_score": 92,
+    "uniqueness_score": 84,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 91,
+    "strengths": [
+      "Very detailed workflow with clear prerequisites and inputs",
+      "Provides concrete Swift code snippets and shell script template",
+      "Addresses common pitfalls (Live Activities, widget rendering, navigation stacks)",
+      "Includes verification checklist to ensure reproducible output"
+    ],
+    "weaknesses": [
+      "Assumes familiarity with Xcode project internals; could add a brief primer",
+      "No explicit version constraints for Xcode/SwiftUI",
+      "Examples of final folder layout could be visualized with a diagram"
+    ],
+    "tags": [
+      "ios",
+      "swiftui",
+      "marketing",
+      "screenshots",
+      "automation",
+      "swiftdata",
+      "simctl"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short section on required Xcode / SwiftUI version (e.g., Xcode 16+, iOS 16+).",
+      "Provide a minimal example project or a link to a sample repository.",
+      "Include a quick‑start command line snippet that runs the script with a default simulator."
+    ],
+    "normalized_skill_markdown": "---\nname: ios-marketing-capture\ndescription: Automate reproducible marketing screenshot capture for a SwiftUI iOS app across locales, devices, and appearances. Generates full‑screen shots and isolated element renders (cards, widgets, charts) with deterministic naming.\n---\n\n# iOS Marketing Capture\n\n## Overview\nAutomate marketing‑ready screenshots for a SwiftUI iOS app. The workflow produces two output streams:\n1. **Full‑screen captures** – each marketing‑relevant screen with real status‑bar chrome.\n2. **Element captures** – isolated renders of cards, widgets, charts, etc., with transparent corners.\n\nThe skill implements the **capture** step; post‑processing (device mock‑ups, gradients) can be handled by a separate `app-store-screenshots` skill.\n\n## Core Approach\nThe solution runs **in‑app** (DEBUG‑only) rather than XCUITest. Benefits:\n- No extra test target or pbxproj surgery.\n- Faster iteration – just relaunch the binary.\n- Direct access to ViewModels, SwiftData, `ImageRenderer`, and `UIWindow.drawHierarchy`.\n- Required for rendering widgets and isolated components.\n\n### How It Works\n1. Add a `MarketingCapture.swift` file (DEBUG‑only) to the main app target.\n2. Launch the app with `-MarketingCapture 1`. The file seeds demo data, then a coordinator walks a list of `CaptureStep`s – each step navigates, waits, snapshots, and cleans up.\n3. PNGs are written to `Documents/marketing/<locale>/` inside the app sandbox.\n4. A shell script builds the app, installs it, and loops over locales using `simctl launch` with `-AppleLanguages` / `-AppleLocale`. Files are extracted via `simctl get_app_container`.\n\n## Process\n### Step 1 – Gather Requirements\nAsk the user (one question at a time) for:\n1. Screens to capture (navigation paths).\n2. Isolated elements (cards, widgets, charts, etc.).\n3. Locales (all, subset, or explicit list).\n4. Simulator device (e.g., iPhone 17 6.1\" for iOS 26).\n5. Appearance (light, dark, both).\n6. Demo‑data strategy (auto‑seed, debug button, manual, or none).\n\n### Step 2 – Exploration\nInspect the codebase to determine:\n- Project group type (synchronized folder groups).\n- Root navigation pattern (`TabView`, `NavigationStack`, `NavigationSplitView`, or custom).\n- Deep‑link handling.\n- Location of demo‑data seeders.\n- Widget target membership.\n- Presence of Live Activities or CloudKit‑backed SwiftData.\n- Views that need a non‑default state for capture.\n\n### Step 3 – Present Design\nSummarize the plan and obtain explicit approval before writing code. Include:\n1. Architecture overview.\n2. File list to be created/modified.\n3. Per‑screen navigation plan.\n4. Capture ordering rationale.\n5. Element‑rendering approach.\n6. Output folder layout and naming.\n7. Known gotchas for the project.\n8. Any required primed view state.\n\n### Step 4 – Implement\nUse the templates in `templates/` as reference (not copy‑paste). Create:\n- `MarketingCapture.swift` – launch‑arg parsing, snapshot helpers, `CaptureStep` definition, coordinator, element harness.\n- Hook in the root view (e.g., `ContentView.swift`) to seed data and start the coordinator when the launch flag is present.\n- DEBUG‑gated view modifications for primed state.\n- `scripts/capture-marketing.sh` – build, install, locale loop, extraction.\n- Add `marketing/` to `.gitignore`.\n\n#### Example `CaptureStep`\n```swift\nstruct CaptureStep {\n    let name: String                     // output filename, e.g. \"01-home\"\n    let navigate: @MainActor () -> Void   // put app in correct state\n    let settle: Duration                 // wait for animations / loads\n    let cleanup: (@MainActor () -> Void)? // optional teardown\n}\n```\nCoordinator loop (simplified):\n```swift\nfor step in steps {\n    step.navigate()\n    try? await Task.sleep(for: step.settle)\n    if let image = MarketingCapture.snapshotKeyWindow() {\n        MarketingCapture.writePNG(image, name: step.name)\n    }\n    step.cleanup?()\n    try? await Task.sleep(for: .milliseconds(400))\n}\n```\n\n#### Navigation Patterns\n- **TabView** – switch `selectedTab` index.\n- **NavigationStack** – push/pop routes via a router.\n- **NavigationSplitView** – set sidebar and detail selections.\n\n#### Priming View State\nAdd static vars in `MarketingCapture` (e.g., `pendingElapsedSeconds`) and read them in a DEBUG‑gated `.onAppear` in the target view. The coordinator sets these vars before navigation and clears them afterward.\n\n#### Demo Data Seeder\nIf none exists, create `DemoDataSeeder.swift` (DEBUG only) that inserts realistic items into `ModelContext`. Make it idempotent.\n\n#### Element Rendering\nUse `ImageRenderer` at 3× scale with transparent corners. Example for a card:\n```swift\nlet card = ItemCard(item: item, theme: theme)\n    .frame(width: 380)\n    .background(theme.background)\n    .clipShape(RoundedRectangle(cornerRadius: 20))\nlet renderer = ImageRenderer(content: card)\nrenderer.scale = 3\nrenderer.isOpaque = false\nif let img = renderer.uiImage {\n    MarketingCapture.writePNG(img, name: \"card-\\(slugify(item.name))\", subfolder: \"elements\")\n}\n```\nSimilar helpers are provided for widgets and charts.\n\n## Known Gotchas\n1. Live Activities persist across launches – end them at the start of capture.\n2. Seed data only once; reseeding per locale can crash CloudKit sync.\n3. ViewModels may capture an empty store before seeding – refresh after seeding.\n4. Dismissing sheets via binding may fail – use a NotificationCenter signal.\n5. NavigationPath cannot be popped externally – order captures accordingly.\n6. Widget views live in an extension target – add them to the main app target or skip rendering.\n7. `ProgressView` without style renders incorrectly – apply `.progressViewStyle(.linear)`.\n8. `.containerBackground` is a no‑op outside widget context – wrap with explicit background.\n9. iPhone 8 Plus is unavailable on iOS 26 simulators – use a modern device.\n10. Locale launch arguments require parentheses: `-AppleLanguages (de) -AppleLocale de`.\n11. `ImageRenderer` captures a single frame – add a delay for on‑appear animations.\n\n## Output Layout\n```\nmarketing/\n    <locale>/\n        01-home.png\n        02‑detail.png\n        …\n        elements/\n            card‑<name>.png\n            widget‑<size>.png\n            chart‑<name>.png\n```\nAdd `marketing/` to `.gitignore`.\n\n## Verification Checklist\n- [ ] All locales contain the expected number of screenshots.\n- [ ] Files differ between locales (translation applied).\n- [ ] Visually inspect a few primary‑locale screens.\n- [ ] Visually inspect the same screens for another locale.\n- [ ] Verify at least one widget and one card render.\n- [ ] No stray sheets or overlays appear in any screenshot.\n\n## Templates\n- `templates/MarketingCapture.swift.template` – skeleton for the capture file.\n- `templates/capture-marketing.sh.template` – skeleton for the shell script (replace bundle ID, scheme, simulator).\n"
+  }
+}

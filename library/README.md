@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-15T12:46:03+00:00`
+Последнее обновление: `2026-09-16T12:45:08+00:00`
 
-Активных skills: **17**
+Активных skills: **21**
 
 ## Категории
 
@@ -13,6 +13,7 @@
 | Skill | Описание | Теги | Источник |
 |---|---|---|---|
 | [AgentRecall Persistent Memory for AI Agents](./skills/automation/agentrecall-persistent-memory-for-ai-agents-706899ef/SKILL.md) | AgentRecall provides a local‑only, persistent memory system for AI agents. It offers a minimal five‑tool surface for session handling, remembering, recalling and checking, with an optional full‑mode exposing 18 tools. The skill includes clear setup instructions, tool specifications, example calls, and a strong security model with no network or credential requirements. | memory, persistence, multi-session, mcp, cross-project, feedback-loop | Goldentrii/AgentRecall-X |
+| [BPMN 2.0 Diagram Generator with LLM Extraction and Validation](./skills/automation/bpmn-2-0-diagram-generator-with-llm-extraction-and-validation-76918c8f/SKILL.md) | This skill converts natural‑language process descriptions into OMG‑compliant BPMN 2.0 XML files and SVG previews via a four‑phase pipeline (intent extraction, validation, auto‑layout, serialization). It supports full‑featured BPMN elements, multi‑pool collaborations, and an optional optimisation mode that suggests non‑blocking redesign advisories. The skill can be run from the CLI, programmatically, or via an HTTP API, and includes strict validation and rollback mechanisms to guarantee structural soundness. | bpmn, automation, workflow, generation, validation, nodejs | Stieges/bpmn-generator |
 | [Chinese Resume JD Optimizer](./skills/automation/chinese-resume-jd-optimizer-cbb3f2a7/SKILL.md) | A comprehensive workflow for optimizing Chinese resumes against specific job descriptions. It guides users through input collection, JD parsing, gap analysis, targeted questioning, resume rewriting, and multi‑layered risk checks, ensuring factual accuracy and ATS/HR friendliness. The skill enforces strict anti‑fabrication rules and adapts to various input scenarios (full JD + resume, resume‑only, JD‑only, or insufficient data). | resume, jd, optimization, chinese, automation, career | coinluu/resume-jd-optimizer-cn |
 | [Offline Evidence‑Aware Visual Explainer Generator](./skills/automation/offline-evidence-aware-visual-explainer-generator-bd2264e2/SKILL.md) | A Node.js‑based workflow that turns a technical concept, module, trade‑off, or incident into a self‑contained, evidence‑tagged HTML explainer. It defines a strict spec‑first approach, validation steps, and deterministic rendering without any network access. | automation, visualization, evidence, offline, nodejs | yizhiyanhua-ai/fireworks-open-eli5 |
 | [Personal IP Diagram Creator](./skills/automation/personal-ip-diagram-creator-52c958e2/SKILL.md) | A workflow that turns a user‑provided personal photo, profile screenshot, bio or other identity material into a reusable set of minimalist hand‑drawn visual assets. The skill builds a stable “IP character”, extracts core content from long‑form text, selects an appropriate visual mode (hand‑drawn illustration, knowledge‑card or PPT), and generates or outputs prompts for image‑generation tools. It includes safety checks, environment detection, QA, and repair steps. | personal ip, visual generation, automation, content creation | haloshin/ip-diagram-creator |
@@ -23,12 +24,14 @@
 
 | Skill | Описание | Теги | Источник |
 |---|---|---|---|
+| [Humanize: Remove AI Writing Patterns](./skills/content-creation/humanize-remove-ai-writing-patterns-b2d42f9a/SKILL.md) | This skill provides a comprehensive catalog of 41 AI‑generated writing patterns and a step‑by‑step workflow to rewrite prose so it sounds natural and human. It includes voice calibration, statistical tells, and multiple invocation modes (pasted text, file, repo audit, embedded). The output is a draft audit, a cleaned rewrite, and optional git‑aware file updates. | content, editing, ai-detection, writing, humanization | aashaexo/soundshuman |
 | [Markit – Convert Files and URLs to Markdown](./skills/content-creation/markit-convert-files-and-urls-to-markdown-fbf180c9/SKILL.md) | Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK. | content_creation, markdown, cli, sdk, nodejs, file_conversion | shift-labs-ai/markit |
 
 ### design
 
 | Skill | Описание | Теги | Источник |
 |---|---|---|---|
+| [Automated iOS Marketing Screenshot Capture](./skills/design/automated-ios-marketing-screenshot-capture-16ec9d23/SKILL.md) | A step‑by‑step guide to capture full‑screen marketing screenshots and isolated UI elements from a SwiftUI iOS app using an in‑app DEBUG‑only capture system. It covers requirement gathering, navigation analysis, code generation, a shell script for locale loops, and verification checklist. | ios, swiftui, marketing, screenshots, automation, swiftdata | ParthJadhav/ios-marketing-capture |
 | [Godot Solana SDK Integration Guide](./skills/design/godot-solana-sdk-integration-guide-f5eb7d66/SKILL.md) | This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot. | godot, solana, blockchain, gdscript, sdk, gaming | Virus-Axel/godot-solana-sdk |
 | [Yueban Image‑to‑Code 750px Pixel‑Perfect Conversion](./skills/design/yueban-image-to-code-750px-pixel-perfect-conversion-466457ef/SKILL.md) | A step‑by‑step workflow that converts a UI screenshot or design image into exact HTML/CSS/JS code and generates transparent PNG assets, all locked to a 750 px wide canvas. It enforces strict pixel‑perfect scaling, manifest‑driven slicing, and detailed verification to ensure the output matches the source image without any visual optimisation or redesign. | design-to-code, pixel‑perfect, ui‑slicing, manifest, png‑export | SemineChen/yueban-image-to-code |
 
@@ -57,6 +60,7 @@
 |---|---|---|---|
 | [Repo Task Proof Loop](./skills/programming/repo-task-proof-loop-3324eff9/SKILL.md) | A repo‑local workflow that creates a structured task folder, installs project‑scoped Codex and Claude subagents, and manages a repeatable spec‑freeze → build → evidence → verify → fix loop. It updates AGENTS.md and the repository’s Claude guide with managed workflow blocks and provides a set of CLI commands to drive each phase. The skill is designed for large coding tasks that require auditable proof of implementation. | repo, workflow, coding, automation, subagents | DenisSergeevitch/repo-task-proof-loop |
 | [Walrus Memory SDK (memwal) Integration Guide](./skills/programming/walrus-memory-sdk-memwal-integration-guide-2261ec13/SKILL.md) | This skill provides a comprehensive guide to integrating the Walrus Memory SDK (memwal) into applications. It covers installation, configuration, API usage, Vercel AI SDK middleware, and troubleshooting, enabling developers to add portable, encrypted, and semantically searchable memory to AI agents. The documentation includes practical code snippets for TypeScript and notes on namespace management and security best practices. | memory, sdk, walrus, sui, typescript, semantic-search | MystenLabs/MemWal |
+| [Xiaohu IP Studio – Chinese Deep‑Article Illustration Engine](./skills/programming/xiaohu-ip-studio-chinese-deep-article-illustration-engine-cb835367/SKILL.md) | A structured workflow for automatically generating illustration images for Chinese deep‑article content using a library of 31 predefined IP characters. The skill defines how to analyse text, create a shot list, let the user choose a character and style, generate images via a configurable image‑generation backend, and perform quality checks before delivery. | illustration, image‑generation, workflow, character‑library, chinese‑content | xiaohuailabs/xiaohu-ip-studio |
 
 ### research
 
