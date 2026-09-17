@@ -1,272 +1,6 @@
 {
   "items": [
     {
-      "candidate_id": "e06f7c24c777394c13c3ba52",
-      "status": "pending",
-      "discovered_at": "2026-08-30T09:53:13+00:00",
-      "source": {
-        "repository": "mohitagw15856/pm-claude-skills",
-        "repository_url": "https://github.com/mohitagw15856/pm-claude-skills",
-        "default_branch": "main",
-        "path": "skills/proposal-writer/SKILL.md",
-        "html_url": "https://github.com/mohitagw15856/pm-claude-skills/blob/aa71bee8d20b7febdfd49f3aa96f26f316344628/skills/proposal-writer/SKILL.md",
-        "api_sha": "f71e8ca45e268c0166bbc6ce11a53de9ad7c4582",
-        "repo_stars": 1323,
-        "repo_forks": 232,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-08-30T07:31:26+00:00"
-      },
-      "raw_file": "skills/proposal-writer/SKILL.md",
-      "title": "proposal-writer",
-      "category_hint": "automation",
-      "content_hash": "dae7b66d69712267ac3540c8095efc378e4f8e4412b6acd187fe6d9460b39130",
-      "content_characters": 3585,
-      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/proposal-writer/SKILL.md'"
-    },
-    {
-      "candidate_id": "74411816dc8b0550317a28b3",
-      "status": "pending",
-      "discovered_at": "2026-08-30T09:53:14+00:00",
-      "source": {
-        "repository": "mohitagw15856/pm-claude-skills",
-        "repository_url": "https://github.com/mohitagw15856/pm-claude-skills",
-        "default_branch": "main",
-        "path": "skills/investor-update/SKILL.md",
-        "html_url": "https://github.com/mohitagw15856/pm-claude-skills/blob/aa71bee8d20b7febdfd49f3aa96f26f316344628/skills/investor-update/SKILL.md",
-        "api_sha": "8537f759f129e227101ffa8b21f3e34c03ca8d6c",
-        "repo_stars": 1323,
-        "repo_forks": 232,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-08-30T07:31:26+00:00"
-      },
-      "raw_file": "skills/investor-update/SKILL.md",
-      "title": "investor-update",
-      "category_hint": "content_creation",
-      "content_hash": "016a91c5252cdf6e5a59d0d4e4e6ee0f8a0cbb44d347290e8a11a20d1319346c",
-      "content_characters": 4925,
-      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/investor-update/SKILL.md'"
-    },
-    {
-      "candidate_id": "26f5cdb131c181c1ff2ce81d",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:24+00:00",
-      "source": {
-        "repository": "petar-nauka/fact-check-skill",
-        "repository_url": "https://github.com/petar-nauka/fact-check-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/petar-nauka/fact-check-skill/blob/ebfde09a28b5547cbed29f5f66ddfd3595e64ade/SKILL.md",
-        "api_sha": "079e2460fcc67769100ce40715630c3cd0d35a0f",
-        "repo_stars": 78,
-        "repo_forks": 10,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-11T23:45:14+00:00"
-      },
-      "raw_file": "raw/petar-nauka-fact-check-skill/SKILL.md",
-      "title": "fact-check",
-      "category_hint": "research",
-      "content_hash": "066f183f8c663968d0de28262b211bf235796df24f96f92666eeb18f10b96e02",
-      "content_characters": 7551
-    },
-    {
-      "candidate_id": "87a8f21f546c119ca00a1897",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:28+00:00",
-      "source": {
-        "repository": "amanning3390/deepswarm",
-        "repository_url": "https://github.com/amanning3390/deepswarm",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/amanning3390/deepswarm/blob/614d635bc06f643f150d58d07c1beb823a5f3dad/SKILL.md",
-        "api_sha": "490072a0eef5a79044b97f6f75ae64e762833334",
-        "repo_stars": 122,
-        "repo_forks": 5,
-        "repo_license": null,
-        "repo_updated_at": "2026-09-10T00:31:38+00:00"
-      },
-      "raw_file": "raw/amanning3390-deepswarm/SKILL.md",
-      "title": "deepswarm",
-      "category_hint": "automation",
-      "content_hash": "42664ff592155ec983418d1ec6a5992baf0ae256998a8bf597139bf6d8b17367",
-      "content_characters": 7748
-    },
-    {
-      "candidate_id": "f2cad8f82e11c7dd9fbc93b3",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:30+00:00",
-      "source": {
-        "repository": "saxenauts/syke",
-        "repository_url": "https://github.com/saxenauts/syke",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/saxenauts/syke/blob/d74aa6de38ac1ea0185fd6767dbf4a6bf1f82d77/SKILL.md",
-        "api_sha": "43e2bf79dc5c9d3c454ed43bd74554433f07fc6f",
-        "repo_stars": 59,
-        "repo_forks": 3,
-        "repo_license": "GNU Affero General Public License v3.0",
-        "repo_updated_at": "2026-08-23T03:54:49+00:00"
-      },
-      "raw_file": "raw/saxenauts-syke/SKILL.md",
-      "title": "syke",
-      "category_hint": "automation",
-      "content_hash": "e10aaa8901437bd8a2bd8bfde35cd5a6e09ec13708ee2dd75869a9b75ea9c7bb",
-      "content_characters": 4345
-    },
-    {
-      "candidate_id": "86132a30d2b3bc832144bc13",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:31+00:00",
-      "source": {
-        "repository": "wzyn20051216/ros-robotics-skill",
-        "repository_url": "https://github.com/wzyn20051216/ros-robotics-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/wzyn20051216/ros-robotics-skill/blob/a07713a746f73c4dd1816389c95bb71a057ef13c/SKILL.md",
-        "api_sha": "e92c11a4fe912374d81941db1b67a026f6ed67ee",
-        "repo_stars": 58,
-        "repo_forks": 3,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-08-31T04:58:21+00:00"
-      },
-      "raw_file": "raw/wzyn20051216-ros-robotics-skill/SKILL.md",
-      "title": "ros-robotics",
-      "category_hint": "devops",
-      "content_hash": "5d4d8f56a3c50144aeffa9a4585c0c5cd62dfaea41919ff10367a05737fab2d9",
-      "content_characters": 3165
-    },
-    {
-      "candidate_id": "5c423a30bbe0a2aefbfeaae8",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:33+00:00",
-      "source": {
-        "repository": "b1rdmania/hinge-profile-optimizer",
-        "repository_url": "https://github.com/b1rdmania/hinge-profile-optimizer",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/b1rdmania/hinge-profile-optimizer/blob/55575ffbc257b3e8a753086ea11f3b89796ff4d6/SKILL.md",
-        "api_sha": "82a211040ffcc17e139bcdeb01cd02c43ba8500c",
-        "repo_stars": 61,
-        "repo_forks": 7,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-12T17:10:41+00:00"
-      },
-      "raw_file": "raw/b1rdmania-hinge-profile-optimizer/SKILL.md",
-      "title": "hinge-profile-optimizer",
-      "category_hint": "design",
-      "content_hash": "f4f656177b4e9b6621766a1ead7ff7ccaaf9d95204afab978c0dc2f1366c6b2f",
-      "content_characters": 19465
-    },
-    {
-      "candidate_id": "88a60d6c5f10a6b511be4b46",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:34+00:00",
-      "source": {
-        "repository": "fuwenhao12/academic-ref-inserter",
-        "repository_url": "https://github.com/fuwenhao12/academic-ref-inserter",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/fuwenhao12/academic-ref-inserter/blob/dfa079ec9be76d30a2053522fdc8bb7fc986c136/SKILL.md",
-        "api_sha": "02730d564c8a838a78f2df2d8d3bae41b8bc8527",
-        "repo_stars": 56,
-        "repo_forks": 1,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-10T09:39:03+00:00"
-      },
-      "raw_file": "raw/fuwenhao12-academic-ref-inserter/SKILL.md",
-      "title": "academic-ref-inserter",
-      "category_hint": "research",
-      "content_hash": "155b6cba788d50edc2bf5c9210766250433ac6386832170b23ec23a4d76dafc0",
-      "content_characters": 8670
-    },
-    {
-      "candidate_id": "123d43de2f8ca2395ce555b3",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:36+00:00",
-      "source": {
-        "repository": "eddmann/strava-cli",
-        "repository_url": "https://github.com/eddmann/strava-cli",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/eddmann/strava-cli/blob/819485f6ba1723c2b152e6a5cad0c4e6912a369b/SKILL.md",
-        "api_sha": "fda2aacc9e84d76431594059e2e6cb73516e8bcb",
-        "repo_stars": 27,
-        "repo_forks": 3,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-08-25T01:14:19+00:00"
-      },
-      "raw_file": "raw/eddmann-strava-cli/SKILL.md",
-      "title": "strava",
-      "category_hint": "content_creation",
-      "content_hash": "c7c6031c8b88405c66dbac8e28a2cb7061d8d04b026a03e1ee6076fec9895ec0",
-      "content_characters": 2959
-    },
-    {
-      "candidate_id": "b66d1dbb93e8fdfb152f9df9",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:38+00:00",
-      "source": {
-        "repository": "cangtianhuang/humanizer-academic-zh",
-        "repository_url": "https://github.com/cangtianhuang/humanizer-academic-zh",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/cangtianhuang/humanizer-academic-zh/blob/9a30ac38200692916efae5e5128273def2099ae6/SKILL.md",
-        "api_sha": "cb41813034f82497e392f50d6d8c17a38338c4af",
-        "repo_stars": 58,
-        "repo_forks": 2,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-13T04:44:37+00:00"
-      },
-      "raw_file": "raw/cangtianhuang-humanizer-academic-zh/SKILL.md",
-      "title": "humanizer-academic-zh",
-      "category_hint": "content_creation",
-      "content_hash": "b2c789a9a4b26ad59c8d8ca25ea5f0e08efc2c0c8c8de2ef4b69fe2ac5f42773",
-      "content_characters": 5380
-    },
-    {
-      "candidate_id": "686ef3f8d76fd1cb38791569",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:39+00:00",
-      "source": {
-        "repository": "ALBEDO-TABAI/lets-go-rss",
-        "repository_url": "https://github.com/ALBEDO-TABAI/lets-go-rss",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/ALBEDO-TABAI/lets-go-rss/blob/08be2901bf3cef5a065651cf8a0bb03f7e5155fe/SKILL.md",
-        "api_sha": "2ee24bf951952cb551915a40297b94870bad5cee",
-        "repo_stars": 101,
-        "repo_forks": 13,
-        "repo_license": null,
-        "repo_updated_at": "2026-09-09T04:59:47+00:00"
-      },
-      "raw_file": "raw/albedo-tabai-lets-go-rss/SKILL.md",
-      "title": "lets-go-rss",
-      "category_hint": "automation",
-      "content_hash": "61a9c7b1abdb9bda7ede39810471ec5cd81b7fc147b282171e6590ef08a6f811",
-      "content_characters": 4967
-    },
-    {
-      "candidate_id": "c706ec146a2a71e357e3573f",
-      "status": "pending",
-      "discovered_at": "2026-09-13T11:59:41+00:00",
-      "source": {
-        "repository": "rafsilva85/credit-optimizer-v5",
-        "repository_url": "https://github.com/rafsilva85/credit-optimizer-v5",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/rafsilva85/credit-optimizer-v5/blob/37eb57a8fb2506e8e1c1c5458748bac439c2f521/SKILL.md",
-        "api_sha": "a5da6fd9b6db422fc54dd7d83de4975ee371d723",
-        "repo_stars": 50,
-        "repo_forks": 11,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-03T06:47:54+00:00"
-      },
-      "raw_file": "raw/rafsilva85-credit-optimizer-v5/SKILL.md",
-      "title": "credit-optimizer",
-      "category_hint": "automation",
-      "content_hash": "f905d4bd1c1ae5a85b1266105f95cbf63683c07166e93b78d980d95031c34f4b",
-      "content_characters": 4114
-    },
-    {
       "candidate_id": "5b9832338be8aa852e6392e9",
       "status": "pending",
       "discovered_at": "2026-09-13T11:59:42+00:00",
@@ -1891,7 +1625,53 @@
       "content_hash": "306bcc2d61f1d9684fba1a720d3489ba283905f8b7af5436183519bbe9cac0b0",
       "content_characters": 18069,
       "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/local-dev-setup/SKILL.md'"
+    },
+    {
+      "candidate_id": "e06f7c24c777394c13c3ba52",
+      "status": "pending",
+      "discovered_at": "2026-08-30T09:53:13+00:00",
+      "source": {
+        "repository": "mohitagw15856/pm-claude-skills",
+        "repository_url": "https://github.com/mohitagw15856/pm-claude-skills",
+        "default_branch": "main",
+        "path": "skills/proposal-writer/SKILL.md",
+        "html_url": "https://github.com/mohitagw15856/pm-claude-skills/blob/aa71bee8d20b7febdfd49f3aa96f26f316344628/skills/proposal-writer/SKILL.md",
+        "api_sha": "f71e8ca45e268c0166bbc6ce11a53de9ad7c4582",
+        "repo_stars": 1323,
+        "repo_forks": 232,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-08-30T07:31:26+00:00"
+      },
+      "raw_file": "skills/proposal-writer/SKILL.md",
+      "title": "proposal-writer",
+      "category_hint": "automation",
+      "content_hash": "dae7b66d69712267ac3540c8095efc378e4f8e4412b6acd187fe6d9460b39130",
+      "content_characters": 3585,
+      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/proposal-writer/SKILL.md'"
+    },
+    {
+      "candidate_id": "74411816dc8b0550317a28b3",
+      "status": "pending",
+      "discovered_at": "2026-08-30T09:53:14+00:00",
+      "source": {
+        "repository": "mohitagw15856/pm-claude-skills",
+        "repository_url": "https://github.com/mohitagw15856/pm-claude-skills",
+        "default_branch": "main",
+        "path": "skills/investor-update/SKILL.md",
+        "html_url": "https://github.com/mohitagw15856/pm-claude-skills/blob/aa71bee8d20b7febdfd49f3aa96f26f316344628/skills/investor-update/SKILL.md",
+        "api_sha": "8537f759f129e227101ffa8b21f3e34c03ca8d6c",
+        "repo_stars": 1323,
+        "repo_forks": 232,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-08-30T07:31:26+00:00"
+      },
+      "raw_file": "skills/investor-update/SKILL.md",
+      "title": "investor-update",
+      "category_hint": "content_creation",
+      "content_hash": "016a91c5252cdf6e5a59d0d4e4e6ee0f8a0cbb44d347290e8a11a20d1319346c",
+      "content_characters": 4925,
+      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/investor-update/SKILL.md'"
     }
   ],
-  "updated_at": "2026-09-16T12:45:08+00:00"
+  "updated_at": "2026-09-17T12:44:27+00:00"
 }

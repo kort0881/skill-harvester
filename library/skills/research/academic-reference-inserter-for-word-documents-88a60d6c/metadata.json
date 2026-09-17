@@ -1,0 +1,74 @@
+{
+  "library_id": "research/academic-reference-inserter-for-word-documents-88a60d6c",
+  "title": "Academic Reference Inserter for Word Documents",
+  "category": "research",
+  "tags": [
+    "docx",
+    "citation",
+    "reference",
+    "gbt7714",
+    "ieee",
+    "apa",
+    "research"
+  ],
+  "summary": "A command‑line tool that inserts, formats, and cross‑references academic citations in Word (.docx) files. It supports Chinese GB/T 7714‑2015, IEEE, and APA 7th styles, providing analysis, reformatting, reordering, hyperlinking, and validation steps. The skill outlines a complete workflow, format rules, error handling, and backup procedures for reliable reference management.",
+  "source": {
+    "repository": "fuwenhao12/academic-ref-inserter",
+    "repository_url": "https://github.com/fuwenhao12/academic-ref-inserter",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/fuwenhao12/academic-ref-inserter/blob/dfa079ec9be76d30a2053522fdc8bb7fc986c136/SKILL.md",
+    "api_sha": "02730d564c8a838a78f2df2d8d3bae41b8bc8527",
+    "repo_stars": 56,
+    "repo_forks": 1,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-10T09:39:03+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:34+00:00",
+  "accepted_at": "2026-09-17T12:42:18+00:00",
+  "content_hash": "155b6cba788d50edc2bf5c9210766250433ac6386832170b23ec23a4d76dafc0",
+  "source_excerpt": "--- name: \"academic-ref-inserter\" description: \"Inserts, formats, and cross-references academic citations in docx. Invoke when user needs to insert references, fix citation order, add cross-reference hyperlinks, or reformat bibliography to Chinese (GB/T 7714) or international (IEEE/APA) standards.\" --- # Academic Reference Inserter (学术参考文献插入器) A comprehensive tool for inserting, formatting, and cross-referencing academic references in Word (.docx) documents. Supports Chinese national standard GB/T 7714-2015 and major international journal formats (IEEE, APA 7th). --- ## 1. When to Invoke Invoke this skill when the user: - Says \"插入参考文献\" / \"insert references\" - Says \"格式化参考文献\" / \"format bibliography\" - Says \"添加交叉引用\" / \"add cross-references\" - …",
+  "review": {
+    "decision": "accept",
+    "title": "Academic Reference Inserter for Word Documents",
+    "category": "research",
+    "summary": "A command‑line tool that inserts, formats, and cross‑references academic citations in Word (.docx) files. It supports Chinese GB/T 7714‑2015, IEEE, and APA 7th styles, providing analysis, reformatting, reordering, hyperlinking, and validation steps. The skill outlines a complete workflow, format rules, error handling, and backup procedures for reliable reference management.",
+    "quality_score": 85,
+    "uniqueness_score": 70,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Comprehensive step‑by‑step workflow",
+      "Supports multiple citation standards including GB/T 7714",
+      "Detailed format rules and examples",
+      "Built‑in validation and backup mechanisms",
+      "Error‑handling guidance"
+    ],
+    "weaknesses": [
+      "Missing explicit installation and dependency list",
+      "No sample command output shown",
+      "Assumes presence of scripts without describing how to obtain them",
+      "No OS or Python version requirements",
+      "No automated test instructions"
+    ],
+    "tags": [
+      "docx",
+      "citation",
+      "reference",
+      "gbt7714",
+      "ieee",
+      "apa",
+      "research"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an installation section with required Python version and packages (e.g., python-docx, lxml)",
+      "Provide a link or brief description of how to obtain the `scripts/insert_refs.py` module",
+      "Include example output of the analysis command",
+      "Specify supported operating systems and any external tools needed",
+      "Add a simple test case or unit‑test guide to verify correct behavior"
+    ],
+    "normalized_skill_markdown": "---\nname: academic-ref-inserter\ndescription: Inserts, formats, and cross‑references academic citations in Word (.docx) documents, supporting GB/T 7714, IEEE, and APA styles.\n---\n\n# Academic Reference Inserter (学术参考文献插入器)\n\nA comprehensive tool for inserting, formatting, and cross‑referencing academic references in Word (.docx) documents. Supports Chinese national standard GB/T 7714‑2015 and major international journal formats (IEEE, APA 7th).\n\n## 1. When to Invoke\n\nInvoke this skill when the user:\n- Says \"插入参考文献\" / \"insert references\"\n- Says \"格式化参考文献\" / \"format bibliography\"\n- Says \"添加交叉引用\" / \"add cross‑references\"\n- Says \"按GB/T 7714格式化\" / \"format by GB/T 7714\"\n- Says \"按IEEE/APA格式\" / \"format in IEEE/APA style\"\n- Needs to reorder, validate, or fix citation numbering\n- Submits a paper and needs reference checking before journal submission\n\n## 2. Supported Citation Formats\n\n| Format | Region | Common In | Ordering | In‑text style |\n|--------|--------|-----------|----------|---------------|\n| **GB/T 7714‑2015** | China (中文) | 计算机工程与应用, 自动化学报 | Sequential [1][2][3] | [N] |\n| **IEEE** | International | Engineering, CS journals | Sequential [1][2][3] | [N] |\n| **APA 7th** | International | Psychology, Education, Business | Alphabetical | (Author, Year) |\n\n## 3. Complete Workflow\n\n### Step 1: Analyze Document\n\nBefore making any changes, **always** run the analysis script to understand the current state:\n\n```bash\npython scripts/insert_refs.py analyze --input <paper.docx>\n```\n\nThe script outputs:\n- Total paragraphs\n- All in‑text citation markers found (in order)\n- All bibliography entries found\n- Orphan citations (cited but not in bibliography)\n- Uncited references (in bibliography but not cited)\n- Current ordering analysis\n\n### Step 2: Determine Format\n\nAsk the user which format they need (if not already specified):\n- **GB/T 7714‑2015** (Chinese standard, 顺序编码制)\n- **IEEE** (numbered references)\n- **APA 7th** (author‑year)\n- **Vancouver** (numbered, medical)\n\nIf the document already has references, auto‑detect the format.\n\n### Step 3: Normalize and Reformat\n\nRun the reformat command:\n\n```bash\n# GB/T 7714‑2015\npython scripts/insert_refs.py reformat --input <paper.docx> --format gbt7714\n\n# IEEE\npython scripts/insert_refs.py reformat --input <paper.docx> --format ieee\n\n# APA 7th\npython scripts/insert_refs.py reformat --input <paper.docx> --format apa7\n```\n\n### Step 4: Reorder References\n\nIf the format requires sequential numbering (GB/T 7714, IEEE), reorder references to match first citation order in text:\n\n```bash\npython scripts/insert_refs.py reorder --input <paper.docx>\n```\n\n### Step 5: Insert Cross‑Reference Hyperlinks\n\nAdd bookmarks to each bibliography entry and convert all in‑text citations to clickable hyperlinks:\n\n```bash\npython scripts/insert_refs.py hyperlink --input <paper.docx>\n```\n\n### Step 6: Validate\n\nRun comprehensive validation:\n\n```bash\npython scripts/insert_refs.py validate --input <paper.docx> --format gbt7714\n```\n\nChecks performed:\n- All citations have matching bibliography entries\n- All bibliography entries are cited in text\n- Sequential numbering is correct (no gaps/duplicates)\n- Minimum reference count met (default 15)\n- Author names formatted correctly\n- Document type tags present ([J], [M], [C], [D], etc.)\n- Year format valid\n- No orphan references\n\n### Step 7: Report\n\nProvide the user with a clear summary of:\n- Number of references processed\n- Changes made (insertions, renumbering, hyperlinks)\n- Any warnings (uncited refs, missing tags, format issues)\n- Backup file location\n\n## 4. GB/T 7714‑2015 Format Rules (中国国家标准)\n\n### Journal Article [J]\n\n```\n[序号] 作者. 题名[J]. 刊名, 出版年, 卷(期): 起止页码.\n```\n\n**Rules**\n- Authors: `Lastname FirstInitial SecondInitial` (e.g., `Wang Y, Wu H`)\n- Chinese authors: Keep Chinese names (e.g., `刘云`) in Chinese journals, use pinyin `Liu Y` in English journals\n- ≤3 authors: list all; ≥4: list first 3 then `, et al.`\n- No quotes around title\n- Journal name in full for Chinese journals\n- DOI optional but encouraged\n\n**Examples**\n```\n[1] Wang Y, Wu H, Dong J, et al. TimeXer: Empowering transformers for time series forecasting with exogenous variables[J]. Advances in Neural Information Processing Systems, 2024, 37: 469-498.\n\n[2] 刘云, 胡涛, 张华, 等. 基于深度学习的空气质量预测综述[J]. 计算机工程与应用, 2024, 60(2): 1-15.\n```\n\n### Conference Paper [C]\n\n```\n[序号] 作者. 题名[C]//会议录名称. 出版地: 出版者, 出版年: 起止页码.\n```\n\n**Example**\n```\n[3] Zeng A, Chen M, Zhang L, et al. Are transformers effective for time series forecasting?[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2023: 11121-11128.\n```\n\n### Book [M]\n\n```\n[序号] 作者. 书名[M]. 出版地: 出版者, 出版年.\n```\n\n**Example**\n```\n[4] Box G E, Jenkins G M, Reinsel G C, et al. Time series analysis: forecasting and control[M]. John Wiley & Sons, 2015.\n```\n\n*(Other types D, S, EB/OL follow similar patterns – see original skill for full tables.)*\n\n## 5. IEEE Format Rules\n\n### Journal Article [J]\n\n```\n[1] A. Author, B. Author, and C. Author, \"Title of article,\" Journal Name, vol. X, no. Y, pp. Z1‑Z2, Month, Year.\n```\n\n*(Author, conference, and book rules are analogous – see original skill for details.)*\n\n## 6. APA 7th Format Rules\n\n### Journal Article [J]\n\n```\nAuthor, A. A., & Author, B. B. (Year). Title of article. Journal Name, Volume(Issue), page‑page. https://doi.org/xxxx\n```\n\n*(Book rules are analogous – see original skill for details.)*\n\n## 7. Error Handling\n\n### Common Issues\n\n| Issue | Detection | Fix |\n|-------|-----------|-----|\n| Missing type tag | `[J]` not found in ref | Auto‑detect from source pattern |\n| Author name format wrong | Name has incorrect capitalization or order | Normalize to target format |\n| No matching citation | Ref in bib but never cited | Remove ref or add placeholder citation |\n| No matching ref | Citation `[N]` in text but not in bib | Add placeholder reference entry |\n| Duplicate citation numbers | Two refs share same number | Renumber sequentially |\n| Gaps in numbering | `[1], [2], [4]` without `[3]` | Compact to sequential |\n\n### Recovery\nIf any step fails:\n1. Restore from the automatic backup (`_backup_refs.docx`)\n2. Report the error to the user\n3. Offer manual intervention for complex cases\n\n## 8. Output Files\n\n| File | Description |\n|------|-------------|\n| `paper.docx` (original) | Updated with hyperlinks |\n| `paper_backup_refs_YYYYMMDD_HHMMSS.docx` | Timestamped pre‑modification backup |\n| `paper_analysis.json` | Citation analysis report |\n\n## 9. Validation Checklist\n\nBefore reporting completion, verify **all** of:\n- [ ] Reference count ≥ 15 (for journal papers)\n- [ ] ≥ 50 % references from last 5 years\n- [ ] All in‑text citations have matching bibliography entries\n- [ ] All bibliography entries are cited in text\n- [ ] Sequential numbering matches citation order (GB/T, IEEE)\n- [ ] Each entry has proper type tag `[J]`/`[M]`/`[C]`/`[D]`\n- [ ] Author names formatted correctly for target style\n- [ ] Cross‑reference hyperlinks work (Ctrl+Click)\n- [ ] Backup file created"
+  }
+}

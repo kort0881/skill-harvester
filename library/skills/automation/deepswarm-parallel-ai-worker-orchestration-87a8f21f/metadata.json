@@ -1,0 +1,72 @@
+{
+  "library_id": "automation/deepswarm-parallel-ai-worker-orchestration-87a8f21f",
+  "title": "DeepSwarm – Parallel AI Worker Orchestration",
+  "category": "automation",
+  "tags": [
+    "orchestration",
+    "parallel",
+    "api",
+    "batch",
+    "automation",
+    "cost-optimization",
+    "multi-turn"
+  ],
+  "summary": "DeepSwarm provides a framework for orchestrating parallel AI workers to handle long‑running or multi‑turn batch API tasks. It automatically calculates the optimal number of workers and stagger timing, and supports tiered model delegation to reduce cost. The skill includes task definition, auto‑optimization, checkpointing, and a verification checklist.",
+  "source": {
+    "repository": "amanning3390/deepswarm",
+    "repository_url": "https://github.com/amanning3390/deepswarm",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/amanning3390/deepswarm/blob/614d635bc06f643f150d58d07c1beb823a5f3dad/SKILL.md",
+    "api_sha": "490072a0eef5a79044b97f6f75ae64e762833334",
+    "repo_stars": 122,
+    "repo_forks": 5,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-10T00:31:38+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:28+00:00",
+  "accepted_at": "2026-09-17T12:39:54+00:00",
+  "content_hash": "42664ff592155ec983418d1ec6a5992baf0ae256998a8bf597139bf6d8b17367",
+  "source_excerpt": "--- name: deepswarm description: Use when running parallel AI workers for any long-running or multi-turn batch API task. Auto-calculates optimal workers + stagger. Supports tiered delegation (V4 Pro orchestrator → V4 Flash workers). 99.95% API success rate at scale. version: 2.0.0 author: Hermes Agent license: MIT metadata: hermes: tags: [orchestration, parallel, workers, api-generation, swarm, batch, multi-turn, delegation, tiered-models] related_skills: [tmux-agent-orchestrator, hermes-agent] --- # DeepSwarm — Task-Agnostic Parallel Worker Orchestration Spawn N parallel API workers for **any** long-running or multi-turn batch task. Auto-calculates optimal worker count and stagger delay. Supports tiered model delegation: orchestrator plans…",
+  "review": {
+    "decision": "accept",
+    "title": "DeepSwarm – Parallel AI Worker Orchestration",
+    "category": "automation",
+    "summary": "DeepSwarm provides a framework for orchestrating parallel AI workers to handle long‑running or multi‑turn batch API tasks. It automatically calculates the optimal number of workers and stagger timing, and supports tiered model delegation to reduce cost. The skill includes task definition, auto‑optimization, checkpointing, and a verification checklist.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Clear structure with overview, prerequisites, and step‑by‑step usage",
+      "Concrete YAML task definition and CLI examples",
+      "Auto‑optimization algorithm explained with calibration table",
+      "Supports tiered model delegation for cost savings",
+      "Verification checklist for reliable runs"
+    ],
+    "weaknesses": [
+      "Tied to specific DeepSeek model names; limited guidance for other providers",
+      "Calibration defaults are hard‑coded and may not suit all APIs",
+      "No explicit Docker or environment setup instructions",
+      "Error‑handling guidance is brief"
+    ],
+    "tags": [
+      "orchestration",
+      "parallel",
+      "api",
+      "batch",
+      "automation",
+      "cost-optimization",
+      "multi-turn"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add generic provider configuration to support other LLM APIs",
+      "Provide a Dockerfile or virtual‑env setup guide",
+      "Expand error‑handling and retry strategy documentation",
+      "Include a small end‑to‑end example with sample seed data"
+    ],
+    "normalized_skill_markdown": "---\nname: deepswarm\ndescription: Use when running parallel AI workers for any long‑running or multi‑turn batch API task. Auto‑calculates optimal workers and stagger, supports tiered delegation.\n---\n# DeepSwarm — Task‑Agnostic Parallel Worker Orchestration\n\nSpawn N parallel API workers for **any** long‑running or multi‑turn batch task. Auto‑calculates optimal worker count and stagger delay. Supports tiered model delegation: orchestrator plans with a frontier model (V4 Pro), workers execute with a cheaper model (V4 Flash).\n\n## Overview\nDeepSwarm 2.0 generalizes the proven orchestration pattern from the 19,331‑trace generation project to any batch API task. Define a task — translations, reasoning traces, code reviews, summarization — and DeepSwarm parallelizes it across optimal workers with the right stagger for your API.\n\n**Core insight:** API rate limits are a function of simultaneous connections, not total volume. Auto‑calculated stagger + worker count = ≈99.95 % success.\n\n## When to Use\n- Any batch API task: generation, translation, summarization, extraction, classification\n- Long‑running individual calls (30 s +) that benefit from parallelization\n- Multi‑turn tasks where each worker loops through conversation turns\n- Cost optimisation via tiered delegation (orchestrator ≠ worker model)\n- Crash‑resilient batch processing (checkpointed, idempotent)\n\n**Don’t use for:**\n- Quick calls under 10 s (overhead outweighs benefit)\n- Tasks requiring inter‑worker coordination (use `delegate_task`)\n- Real‑time interactive sessions (use tmux‑agent‑orchestrator)\n\n## Quick Start\n```bash\n# Install\nhermes skills tap add amanning3390/deepswarm\n\n# Define your task (task.yaml)\npython3 scripts/seed.py --task task.yaml\n\n# Launch — auto‑optimises workers, stagger, model routing\npython3 scripts/swarm.py --task task.yaml --total 1000\n\n# Filter — repair JSON, validate structure, apply length thresholds\npython3 scripts/filter.py --input-dir output/ --output clean.jsonl --errors errors.jsonl\n```\n\n## Task Definition (task.yaml)\n```yaml\ntask_type: generation              # generation | translation | summarization | custom\nprompt_template: |\n  You are an AI assistant. {{seed}}\n\norchestrator_model: deepseek-v4-pro  # Plans, monitors, handles errors\nworker_model: deepseek-v4-flash      # Executes batches (cheaper!)\nworker_api_base: https://api.deepseek.com/v1/chat/completions\nworker_max_tokens: 4096\n\nmulti_turn: true                    # Workers loop through conversation turns\nmax_turns: 20                       # Max turns per worker conversation\nseeds_file: seeds.jsonl             # Pre‑generated task seeds\n\nworkers: auto                       # auto | N\nstagger: auto                       # auto | seconds\nbatch_size: auto                    # auto | tasks per worker\n\noutput_dir: output/\noutput_format: jsonl               # jsonl | json | parquet\ncheckpoint_every: 10               # Save progress every N tasks\n\nworker_script: custom_worker.py     # Override default worker behaviour (optional)\n```\n\n## Tiered Model Delegation\n```\nUser Task → V4 Pro (plans, monitors)\n  ├─ V4 Flash Worker 0 → API → output/\n  ├─ V4 Flash Worker 1 → API → output/\n  └─ …\n```\n*Why it matters:* V4 Pro costs ≈3× V4 Flash per token; using the cheap model for the bulk of calls saves 60‑70 % cost.\n\n## Auto‑Optimization\nWhen `workers: auto` and `stagger: auto`:\n1. Run a calibration call to measure call duration.\n2. Compute optimal workers: `min(8, floor(rate_limit / call_duration))`.\n3. Set stagger: `call_duration / workers × 2`.\n4. Adjust batch size: `total / workers`.\n\n### Calibration Table\n| Call Duration | Workers | Stagger | Success | Throughput |\n|---------------|---------|---------|---------|------------|\n| <10 s | 16 | 1 s | 99.9 % | ~5,760 /hr |\n| 10‑30 s | 12 | 2 s | 99.9 % | ~1,440 /hr |\n| 30‑60 s | 8 | 5 s | 99.95 % | ~440 /hr |\n| 60‑90 s | 6 | 10 s | 99.9 % | ~240 /hr |\n| >90 s | 4 | 15 s | 99.9 % | ~96 /hr |\n\n## Multi‑Turn Task Support\n```python\nfor seed in seeds:\n    messages = [system_prompt, user_task]\n    for turn in range(config[\"max_turns\"]):\n        response = api_call(messages, model=config[\"worker_model\"])\n        messages.append({\"role\": \"assistant\", \"content\": response})\n        if task_complete(response):\n            break\n        if needs_tool_call(response):\n            messages.append(simulate_tool_response(response))\n```\n\n## Worker Design (worker.py)\n```python\ndef run_task(seed, config):\n    messages = build_messages(seed, config)\n    for turn in range(config[\"max_turns\"]):\n        response = call_api(messages, config)\n        if is_complete(response, config):\n            return finish(response, messages)\n        if needs_continuation(response, config):\n            messages = append_turn(messages, response, config)\n    return messages\n```\nSupported `task_type`s: `generation`, `translation`, `summarization`, `classification`, `custom`.\n\n## Common Pitfalls\n1. `workers: auto` may pick too many; override manually if calibration is unrepresentative.\n2. Forgetting to stagger can trigger rate limits.\n3. Mixing models without checking format compatibility.\n4. Not checkpointing – loss of work on worker crash.\n5. Using shell `&` without `wait` – child processes may be killed early.\n6. Using V4 Pro for workers when V4 Flash suffices – test quality first.\n7. Not cleaning error outputs before restart – they consume disk.\n\n## Verification Checklist\n- [ ] Task YAML has valid model names and API base URL\n- [ ] API key exported for both orchestrator and worker models\n- [ ] `workers: auto` or manual count ≤ 8 per batch\n- [ ] `stagger: auto` or manual ≥ `call_duration / workers × 2`\n- [ ] Worker model tested on a 5‑sample run before full batch\n- [ ] Output directory exists and is writable\n- [ ] Seeds file exists with correct format\n- [ ] Checkpointing enabled for runs > 100 tasks\n- [ ] Orchestrator model is V4 Pro (or equivalent frontier) for planning\n- [ ] Worker model is V4 Flash (or cheapest model that handles the task)\n"
+  }
+}

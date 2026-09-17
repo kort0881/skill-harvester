@@ -1,0 +1,69 @@
+{
+  "library_id": "devops/ros-robotics-development-and-migration-skill-86132a30",
+  "title": "ROS Robotics Development and Migration Skill",
+  "category": "devops",
+  "tags": [
+    "ros",
+    "robotics",
+    "devops",
+    "ci/cd",
+    "simulation",
+    "navigation",
+    "micro-ros"
+  ],
+  "summary": "A comprehensive skill for ROS 1 and ROS 2 robot development, migration, and integration. It covers build systems, package management, launch files, simulation, navigation, control, Docker, CI/CD, and micro‑ROS, providing a structured workflow and diagnostic guidelines.",
+  "source": {
+    "repository": "wzyn20051216/ros-robotics-skill",
+    "repository_url": "https://github.com/wzyn20051216/ros-robotics-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/wzyn20051216/ros-robotics-skill/blob/a07713a746f73c4dd1816389c95bb71a057ef13c/SKILL.md",
+    "api_sha": "e92c11a4fe912374d81941db1b67a026f6ed67ee",
+    "repo_stars": 58,
+    "repo_forks": 3,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-31T04:58:21+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:31+00:00",
+  "accepted_at": "2026-09-17T12:41:02+00:00",
+  "content_hash": "5d4d8f56a3c50144aeffa9a4585c0c5cd62dfaea41919ff10367a05737fab2d9",
+  "source_excerpt": "--- name: ros-robotics description: 适用于 ROS 1 / ROS 2 机器人开发、迁移与联调的 skill。覆盖 catkin/catkin_tools、colcon/ament、package.xml、CMakeLists.txt、launch、URDF/Xacro、RViz、TF、Navigation2、ros2_control、串口/CAN、MCU 与 micro-ROS 等常见工程场景。 --- # ROS Robotics ## 何时使用 当用户请求涉及以下任一主题时使用本 skill： - `catkin_ws`、`colcon_ws`、`src/CMakeLists.txt`、`package.xml`、`setup.py` - ROS 1 / ROS 2 package 新建、移植、构建、测试、调试 - `launch` / `launch.py`、参数 YAML、`URDF/Xacro`、RViz、TF - `topic` / `service` / `action` / `msg` / `srv` / `QoS` - 底盘、IMU、LiDAR、相机、定位、SLAM、Navigation2、`ros2_control` - Gazebo / Ignition 仿真、传感器仿真、`ros_gz_bridge` - Docker 容器化 ROS 开发、`docker-compose` 多节点编排 - Lifecycle 节点、`rclcpp_components` 组件化、进程内通信 - `rosbag2` 录制回放、`mcap`、离线诊断 - SLAM 建图（Cartographer、SLAM Toolbox、ORB-SL…",
+  "review": {
+    "decision": "accept",
+    "title": "ROS Robotics Development and Migration Skill",
+    "category": "devops",
+    "summary": "A comprehensive skill for ROS 1 and ROS 2 robot development, migration, and integration. It covers build systems, package management, launch files, simulation, navigation, control, Docker, CI/CD, and micro‑ROS, providing a structured workflow and diagnostic guidelines.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Extensive coverage of ROS‑related topics",
+      "Clear step‑by‑step workflow",
+      "Domain‑specific best‑practice principles",
+      "Well‑structured output requirements"
+    ],
+    "weaknesses": [
+      "Relies on external scripts and reference files that are not included",
+      "Lacks concrete command‑line examples for each scenario",
+      "Documentation is primarily in Chinese, limiting accessibility for non‑Chinese speakers"
+    ],
+    "tags": [
+      "ros",
+      "robotics",
+      "devops",
+      "ci/cd",
+      "simulation",
+      "navigation",
+      "micro-ros"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Provide inline examples of the most common commands (e.g., building, launching, testing)",
+      "Include minimal versions of the referenced scripts or explain how to obtain them",
+      "Add English translations or bilingual headings for broader audience"
+    ],
+    "normalized_skill_markdown": "---\nname: ros-robotics\ndescription: Skill for ROS 1/ROS 2 robot development, migration, and integration covering build systems, launch, URDF, navigation, control, simulation, Docker, CI/CD, and micro-ROS.\n---\n\n# ROS Robotics\n\n## When to Use\n\nUse this skill when the user request involves any of the following topics:\n\n- `catkin_ws`, `colcon_ws`, `src/CMakeLists.txt`, `package.xml`, `setup.py`\n- Creating, migrating, building, testing, or debugging ROS 1 / ROS 2 packages\n- `launch` / `launch.py`, parameter YAML, `URDF/Xacro`, RViz, TF\n- `topic` / `service` / `action` / `msg` / `srv` / `QoS`\n- Chassis, IMU, LiDAR, camera, localization, SLAM, Navigation2, `ros2_control`\n- Gazebo / Ignition simulation, sensor simulation, `ros_gz_bridge`\n- Docker containerized ROS development, `docker-compose` multi‑node orchestration\n- Lifecycle nodes, `rclcpp_components` componentization, intra‑process communication\n- `rosbag2` recording/playback, `mcap`, offline diagnostics\n- SLAM mapping (Cartographer, SLAM Toolbox, ORB‑SLAM)\n- DDS / QoS configuration, `ROS_DOMAIN_ID`, RMW selection, multi‑machine networking\n- Custom `msg` / `srv` / `action` interface definition and generation\n- Multi‑robot systems, namespace isolation, cross‑machine communication\n- MoveIt 2 motion planning, SRDF, kinematics plugins\n- ROS 2 CI/CD (GitHub Actions, colcon test, ament lint)\n- Foxglove Studio / PlotJuggler data visualization and offline analysis\n- MCU / RTOS / UART / CAN / `micro-ROS` collaborative development\n\n## Initial Steps\n\n### 1. Detect the workspace\n```bash\npython scripts/detect_ros_workspace.py <workspace-path>\n```\n\n### 2. Perform consistency check\n```bash\npython scripts/check_ros_workspace_consistency.py <workspace-path>\n```\n\n### 3. Load the minimal required documentation\n- ROS 1: `references/ros1-catkin.md`\n- ROS 2: `references/ros2-colcon.md`\n- Mixed / Migration: `references/interop-and-migration.md`\n- Model / TF: `references/robot-description-and-tf.md`\n- Navigation: `references/navigation2.md`\n- Control: `references/ros2-control.md`\n- Embedded: `references/micro-ros-and-embedded.md`\n- Simulation: `references/gazebo-simulation.md`\n- Lifecycle / Components: `references/lifecycle-and-components.md`\n- DDS / QoS / Networking: `references/dds-qos-networking.md`\n- Recording / Diagnostics: `references/rosbag-diagnostics.md`\n- SLAM / Mapping: `references/slam-mapping.md`\n- Docker: `references/docker-ros.md`\n- Custom Interfaces: `references/custom-interfaces.md`\n- Multi‑robot: `references/multi-robot.md`\n- MoveIt 2: `references/moveit2.md`\n- CI/CD: `references/ros2-cicd.md`\n- Visualization: `references/foxglove-visualization.md`\n- Troubleshooting: `references/debug-playbooks.md`\n- Review Checklist: `references/review-checklist.md`\n\n## Mandatory Principles\n\n- Identify the build system before modifying code.\n- Ensure `package.xml` and `CMakeLists.txt` consistency before refactoring.\n- Verify TF, timestamps, frames, and units before blaming algorithms.\n- Keep an evidence chain: build output, topics, TF, parameters, logs must be verifiable.\n- For ROS 1 → ROS 2 migration, bridge or layer first; avoid a complete rewrite.\n- For MCU / `micro-ROS`, confirm the need to join the ROS graph before adding complexity.\n\n## Common Task Workflows\n\n### Adding or Fixing a Package\n- Determine package type: `catkin`, `ament_cmake`, or `ament_python`.\n- Add missing dependencies, then adjust build logic, then update install rules.\n- For custom `msg` / `srv` / `action`, verify generation order and dependency closure (see `references/custom-interfaces.md`).\n\n### Build Failures\n1. Run `rosdep`.\n2. Check `package.xml` against build scripts.\n3. Ensure the environment is correctly sourced.\n4. Verify system dependencies, ABI compatibility, and distro support.\n\n### Robot Behaves Unexpectedly\n1. Inspect launch files, namespaces, remappings, and parameters.\n2. Check topic names, frequencies, timestamps, units, and `frame_id`.\n3. Examine TF tree for single‑root consistency; differentiate static vs dynamic transforms.\n4. Only then question the algorithm.\n\n### Navigation2 / `ros2_control`\n- Nav2: prioritize `/cmd_vel` link, localization quality, control frequency, and chassis units.\n- `ros2_control`: prioritize hardware interface type, controller YAML, read/write cycles, and active state.\n\n### MCU / `micro-ROS`\n- Determine if a Linux bridge node suffices.\n- If MCU must join ROS 2 graph, consider `micro-ROS`.\n- Rigorously check byte order, checksums, timeouts, reconnection logic, time source, and loss‑of‑connection protection.\n\n## Anti‑Patterns\n- Mixing `catkin` and `ament` in the same package.\n- Modifying only `CMakeLists.txt` without updating `package.xml`.\n- Ignoring TF, timestamps, units, or coordinate‑frame definitions.\n- Packing drivers, protocols, filtering, control, and diagnostics into a single monolithic node.\n- Migrating ROS 1 → ROS 2 by only swapping APIs without system verification.\n\n## Output Requirements\nWhen using this skill, prioritize the following sections in the response:\n\n1. Current workspace and package type determination.\n2. Key evidence and assumptions.\n3. Modification points and rationale.\n4. Minimal build / test / run commands.\n5. Risk areas and regression‑check points.\n"
+  }
+}

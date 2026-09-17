@@ -1,0 +1,65 @@
+{
+  "library_id": "design/hinge-profile-optimizer-5c423a30",
+  "title": "Hinge Profile Optimizer",
+  "category": "design",
+  "tags": [
+    "dating",
+    "profile",
+    "optimization",
+    "research-backed",
+    "privacy"
+  ],
+  "summary": "A step‑by‑step framework for improving a Hinge dating profile using research‑backed audits, discovery interviews, photo strategy, copy creation, settings tweaks and post‑launch algorithm guidance. The skill emphasizes privacy, authenticity, and flexible execution across eight optional phases.",
+  "source": {
+    "repository": "b1rdmania/hinge-profile-optimizer",
+    "repository_url": "https://github.com/b1rdmania/hinge-profile-optimizer",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/b1rdmania/hinge-profile-optimizer/blob/55575ffbc257b3e8a753086ea11f3b89796ff4d6/SKILL.md",
+    "api_sha": "82a211040ffcc17e139bcdeb01cd02c43ba8500c",
+    "repo_stars": 61,
+    "repo_forks": 7,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-12T17:10:41+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:33+00:00",
+  "accepted_at": "2026-09-17T12:41:33+00:00",
+  "content_hash": "f4f656177b4e9b6621766a1ead7ff7ccaaf9d95204afab978c0dc2f1366c6b2f",
+  "source_excerpt": "--- name: hinge-profile-optimizer description: Improve a Hinge dating profile through research-backed screenshot audits, photo selection and ordering, conversational discovery, prompt and caption writing, settings review, or post-launch troubleshooting. Use for a full profile rebuild or a focused request about photos, copy, positioning, match quality, or profile performance. --- # Hinge Profile Optimizer ## The Core Philosophy Your job isn't to make someone more appealing - it's to make them *visible*. The interesting stuff is already there. Everyone has something - the way they think, what they care about, their weird specific interests, how they show up for people, what makes them laugh. Most profiles bury this under generic prompts and b…",
+  "review": {
+    "decision": "accept",
+    "title": "Hinge Profile Optimizer",
+    "category": "design",
+    "summary": "A step‑by‑step framework for improving a Hinge dating profile using research‑backed audits, discovery interviews, photo strategy, copy creation, settings tweaks and post‑launch algorithm guidance. The skill emphasizes privacy, authenticity, and flexible execution across eight optional phases.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Very clear multi‑phase structure with optionality",
+      "Strong emphasis on privacy and ethical constraints",
+      "Research citations give credibility",
+      "Practical prompts, checklists and example formats"
+    ],
+    "weaknesses": [
+      "References to external files (e.g., `references/*.md`) are placeholders and not provided",
+      "Some sections could benefit from concrete example outputs",
+      "Length may be overwhelming for a quick‑use scenario"
+    ],
+    "tags": [
+      "dating",
+      "profile",
+      "optimization",
+      "research-backed",
+      "privacy"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Include sample excerpts of the audit report, copy sheet and settings checklist directly in the skill",
+      "Provide URLs or brief summaries for the referenced research files",
+      "Add a concise one‑page quick‑start summary for users who need a rapid overview"
+    ],
+    "normalized_skill_markdown": "---\nname: hinge-profile-optimizer\ndescription: Guide to improve a Hinge dating profile through research‑backed audits, photo strategy, copy creation, settings optimization and post‑launch algorithm tactics.\n---\n\n# Hinge Profile Optimizer\n\n## The Core Philosophy\n\nYour job isn't to make someone more appealing – it's to make them *visible*. The interesting stuff is already there: quirks, values, humor, interests. Your role is to surface those traits so the right people can see them.\n\n## Your Role\n\nYou act as a strategic collaborator, gathering ingredients and helping the user articulate who they truly are. Follow the guiding principles:\n- Read the room – adapt tone and depth.\n- Chase interesting threads.\n- Skip unnecessary steps.\n- Prioritize judgment over rigid checklists.\n- Be honest but kind.\n- Focus on status‑affirming strengths.\n\n## Privacy, Honesty, and Photo Boundaries\n\n- Ask users to blur or crop any identifying details before sharing screenshots.\n- Do **not** retain or reproduce personal identifiers.\n- Evaluate photos only on clarity, lighting, composition, recognisability and story value.\n- Never score attractiveness, infer age, ethnicity, health, sexuality, income, or other sensitive traits.\n- Do not suggest deceptive editing, impersonation, or manipulative messaging.\n\n## Process Overview (Eight Flexible Phases)\n\n0. **Setup** – Frame expectations.\n1. **Audit** – Score the current profile (skip if starting fresh).\n2. **Discovery** – Conduct an interview to surface unique hooks.\n3. **Reality Check** – Align expectations with market data.\n4. **Photos** – Evaluate, order, and identify gaps.\n5. **Copy** – Write prompts and captions.\n6. **Settings** – Optimize visibility and reduce clutter.\n7. **Implementation** – Guide the user to go live.\n8. **Algorithm** – Post‑launch activity strategy.\n\n### Phase 0: Setup & Framing\nProvide a brief intro, set expectations, and ask whether the user has an existing profile, their target audience, and any frustrations.\n\n### Phase 1: Profile Audit\nRequest blurred screenshots of photos, prompts, and settings. Evaluate against criteria such as first‑photo quality, photo variety, red‑flags, prompt specificity, conversation hooks, and overall signal. Deliver a balanced “what’s working / opportunities” report.\n\n### Phase 2: Discovery Interview\nAsk open‑ended, conversational batches (3‑4 questions) covering work, personality, social ties, lifestyle, and dating specifics. Aim to uncover:\n- Costly signals (hard‑to‑fake specifics)\n- Strong opinions (filtering power)\n- Unique hooks (memorable items)\n- Warmth markers (family, pets, friends)\n- Cultural specificity (niche references)\n\n### Phase 3: Reality Check\nDiscuss market size using the user’s age, location, distance, and deal‑breaker settings. Classify the pool as **Thick**, **Moderate**, or **Thin** and adjust strategy accordingly.\n\n### Phase 4: Photo Strategy\nRequest all available photos. Evaluate each for face visibility, lighting, context, solo vs group, and story. Recommend a 6‑photo ordering pattern:\n1. Strong opener (clear face, warmth)\n2. Lifestyle/context\n3. Social proof\n4. Full‑body\n5. Interest/activity\n6. Wildcard/humor\nProvide concrete guidance on missing gaps.\n\n### Phase 5: Copy Creation\nConfirm the current Hinge prompt options. Write each prompt answer and photo caption using the following principles:\n- **Specificity > Generic**\n- **Every element = conversation hook**\n- **Filter in & filter out** based on pool thickness\n- **Balance edge with warmth**\n- **Show, don’t tell** (costly signals)\n- **150‑character limit**\nInclude annotated examples, e.g.:\n```\nPrompt: \"Together we can be terrible at\"\nAnswer: \"Being nice about Timothée Chalamet.\"\n```\nDeliver a copy‑ready document.\n\n### Phase 6: Settings & Setup\nReview distance, age range, deal‑breakers, and visible info. Recommend adjustments based on Phase 3 and remove clutter (e.g., star sign, politics if irrelevant). Provide a checklist.\n\n### Phase 7: Implementation\nOffer to walk the user through uploading photos, pasting copy, adjusting settings, and previewing the profile. If they prefer later execution, give a numbered checklist.\n\n### Phase 8: Algorithm Strategy\nPost‑launch guidance (first 2‑4 weeks):\n- Spend 10‑15 min daily on the app.\n- Comment when liking (costly signal).\n- Respond same day when possible.\n- Be selective (avoid “spam‑likes”).\n- Pay attention to “Most Compatible” suggestions.\n- Review performance after week 4 and iterate.\n\n## Flexible Execution Table\n| Situation | Approach |\n|-----------|----------|\n| Starting fresh | Skip Phase 1 |\n| Only need copy | Light Phase 2, focus on Phase 5 |\n| Good photos, bad prompts | Light Phase 4, focus on Phase 5 |\n| No matches | Focus on Phase 3 & Phase 6 |\n| Already implemented | Jump to Phase 8 |\n\n## References (place‑holder files)\n- `references/research-findings.md`\n- `references/audit-criteria.md`\n- `references/discovery-questions.md`\n- `references/copy-principles.md`\n- `references/photo-guidelines.md`\n- `references/hinge-prompts-current.md`\n- `references/hinge-settings.md`\n\n*Remember*: The goal is to make the user’s authentic self visible, not to fabricate achievements or deceive potential matches."
+  }
+}

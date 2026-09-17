@@ -1,0 +1,66 @@
+{
+  "library_id": "productivity/strava-cli-skill-123d43de",
+  "title": "Strava CLI Skill",
+  "category": "productivity",
+  "tags": [
+    "strava",
+    "cli",
+    "fitness",
+    "data",
+    "automation"
+  ],
+  "summary": "This skill documents how to install, authenticate, and use the `strava` command‑line interface to query personal Strava data such as activities, athlete statistics, segments, routes, clubs, and gear. It provides practical command examples, data unit tables, common patterns with jq, and authentication status handling. The skill is safe, self‑contained, and useful for users or agents needing programmatic access to fitness data.",
+  "source": {
+    "repository": "eddmann/strava-cli",
+    "repository_url": "https://github.com/eddmann/strava-cli",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/eddmann/strava-cli/blob/819485f6ba1723c2b152e6a5cad0c4e6912a369b/SKILL.md",
+    "api_sha": "fda2aacc9e84d76431594059e2e6cb73516e8bcb",
+    "repo_stars": 27,
+    "repo_forks": 3,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-25T01:14:19+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:36+00:00",
+  "accepted_at": "2026-09-17T12:42:51+00:00",
+  "content_hash": "c7c6031c8b88405c66dbac8e28a2cb7061d8d04b026a03e1ee6076fec9895ec0",
+  "source_excerpt": "--- name: strava description: Query Strava fitness data including activities, athlete stats, segments, routes, clubs, and gear. Use when the user asks about cycling, running, swimming, workouts, training, or Strava data. --- # Strava CLI Skill Query and manage Strava data via the `strava` CLI. ## Prerequisites - Install CLI: `curl -fsSL https://raw.githubusercontent.com/eddmann/strava-cli/main/install.sh | sh` - Authenticate: `strava auth login` (requires `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`) ## Quick Context Get aggregated athlete data in one call: ```bash strava context # Full context: athlete, stats, gear, clubs, activities strava context --activities 10 # More recent activities strava context --focus stats,gear # Specific sections…",
+  "review": {
+    "decision": "accept",
+    "title": "Strava CLI Skill",
+    "category": "productivity",
+    "summary": "This skill documents how to install, authenticate, and use the `strava` command‑line interface to query personal Strava data such as activities, athlete statistics, segments, routes, clubs, and gear. It provides practical command examples, data unit tables, common patterns with jq, and authentication status handling. The skill is safe, self‑contained, and useful for users or agents needing programmatic access to fitness data.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Clear prerequisites and installation steps",
+      "Comprehensive list of commands with examples",
+      "Includes data unit reference and exit codes",
+      "Shows common jq pipelines for filtering and aggregation"
+    ],
+    "weaknesses": [
+      "No explicit input/output schema for each command",
+      "Lacks guidance on handling API rate limits or errors beyond exit codes",
+      "No sample end‑to‑end workflow combining multiple commands"
+    ],
+    "tags": [
+      "strava",
+      "cli",
+      "fitness",
+      "data",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a table describing the JSON input and output fields for key commands",
+      "Document how to handle API rate‑limit responses and retry strategies",
+      "Provide a complete example workflow (e.g., fetch recent runs, filter by distance, export to GPX)",
+      "Include troubleshooting tips for common authentication failures"
+    ],
+    "normalized_skill_markdown": "---\nname: strava\ndescription: Query and manage Strava fitness data via the `strava` CLI, including activities, athlete stats, segments, routes, clubs, and gear.\n---\n\n# Strava CLI Skill\n\n## Prerequisites\n\n- **Install the CLI**:\n  ```bash\n  curl -fsSL https://raw.githubusercontent.com/eddmann/strava-cli/main/install.sh | sh\n  ```\n- **Authenticate** (requires your own `STRAVA_CLIENT_ID` and `STRAVA_CLIENT_SECRET`):\n  ```bash\n  strava auth login\n  ```\n\n## Quick Context\n\nRetrieve an aggregated view of your athlete profile:\n\n```bash\nstrava context                          # Full context: athlete, stats, gear, clubs, activities\nstrava context --activities 10          # Most recent 10 activities\nstrava context --focus stats,gear       # Only stats and gear sections\n```\n\n## Commands Overview\n\nRun `strava --help` or `strava <command> --help` for detailed options.\n\n### Activities\n```bash\nstrava activities list [--after DATE] [--before DATE] [--limit N]\nstrava activities get <ID>\nstrava activities streams <ID> [--keys time,distance,heartrate,watts]\nstrava activities laps <ID>\nstrava activities zones <ID>\nstrava activities comments <ID>\nstrava activities kudos <ID>\n```\n\n### Athlete\n```bash\nstrava athlete                # Profile summary\nstrava athlete stats          # Year‑to‑date and all‑time totals\nstrava athlete zones          # Heart‑rate / power zones\n```\n\n### Segments & Efforts\n```bash\nstrava segments get <ID>\nstrava segments starred\nstrava segments explore --bounds SW_LAT,SW_LNG,NE_LAT,NE_LNG\nstrava efforts get <ID>\nstrava efforts list --segment-id <ID>\n```\n\n### Routes, Clubs, Gear\n```bash\nstrava routes list\nstrava routes get <ID>\nstrava routes streams <ID>\nstrava routes export <ID> --format gpx|tcx\nstrava clubs list\nstrava clubs get <ID>\nstrava clubs members <ID> [--limit N]\nstrava clubs activities <ID> [--limit N]\nstrava gear get <GEAR_ID>\n```\n\n## Data Units\n| Field                     | Unit    |\n|---------------------------|---------|\n| distance                  | meters  |\n| moving_time, elapsed_time | seconds |\n| average_speed, max_speed | m/s     |\n| elevation                 | meters  |\n| dates                     | ISO8601 |\n\n## Common Patterns\n```bash\n# Recent activities (default limit 30)\nstrava activities list --limit 10\n\n# Activities for the current month\nstrava activities list --after 2025-12-01\n\n# Filter runs with jq\nstrava activities list | jq '[.[] | select(.sport_type==\"Run\")]'\n\n# Compute total distance\nstrava activities list | jq '[.[].distance] | add'\n```\n\n## Authentication Status\n```bash\nstrava auth status    # Show current auth state\nstrava auth refresh   # Refresh the access token\nstrava auth logout    # Remove stored credentials\n```\n\n## Sport Types\nRun, TrailRun, Walk, Hike, Ride, MountainBikeRide, GravelRide, EBikeRide, VirtualRide, VirtualRun, Swim, Workout, WeightTraining, Yoga, CrossFit, Rowing, Kayaking, Surf, Ski, Snowboard, IceSkate, Golf, Soccer, Tennis\n\n## Exit Codes\n- `0` – Success\n- `1` – General error\n- `2` – Authentication error (run `strava auth login`)\n"
+  }
+}

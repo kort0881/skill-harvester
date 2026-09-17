@@ -1,0 +1,68 @@
+{
+  "library_id": "automation/credit-optimizer-cost-efficient-ai-task-routing-c706ec14",
+  "title": "Credit Optimizer – Cost‑Efficient AI Task Routing",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "cost-optimization",
+    "ai",
+    "workflow",
+    "credit-management"
+  ],
+  "summary": "The skill classifies incoming AI tasks, checks prompt quality, and routes each request to the cheapest model tier that can satisfy the required quality. By pruning context, batching, and caching results it claims 30‑75% token cost savings without degrading output.",
+  "source": {
+    "repository": "rafsilva85/credit-optimizer-v5",
+    "repository_url": "https://github.com/rafsilva85/credit-optimizer-v5",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/rafsilva85/credit-optimizer-v5/blob/37eb57a8fb2506e8e1c1c5458748bac439c2f521/SKILL.md",
+    "api_sha": "a5da6fd9b6db422fc54dd7d83de4975ee371d723",
+    "repo_stars": 50,
+    "repo_forks": 11,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-03T06:47:54+00:00"
+  },
+  "discovered_at": "2026-09-13T11:59:41+00:00",
+  "accepted_at": "2026-09-17T12:44:27+00:00",
+  "content_hash": "f905d4bd1c1ae5a85b1266105f95cbf63683c07166e93b78d980d95031c34f4b",
+  "source_excerpt": "--- name: credit-optimizer description: Automatically optimize AI agent credit usage by routing tasks to the most cost-efficient execution path. Use when you want to reduce AI API costs by 30-75% without quality loss, classify task complexity before execution, route simple tasks to free or low-cost models, split complex tasks into optimized sub-tasks, or detect vague prompts before wasting credits. version: 5.2.0 author: rafsilva85 license: MIT compatibility: claude-code, cursor, codex, manus, opencode --- # Credit Optimizer v5 **Automatically optimize AI agent credit/token usage by routing tasks to the most cost-efficient execution path — with zero quality loss.** Audited across 53 real-world scenarios. 30-75% cost savings. 0% quality degr…",
+  "review": {
+    "decision": "accept",
+    "title": "Credit Optimizer – Cost‑Efficient AI Task Routing",
+    "category": "automation",
+    "summary": "The skill classifies incoming AI tasks, checks prompt quality, and routes each request to the cheapest model tier that can satisfy the required quality. By pruning context, batching, and caching results it claims 30‑75% token cost savings without degrading output.",
+    "quality_score": 65,
+    "uniqueness_score": 70,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 78,
+    "strengths": [
+      "Clear, step‑by‑step workflow (classification → quality check → routing → execution optimizations)",
+      "Includes audit summary with quantitative savings claims",
+      "Practical directives that can be implemented in any multi‑model environment",
+      "Well‑structured markdown with tables and examples"
+    ],
+    "weaknesses": [
+      "No explicit prerequisites, inputs, or outputs defined",
+      "Lacks concrete code snippets or API examples for routing logic",
+      "Verification and testing procedures are not described",
+      "Claims of 0% quality loss are not substantiated with methodology"
+    ],
+    "tags": [
+      "automation",
+      "cost-optimization",
+      "ai",
+      "workflow",
+      "credit-management"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section (e.g., access to free/standard/premium model APIs, caching layer)",
+      "Define the expected input format (task description) and output (selected model tier, routed prompt)",
+      "Provide a minimal code example (Python or JavaScript) that demonstrates the classification and routing logic",
+      "Describe how to validate that quality is preserved after routing (e.g., sample evaluation metrics)",
+      "Reference the source of the audit data or include a brief methodology"
+    ],
+    "normalized_skill_markdown": "---\nname: credit-optimizer\ndescription: Optimize AI agent credit usage by classifying tasks and routing them to the most cost‑efficient model tier, reducing API costs while preserving output quality.\n---\n\n# Credit Optimizer v5\n\n**Automatically optimize AI agent credit/token usage by routing tasks to the most cost‑efficient execution path — with zero quality loss.**\n\n## Prerequisites\n- Access to at least two model tiers (e.g., a free tier and a paid standard/premium tier) via a programmable API.\n- Ability to programmatically select the model for each request.\n- Optional: a simple caching layer to store recent task results.\n\n## When to Use This Skill\n- Before executing any AI task that consumes credits or tokens.\n- When you need to minimize API costs without sacrificing output quality.\n- When processing batches of tasks with varying complexity.\n- When you must decide between different model tiers (free, standard, premium).\n\n## How It Works\n### 1. Task Classification\nClassify the incoming task into one of the following categories:\n\n| Category          | Examples                                 | Typical Savings |\n|-------------------|------------------------------------------|-----------------|\n| Simple Q&A        | Definitions, facts, conversions          | 90‑100% (free)  |\n| Code Generation   | Scripts, functions, refactoring          | 40‑60%          |\n| Research          | Multi‑source analysis, synthesis         | 20‑40%          |\n| Creative Writing  | Articles, stories, marketing copy        | 30‑50%          |\n| Data Analysis     | CSV processing, visualization            | 40‑70%          |\n| Complex Reasoning | Multi‑step logic, architecture design    | 10‑20%          |\n\n### 2. Prompt Quality Check\n1. **Clarity Score (1‑10)** – If < 5, ask the user for clarification before proceeding.\n2. **Scope Detection** – Determine whether the request can be split into smaller, cheaper sub‑tasks.\n3. **Data Requirement Check** – If real‑time data is needed, fetch it first with a cheap tool, then process.\n\n### 3. Model Routing\n```text\nIF task is Simple Q&A or formatting:\n    → Use FREE tier (no credits)\nELSE IF task is medium complexity (code, writing, basic analysis):\n    → Use STANDARD tier\nELSE IF task requires deep reasoning, multi‑step logic, or high‑quality creativity:\n    → Use PREMIUM/MAX tier\nELSE IF task is mixed complexity:\n    → SPLIT into sub‑tasks and route each independently\n```\n\n### 4. Execution Optimizations\n- **Context Pruning** – Include only the relevant portion of the conversation.\n- **Output Scoping** – Request a specific format to avoid verbose replies.\n- **Caching** – Re‑use results of recent, similar tasks.\n- **Batch Processing** – Group homogeneous sub‑tasks for a single API call.\n\n## Efficiency Directives\n1. Never use premium models for tasks that standard models can handle equally well.\n2. Always check the cache or known information before invoking an API.\n3. Split compound requests into atomic tasks before routing.\n4. Ask for clarification on vague prompts – it is cheaper than re‑doing work.\n5. Use structured output formats to reduce token waste.\n\n## Audit Results Summary\n| Metric                | Result |\n|-----------------------|--------|\n| Scenarios tested      | 53     |\n| Average savings       | 30‑75% |\n| Quality loss          | 0%     |\n| Quality improvement   | 2 cases |\n| False routing rate    | < 3%   |\n\n## Links\n- **Website**: https://creditopt.ai\n- **GitHub**: https://github.com/rafsilva85/manus-credit-optimizer\n- **MCP Server**: Python MCP server for programmatic integration\n- **Full Manus Skill**: https://rafaamaral.gumroad.com/l/credit-optimizer-v5 (one‑time $29)\n"
+  }
+}
