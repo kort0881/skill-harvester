@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-17T12:44:27+00:00",
+  "updated_at": "2026-09-18T12:22:14+00:00",
   "skills": [
     {
       "library_id": "programming/repo-task-proof-loop-3324eff9",
@@ -1988,6 +1988,78 @@
           "Reference the source of the audit data or include a brief methodology"
         ],
         "normalized_skill_markdown": "---\nname: credit-optimizer\ndescription: Optimize AI agent credit usage by classifying tasks and routing them to the most cost‑efficient model tier, reducing API costs while preserving output quality.\n---\n\n# Credit Optimizer v5\n\n**Automatically optimize AI agent credit/token usage by routing tasks to the most cost‑efficient execution path — with zero quality loss.**\n\n## Prerequisites\n- Access to at least two model tiers (e.g., a free tier and a paid standard/premium tier) via a programmable API.\n- Ability to programmatically select the model for each request.\n- Optional: a simple caching layer to store recent task results.\n\n## When to Use This Skill\n- Before executing any AI task that consumes credits or tokens.\n- When you need to minimize API costs without sacrificing output quality.\n- When processing batches of tasks with varying complexity.\n- When you must decide between different model tiers (free, standard, premium).\n\n## How It Works\n### 1. Task Classification\nClassify the incoming task into one of the following categories:\n\n| Category          | Examples                                 | Typical Savings |\n|-------------------|------------------------------------------|-----------------|\n| Simple Q&A        | Definitions, facts, conversions          | 90‑100% (free)  |\n| Code Generation   | Scripts, functions, refactoring          | 40‑60%          |\n| Research          | Multi‑source analysis, synthesis         | 20‑40%          |\n| Creative Writing  | Articles, stories, marketing copy        | 30‑50%          |\n| Data Analysis     | CSV processing, visualization            | 40‑70%          |\n| Complex Reasoning | Multi‑step logic, architecture design    | 10‑20%          |\n\n### 2. Prompt Quality Check\n1. **Clarity Score (1‑10)** – If < 5, ask the user for clarification before proceeding.\n2. **Scope Detection** – Determine whether the request can be split into smaller, cheaper sub‑tasks.\n3. **Data Requirement Check** – If real‑time data is needed, fetch it first with a cheap tool, then process.\n\n### 3. Model Routing\n```text\nIF task is Simple Q&A or formatting:\n    → Use FREE tier (no credits)\nELSE IF task is medium complexity (code, writing, basic analysis):\n    → Use STANDARD tier\nELSE IF task requires deep reasoning, multi‑step logic, or high‑quality creativity:\n    → Use PREMIUM/MAX tier\nELSE IF task is mixed complexity:\n    → SPLIT into sub‑tasks and route each independently\n```\n\n### 4. Execution Optimizations\n- **Context Pruning** – Include only the relevant portion of the conversation.\n- **Output Scoping** – Request a specific format to avoid verbose replies.\n- **Caching** – Re‑use results of recent, similar tasks.\n- **Batch Processing** – Group homogeneous sub‑tasks for a single API call.\n\n## Efficiency Directives\n1. Never use premium models for tasks that standard models can handle equally well.\n2. Always check the cache or known information before invoking an API.\n3. Split compound requests into atomic tasks before routing.\n4. Ask for clarification on vague prompts – it is cheaper than re‑doing work.\n5. Use structured output formats to reduce token waste.\n\n## Audit Results Summary\n| Metric                | Result |\n|-----------------------|--------|\n| Scenarios tested      | 53     |\n| Average savings       | 30‑75% |\n| Quality loss          | 0%     |\n| Quality improvement   | 2 cases |\n| False routing rate    | < 3%   |\n\n## Links\n- **Website**: https://creditopt.ai\n- **GitHub**: https://github.com/rafsilva85/manus-credit-optimizer\n- **MCP Server**: Python MCP server for programmatic integration\n- **Full Manus Skill**: https://rafaamaral.gumroad.com/l/credit-optimizer-v5 (one‑time $29)\n"
+      }
+    },
+    {
+      "library_id": "design/mav-slidecraft-zero-dependency-html-presentation-generator-453660f9",
+      "title": "Mav SlideCraft – Zero‑Dependency HTML Presentation Generator",
+      "category": "design",
+      "tags": [
+        "design",
+        "presentation",
+        "html",
+        "css",
+        "automation",
+        "conversion",
+        "deployment"
+      ],
+      "summary": "The skill guides an AI or user through creating animation‑rich, single‑file HTML presentations, either from scratch or by converting PowerPoint files. It defines strict visual principles, a multi‑phase workflow (discovery, style selection, generation, validation, deployment), and provides optional deployment and PDF export steps.",
+      "source": {
+        "repository": "maverickgao8848/mav-slide-craft-skill",
+        "repository_url": "https://github.com/maverickgao8848/mav-slide-craft-skill",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/maverickgao8848/mav-slide-craft-skill/blob/0371263b23795433e45a0f11a181deeecc2a2648/SKILL.md",
+        "api_sha": "c07751429dde6d620a42dbb6a95fc2cb9bb467ee",
+        "repo_stars": 45,
+        "repo_forks": 10,
+        "repo_license": "Other",
+        "repo_updated_at": "2026-08-26T17:56:12+00:00"
+      },
+      "discovered_at": "2026-09-13T11:59:52+00:00",
+      "accepted_at": "2026-09-18T12:20:38+00:00",
+      "content_hash": "a75863e21ecc329b8c75a7131dc19c2478713f10070cf7b86478de3b4e32dfec",
+      "source_excerpt": "--- name: mav-slidecraft-skill description: Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. --- # mav-slidecraft-skill Create zero-dependency, animation-rich HTML presentations that run entirely in the browser. **版本**：3.0（SlideCraft × Guizang 升级） --- ## Core Principles 1. **Zero Dependencies** — Single HTML files with inline CSS/JS. No npm, no build tools. 2. **Show, Don't Tell** — Generate visual previews, not abstract choices. 3. **Distinctive Design** — No generic \"AI slop.\" Every presentation must feel custom-crafted. 4. **Viewport Fitting (NON-NEGOTIABLE)** — Every slide MUST …",
+      "review": {
+        "decision": "accept",
+        "title": "Mav SlideCraft – Zero‑Dependency HTML Presentation Generator",
+        "category": "design",
+        "summary": "The skill guides an AI or user through creating animation‑rich, single‑file HTML presentations, either from scratch or by converting PowerPoint files. It defines strict visual principles, a multi‑phase workflow (discovery, style selection, generation, validation, deployment), and provides optional deployment and PDF export steps.",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Extremely detailed multi‑phase workflow",
+          "Zero‑dependency output (single HTML file)",
+          "Clear design principles and visual constraints",
+          "Includes validation, deployment and PDF export steps",
+          "Supports PPTX conversion via python-pptx"
+        ],
+        "weaknesses": [
+          "Relies on many external reference files that are not included in the skill",
+          "Mix of Chinese and English may hinder non‑Chinese speakers",
+          "No concrete code snippets for the HTML template – user must locate external files",
+          "Workflow is complex for beginners"
+        ],
+        "tags": [
+          "design",
+          "presentation",
+          "html",
+          "css",
+          "automation",
+          "conversion",
+          "deployment"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Provide a minimal inline HTML template example so the skill can work without external files",
+          "Add an English‑only version or translation of all prompts",
+          "List all required external tools with version numbers in a prerequisites section",
+          "Include a short example of the validation script output"
+        ],
+        "normalized_skill_markdown": "---\nname: mav-slidecraft-skill\ndescription: Create animation‑rich, zero‑dependency HTML presentations from scratch or by converting PowerPoint files.\n---\n\n# Mav SlideCraft Skill\n\nGenerate a single‑file HTML presentation that runs entirely in the browser, with built‑in animations, texture overlays, and strict viewport fitting.\n\n## Core Principles\n1. **Zero Dependencies** – All CSS/JS is inlined; no npm or build tools.\n2. **Viewport Fitting** – Every slide uses `height:100vh` (or `100dvh`) and never scrolls.\n3. **Design Discipline** – Fixed layout catalog, muted colour palette, limited animation duration (200‑600 ms), and theme rhythm (`light`, `dark`, `hero light`, `hero dark`).\n4. **Font & Texture First** – Use a designated display font and real scanned textures from `references/textures.css`.\n5. **Accessibility** – Respect `prefers-reduced-motion` and provide a low‑power `B`‑key toggle.\n\n## Prerequisites\n- Python 3 with `python-pptx` (`pip install python-pptx`) for PPT conversion.\n- Node 18+ for the validation script (`scripts/validate-deck.mjs`).\n- Optional: Vercel CLI (`npx vercel`) for deployment, Playwright for PDF export.\n\n## Workflow Phases\n### Phase 0 – Detect Mode\n| Mode | Description |\n|------|-------------|\n| A | New presentation – start at Phase 1 |\n| B | PPTX conversion – jump to Phase 4 |\n| C | Enhance an existing HTML file |\n\n### Phase 1 – Content Discovery\nAsk the user a single multi‑choice question covering purpose, length, content readiness, editing preference, and horizontal deck desire. Record the answers for later steps.\n\n### Phase 2 – Style Discovery\nPresent the numbered list of 11 visual style combos (e.g., Neo‑Brutalism + 3D, Retro‑Futurism, Maximalism, etc.). After the user selects a style, load the corresponding reference file from `references/combo‑<n>-*.md` together with shared assets:\n- `viewport-base.css`\n- `html-template.md`\n- `animation-patterns.md`\n- `theme-rhythm.md`\n- `layout-catalog.md`\n- `checklist.md`\n- Delight Library files\n- Texture CSS\n\n### Phase 3 – Generate Presentation\n1. **Plan Theme Rhythm** – Create a markdown table mapping each slide to a theme and layout (e.g., `hero dark | L01`).\n2. **Image Requirement** – Ask whether the user will provide images. If yes, give a folder structure guide (`images/` with naming conventions).\n3. **Content Preview** – Render an ASCII preview of each slide for user confirmation.\n4. **HTML Generation** – Assemble a single `index.html` that:\n   - Inlines the full `viewport-base.css` and any style‑specific CSS.\n   - Imports the selected display and body fonts via Google Fonts (with Fontshare fallback).\n   - Embeds texture base64 data from `textures.css` into `:root`.\n   - Uses layout identifiers from `layout-catalog.md` (`data‑layout=\"L01\"`).\n   - Adds three Delight micro‑interactions (at least one hover and one non‑hover) following `usage-system.md`.\n   - Implements `fitSlideContent()` to keep content inside the viewport.\n   - Provides `prefers-reduced-motion` and `B`‑key low‑power toggles.\n5. **Validation** – Run `node scripts/validate-deck.mjs index.html` and fix any checklist failures.\n\n### Phase 4 – PPT Conversion (optional)\n```bash\npython scripts/extract-pptx.py input.pptx output_dir\n```\nReview extracted titles/content, then continue with Phase 2‑3 using the extracted data.\n\n### Phase 5 – Delivery\n- Validate the final HTML.\n- Run the checklist (`references/checklist.md`).\n- Optionally delete temporary preview folders.\n- Open the file locally (`open index.html`).\n- Summarize location, style, slide count, and navigation keys.\n\n### Phase 6 – Share & Export (optional)\n| Option | Command |\n|--------|---------|\n| Deploy to Vercel | `npx vercel login && npx vercel` |\n| Export to PDF | `bash scripts/export-pdf.sh index.html presentation.pdf` |\n| Both | Run both commands sequentially |\n\n## Supporting Files Overview\n| File | Purpose |\n|------|---------|\n| `references/html-template.md` | Base HTML structure and JS logic |\n| `references/viewport-base.css` | Core responsive CSS |\n| `references/layout-catalog.md` | Standard layout skeletons (L01‑L09) |\n| `references/textures.css` | Base64‑encoded scanned textures |\n| `scripts/validate-deck.mjs` | Static validation script |\n| `scripts/deploy.sh` / `export-pdf.sh` | Helper scripts for deployment and PDF export |\n\n---\n\n*This skill is intended for designers, developers, or AI agents that need to produce high‑quality, animation‑rich HTML slide decks without external dependencies.*"
       }
     }
   ],

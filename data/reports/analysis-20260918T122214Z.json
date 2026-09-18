@@ -1,0 +1,634 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-18T12:22:14+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 9,
+  "accepted": 1,
+  "rejected": 8,
+  "items": [
+    {
+      "candidate_id": "5b9832338be8aa852e6392e9",
+      "candidate": {
+        "candidate_id": "5b9832338be8aa852e6392e9",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:42+00:00",
+        "source": {
+          "repository": "WPeace-HcH/WPeGPT-Analyzer",
+          "repository_url": "https://github.com/WPeace-HcH/WPeGPT-Analyzer",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/WPeace-HcH/WPeGPT-Analyzer/blob/a6b2488c5e7da47890a82d0f8534ac364de34b31/SKILL.md",
+          "api_sha": "661083fd0d1e7091d1eee602a5136f471653b3e1",
+          "repo_stars": 99,
+          "repo_forks": 19,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-08T01:33:57+00:00"
+        },
+        "raw_file": "raw/wpeace-hch-wpegpt-analyzer/SKILL.md",
+        "title": "wpegpt-analyzer",
+        "category_hint": "programming",
+        "content_hash": "aaea648906300660cf3eb01edae86e21c620da11daa71f503daa0dcb72a0c749",
+        "content_characters": 3090
+      },
+      "reviewed_at": "2026-09-18T12:18:00+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Automated IDA Reverse Engineering with WPeGPT",
+        "category": "programming",
+        "summary": "The skill automates static analysis of PE and ELF binaries by driving IDA together with the WPeGPT AI plugin. It supports three analysis modes (light, full, vuln) and produces structured Markdown/JSON reports containing program purpose, network IOCs, suspicious functions, and vulnerability assessments.",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 90,
+        "total_score": 83,
+        "strengths": [
+          "Clear step‑by‑step workflow",
+          "Explicit configuration file handling",
+          "Multiple analysis modes tailored to user intent",
+          "Automation of IDA headless execution",
+          "Produces structured reports"
+        ],
+        "weaknesses": [
+          "Assumes Windows/PowerShell environment only",
+          "No concrete input/output schema defined",
+          "Missing example command line usage",
+          "No guidance on handling missing or invalid AI API keys",
+          "Limited cross‑platform considerations"
+        ],
+        "tags": [
+          "reverse-engineering",
+          "ida",
+          "ai",
+          "binary-analysis",
+          "automation"
+        ],
+        "safety_flags": [
+          "potential_malware_analysis"
+        ],
+        "recommended_improvements": [
+          "Add an explicit Input/Output section describing expected file paths and report formats",
+          "Provide a concrete usage example with sample command line invocation",
+          "Include error‑handling guidance for missing or invalid AI API credentials",
+          "Consider adding a Linux/Bash alternative for non‑Windows environments",
+          "Document licensing and attribution for the WPeGPT plugin"
+        ],
+        "normalized_skill_markdown": "---\nname: wpegpt-analyzer\ndescription: Automated reverse engineering of PE/ELF binaries using IDA and the WPeGPT AI plugin, producing structured reports with program purpose, network IOCs, suspicious functions, and vulnerability assessment.\n---\n\n# wpegpt-analyzer\n\n驱动 IDA 配合 WPeGPT AI 插件，对二进制可执行文件进行自动化逆向分析。支持 PE 和 ELF 格式，提供三种分析模式：light（轻量分析）、full（深度分析）、vuln（漏洞评估）。\n\n## 何时使用\n\n当用户要求以下操作时使用此技能：\n- 分析二进制可执行文件（`.exe`、`.dll`、`.elf` 等）\n- 了解程序的功能和用途\n- 进行逆向工程或恶意软件分析\n- 从二进制文件中提取网络 IoC（入侵指标）\n- 检查二进制文件是否存在漏洞或安全问题\n\n## 何时不使用\n\n- 静态文件查看（使用通用文件读取工具即可）\n- 非二进制可执行文件分析\n\n## 分析模式\n\n| 模式 | 触发关键词 | 适用场景 |\n|------|-----------|----------|\n| `light`（默认） | 分析、看一下、了解用途、有什么功能、逆向、analyze | 轻量分析：程序用途、网络地址、可疑函数（约 2‑5 分钟） |\n| `full` | 深度分析、全面分析、详细分析、deep analysis | 全量分析：所有函数的完整功能分析（约 10‑30 分钟） |\n| `vuln` | 漏洞、漏洞分析、找漏洞、安全检查、安全审计、vuln、exp | 漏洞评估：高危函数、漏洞类型、风险等级（约 5‑20 分钟） |\n\n根据用户请求的语义自动选择模式。用户仅说\"分析一下\"或普通描述时，默认使用 `light` 模式。\n\n## 操作步骤\n\n### 1. 检查配置\n\n读取 `./config/config.ini`。如果文件不存在或 `ida_dir` 为空，询问用户 IDA 的安装路径，然后创建该文件：\n\n```ini\n[paths]\nida_dir=<用户提供>\npython_path=<可选，Python 已在系统 PATH 中时可留空>\n```\n\n在继续之前验证以下依赖：\n- `<ida_dir>\\ida.exe` 必须存在\n- `<ida_dir>\\plugins\\WPeGPT.py` 必须存在\n- `<ida_dir>\\plugins\\WPeGPT_Config\\config.py` 必须存在\n- `<ida_dir>\\plugins\\WPeGPT_Config\\wpe_ai_controller.py` 必须存在\n- Python 可用（已在 `./config/config.ini` 配置 `python_path` 路径或在系统 PATH 中）\n\n任一依赖缺失时，停止分析并报告缺失项。\n\n### 2. 确认文件路径\n\n确认用户指定的待分析二进制文件存在。如果不存在，询问用户正确路径。\n\n### 3. 执行分析\n\n运行 PowerShell 分析脚本：\n\n```bash\npowershell -NoProfile -File \"./scripts/wpegpt_analyze.ps1\" -BinaryPath \"<binary_path>\" -Mode \"<mode>\"\n```\n\n模式可选：`light`（默认）、`full`、`vuln`。\n\n**重要：** 始终使用 `powershell -NoProfile -File` 调用 `.ps1` 脚本。**不要**使用 `cmd.exe /c` 调用 `.bat` 脚本，在该环境下输出会被截断。\n\n脚本将自动完成以下步骤：\n1. 解析配置文件并验证所有依赖\n2. 检测 32 位或 64 位架构（PE 头 Machine Type 或 ELF class）\n3. 选择对应的 IDA 可执行文件（`ida.exe` 或 `ida64.exe`）\n4. 以无头模式（`-A`）启动 IDA，WPeGPT 插件自动加载\n5. 轮询等待 WPeServer TCP 端口文件就绪\n6. 运行 `wpe_ai_controller.py` 通过 TCP 驱动分析\n7. 分析完成后自动退出\n\n### 4. 输出结果\n\n报告保存在二进制文件同级目录下：`<binary_dir>/<文件名>_WPeAI_Results/`\n\n读取生成的 Markdown 报告，向用户总结：\n- **程序用途**：AI 综合判定的程序分类和行为特征\n- **网络 IoC**：IP、域名、URL、端口（如有网络行为）\n- **可疑函数**：数量及关键信息\n- **完整报告路径**：`.md` 和 `.json` 报告的位置\n\n`vuln` 模式下，重点突出发现的漏洞类型、风险等级和潜在利用点。\n\n## 配置\n\n`./config/config.ini`：\n\n```ini\n[paths]\n; IDA 安装目录（必填）\nida_dir=\n; Python 可执行文件路径（可选，Python 已在 PATH 中时可留空）\npython_path=\n```\n\nIDA 进行分析时使用的 AI 模型和 API 密钥在 `<ida_dir>\\plugins\\WPeGPT_Config\\config.py` 中配置（不在本技能管理范围内）。\n\n## 文件结构\n\n```\nwpegpt-analyzer/\n├── SKILL.md                  # 本文件\n├── config/\n│   └── config.ini            # 技能配置文件\n└── scripts/\n    ├── wpegpt_analyze.ps1    # PowerShell 启动脚本（推荐）\n    └── wpegpt_analyze.bat    # Batch 启动脚本（备用，仅本地终端使用）\n```\n\n外部依赖（位于 IDA 安装目录的 plugins 子目录）：\n```\n<ida_dir>/plugins/\n├── WPeGPT.py                 # IDA 插件（含 WPeServer TCP 服务）\n└── WPeGPT_Config/\n    ├── config.py             # WPeGPT 使用的 AI 模型 / API 配置文件\n    └── wpe_ai_controller.py  # 外部 AI 控制器（驱动 IDA 进行自动化分析）\n```\n\n## 注意事项\n\n- **非交互模式**：分析流程全自动运行，所有配置必须提前写入 `config.ini`。首次运行时由本技能的\"步骤 1\"负责交互式创建配置文件。\n- **无头模式**：IDA 以最小化方式启动（`-A` 标志）。WPeGPT 插件自动启动 WPeServer，控制器通过 TCP 与其通信。\n- **耗时参考**：light 模式约 2‑5 分钟，full/vuln 模式约 5‑30 分钟（取决于二进制文件大小）。\n- **API 密钥**：AI 分析依赖 `WPeGPT_Config/config.py` 中配置的有效 API 凭证。\n- **环境清理**：每次运行前自动清理 `%TEMP%` 下的旧端口文件。"
+      }
+    },
+    {
+      "candidate_id": "732aa50311d3e26f5038c6bb",
+      "candidate": {
+        "candidate_id": "732aa50311d3e26f5038c6bb",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:44+00:00",
+        "source": {
+          "repository": "ProjectOpenSea/opensea-skill",
+          "repository_url": "https://github.com/ProjectOpenSea/opensea-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/ProjectOpenSea/opensea-skill/blob/70c513e73b8bf429affbd680ac6f2ae043c396b5/SKILL.md",
+          "api_sha": "ce9ff7d7836b5b663464ce2ca0ea14be544a8842",
+          "repo_stars": 49,
+          "repo_forks": 13,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-01T19:08:43+00:00"
+        },
+        "raw_file": "raw/projectopensea-opensea-skill/SKILL.md",
+        "title": "opensea",
+        "category_hint": "automation",
+        "content_hash": "00664afbbab544cb188e465792e51ae83a59d89f0c3f6f97c2259b87cc4355c0",
+        "content_characters": 2090
+      },
+      "reviewed_at": "2026-09-18T12:18:01+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "OpenSea Router Skill",
+        "category": "automation",
+        "summary": "A routing skill that directs users to sub‑skills for querying OpenSea data, marketplace actions, token swaps, wallet configuration, and AI tool integration. It lists tasks and corresponding sub‑skill files but provides no operational details itself.",
+        "quality_score": 30,
+        "uniqueness_score": 40,
+        "usefulness_score": 55,
+        "safety_score": 80,
+        "total_score": 51,
+        "strengths": [
+          "Clear high‑level overview of OpenSea capabilities",
+          "Well‑structured task‑to‑sub‑skill table",
+          "Provides environment variable requirements"
+        ],
+        "weaknesses": [
+          "No concrete inputs, outputs, or step‑by‑step instructions",
+          "Lacks examples or verification methods",
+          "Safety considerations for trading and wallet operations are not addressed",
+          "Relies entirely on external sub‑skills which are not included"
+        ],
+        "tags": [
+          "opensea",
+          "nft",
+          "api",
+          "marketplace",
+          "swaps",
+          "wallet",
+          "automation"
+        ],
+        "safety_flags": [
+          "potential financial risk",
+          "requires handling of private keys or signing providers"
+        ],
+        "recommended_improvements": [
+          "Add detailed usage sections for each sub‑skill or embed them directly",
+          "Specify required inputs and expected outputs for each task",
+          "Include example commands or code snippets",
+          "Provide safety guidelines for trading, swapping, and wallet configuration"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "a69d0ae3f47d9d78749c82f7",
+      "candidate": {
+        "candidate_id": "a69d0ae3f47d9d78749c82f7",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:46+00:00",
+        "source": {
+          "repository": "peixl/ifq-design-skills",
+          "repository_url": "https://github.com/peixl/ifq-design-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/peixl/ifq-design-skills/blob/10e418862a67a5d2055b4ba8d334a5b445a8df7a/SKILL.md",
+          "api_sha": "1b1e4b3986ca031abc185204163730aa36d4e1be",
+          "repo_stars": 24,
+          "repo_forks": 8,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-07-22T12:36:08+00:00"
+        },
+        "raw_file": "raw/peixl-ifq-design-skills/SKILL.md",
+        "title": "ifq-design-skills",
+        "category_hint": "automation",
+        "content_hash": "0e05fcfa2f8921fe0cd18cf46c514c8145f288992892ef356bb0bbcdc9f1bd26",
+        "content_characters": 15423
+      },
+      "reviewed_at": "2026-09-18T12:18:42+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "IFQ Design Skills – HTML‑first visual design routing",
+        "category": "automation",
+        "summary": "A skill that lets AI agents turn a natural‑language visual design request into a verified HTML prototype (with optional MP4/GIF/PPTX/PDF/SVG export). It defines a routing table, template selection, brand‑mark injection, verification commands and safety contracts so agents can deliver design artifacts in a single turn.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 95,
+        "total_score": 85,
+        "strengths": [
+          "Comprehensive routing and mode table",
+          "Clear verification workflow with npm scripts",
+          "Explicit safety contract and permission whitelist",
+          "Rich set of templates and brand‑mark guidelines",
+          "Conversation patterns for common agent interactions"
+        ],
+        "weaknesses": [
+          "No dedicated Input/Output specification section",
+          "Relies on many external reference files not shown in the skill",
+          "Heavy metadata may overwhelm simple use‑cases",
+          "Optional dependencies (ffmpeg, Playwright) are mentioned but not detailed",
+          "No concrete example of final artifact path or content snippet"
+        ],
+        "tags": [
+          "design",
+          "html",
+          "prototype",
+          "automation",
+          "export",
+          "template",
+          "visual",
+          "brand",
+          "agent"
+        ],
+        "safety_flags": [
+          "none"
+        ],
+        "recommended_improvements": [
+          "Add an explicit Input/Output section describing expected request format and produced artifact paths",
+          "Include a minimal end‑to‑end example (e.g., request → generated index.html snippet)",
+          "Summarize required external files or provide fallback defaults when they are missing",
+          "Document how to handle environments without Node or without optional export tools",
+          "Provide sample output of verification commands for easier debugging"
+        ],
+        "normalized_skill_markdown": "---\nname: ifq-design-skills\ndescription: \"Generate HTML‑first visual design deliverables (prototype, slide deck, infographic, dashboard, landing page, etc.) with optional MP4/GIF/PPTX/PDF/SVG export. The skill routes the request to a mode, selects a template, injects IFQ brand marks, verifies the output and returns the artifact path. Not for production web apps or pure copy‑editing.\"\nversion: \"3.0.0\"\nlicense: \"Apache-2.0 WITH brand-clause\"\nhomepage: \"https://github.com/peixl/ifq-design-skills\"\n---\n\n# IFQ Design Skills\n\nOne prompt in → shippable HTML out, with optional media export. This file is a router for OpenClaw, ClawHub, skills.sh, Hermes, Claude Code, Cursor, OpenCode and other AgentSkills‑compatible hosts. Deeper files are loaded only when needed.\n\n## Quick Load Path (≈30 s)\n1. **Validate request** – ensure the user wants a visual deliverable built from HTML. If not, exit the skill.\n2. **Select mode** – read `references/modes.md` and the template index `assets/templates/INDEX.json`.\n3. **Fork template** – copy the chosen template into the user's workspace (never start from a blank file).\n4. **Inject brand** – inline `assets/ifq-brand/ifq-tokens.css` and add at least three IFQ ambient marks from `references/ifq-brand-spec.md`.\n5. **Verify** – run `npm run verify:lite -- <file.html>` then `npm run preview -- <file.html>`.\n\n## Human + Agent Promise\n- **Human** receives a ready‑to‑view HTML artifact (and optional export) with no hidden setup.\n- **Agent** follows a short route: mode → template → required references → verification.\n- **Maintainer** gets regression pressure via 12 mode evals, scanner‑clean scripts and marketplace metadata checks.\n- **Marketplace** sees a one‑line install, zero required env vars, explicit permissions and no silent installs.\n\n## First‑Run Success Path\n1. Accept a natural‑language visual request.\n2. Route to a single mode and template; record both in the final evidence.\n3. Write the HTML file (include labeled assumptions for any unresolved facts).\n4. Run `npm run verify:lite -- <file.html>` (if a shell is available) and preview the result.\n5. Report the file path, chosen mode, template, verification outcome and any caveats.\n\n*Do not ask for account logins, global installs or broad environment changes during this first turn.*\n\n## Output Boundary\n- Core output: verified local HTML (plus optional SVG/static companions).\n- Export helpers (MP4/GIF/PDF/PPTX) are optional; install/run them only after explicit user intent.\n- Never claim an export file exists until the corresponding command succeeds.\n\n## When to Use\n- Interactive prototype, hi‑fi mockup, clickable flow, dashboard, landing page, whitepaper, infographic, slide deck, changelog, business card, social cover, brand system.\n- Motion demo or launch animation when MP4/GIF output is requested.\n- Design critique, brand audit or three‑variant exploration before implementation.\n- User asks for PDF/PPTX/SVG export from an HTML source.\n\n## When **Not** to Use\n- Production frontend engineering, backend work, SEO‑critical sites, or CSS bug fixing in an existing app.\n- Pure copy‑editing without a visual artifact.\n- Deliverables that must round‑trip through Word, Google Docs or locked corporate templates.\n\n## Tier Policy\n| Tier | Default? | Requirements | Use for |\n|---|---:|---|---|\n| Tier 0 | yes | Node ≥ 18.17 | HTML, preview, lite verification, smoke tests |\n| Tier 1 | opt‑in | Python + Playwright + Chromium | Headless screenshots, console capture, multi‑viewport checks |\n| Tier 2 | opt‑in | `npm run install:export`; `ffmpeg` for MP4/GIF | Media export (MP4, GIF, PDF, editable PPTX) |\n\n*Do not install optional dependencies unless the user explicitly requests the related export.*\n\n## Routing Decision Tree\n```\nUser request\n  ├─ Visual design deliverable? → No → Exit skill\n  ├─ Mode match confidence >70% → Fork template → Deliver → Verify\n  ├─ Mode match confidence ≤70% → Run design‑direction‑advisor.md (3 text‑only directions)\n  ├─ Mentions concrete product/tech? → fact‑and‑asset‑protocol.md + web fact‑check\n  ├─ Mobile app prototype? → app‑prototype‑rules.md + ios_frame.jsx / android_frame.jsx\n  └─ Motion/video? → animation‑pitfalls.md + animations.md + video‑export.md\n```\n\n## Quick Reference (Agent Speed Table)\n| Mode | Trigger keywords | Template | Key references |\n|---|---|---|---|\n| M‑01 | launch film, 发布会, product video | `T-launch-film` | animations.md, video‑export.md |\n| M‑02 | portfolio, 个人站, about me | `T-hero-landing` | design‑direction‑advisor.md |\n| M‑03 | whitepaper, 白皮书, annual report | `T-infographic-vertical` | fact‑and‑asset‑protocol.md |\n| M‑04 | dashboard, 看板, KPI, command center | `T-dashboard` | app‑prototype‑rules.md |\n| M‑05 | A vs B, 横评, benchmark | `T-compare-vs` | fact‑and‑asset‑protocol.md |\n| M‑06 | onboarding, 新手引导, flow demo | `T-onboarding-flow` | app‑prototype‑rules.md |\n| M‑07 | changelog, release notes, 发布日记 | `T-changelog` | content‑guidelines.md |\n| M‑08 | keynote, PPT, 演讲, slide deck | `T-slide-title` | slide‑decks.md, editable‑pptx.md |\n| M‑09 | 社媒物料, social cover, 小红书 | `T-social-x` | content‑guidelines.md |\n| M‑10 | 名片, business card, 邀请函 | `T-business-card` | ifq‑brand‑spec.md |\n| M‑11 | 品牌诊断, brand audit, 品牌体检 | `T-brand-diagnosis` | critique‑guide.md |\n| M‑12 | brand from scratch, 从零建立品牌 | `T-brand-system` | design‑direction‑advisor.md |\nAll templates use `npm run verify:lite -- <file>` + `npm run preview -- <file>` (Tier 0, zero‑install).\n\n## IFQ Ambient Layer\n- Every deliverable must contain at least three IFQ ambient marks (e.g., layout rhythm, warm paper, rust ledger).\n- Do **not** paste a generic logo or watermark unless the task explicitly requires IFQ branding.\n- Fonts are local‑first; external Google Fonts are opt‑in via `references/font-loading.md`.\n\n## Conversation Patterns\n- **Pattern A** – Specific request, one turn.\n- **Pattern B** – Confident default, one turn.\n- **Pattern C** – Lightweight advisor, two turns.\n- **Pattern D** – Iterative refinement.\n*Rule: never ask more than one question per turn; use defaults otherwise.*\n\n## Error Recovery\n| Failure | Recovery |\n|---|---|\n| No template matches | Use `T-hero-landing` as generic scaffold, note the gap |\n| `verify:lite` reports placeholders | Fix placeholders, re‑verify, report fix |\n| `verify:lite` reports IFQ label leaks | Remove internal taxonomy labels |\n| Export command fails | Report exact error, suggest `npm run install:export` if deps missing |\n| User says “this looks AI‑generated” | Apply anti‑AI‑slop checklist, rewrite |\n| Agent cannot fact‑check | Mark unverified claims as “unverified” |\n| Template rendering fails | Fall back to simpler template, report reason |\n| Out‑of‑scope request | State boundary, suggest alternative approach |\n\n## Safety Contract\n- Scope limited to HTML visual delivery.\n- No secret requests, no persistent background services.\n- Scripts are local‑first: no dynamic eval, no hidden network calls, no writes outside the workspace.\n- Optional export tools are invoked only after explicit user intent.\n\n## Verification Before Delivery\n1. `npm run verify:lite -- <file.html>` – placeholder & IFQ label check.\n2. `npm run preview -- <file.html>` – visual inspection.\n3. For prototypes: click a primary path, switch a tab, view a detail.\n4. For decks: verify slide count & format before PDF/PPTX export.\n5. For animations: verify timing, audio policy, final file presence.\n6. After repo edits: run `npm run validate` and `npm run verify:publish`.\n\n## Completion Rule\nDeliver the smallest verified artifact that satisfies the request. Report the output file, verification commands run, and any caveats. Do **not** claim export, screenshots or marketplace safety unless the corresponding check actually passed.\n"
+      }
+    },
+    {
+      "candidate_id": "79645fcab10083d5a19a632f",
+      "candidate": {
+        "candidate_id": "79645fcab10083d5a19a632f",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:47+00:00",
+        "source": {
+          "repository": "guanbear/OctoClaw",
+          "repository_url": "https://github.com/guanbear/OctoClaw",
+          "default_branch": "v0.6.0",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/guanbear/OctoClaw/blob/62157626b4e6a7c20f13a886d1e38a424cdc5f1d/SKILL.md",
+          "api_sha": "45656dbcc5b4553079b2914257f81423b5fff915",
+          "repo_stars": 48,
+          "repo_forks": 0,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-08-24T02:10:48+00:00"
+        },
+        "raw_file": "raw/guanbear-octoclaw/SKILL.md",
+        "title": "octoclaw",
+        "category_hint": "programming",
+        "content_hash": "75b85055e6bdad836e648595bdc7a4c8a5a89925204600885b678b0fdf647fcb",
+        "content_characters": 5490
+      },
+      "reviewed_at": "2026-09-18T12:18:57+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "OctoClaw Runtime Skill",
+        "category": "programming",
+        "summary": "The skill documents the OctoClaw TypeScript-first policy and delegation layer for OpenClaw, outlining current authority, tool usage, router commands, and forbidden legacy paths. It provides a reference for agents to interact with the OctoClaw runtime safely.",
+        "quality_score": 55,
+        "uniqueness_score": 80,
+        "usefulness_score": 70,
+        "safety_score": 100,
+        "total_score": 71,
+        "strengths": [
+          "Comprehensive coverage of OctoClaw commands and tools",
+          "Clear separation of allowed vs. forbidden legacy behavior",
+          "Well‑structured tables for quick reference"
+        ],
+        "weaknesses": [
+          "Missing explicit prerequisites and environment setup steps",
+          "No concrete input/output specifications for each tool",
+          "Lacks step‑by‑step examples or sample workflows",
+          "No verification or testing guidance"
+        ],
+        "tags": [
+          "octoclaw",
+          "openclaw",
+          "multi-agent",
+          "scheduler",
+          "productivity"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section describing required installations, versions, and environment variables.",
+          "Provide concrete examples for each tool (e.g., sample `octoclaw_dispatch` command with arguments and expected output).",
+          "Specify input parameters and output formats for the tools and router commands.",
+          "Include a verification section showing how to confirm successful dispatch or status retrieval.",
+          "Consider adding a quick‑start guide that walks a new user through a typical delegation workflow."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "328be6119d1a04d6ed37718e",
+      "candidate": {
+        "candidate_id": "328be6119d1a04d6ed37718e",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:49+00:00",
+        "source": {
+          "repository": "c-narcissus/research-paper-figure-skill-factory",
+          "repository_url": "https://github.com/c-narcissus/research-paper-figure-skill-factory",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/c-narcissus/research-paper-figure-skill-factory/blob/b9cc581e647f5687959af09ace033f8247517e6f/SKILL.md",
+          "api_sha": "5dc9c041c15eac7a344b7ab0b075856d2b36980b",
+          "repo_stars": 48,
+          "repo_forks": 2,
+          "repo_license": "MIT No Attribution",
+          "repo_updated_at": "2026-09-12T04:10:43+00:00"
+        },
+        "raw_file": "raw/c-narcissus-research-paper-figure-skill-factory/SKILL.md",
+        "title": "research-paper-figure-skill-factory",
+        "category_hint": "design",
+        "content_hash": "00bd5ce14200830f4d4ce3e0544f04a61222a394932d3a7af89189f3b742ca9d",
+        "content_characters": 29426
+      },
+      "reviewed_at": "2026-09-18T12:19:47+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "Research Paper Figure Skill Factory",
+        "category": "design",
+        "summary": "A highly detailed workflow for building reusable figure‑generation skills for research papers, covering a two‑layer builder and production process with strict image‑only and text‑only boundaries. It defines numerous mandatory steps, state tracking, and atlas generation, but the document is incomplete and lacks clear input/output definitions and examples.",
+        "quality_score": 55,
+        "uniqueness_score": 85,
+        "usefulness_score": 70,
+        "safety_score": 95,
+        "total_score": 70,
+        "strengths": [
+          "Very comprehensive and domain‑specific workflow",
+          "Clear separation of builder vs. production layers",
+          "Strong emphasis on lawful source acquisition and image‑only boundaries"
+        ],
+        "weaknesses": [
+          "Document cuts off abruptly, missing sections",
+          "No concise input/output specification",
+          "No concrete example or startup‑plan illustration",
+          "Overly verbose and complex rules make implementation hard",
+          "Missing YAML front‑matter for normalized skill"
+        ],
+        "tags": [
+          "design",
+          "research",
+          "figure-generation",
+          "workflow",
+          "image-generation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a YAML front‑matter block with name and description at the top",
+          "Provide a short “Inputs” and “Outputs” section describing what the skill expects and returns",
+          "Include a concrete example startup plan and a walkthrough of the first few steps",
+          "Complete the truncated sections (asset listings, templates, etc.)",
+          "Simplify and organize the rules into concise bullet points or tables for readability"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "453660f954fb73a3b7f0d91d",
+      "candidate": {
+        "candidate_id": "453660f954fb73a3b7f0d91d",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:52+00:00",
+        "source": {
+          "repository": "maverickgao8848/mav-slide-craft-skill",
+          "repository_url": "https://github.com/maverickgao8848/mav-slide-craft-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/maverickgao8848/mav-slide-craft-skill/blob/0371263b23795433e45a0f11a181deeecc2a2648/SKILL.md",
+          "api_sha": "c07751429dde6d620a42dbb6a95fc2cb9bb467ee",
+          "repo_stars": 45,
+          "repo_forks": 10,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-08-26T17:56:12+00:00"
+        },
+        "raw_file": "raw/maverickgao8848-mav-slide-craft-skill/SKILL.md",
+        "title": "mav-slidecraft-skill",
+        "category_hint": "design",
+        "content_hash": "a75863e21ecc329b8c75a7131dc19c2478713f10070cf7b86478de3b4e32dfec",
+        "content_characters": 14412
+      },
+      "reviewed_at": "2026-09-18T12:20:38+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Mav SlideCraft – Zero‑Dependency HTML Presentation Generator",
+        "category": "design",
+        "summary": "The skill guides an AI or user through creating animation‑rich, single‑file HTML presentations, either from scratch or by converting PowerPoint files. It defines strict visual principles, a multi‑phase workflow (discovery, style selection, generation, validation, deployment), and provides optional deployment and PDF export steps.",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Extremely detailed multi‑phase workflow",
+          "Zero‑dependency output (single HTML file)",
+          "Clear design principles and visual constraints",
+          "Includes validation, deployment and PDF export steps",
+          "Supports PPTX conversion via python-pptx"
+        ],
+        "weaknesses": [
+          "Relies on many external reference files that are not included in the skill",
+          "Mix of Chinese and English may hinder non‑Chinese speakers",
+          "No concrete code snippets for the HTML template – user must locate external files",
+          "Workflow is complex for beginners"
+        ],
+        "tags": [
+          "design",
+          "presentation",
+          "html",
+          "css",
+          "automation",
+          "conversion",
+          "deployment"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Provide a minimal inline HTML template example so the skill can work without external files",
+          "Add an English‑only version or translation of all prompts",
+          "List all required external tools with version numbers in a prerequisites section",
+          "Include a short example of the validation script output"
+        ],
+        "normalized_skill_markdown": "---\nname: mav-slidecraft-skill\ndescription: Create animation‑rich, zero‑dependency HTML presentations from scratch or by converting PowerPoint files.\n---\n\n# Mav SlideCraft Skill\n\nGenerate a single‑file HTML presentation that runs entirely in the browser, with built‑in animations, texture overlays, and strict viewport fitting.\n\n## Core Principles\n1. **Zero Dependencies** – All CSS/JS is inlined; no npm or build tools.\n2. **Viewport Fitting** – Every slide uses `height:100vh` (or `100dvh`) and never scrolls.\n3. **Design Discipline** – Fixed layout catalog, muted colour palette, limited animation duration (200‑600 ms), and theme rhythm (`light`, `dark`, `hero light`, `hero dark`).\n4. **Font & Texture First** – Use a designated display font and real scanned textures from `references/textures.css`.\n5. **Accessibility** – Respect `prefers-reduced-motion` and provide a low‑power `B`‑key toggle.\n\n## Prerequisites\n- Python 3 with `python-pptx` (`pip install python-pptx`) for PPT conversion.\n- Node 18+ for the validation script (`scripts/validate-deck.mjs`).\n- Optional: Vercel CLI (`npx vercel`) for deployment, Playwright for PDF export.\n\n## Workflow Phases\n### Phase 0 – Detect Mode\n| Mode | Description |\n|------|-------------|\n| A | New presentation – start at Phase 1 |\n| B | PPTX conversion – jump to Phase 4 |\n| C | Enhance an existing HTML file |\n\n### Phase 1 – Content Discovery\nAsk the user a single multi‑choice question covering purpose, length, content readiness, editing preference, and horizontal deck desire. Record the answers for later steps.\n\n### Phase 2 – Style Discovery\nPresent the numbered list of 11 visual style combos (e.g., Neo‑Brutalism + 3D, Retro‑Futurism, Maximalism, etc.). After the user selects a style, load the corresponding reference file from `references/combo‑<n>-*.md` together with shared assets:\n- `viewport-base.css`\n- `html-template.md`\n- `animation-patterns.md`\n- `theme-rhythm.md`\n- `layout-catalog.md`\n- `checklist.md`\n- Delight Library files\n- Texture CSS\n\n### Phase 3 – Generate Presentation\n1. **Plan Theme Rhythm** – Create a markdown table mapping each slide to a theme and layout (e.g., `hero dark | L01`).\n2. **Image Requirement** – Ask whether the user will provide images. If yes, give a folder structure guide (`images/` with naming conventions).\n3. **Content Preview** – Render an ASCII preview of each slide for user confirmation.\n4. **HTML Generation** – Assemble a single `index.html` that:\n   - Inlines the full `viewport-base.css` and any style‑specific CSS.\n   - Imports the selected display and body fonts via Google Fonts (with Fontshare fallback).\n   - Embeds texture base64 data from `textures.css` into `:root`.\n   - Uses layout identifiers from `layout-catalog.md` (`data‑layout=\"L01\"`).\n   - Adds three Delight micro‑interactions (at least one hover and one non‑hover) following `usage-system.md`.\n   - Implements `fitSlideContent()` to keep content inside the viewport.\n   - Provides `prefers-reduced-motion` and `B`‑key low‑power toggles.\n5. **Validation** – Run `node scripts/validate-deck.mjs index.html` and fix any checklist failures.\n\n### Phase 4 – PPT Conversion (optional)\n```bash\npython scripts/extract-pptx.py input.pptx output_dir\n```\nReview extracted titles/content, then continue with Phase 2‑3 using the extracted data.\n\n### Phase 5 – Delivery\n- Validate the final HTML.\n- Run the checklist (`references/checklist.md`).\n- Optionally delete temporary preview folders.\n- Open the file locally (`open index.html`).\n- Summarize location, style, slide count, and navigation keys.\n\n### Phase 6 – Share & Export (optional)\n| Option | Command |\n|--------|---------|\n| Deploy to Vercel | `npx vercel login && npx vercel` |\n| Export to PDF | `bash scripts/export-pdf.sh index.html presentation.pdf` |\n| Both | Run both commands sequentially |\n\n## Supporting Files Overview\n| File | Purpose |\n|------|---------|\n| `references/html-template.md` | Base HTML structure and JS logic |\n| `references/viewport-base.css` | Core responsive CSS |\n| `references/layout-catalog.md` | Standard layout skeletons (L01‑L09) |\n| `references/textures.css` | Base64‑encoded scanned textures |\n| `scripts/validate-deck.mjs` | Static validation script |\n| `scripts/deploy.sh` / `export-pdf.sh` | Helper scripts for deployment and PDF export |\n\n---\n\n*This skill is intended for designers, developers, or AI agents that need to produce high‑quality, animation‑rich HTML slide decks without external dependencies.*"
+      },
+      "library_id": "design/mav-slidecraft-zero-dependency-html-presentation-generator-453660f9"
+    },
+    {
+      "candidate_id": "c9e1ac77dcc2d600e35a9851",
+      "candidate": {
+        "candidate_id": "c9e1ac77dcc2d600e35a9851",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:55+00:00",
+        "source": {
+          "repository": "voltwake/xianyu-monitor",
+          "repository_url": "https://github.com/voltwake/xianyu-monitor",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/voltwake/xianyu-monitor/blob/1920ada462816c2edc2fd1152d1551833960d5c1/SKILL.md",
+          "api_sha": "a6776ae4f6687928c238783e6636ec2acf511fb8",
+          "repo_stars": 45,
+          "repo_forks": 5,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-12T16:56:38+00:00"
+        },
+        "raw_file": "raw/voltwake-xianyu-monitor/SKILL.md",
+        "title": "闲鱼监控 (xianyu-monitor)",
+        "category_hint": "content_creation",
+        "content_hash": "a0ffd336f48dcad5e55217daa86ef8e25fa53d82ca332cdbdd13dd4cff80459b",
+        "content_characters": 4115
+      },
+      "reviewed_at": "2026-09-18T12:21:05+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "Xianyu Monitor - Automated Second-hand Marketplace Scraper",
+        "category": "content_creation",
+        "summary": "The skill describes a macOS‑only tool that uses non‑headless Chrome, AppleScript, and Puppeteer‑core to automate searches on the Xianyu (Goofish) marketplace, storing results in SQLite and optionally pushing notifications to Discord. It provides detailed setup, login, and troubleshooting steps, as well as cron integration.",
+        "quality_score": 68,
+        "uniqueness_score": 62,
+        "usefulness_score": 61,
+        "safety_score": 28,
+        "total_score": 54,
+        "strengths": [
+          "Comprehensive step‑by‑step instructions",
+          "Clear description of required environment and dependencies",
+          "Provides example commands and cron template"
+        ],
+        "weaknesses": [
+          "Limited to macOS with AppleScript, reducing portability",
+          "Relies on bypassing Xianyu's anti‑automation measures, which may violate terms of service",
+          "Lacks explicit error handling for edge cases and security considerations"
+        ],
+        "tags": [
+          "web‑scraping",
+          "automation",
+          "macos",
+          "puppeteer",
+          "sqlite"
+        ],
+        "safety_flags": [
+          "facilitates bypass of website anti‑automation protections",
+          "potential violation of target site terms of service"
+        ],
+        "recommended_improvements": [
+          "Add disclaimer about respecting Xianyu's terms of service and legal considerations",
+          "Provide guidance for ethical use and rate limiting",
+          "Offer alternative methods that do not require circumventing security measures"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "04c1064eb262f08e84d80b60",
+      "candidate": {
+        "candidate_id": "04c1064eb262f08e84d80b60",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:58+00:00",
+        "source": {
+          "repository": "lsmith77/traktor-kontrol-qml",
+          "repository_url": "https://github.com/lsmith77/traktor-kontrol-qml",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/lsmith77/traktor-kontrol-qml/blob/e8fe27247c61dda0dfdf49122f71c08f36d4ac65/SKILL.md",
+          "api_sha": "e78ebe8951b7325d5fa1fa2d0f30ae05105eac83",
+          "repo_stars": 22,
+          "repo_forks": 6,
+          "repo_license": "Creative Commons Zero v1.0 Universal",
+          "repo_updated_at": "2026-09-06T13:13:59+00:00"
+        },
+        "raw_file": "raw/lsmith77-traktor-kontrol-qml/SKILL.md",
+        "title": "traktor-kontrol-qml",
+        "category_hint": "automation",
+        "content_hash": "4d3a77d29e22c9f5cd2b1d8a15ac8787f55a7968353eea3df84b0ab6d196504f",
+        "content_characters": 3640
+      },
+      "reviewed_at": "2026-09-18T12:21:23+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Traktor Pro QML Modding Assistant",
+        "category": "automation",
+        "summary": "A knowledge‑driven skill that guides users through customizing Native Instruments Traktor Pro via QML. It links to a structured handbook, prompt templates, and scripts for creating, combining, updating, and debugging mods. The skill also points to companion repositories for baseline files and a real‑time logger, making it a practical toolkit for DJ developers.",
+        "quality_score": 70,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 95,
+        "total_score": 83,
+        "strengths": [
+          "Clear, well‑organized table of contents",
+          "Provides concrete handbook and prompt links",
+          "Covers full mod lifecycle (create, combine, update, debug)",
+          "Includes safety note about platform‑specific scripts"
+        ],
+        "weaknesses": [
+          "Relies heavily on external markdown files; no inline examples",
+          "No explicit input/output specification for the assistant",
+          "Missing step‑by‑step walkthrough for beginners"
+        ],
+        "tags": [
+          "traktor",
+          "qml",
+          "modding",
+          "dj",
+          "automation"
+        ],
+        "safety_flags": [
+          "script_caution"
+        ],
+        "recommended_improvements": [
+          "Add short inline examples of QML snippets for common tasks",
+          "Specify expected user inputs (e.g., feature name, target file) and assistant outputs",
+          "Provide a quick‑start checklist for first‑time users"
+        ],
+        "normalized_skill_markdown": "---\nname: traktor-kontrol-qml\ndescription: Traktor Pro QML modding handbook\n---\n\n# Traktor QML Modding Skill\n\nYou are a Traktor Pro QML modding assistant. Help users customize Native Instruments Traktor using QML. Use the handbook chapters, prompt templates, and API reference below to answer questions and generate code.\n\n## Important Context\n\n- Always consult `handbook/02_API_REFERENCE.md` first for control‑value paths and code patterns.\n- QML code from community mod subdirectories should only be used when the API reference is insufficient.\n\n## Getting Started\n- **QML basics, folder structure, install/restore** → `handbook/01_BASICS.md`\n- **Index and reading order** → `handbook/00_HANDBOOK.md`\n- **Glossary** → `handbook/07_GLOSSARY.md`\n- **FAQ (safety, updates, common questions)** → `handbook/05_FAQ.md`\n\n## API & Code Patterns\n- **Control value paths, AppProperty, code patterns** → `handbook/02_API_REFERENCE.md`\n- **Compatibility fixes (version‑specific)** → `handbook/06_COMPATIBILITY_FIXES.md`\n\n## Community & Examples\n- **Working mods (GitHub repos, forum links)** → `handbook/03_COMMUNITY_RESOURCES.md`\n\n## Creating & Combining Mods\n- **Create a new feature from scratch** → `prompts/create-feature.md`\n- **Combine multiple mods** → `prompts/combine-mods.md`\n- **Full combining workflow (4 phases)** → `handbook/11_COMBINING_MODS_WORKFLOW.md`\n- **Prompt template index** → `handbook/10_PROMPT_TEMPLATES.md`\n\n## Updating & Managing Mods\n- **Update mod (non‑git, ZIP/forum)** → `prompts/update-mod.md`\n- **Update mod (git‑tracked)** → `prompts/update-mod-git.md`\n- **Remove or swap a feature** → `prompts/remove-feature.md`\n\n## Analyzing Mods\n- **List features from code** → `prompts/list-features.md`\n- **Inspect a single feature** → `prompts/inspect-feature.md`\n- **Split monolithic mod into modules** → `prompts/split-mod.md`\n- **Analyze QML errors** → `prompts/analyze-qml-errors.md`\n\n## Sharing & Documentation\n- **Package and share mods (traktor‑mod script)** → `handbook/08_SHARING_CHANGES.md`\n- **Document mods for others** → `handbook/09_MOD_DOCUMENTATION_GUIDE.md`\n- **Manual install (when script fails)** → `scripts/manual-install.md`\n\n## Debugging\n- **Troubleshooting and testing** → `handbook/04_TROUBLESHOOTING.md`\n- **traktor‑mod script details** → `scripts/traktor-mod.sh`\n\n## Companion Repositories\n\nThese should be cloned alongside this repo:\n\n- **[traktor‑kontrol‑qml‑files](https://github.com/lsmith77/traktor-kontrol-qml-files)** – stock Traktor QML baseline for comparison\n- **[traktor‑logger](https://github.com/lsmith77/traktor-logger)** – real‑time debugging dashboard\n\n## Script Caution\n\nThe `scripts/` directory contains `traktor-mod.sh` (macOS/Linux) and `traktor-mod.bat` (Windows, not yet production‑tested). They are described as \"vibe coded via AI with minimal code review.\" Modify carefully. On Windows, warn the user before suggesting `traktor-mod` commands."
+      }
+    },
+    {
+      "candidate_id": "a32fe341ba0f3004f4c9d665",
+      "candidate": {
+        "candidate_id": "a32fe341ba0f3004f4c9d665",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:00+00:00",
+        "source": {
+          "repository": "igorls/context-builder",
+          "repository_url": "https://github.com/igorls/context-builder",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/igorls/context-builder/blob/ed8ae6e7c2b8e22ca700366d2e732e98f860d111/SKILL.md",
+          "api_sha": "dc43d02900d2352d1fb7bc1bd2f80c37bd6e0dff",
+          "repo_stars": 40,
+          "repo_forks": 5,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-03T05:23:04+00:00"
+        },
+        "raw_file": "raw/igorls-context-builder/SKILL.md",
+        "title": "context-builder",
+        "category_hint": "automation",
+        "content_hash": "e6ca05af49fc99b56d49ed37fd8a2b0a926f8e10e86cba97993c32d9b35b80a8",
+        "content_characters": 13308
+      },
+      "reviewed_at": "2026-09-18T12:22:14+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Context Builder – LLM Optimized Codebase Packaging",
+        "category": "automation",
+        "summary": "The Context Builder tool packages an entire codebase into a single, token‑efficient markdown file optimized for LLM consumption. It includes AST‑aware signatures, relevance‑based file ordering, token budgeting, and integrates with the Deep Think Authority pipeline for senior‑level code reviews. The skill provides installation steps, security best practices, detailed CLI usage, and example recipes for common agentic workflows.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 90,
+        "total_score": 85,
+        "strengths": [
+          "Comprehensive installation and verification instructions",
+          "Explicit security and path‑scoping guidance",
+          "Rich set of usage examples and recipes",
+          "Clear CLI flag reference for agents",
+          "Integration guidance with Deep Think Authority pipeline"
+        ],
+        "weaknesses": [
+          "Requires Rust toolchain and compilation which may be a barrier",
+          "Supports a limited set of languages (8) out of the box",
+          "Relies on external Deep Think infrastructure not described here",
+          "Potential exposure of secrets if users ignore security warnings",
+          "No automated verification of the generated markdown content"
+        ],
+        "tags": [
+          "automation",
+          "llm",
+          "codebase",
+          "context",
+          "rust",
+          "cli",
+          "devops"
+        ],
+        "safety_flags": [
+          "potential_exposure_of_secrets_if_misused"
+        ],
+        "recommended_improvements": [
+          "Add optional secret‑redaction or sanitisation step",
+          "Expand language support beyond the current eight",
+          "Provide a built‑in verification step for the generated markdown",
+          "Include CI/CD integration examples",
+          "Document how to use the tool without the Deep Think pipeline"
+        ],
+        "normalized_skill_markdown": "---\nname: context-builder\ndescription: Package codebases into LLM‑optimized markdown and orchestrate the Deep Think Authority pipeline for agentic code reviews.\n---\n\n# Context Builder — Agentic Skill\n\nGenerate a single, structured markdown file from any codebase directory. The output is optimized for LLM consumption with relevance‑based file ordering, AST‑aware code signatures, automatic token budgeting, and smart defaults.\n\n## Installation\n\n```bash\n# Requires Rust toolchain. Builds from source with cryptographic verification via crates.io.\ncargo install context-builder --features tree-sitter-all\n```\n\nPre‑built binaries with SHA256 checksums are also available from the GitHub releases page. Verify the installation with:\n\n```bash\ncontext-builder --version   # expected: 0.10.0\n```\n\n## Security & Path Scoping\n\n> **IMPORTANT**: This tool reads file contents from the specified directory. Agents **must** follow these rules:\n\n- Only target explicit project directories (e.g., `/home/user/projects/myapp`). Never point at home directories, system paths, or credential stores.\n- Use `-f` to limit to known source extensions (e.g., `-f rs,toml,md`).\n- Write output to the project's `docs/` folder or `/tmp/`, never to shared/public locations.\n- Review the generated markdown for embedded secrets before sharing.\n\nBuilt‑in protections (always active):\n- Auto‑excludes `.git/`, `node_modules/`, and 19 other heavy/sensitive directories.\n- Respects `.gitignore` when a `.git` directory is present.\n- Skips binary files via UTF‑8 sniffing.\n- Auto‑excludes the output file and cache directory.\n\n## When to Use\n\n- Deep code review with an LLM.\n- Feeding context to the Deep Think Authority pipeline.\n- Onboarding new developers.\n- Incremental diffs after code changes.\n- Extracting AST signatures for token‑efficient analysis.\n- Cross‑project research of dependencies.\n\n## Deep Think Authority Pipeline (primary multi‑model workflow)\n\n```\ncontext-builder  →  Deep Think (AUTHORITY)  →  Agent BUILD  →  RESULT\n                         ↑                         │\n                         └──── CONFLICT / DEBUG ────┘\n```\n\n### Agent Rules (always)\n1. **AUTHORITY is law** – do not redesign beyond the packet.\n2. **Stop on conflict** – emit `CONFLICT` if the live repo contradicts AUTHORITY.\n3. **Do not re‑inject the full context dump** – the agent should operate on the real tree.\n4. **Prefer a tight AUTHORITY** (≈2–4k tokens).\n5. **Verification is mandatory** before marking DONE.\n\n## Core Workflow Examples\n\n### Quick Context (whole project)\n```bash\ncontext-builder -d /path/to/project -y -o context.md\n```\n\n### Scoped Context (specific file types)\n```bash\ncontext-builder -d /path/to/project -f rs,toml -i docs,assets -y -o context.md\n```\n\n### AST Signatures Mode (minimal tokens)\n```bash\ncontext-builder -d /path/to/project --signatures -f rs,ts,py -y -o signatures.md\n```\n\n### Budget‑Constrained Context\n```bash\ncontext-builder -d /path/to/project --max-tokens 100000 -y -o context.md\n```\n\n### Token Count Preview\n```bash\ncontext-builder -d /path/to/project --token-count\n```\n\n### Incremental Diffs\nCreate a `context-builder.toml` with:\n```toml\ntimestamped_output = true\nauto_diff = true\n```\nThen run twice:\n```bash\n# Baseline snapshot\ncontext-builder -d /path/to/project -y\n# After changes – generates diffs only\ncontext-builder -d /path/to/project -y --diff-only\n```\n\n## CLI Reference (Agent‑Relevant Flags)\n| Flag | Purpose | Agent Guidance |\n|------|---------|----------------|\n| `-d <PATH>` | Input directory | **Always use absolute paths** |\n| `-o <FILE>` | Output path | Write to project `docs/` or `/tmp/` |\n| `-f <EXT>` | Filter by extension | Comma‑separated, e.g., `-f rs,toml,md` |\n| `-i <NAME>` | Ignore dirs/files | Comma‑separated |\n| `--max‑tokens <N>` | Token budget cap | Use `100000` for most models |\n| `--token‑count` | Dry‑run token estimate | Run first to decide filtering |\n| `-y` | Skip prompts | Use only with explicit, scoped paths |\n| `--preview` | Show file tree only |\n| `--diff‑only` | Output only diffs |\n| `--signatures` | AST signature extraction |\n| `--structure` | Add structural summary |\n| `--visibility <V>` | Filter by visibility (`all` or `public`) |\n| `--truncate <MODE>` | Truncation strategy (`smart` or `byte`) |\n| `--init` | Create config file |\n| `--clear‑cache` | Reset diff cache |\n\n## Recipes\n### Deep Think Code Review (one‑shot)\n```bash\ncontext-builder -d /path/to/project -f rs,toml --max‑tokens 120000 -y -o docs/deep_think_context.md\n# Attach to Deep Think with a structured review prompt.\n```\n### API Surface Review (signatures only)\n```bash\ncontext-builder -d /path/to/project --signatures --visibility public -f rs -y -o docs/api_surface.md\n```\n### Compare Two Versions\n```bash\ncontext-builder -d ./v1 -f py -y -o /tmp/v1_context.md\ncontext-builder -d ./v2 -f py -y -o /tmp/v2_context.md\n# Feed both to an LLM for comparative analysis.\n```\n### Monorepo Slice\n```bash\ncontext-builder -d /path/to/monorepo/packages/core -f ts,tsx -i __tests__,__mocks__ -y -o core_context.md\n```\n### Quick Size Check Before Strategy Decision\n```bash\ncontext-builder -d /path/to/project --token-count\n# If >128K tokens, try signatures mode first:\ncontext-builder -d /path/to/project --signatures --token-count\n```\n\n## Configuration File (Optional)\nCreate `context-builder.toml` in the project root:\n```toml\noutput = \"docs/context.md\"\noutput_folder = \"docs\"\nfilter = [\"rs\", \"toml\"]\nignore = [\"target\", \"benches\"]\ntimestamped_output = true\nauto_diff = true\nmax_tokens = 120000\nsignatures = true\nstructure = true\nvisibility = \"public\"\n```\nInitialize automatically with `context-builder --init`.\n\n## Output Format\nThe generated markdown follows this structure:\n```\n# Directory Structure Report\n[metadata]\n## File Tree\n[visual tree]\n## Files\n### File: src/main.rs\n```rust\n...file contents...\n```\n```\nWhen `--signatures` is used, file contents are replaced with extracted function/class signatures.\n\n## Error Handling\n- If not installed, run the cargo install command above.\n- If `--signatures` produces no output, the language may not be supported or the feature was not enabled.\n- If output exceeds token limits, reduce the token budget, narrow the file filter, or use `--signatures`.\n- If no `.git` directory exists, auto‑ignores still protect against dependency flooding.\n- Use `--clear‑cache` if diff output appears stale.\n"
+      }
+    }
+  ]
+}

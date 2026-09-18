@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-17T12:44:27+00:00`
+Последнее обновление: `2026-09-18T12:22:14+00:00`
 
-Активных skills: **29**
+Активных skills: **30**
 
 ## Категории
 
@@ -37,6 +37,7 @@
 | [Automated iOS Marketing Screenshot Capture](./skills/design/automated-ios-marketing-screenshot-capture-16ec9d23/SKILL.md) | A step‑by‑step guide to capture full‑screen marketing screenshots and isolated UI elements from a SwiftUI iOS app using an in‑app DEBUG‑only capture system. It covers requirement gathering, navigation analysis, code generation, a shell script for locale loops, and verification checklist. | ios, swiftui, marketing, screenshots, automation, swiftdata | ParthJadhav/ios-marketing-capture |
 | [Godot Solana SDK Integration Guide](./skills/design/godot-solana-sdk-integration-guide-f5eb7d66/SKILL.md) | This skill provides a comprehensive, step‑by‑step guide for integrating the Godot Solana SDK into Godot 4 projects. It covers installation, configuration, core nodes, transaction workflow, wallet adapters, and common pitfalls, with concrete GDScript examples. The guide enables developers to build blockchain‑enabled games that can send Solana transactions, manage SPL tokens, mint NFTs, and interact with Anchor programs directly from Godot. | godot, solana, blockchain, gdscript, sdk, gaming | Virus-Axel/godot-solana-sdk |
 | [Hinge Profile Optimizer](./skills/design/hinge-profile-optimizer-5c423a30/SKILL.md) | A step‑by‑step framework for improving a Hinge dating profile using research‑backed audits, discovery interviews, photo strategy, copy creation, settings tweaks and post‑launch algorithm guidance. The skill emphasizes privacy, authenticity, and flexible execution across eight optional phases. | dating, profile, optimization, research-backed, privacy | b1rdmania/hinge-profile-optimizer |
+| [Mav SlideCraft – Zero‑Dependency HTML Presentation Generator](./skills/design/mav-slidecraft-zero-dependency-html-presentation-generator-453660f9/SKILL.md) | The skill guides an AI or user through creating animation‑rich, single‑file HTML presentations, either from scratch or by converting PowerPoint files. It defines strict visual principles, a multi‑phase workflow (discovery, style selection, generation, validation, deployment), and provides optional deployment and PDF export steps. | design, presentation, html, css, automation, conversion | maverickgao8848/mav-slide-craft-skill |
 | [Yueban Image‑to‑Code 750px Pixel‑Perfect Conversion](./skills/design/yueban-image-to-code-750px-pixel-perfect-conversion-466457ef/SKILL.md) | A step‑by‑step workflow that converts a UI screenshot or design image into exact HTML/CSS/JS code and generates transparent PNG assets, all locked to a 750 px wide canvas. It enforces strict pixel‑perfect scaling, manifest‑driven slicing, and detailed verification to ensure the output matches the source image without any visual optimisation or redesign. | design-to-code, pixel‑perfect, ui‑slicing, manifest, png‑export | SemineChen/yueban-image-to-code |
 
 ### devops
