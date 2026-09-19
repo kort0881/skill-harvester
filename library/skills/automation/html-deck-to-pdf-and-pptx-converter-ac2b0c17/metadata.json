@@ -1,0 +1,65 @@
+{
+  "library_id": "automation/html-deck-to-pdf-and-pptx-converter-ac2b0c17",
+  "title": "HTML Deck to PDF and PPTX Converter",
+  "category": "automation",
+  "tags": [
+    "html",
+    "pdf",
+    "pptx",
+    "playwright",
+    "automation"
+  ],
+  "summary": "This skill converts a guizang‑ppt‑skill generated horizontal‑scroll HTML deck into a multi‑page PDF and an image‑based PPTX. It uses Playwright to render each slide, captures high‑resolution screenshots, and assembles the results with pdf‑lib and pptxgenjs. The workflow includes dependency setup, configurable rendering options, and clear reporting of output files.",
+  "source": {
+    "repository": "wangzan101/html-to-ppt-pdf",
+    "repository_url": "https://github.com/wangzan101/html-to-ppt-pdf",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/wangzan101/html-to-ppt-pdf/blob/0ce6f66815fc0c0f6de9c976856213a952dfafe6/SKILL.md",
+    "api_sha": "53023f9b79ead9e2cb67d57cddc2a20353e08525",
+    "repo_stars": 36,
+    "repo_forks": 4,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-10T00:29:09+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:07+00:00",
+  "accepted_at": "2026-09-19T12:00:54+00:00",
+  "content_hash": "01b18e6291aea475fcba82bc741db1e66cd20a578798959376b409ddcc72bf23",
+  "source_excerpt": "--- name: zan-html-to-ppt description: 把 guizang-ppt-skill 生成的 HTML 横向翻页 deck 转成 deck.pdf 和 deck.pptx，供线下演讲、加速器/评委上传、印刷等场子使用。**只要用户提到 HTML deck 转 PPT、deck 导出 PowerPoint、网页 PPT 转 pptx、HTML 转 PowerPoint、把幻灯片/演讲材料/演示文件做成离线版、需要 .pptx 上传，就用这个 skill**，即使用户没说 \"guizang\" 字样。产出是图片型 PPTX（每页一张 PNG 满版，视觉 100% 还原但内文不可编辑）。 --- # zan-html-to-ppt > 把 guizang-ppt-skill 出来的横向翻页 HTML deck 转成线下能用的 PDF + PPTX。 > 原理：Playwright 控 Chromium 逐页截图，封装成多页 PDF（pdf-lib）和图片型 PPTX（pptxgenjs）。 ## 这个 Skill 做什么 输入一个 guizang-ppt-skill 风格的 HTML deck（横向翻页、单文件、`<section class=\"slide\">` 结构），产出三份**离线演示资产**： - **`<out>/deck.pdf`** —— 多页 PDF，每页 16:9 满版。投影 / Preview / Acrobat 直接全屏播。 - **`<out>/deck.pptx`** —— 每页一张 PNG 满版背景的 PPTX（图片型）。可上传任何 PPT 平台。 - **`<out>/frames/slide-NN.png`** —— 每…",
+  "review": {
+    "decision": "accept",
+    "title": "HTML Deck to PDF and PPTX Converter",
+    "category": "automation",
+    "summary": "This skill converts a guizang‑ppt‑skill generated horizontal‑scroll HTML deck into a multi‑page PDF and an image‑based PPTX. It uses Playwright to render each slide, captures high‑resolution screenshots, and assembles the results with pdf‑lib and pptxgenjs. The workflow includes dependency setup, configurable rendering options, and clear reporting of output files.",
+    "quality_score": 85,
+    "uniqueness_score": 70,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Clear step‑by‑step workflow",
+      "Explicit input requirements and output description",
+      "Practical examples and troubleshooting table",
+      "Idempotent setup script"
+    ],
+    "weaknesses": [
+      "Assumes Node.js environment without stating version",
+      "Limited to decks that follow guizang‑ppt‑skill structure",
+      "No automated validation of input HTML"
+    ],
+    "tags": [
+      "html",
+      "pdf",
+      "pptx",
+      "playwright",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Specify required Node.js version and OS prerequisites",
+      "Add a brief validation step to ensure the HTML deck matches the expected structure",
+      "Provide a one‑line command to install Node if missing"
+    ],
+    "normalized_skill_markdown": "---\nname: zan-html-to-ppt\ndescription: Convert a guizang-ppt-skill generated horizontal‑scroll HTML deck into a PDF and image‑based PPTX for offline presentations.\n---\n\n# zan-html-to-ppt\n\n> Convert a guizang‑ppt‑skill HTML deck (horizontal scroll, single‑file, `<section class=\"slide\">` structure) into offline assets: a PDF and an image‑based PPTX.\n\n## What the skill does\n\n- **Input**: A guizang‑ppt‑skill style HTML deck (URL, local file, or directory containing `index.html`).\n- **Outputs**:\n  - `<out>/deck.pdf` – multi‑page PDF, 16:9 full‑bleed.\n  - `<out>/deck.pptx` – PPTX where each slide is a full‑size PNG background (non‑editable).\n  - `<out>/frames/slide‑NN.png` – raw PNGs for each slide (default 5760×3240, `--scale 3`).\n\n## Workflow\n\n### Step 1 – Gather required information\n1. **Deck location** (choose one):\n   - Running HTTP URL, e.g. `http://localhost:8810/deck/`\n   - Local HTML file path, e.g. `/path/to/deck/index.html` (the skill will start a temporary server)\n   - Local directory (the skill will look for `index.html` inside)\n2. **Output directory** (optional, default `./out`).\n3. **Scale / resolution** (optional, default `--scale 3`).\n\n### Step 2 – Install dependencies\n```bash\nbash <SKILL_ROOT>/scripts/setup.sh\n```\nThe script is idempotent; the first run installs npm packages and a Chromium binary (~150 MB).\n\n### Step 3 – Run the main script\n```bash\nnode <SKILL_ROOT>/scripts/build.mjs <input> --out <output-dir>\n```\n| Parameter | Default | Meaning |\n|---|---|---|\n| `<input>` | – | URL, local HTML file, or directory (required) |\n| `--out <dir>` | `./out` | Output folder |\n| `--width <px>` | `1920` | CSS viewport width |\n| `--height <px>` | `1080` | CSS viewport height |\n| `--scale <n>` | `3` | `deviceScaleFactor` (3 → 5760×3240) |\n| `--wait <ms>` | `2500` | Upper bound for waiting after a slide change |\n| `--format pdf,pptx` | both | Comma‑separated list of formats to generate |\n\nTypical console output:\n```\n🌐  http server :60199  root=/path/to/web\n📍  Open: http://localhost:60199/deck/\n📐  Viewport 1920×1080 · scale=3× (out 5760×3240) · wait=2500ms · out=/path/to/out\n🎞  8 slides\n  ✓ 1/8\n  ✓ 2/8\n  ...\n📄  deck.pdf\n📊  deck.pptx\n✅ Done → /path/to/out/\n```\n\n### Step 4 – Report results to the user\nProvide the paths to `deck.pdf`, `deck.pptx`, the total slide count, and (optionally) the PNG frames directory.\n\n## Example interaction\n**User**: \"Convert my deck at `/Users/X/web/deck/index.html` to PPT and put it in `~/Downloads/2026q4-pitch/`.\"\n**Agent**:\n```bash\n# First time – install dependencies\nbash <SKILL_ROOT>/scripts/setup.sh\n\n# Run conversion\nnode <SKILL_ROOT>/scripts/build.mjs /Users/X/web/deck/index.html --out ~/Downloads/2026q4-pitch/\n```\nAfter the script finishes, reply:\n> \"Conversion complete ✅ – 8 slides captured.\n> - PDF: `~/Downloads/2026q4-pitch/deck.pdf`\n> - PPTX: `~/Downloads/2026q4-pitch/deck.pptx`\n> - PNG frames are in `~/Downloads/2026q4-pitch/frames/`.\"\n\nIf the user complains about file size, suggest `--scale 2`. If a slide appears blank, suggest increasing `--wait`.\n\n## Technical details (for advanced users)\n1. **Base URL handling** – `build.mjs` reads `<base href>` to determine the server root.\n2. **Static mode** – Press `B` (guizang shortcut) to disable animations; WebGL background remains.\n3. **Slide navigation** – Uses `document.querySelectorAll('#nav .dot')[i].click()` instead of keyboard events.\n4. **Animation awareness** – After navigation, polls `document.getAnimations()` until none are running, capped by `--wait`.\n5. **Font loading** – Waits for `document.fonts.ready` plus network idle before capturing.\n6. **Device scale factor** – `--scale 3` yields Retina‑quality screenshots; lower values reduce size.\n7. **Error resilience** – Each slide is captured in a try/catch; failures are reported but do not abort the whole run.\n8. **PPTX sizing** – Derived from `--width/--height`; supports non‑16:9 decks without distortion.\n\n## Troubleshooting\n| Symptom | Likely cause | Fix |\n|---|---|---|\n| Blank slide | Animation not finished | Increase `--wait` (e.g., `--wait 4000`) |\n| Missing fonts | Google Fonts not loaded | Ensure internet access and increase `--wait` |\n| Layout mismatch | Viewport size differs from deck design | Set `--width`/`--height` to match the deck (default 1920×1080) |\n| Local images 404 | Incorrect `<base href>` handling | Provide the whole directory, not a single file |\n| Chromium fails to start | Dependencies not installed | Re‑run `bash scripts/setup.sh` |\n| Output blurry | Scale too low | Use `--scale 4` (larger files) |\n| Output too large | Scale too high | Use `--scale 2` |\n\n## Repository layout\n```\nzan-html-to-ppt/\n├─ SKILL.md          ← this document\n├─ README.md         ← project overview\n├─ LICENSE           ← MIT\n├─ scripts/\n│  ├─ package.json   ← Playwright, pdf‑lib, pptxgenjs\n│  ├─ setup.sh       ← installs npm deps & Chromium (idempotent)\n│  └─ build.mjs      ← core conversion script\n```"
+  }
+}

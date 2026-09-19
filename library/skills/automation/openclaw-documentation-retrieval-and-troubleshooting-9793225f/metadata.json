@@ -1,0 +1,67 @@
+{
+  "library_id": "automation/openclaw-documentation-retrieval-and-troubleshooting-9793225f",
+  "title": "OpenClaw Documentation Retrieval and Troubleshooting",
+  "category": "automation",
+  "tags": [
+    "openclaw",
+    "documentation",
+    "automation",
+    "troubleshooting",
+    "cli"
+  ],
+  "summary": "A structured skill for locating authoritative OpenClaw documentation, diagnosing issues, and safely performing state‑changing actions. It defines a progressive search strategy, version handling, and safety checks for commands and credential exposure.",
+  "source": {
+    "repository": "tbdavid2019/openclaw-docs-skill",
+    "repository_url": "https://github.com/tbdavid2019/openclaw-docs-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/tbdavid2019/openclaw-docs-skill/blob/8006ca56e9872404a912227d040c2fd451b828cf/SKILL.md",
+    "api_sha": "1e6c8df8c261b4ba7311632b528b0c5429795f3c",
+    "repo_stars": 32,
+    "repo_forks": 7,
+    "repo_license": "GNU Affero General Public License v3.0",
+    "repo_updated_at": "2026-09-13T08:40:48+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:12+00:00",
+  "accepted_at": "2026-09-19T12:03:47+00:00",
+  "content_hash": "3bc27e1450499fc0fc8bc60b3f21934f44b6a8cd8a7aecd8ef062b8e5780c17a",
+  "source_excerpt": "--- name: openclaw-docs description: Find authoritative guidance for installing, configuring, operating, securing, and troubleshooting OpenClaw, including channels, model providers, Gateway operations, tools, plugins, automation, nodes, multi-agent routing, and CLI errors. Use for any question or maintenance task involving an OpenClaw installation, `openclaw` CLI command, Gateway daemon, configuration key, or integration. --- # OpenClaw documentation Use the synchronized official documentation as the source of truth. Keep context small by loading only the files and sections needed for the current request. ## Establish the version boundary 1. Read `references/SOURCE.json` when provenance or freshness matters. 2. For operational work, obtain …",
+  "review": {
+    "decision": "accept",
+    "title": "OpenClaw Documentation Retrieval and Troubleshooting",
+    "category": "automation",
+    "summary": "A structured skill for locating authoritative OpenClaw documentation, diagnosing issues, and safely performing state‑changing actions. It defines a progressive search strategy, version handling, and safety checks for commands and credential exposure.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Clear, step‑by‑step search workflow",
+      "Explicit handling of version mismatches",
+      "Comprehensive safety guidelines for state‑changing actions",
+      "Well‑organized catalogs and routing table"
+    ],
+    "weaknesses": [
+      "No concrete example queries or sample inputs/outputs",
+      "Assumes presence of `rg` without detailed fallback",
+      "Missing brief quick‑start summary",
+      "Input/output specifications are implicit rather than explicit"
+    ],
+    "tags": [
+      "openclaw",
+      "documentation",
+      "automation",
+      "troubleshooting",
+      "cli"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short example section showing typical user queries and expected outputs",
+      "Specify the required inputs (e.g., error text, command) and produced outputs (e.g., citation paths, commands)",
+      "Provide a fallback search command when `rg` is unavailable",
+      "Include a quick‑start summary for new users"
+    ],
+    "normalized_skill_markdown": "---\nname: openclaw-docs\ndescription: Retrieve authoritative OpenClaw documentation, diagnose issues, and safely execute state‑changing actions for installation, configuration, operation, and troubleshooting.\n---\n\n# OpenClaw Documentation Skill\n\nUse the synchronized official documentation as the source of truth. Load only the files and sections needed for the current request to keep context small.\n\n## Prerequisites\n- Local checkout of the OpenClaw documentation repository with a `references/` directory.\n- A file‑search tool (`rg` recommended). If unavailable, use the host’s equivalent search command.\n- Ability to run `openclaw --version` when version information is required.\n\n## Establish the Version Boundary\n1. Read `references/SOURCE.json` when provenance or freshness matters.\n2. Run `openclaw --version` for operational work, if the CLI is available.\n3. Treat the references as documentation for the recorded upstream `main` revision. Flag a possible version mismatch when the installed OpenClaw version is older.\n4. **Never** invent a command, flag, configuration key, default, or migration step. Search the references and state uncertainty when the documentation does not provide an answer.\n\n> **Note:** Do not update the installed skill during ordinary questions. Refresh only when the user explicitly asks to install or update the skill.\n\n## Progressive Documentation Search\nChoose the narrowest route that fits the request.\n\n### 1. Exact error, command, or configuration key\nSearch `references/` directly for:\n- The exact error message.\n- The full CLI command or subcommand.\n- The complete configuration key.\n- Distinctive log text, provider name, or channel name.\n\nWhen `rg` is available, use:\n```bash\nrg -n -i --glob '*.md' --glob '*.mdx' '<exact text>' references\nrg -l -i --glob '*.md' --glob '*.mdx' '<keyword>' references\n```\nIf `rg` is not present, substitute with an equivalent search (e.g., `grep -R`).\n\n### 2. Broad topic\n1. Read `references/SKILL_INDEX.md`.\n2. Open exactly one matching catalog under `references/_catalog/`.\n3. If the catalog links to alphabetical sections, open exactly one matching section.\n4. Select **at most three** candidate documents using their `summary` and `read_when` metadata.\n5. Inspect headings or search within those documents before reading long sections.\n6. Expand to another document, section, or catalog only when the first candidates are insufficient.\n\n### 3. Topic routing table\n| User intent | Start with |\n|---|---|\n| Installation, update, migration, deployment | `references/_catalog/install.md` |\n| Gateway configuration, service, networking | `references/_catalog/gateway.md` |\n| Messaging channels (Telegram, Slack, etc.) | `references/_catalog/channels.md` |\n| Model providers (Anthropic, OpenAI, etc.) | `references/_catalog/providers.md` |\n| Exact `openclaw` command or flag | `references/_catalog/cli.md` |\n| Tools, skills, permissions | `references/_catalog/tools.md` |\n| Cron, hooks, tasks, webhooks | `references/_catalog/automation.md` |\n| Agents, sessions, memory, routing | `references/_catalog/concepts.md` |\n| Nodes or OS‑specific behavior | `references/_catalog/nodes.md` and `references/_catalog/platforms.md` |\n| UI (WebChat, dashboard, TUI) | `references/_catalog/web.md` |\n| Security, exposure, incident response | `references/_catalog/security.md` and `references/_catalog/gateway.md` |\n| Unclear symptom or general troubleshooting | `references/_catalog/help.md` |\n\nIf a catalog does not exist in an older snapshot, search the corresponding `references/<topic>/` directory directly.\n\n## Diagnose from Evidence\nMatch diagnostics to the symptom instead of running a universal command ladder.\n- **Gateway reachability:** inspect status, service state, and relevant Gateway logs.\n- **Single channel issues:** inspect Gateway reachability, channel status, policy, and channel‑specific troubleshooting page.\n- **Model failures:** inspect provider authentication, model resolution, and the exact provider error.\n- **Configuration failures:** identify the active config path, exact rejected key, and matching reference.\n- **Update/migration failures:** establish installed version, install method, and target version before recommending changes.\n\nBegin with read‑only observations. Preserve exact errors and command output when searching the documentation.\n\n## Control State‑Changing Actions\nTreat edits, installations, updates, `--fix`, `--force`, restarts, uninstalls, credential changes, pairing approvals, and message sends as state‑changing actions.\n1. Explain what will change and the likely impact.\n2. Confirm the target and scope from available evidence.\n3. Obtain explicit user authorization when it is not already clear.\n4. Prefer previews, validation, backups, and reversible operations.\n5. Re‑check status after the change.\n\nNever expose tokens, passwords, session data, auth profiles, or secrets in the response. Redact them from any copied output.\n\n## Produce the Answer\n- Lead with the diagnosis or requested outcome.\n- Provide commands only after confirming them in the synchronized references.\n- Separate documented facts from inferences.\n- Mention relevant version assumptions or mismatch risks.\n- Cite the local reference paths used so the user can verify the answer.\n- Keep unexplored alternatives out of context unless the primary route fails.\n\n## Maintenance (Run Only on Explicit Request)\n```bash\nsh scripts/sync-docs.sh\npython3 scripts/generate_index.py --check\npython3 -m unittest -v tests/test_repo.py\n```\nFor an installed Git checkout, install or update with:\n```bash\nbash <skill-directory>/scripts/install-skill.sh <skill-directory>\n```\nDo **not** run `scripts/sync-docs.sh` or regenerate indexes during normal OpenClaw assistance.\n"
+  }
+}

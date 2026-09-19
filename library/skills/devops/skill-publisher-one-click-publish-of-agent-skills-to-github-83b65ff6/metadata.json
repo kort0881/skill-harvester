@@ -1,0 +1,65 @@
+{
+  "library_id": "devops/skill-publisher-one-click-publish-of-agent-skills-to-github-83b65ff6",
+  "title": "Skill Publisher – One‑click publish of agent skills to GitHub",
+  "category": "devops",
+  "tags": [
+    "github",
+    "automation",
+    "skill-publishing",
+    "cli",
+    "devops"
+  ],
+  "summary": "The Skill Publisher automates the full lifecycle of publishing an agent skill to GitHub: validation of SKILL.md, README quality checks, repository creation or update, push, and verification with `npx skills`. It integrates with the standard `~/.agents/skills/` directory and provides a CLI with safety checks and dry‑run mode.",
+  "source": {
+    "repository": "joeseesun/qiaomu-skill-publisher",
+    "repository_url": "https://github.com/joeseesun/qiaomu-skill-publisher",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/joeseesun/qiaomu-skill-publisher/blob/8bd944b7723e710d38f9fa4034e8ba6addbbdfed/SKILL.md",
+    "api_sha": "dcc7234e61018ada69f660aaecd8fbc23a52664f",
+    "repo_stars": 38,
+    "repo_forks": 4,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-28T14:39:59+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:01+00:00",
+  "accepted_at": "2026-09-19T11:59:15+00:00",
+  "content_hash": "2e1ff02c4a405c38b3808c53e84865a1215bdafe8ff8d186aa5bb5c1cd9b37ca",
+  "source_excerpt": "--- name: skill-publisher description: | 一键发布 agent skill 到 GitHub，自动验证 SKILL.md、生成或检查更吸引人的 README、区分 skill name 与 GitHub repo name、创建或更新仓库、推送并通过 npx skills 真实安装验证。当用户说\"发布这个skill\"、\"publish skill\"、\"把skill发到GitHub\"、\"分享这个skill\"、\"/publish-skill\"时触发。支持发布当前目录或指定路径的 skill。 --- # Skill Publisher 一键将 agent skill 发布到 GitHub，自动完成验证、README 质量检查、补全、推送和真实安装验证。 ## 前置条件 - `gh` CLI 已安装且已登录（`gh auth status`） - Skill 目录包含有效的 `SKILL.md`（含 YAML frontmatter `name` + `description`） - 优先使用 `/Users/joe/.agents/skills/<name>` 作为正式源目录；`.codex` / `.claude` 可作为兼容入口。 ## 发布流程 当用户要求发布 skill 时，运行发布脚本： ```bash python3 ~/.agents/skills/qiaomu-skill-publisher/scripts/publish_skill.py <skill_dir> ``` ### 确定 skill 目录 - 如果用户说\"发布这个 skill\"且当前在某个 skill 目录 → 用当前目录 - 如果用户指定了 skill 名称…",
+  "review": {
+    "decision": "accept",
+    "title": "Skill Publisher – One‑click publish of agent skills to GitHub",
+    "category": "devops",
+    "summary": "The Skill Publisher automates the full lifecycle of publishing an agent skill to GitHub: validation of SKILL.md, README quality checks, repository creation or update, push, and verification with `npx skills`. It integrates with the standard `~/.agents/skills/` directory and provides a CLI with safety checks and dry‑run mode.",
+    "quality_score": 82,
+    "uniqueness_score": 71,
+    "usefulness_score": 86,
+    "safety_score": 100,
+    "total_score": 80,
+    "strengths": [
+      "Clear, step‑by‑step workflow",
+      "Comprehensive pre‑condition list and CLI options",
+      "Built‑in YAML safety validation",
+      "README quality checklist adds real value"
+    ],
+    "weaknesses": [
+      "No explicit description of script output (e.g., success messages, exit codes)",
+      "Error‑handling examples are minimal",
+      "Documentation is primarily Chinese; English translation optional"
+    ],
+    "tags": [
+      "github",
+      "automation",
+      "skill-publishing",
+      "cli",
+      "devops"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a brief section describing the script's stdout/stderr and exit codes",
+      "Provide example error messages and suggested remediation steps",
+      "Include an English version of the README for international users"
+    ],
+    "normalized_skill_markdown": "---\nname: skill-publisher\ndescription: |\n  一键发布 agent skill 到 GitHub，自动验证 SKILL.md、检查或生成 README、创建或更新仓库，并通过 `npx skills` 进行真实安装验证。适用于 `~/.agents/skills/` 目录下的 skill。\n---\n\n# Skill Publisher\n\n一键将 agent skill 发布到 GitHub，自动完成验证、README 质量检查、补全、推送和真实安装验证。\n\n## 前置条件\n\n- 已安装并登录 `gh` CLI（`gh auth status`）\n- Skill 目录中包含有效的 `SKILL.md`（必须有 `name` 与 `description`）\n- 推荐使用 `~/.agents/skills/<name>` 作为本地源目录；`.codex` / `.claude` 可作兼容入口\n\n## 使用方式\n\n```bash\npython3 ~/.agents/skills/qiaomu-skill-publisher/scripts/publish_skill.py <skill_dir> [options]\n```\n\n### 参数选项\n\n| 参数 | 说明 |\n|------|------|\n| `--private` | 创建私有仓库（默认公开） |\n| `--dry-run` | 仅检查，不实际发布 |\n| `--skip-verify` | 跳过 `npx skills` 验证 |\n| `--github-user USER` | 指定 GitHub 用户名（默认自动获取） |\n| `--repo-name NAME` | 指定仓库名；默认使用当前 `origin` 或 skill name |\n| `--no-symlink` | 跳过同步到 `~/.agents/skills/` 实体目录 |\n\n### 自动化步骤\n\n1. **验证** `SKILL.md` 的 YAML front‑matter（`name` + `description`）\n2. **检查** `gh` CLI 状态\n3. **创建** `LICENSE`（MIT，若缺失）\n4. **生成或检查** `README.md`（禁止出现占位符）\n5. **识别仓库名**：优先使用当前 `origin`，防止误发到错误仓库\n6. **初始化** Git（如有必要）\n7. **创建或更新** GitHub 公共仓库并推送代码\n8. **验证** `npx skills add --list` 能发现并在临时目录完成真实安装\n\n## 示例\n\n```bash\n# 发布指定 skill\npython3 ~/.agents/skills/qiaomu-skill-publisher/scripts/publish_skill.py ~/.agents/skills/yt-search-download\n\n# 在当前目录发布\npython3 ~/.agents/skills/qiaomu-skill-publisher/scripts/publish_skill.py .\n\n# 仅检查，不实际发布\npython3 ~/.agents/skills/qiaomu-skill-publisher/scripts/publish_skill.py <dir> --dry-run\n```\n\n## README 质量检查（发布前必做）\n\n脚本在 `README.md` 不存在时会生成一个基础模板；若已存在，则会拦截明显的占位内容（如 `TODO`、`[问题 1]` 等）。发布前请确保 README 包含以下要素：\n\n1. **价值主张** – 首段明确解决的用户痛点\n2. **首屏证据** – 截图、示例输出或 Demo\n3. **动态徽章** – stars、forks、issues、last commit、license 等\n4. **前置条件** – 使用 Markdown 勾选框列出所有依赖及安装方式\n5. **完整安装步骤** – 编号步骤并提供验证命令\n6. **自然语言使用示例** – 展示用户会说的触发句子\n7. **致谢** – 如基于第三方库，请注明原作者\n8. **风险/限制说明** – 费用、账号、操作风险等\n9. **常见问题 / Troubleshooting** – 至少 3 条常见报错及解决方案\n\n## 发布完成后\n\n脚本会输出：\n- GitHub 仓库 URL\n- 安装命令 `npx skills add <user>/<repo>`\n- 验证结果（是否成功在临时目录完成安装）\n\n---"
+  }
+}

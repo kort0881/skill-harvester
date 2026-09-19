@@ -1,0 +1,69 @@
+{
+  "library_id": "automation/japanese-government-open-data-access-via-mcp-697bc160",
+  "title": "Japanese Government Open Data Access via MCP",
+  "category": "automation",
+  "tags": [
+    "japanese",
+    "open-data",
+    "automation",
+    "government",
+    "api",
+    "mcp"
+  ],
+  "summary": "The skill provides a CLI wrapper to retrieve Japanese open data—real‑estate transaction prices, procurement bid listings, and e‑Stat statistics—through the MCP server (mcp.n-3.ai). It includes a reusable shell script, example commands, and practical notes on parameters and rate limits.",
+  "source": {
+    "repository": "naoterumaker/japan-gyousei-data",
+    "repository_url": "https://github.com/naoterumaker/japan-gyousei-data",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/naoterumaker/japan-gyousei-data/blob/5658a5f554f751d209e10a47f90662b39c0eb818/SKILL.md",
+    "api_sha": "184de386148e9c10ec2301d425eaf09b742df2ae",
+    "repo_stars": 53,
+    "repo_forks": 1,
+    "repo_license": null,
+    "repo_updated_at": "2026-03-24T15:28:59+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:19+00:00",
+  "accepted_at": "2026-09-19T12:06:21+00:00",
+  "content_hash": "83b51d087995c846169523c9d8719963deac74375c311b362c95d7b41fc9b6f9",
+  "source_excerpt": "--- name: japan-gyousei-data description: 日本の行政オープンデータにアクセスする。不動産取引価格（国交省）、官公需・入札情報、e-Stat政府統計の3つのデータソースを検索・取得できる。「不動産価格を調べて」「入札情報を検索」「政府統計を取得」「官公需で○○を探して」「地価を調べて」「統計データ」などで使用。MCP server (mcp.n-3.ai) 経由でリアルタイムにデータ取得する。 --- # 行政オープンデータスキル 日本政府のオープンデータに MCP サーバー（`mcp.n-3.ai`）経由でアクセスする。 ## データソース | # | 名前 | 用途 | ツール | |---|------|------|--------| | 1 | 不動産取引価格 | 国交省の実取引データ | `reinfolib-real-estate-price`, `reinfolib-city-list` | | 2 | 官公需（入札） | 政府・自治体の調達案件検索 | `kkj-search` | | 3 | e-Stat | 政府統計ポータル | `e-stat-get-stats-list`, `e-stat-get-meta-info`, `e-stat-get-data-catalog` | ## 呼び出し方法 `exec` で `curl` を使う。`web_fetch` は SSE 非対応のため不可。 スクリプト `scripts/mcp-call.sh` を使う: ```bash bash <skill_dir>/scripts/mcp-call.sh <data_source> <tool_name> '<argume…",
+  "review": {
+    "decision": "accept",
+    "title": "Japanese Government Open Data Access via MCP",
+    "category": "automation",
+    "summary": "The skill provides a CLI wrapper to retrieve Japanese open data—real‑estate transaction prices, procurement bid listings, and e‑Stat statistics—through the MCP server (mcp.n-3.ai). It includes a reusable shell script, example commands, and practical notes on parameters and rate limits.",
+    "quality_score": 78,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Clear high‑level description and purpose",
+      "Well‑structured table of data sources and associated tools",
+      "Concrete command‑line examples for each source",
+      "Practical notes on parameter quirks and rate limits"
+    ],
+    "weaknesses": [
+      "Prerequisites (MCP server access, script placement) are only implied",
+      "No explicit description of expected output format or verification steps",
+      "Lacks guidance on installing or configuring the `scripts/mcp-call.sh` helper",
+      "Error handling and troubleshooting advice are missing"
+    ],
+    "tags": [
+      "japanese",
+      "open-data",
+      "automation",
+      "government",
+      "api",
+      "mcp"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a brief prerequisites section (e.g., required MCP server access, script location)",
+      "Document the JSON output schema for each tool or provide a sample response",
+      "Include a simple verification step (e.g., checking for a non‑empty result)",
+      "Offer troubleshooting tips for network errors or rate‑limit responses"
+    ],
+    "normalized_skill_markdown": "---\nname: japan-gyousei-data\ndescription: Access Japanese government open data (real‑estate transaction prices, procurement bids, e‑Stat statistics) via the MCP server (mcp.n-3.ai). Provides CLI wrappers for three public data sources.\n---\n\n# Japanese Government Open Data Skill\n\nThis skill enables retrieval of three Japanese government open‑data sets through the MCP server (`mcp.n-3.ai`). It wraps the underlying tools with a single shell helper.\n\n## Data Sources\n\n| # | Name | Purpose | Tools |\n|---|------|---------|-------|\n| 1 | Real‑estate transaction price | Ministry of Land, Infrastructure, Transport and Tourism (MLIT) actual transaction data | `reinfolib-real-estate-price`, `reinfolib-city-list` |\n| 2 | Procurement (官公需) | Search government and municipal procurement notices | `kkj-search` |\n| 3 | e‑Stat | Access the Government Statistics Portal | `e-stat-get-stats-list`, `e-stat-get-meta-info`, `e-stat-get-data-catalog` |\n\n## Invocation\n\nUse the provided `scripts/mcp-call.sh` wrapper. The script expects three arguments:\n1. **data_source** – one of `reinfo`, `kkj`, or `estat`.\n2. **tool_name** – the specific tool to call (see table above).\n3. **arguments_json** – a JSON string with the tool‑specific parameters.\n\n```bash\nbash <skill_dir>/scripts/mcp-call.sh <data_source> <tool_name> '<arguments_json>'\n```\n\n### Example Commands\n\n```bash\n# Real‑estate: Osaka city transaction prices for Q3 2025\nbash scripts/mcp-call.sh reinfo reinfolib-real-estate-price '{\"year\":\"2025\",\"quarter\":\"3\",\"area\":\"27\",\"city\":\"27102\"}'\n\n# Real‑estate: List municipalities in prefecture 27 (Osaka)\nbash scripts/mcp-call.sh reinfo reinfolib-city-list '{\"area\":\"27\"}'\n\n# Procurement: Search AI‑related bids (category 3 = services)\nbash scripts/mcp-call.sh kkj kkj-search '{\"query\":\"AI 人工知能\",\"category\":\"3\"}'\n\n# e‑Stat: Find statistics containing the word \"人口\"\nbash scripts/mcp-call.sh estat e-stat-get-stats-list '{\"searchWord\":\"人口\"}'\n```\n\n## Tool Details\n\nFor full parameter specifications, refer to `references/tools.md` in the repository.\n\n## Important Notes\n\n- **Procurement regional filter**: `kkj-search` does not accept a prefecture parameter; include location keywords in the query string.\n- **Procurement detail data**: MCP returns only the search‑result list. For specifications, amounts, and deadlines, visit the original portal.\n- **Real‑estate codes**: Prefecture codes are two‑digit numbers (e.g., Tokyo = 13, Osaka = 27). City codes can be obtained via `reinfolib-city-list`.\n- **e‑Stat workflow**: First call `e-stat-get-stats-list` to obtain a statistic ID, then `e-stat-get-meta-info` for metadata, and finally `e-stat-get-data-catalog` to download the data.\n- **Rate limits**: These are public APIs; use them at a reasonable frequency to avoid throttling.\n\n---"
+  }
+}

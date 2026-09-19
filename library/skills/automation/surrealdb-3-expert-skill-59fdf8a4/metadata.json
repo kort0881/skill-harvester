@@ -1,0 +1,70 @@
+{
+  "library_id": "automation/surrealdb-3-expert-skill-59fdf8a4",
+  "title": "SurrealDB 3 Expert Skill",
+  "category": "automation",
+  "tags": [
+    "surrealdb",
+    "database",
+    "automation",
+    "devops",
+    "sdk",
+    "performance",
+    "security"
+  ],
+  "summary": "A comprehensive skill for SurrealDB 3 covering architecture, SurrealQL, multi‑model data modeling, security, deployment, performance tuning, SDK integration and ecosystem tools. It provides ready‑to‑run health‑check and schema‑introspection scripts, clear prerequisites, example commands and detailed rule references. The skill is designed for both AI agents and human developers to bootstrap, operate and optimise SurrealDB deployments.",
+  "source": {
+    "repository": "24601/surreal-skills",
+    "repository_url": "https://github.com/24601/surreal-skills",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/24601/surreal-skills/blob/4e66534bc9e56699c471cd7739297c7e184656b0/SKILL.md",
+    "api_sha": "26a43d130afc18d95e5467dd4ec242f55240e439",
+    "repo_stars": 34,
+    "repo_forks": 1,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-08-01T19:55:23+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:09+00:00",
+  "accepted_at": "2026-09-19T12:01:57+00:00",
+  "content_hash": "4898f041a0748c7c19a9b138ee11111538da3443cb361e201547d45ab55dc002",
+  "source_excerpt": "--- name: surrealdb description: \"Expert SurrealDB 3 architect and developer skill (tracks v3.1.4+). SurrealQL mastery, multi-model data modeling (document, graph, vector, time-series, geospatial), schema design, security, deployment, performance tuning, SDK integration (JS, Python, Go, Rust, Java, .NET, C, PHP, Swift, Kotlin, Ruby), Surrealism WASM extensions, SurrealML scope coverage (preview), built-in MCP (v3.1+) and standalone SurrealMCP, LangChain Python integration, editor tooling (LSP v0.1.6, tree-sitter, CodeMirror v1.0.6, VS Code/JetBrains/Neovim/Zed), and ecosystem integrations (Surrealist v3.9, Surreal-Sync, SurrealFS, SurrealKit v0.7, n8n, Agent Skills, setup-surreal). Universal skill for 30+ AI agents.\" version: \"1.7.1\" licens…",
+  "review": {
+    "decision": "accept",
+    "title": "SurrealDB 3 Expert Skill",
+    "category": "automation",
+    "summary": "A comprehensive skill for SurrealDB 3 covering architecture, SurrealQL, multi‑model data modeling, security, deployment, performance tuning, SDK integration and ecosystem tools. It provides ready‑to‑run health‑check and schema‑introspection scripts, clear prerequisites, example commands and detailed rule references. The skill is designed for both AI agents and human developers to bootstrap, operate and optimise SurrealDB deployments.",
+    "quality_score": 85,
+    "uniqueness_score": 90,
+    "usefulness_score": 88,
+    "safety_score": 100,
+    "total_score": 91,
+    "strengths": [
+      "Extremely thorough coverage of SurrealDB features and ecosystem",
+      "Clear prerequisite list with install commands",
+      "Ready‑to‑run Python scripts for health checks and schema introspection",
+      "Rich examples for local development, migration and production deployment",
+      "Explicit security notes and credential warnings"
+    ],
+    "weaknesses": [
+      "Heavy focus on macOS/Homebrew; limited Windows instructions",
+      "Long document may be overwhelming for beginners",
+      "Some sections reference retracted or preview APIs without clear deprecation guidance"
+    ],
+    "tags": [
+      "surrealdb",
+      "database",
+      "automation",
+      "devops",
+      "sdk",
+      "performance",
+      "security"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add Windows package‑manager instructions (e.g., scoop or chocolatey)",
+      "Provide a concise quick‑start cheat sheet for beginners",
+      "Mark preview or retracted APIs more prominently and suggest stable alternatives"
+    ],
+    "normalized_skill_markdown": "---\nname: surrealdb\ndescription: \"Expert SurrealDB 3 skill covering architecture, SurrealQL, multi‑model data modeling, security, deployment, performance tuning, SDK integration and ecosystem tools.\"\n---\n\n# SurrealDB 3 Skill\n\nThis skill provides expert‑level guidance and automation for SurrealDB 3 (v3.1.4+). It includes health‑check and schema‑introspection scripts, deployment best‑practices, performance tuning tips, and integration details for the full SDK ecosystem.\n\n## Prerequisites\n- **SurrealDB CLI** – `brew install surrealdb/tap/surreal` (macOS) or follow the official [install docs](https://surrealdb.com/docs/surrealdb/installation).\n- **Python 3.10+** – required for the skill scripts.\n- **uv** – `brew install uv` or `pip install uv`.\n- Optional: **Docker** (for containerised instances) and any language SDK you plan to use (JS, Python, Go, Rust, Java, Kotlin, .NET, C, PHP, Swift, Ruby).\n\n## Environment Variables\n| Variable | Description | Default |\n|---|---|---|\n| `SURREAL_ENDPOINT` | SurrealDB server URL | `http://localhost:8000` |\n| `SURREAL_USER` | Username (root for local dev) | `root` |\n| `SURREAL_PASS` | Password (root for local dev) | `root` |\n| `SURREAL_NS` | Namespace | `test` |\n| `SURREAL_DB` | Database | `test` |\n\n> **Credential warning**: The examples use `root/root` only for local development. Use scoped, least‑privilege users in production.\n\n## Quick Start (Local Development)\n```bash\n# 1. Start an in‑memory instance (dev only)\nsurreal start memory --user root --pass root --bind 127.0.0.1:8000\n\n# 2. Verify the skill can reach the server\nuv run scripts/doctor.py\n\n# 3. Import a schema file\nsurreal import --endpoint http://localhost:8000 --user root --pass root --ns test --db test schema.surql\n\n# 4. Dump the full schema as JSON\nuv run scripts/schema.py export --format json\n```\n\n## Core Scripts\n| Script | Purpose |\n|---|---|\n| `scripts/doctor.py` | Health check – verifies CLI, connectivity, version compatibility, and storage engine status. |\n| `scripts/schema.py` | Introspects the running database; can list tables, dump full schema, or export as SurrealQL/JSON. |\n| `scripts/onboard.py --agent` | Emits a JSON capabilities manifest for AI‑agent integration. |\n| `scripts/check_upstream.py` | Compares upstream SurrealDB repositories against the skill’s provenance snapshot. |\n\nAll scripts output **human‑readable** information on *stderr* and **machine‑readable JSON** on *stdout*.\n\n## Major Capability Areas\n- **SurrealQL Mastery** – full coverage of CREATE, SELECT, UPDATE, RELATE, LIVE SELECT, DEFINE, REMOVE, INFO, transactions, futures and built‑in functions.\n- **Multi‑Model Data Modeling** – document, graph, vector, time‑series and geospatial schemas in a single database.\n- **Graph Queries** – `RELATE` and traversal operators (`->`, `<-`, `<->`).\n- **Vector Search** – HNSW indexes, similarity functions, RAG pipelines.\n- **Security & Permissions** – row‑level security, JWT, `DEFINE ACCESS`, `DEFINE USER`.\n- **Deployment & Operations** – binary, Docker, Helm charts, storage‑engine selection, backup/restore, monitoring.\n- **Performance Tuning** – index strategies, `EXPLAIN`, connection pooling, batch ops.\n- **SDK Integration** – official bindings for JavaScript/TypeScript, Python, Go, Rust, Java, Kotlin, .NET, C, PHP, Swift, Ruby.\n- **Surrealism WASM Extensions** – author custom functions/modules in Rust compiled to WASM.\n- **SurrealML (preview)** – in‑database inference artifacts (`.surml`).\n- **SurrealMCP** – Model Context Protocol server for AI‑agent access.\n- **Editor Tooling** – LSP, tree‑sitter grammar, CodeMirror packages.\n- **LangChain (Python)** – vector‑store integration via `langchain-surrealdb`.\n- **Ecosystem Tools** – Surrealist IDE, Surreal‑Sync CDC, SurrealFS, SurrealKit, n8n nodes, GitHub Action `setup-surreal`.\n\n## Example Workflows\n### New Project Setup\n```bash\nuv run scripts/doctor.py\nsurreal start rocksdb://data/myproject.db --user root --pass root\n# Design schema (see rules/data-modeling.md)\nsurreal import --endpoint http://localhost:8000 --user root --pass root \\\n  --ns myapp --db prod schema.surql\nuv run scripts/schema.py introspect\n```\n\n### Migration from SurrealDB v2\n```bash\n# Export from v2\nsurreal export --endpoint http://old:8000 --user root --pass root \\\n  --ns myapp --db prod v2-backup.surql\n# Review breaking changes (rules/surrealql.md)\n# Import into v3\nsurreal import --endpoint http://localhost:8000 --user root --pass root \\\n  --ns myapp --db prod v2-backup.surql\nuv run scripts/schema.py introspect\n```\n\n### Production Deployment Checklist\n1. Choose storage engine (memory/rocksdb/surrealkv/TiKV).  \n2. Harden security – define users, permissions, JWT.  \n3. Create necessary indexes (unique, search, vector HNSW).  \n4. Run `uv run scripts/doctor.py --endpoint https://prod:8000`.\n5. Verify schema with `uv run scripts/schema.py introspect --endpoint https://prod:8000`.\n\n## Rule Reference Files\n- `rules/surrealql.md`\n- `rules/data-modeling.md`\n- `rules/graph-queries.md`\n- `rules/vector-search.md`\n- `rules/security.md`\n- `rules/deployment.md`\n- `rules/performance.md`\n- `rules/sdks.md`\n- `rules/surrealism.md`\n- `rules/surrealml.md`\n- `rules/surrealmcp.md`\n- `rules/editor-tooling.md`\n- `rules/langchain.md`\n- `rules/ecosystem-integrations.md`\n- `rules/surrealist.md`\n- `rules/surreal-sync.md`\n- `rules/surrealfs.md`\n- `rules/surrealkit.md`\n- `rules/gotchas.md`\n\n## Upstream Source Check\n```bash\nuv run scripts/check_upstream.py        # human readable\nuv run scripts/check_upstream.py --json # JSON for agents\nuv run scripts/check_upstream.py --stale # show repos with new commits\n```\n\n## Provenance (snapshot 2026‑06‑17)\n| Repository | Release |\n|---|---|\n| surrealdb/surrealdb | v3.1.4 |\n| surrealdb/surrealist | surrealist‑v3.9.0 |\n| surrealdb/surrealdb.js | v2.0.3 |\n| surrealdb/surrealdb.py | v2.0.0 (PyPI) |\n| surrealdb/surrealkit | v0.7.0 |\n| surrealdb/surrealmcp | v0.4.0 |\n\nAll documentation reflects the state of these repos as of the snapshot date.\n"
+  }
+}

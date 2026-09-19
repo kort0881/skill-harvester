@@ -1,0 +1,63 @@
+{
+  "library_id": "research/infinite-gratitude-multi-agent-research-workflow-1667c65c",
+  "title": "Infinite Gratitude – Multi‑Agent Research Workflow",
+  "category": "research",
+  "tags": [
+    "research",
+    "multi-agent",
+    "automation",
+    "knowledge‑gathering"
+  ],
+  "summary": "Infinite Gratitude is a multi‑agent research skill that splits a user‑provided topic into several parallel directions, dispatches lightweight research agents, aggregates their findings, and iterates based on follow‑up questions. It is designed for quick, normal, or deep research modes and supports up to ten concurrent agents.",
+  "source": {
+    "repository": "sstklen/infinite-gratitude",
+    "repository_url": "https://github.com/sstklen/infinite-gratitude",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/sstklen/infinite-gratitude/blob/40e0f9704d4d20c6b58e9eec9137c546bd24a305/SKILL.md",
+    "api_sha": "57d0f88d2e703ac8f2f37b2b8c9c6aaeee3a92d4",
+    "repo_stars": 31,
+    "repo_forks": 3,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-07-06T10:06:16+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:14+00:00",
+  "accepted_at": "2026-09-19T12:04:06+00:00",
+  "content_hash": "86f18da47ed4fd88b5318b5e786111216d1ae561a7cbb843fd1109e685a255b3",
+  "source_excerpt": "--- name: infinite-gratitude description: Multi-agent research that keeps bringing gifts back — like cats! Dispatch multiple agents to research a topic in parallel, compile findings, and iterate on new discoveries. argument-hint: \"<topic>\" [--depth quick|normal|deep] [--agents 1-10] --- # Infinite Gratitude 🐾 > 無限貓報恩 | 無限の恩返し > Multi-agent research that keeps bringing gifts back — like cats! 🐱 ## Quick Reference | Option | Values | Default | |--------|--------|---------| | `topic` | Required | - | | `--depth` | quick / normal / deep | normal | | `--agents` | 1-10 | 5 | ## Usage ```bash /infinite-gratitude \"pet AI recognition\" /infinite-gratitude \"RAG best practices\" --depth deep /infinite-gratitude \"React state management\" --agents 3 ``` ##…",
+  "review": {
+    "decision": "accept",
+    "title": "Infinite Gratitude – Multi‑Agent Research Workflow",
+    "category": "research",
+    "summary": "Infinite Gratitude is a multi‑agent research skill that splits a user‑provided topic into several parallel directions, dispatches lightweight research agents, aggregates their findings, and iterates based on follow‑up questions. It is designed for quick, normal, or deep research modes and supports up to ten concurrent agents.",
+    "quality_score": 75,
+    "uniqueness_score": 65,
+    "usefulness_score": 70,
+    "safety_score": 100,
+    "total_score": 78,
+    "strengths": [
+      "Clear step‑by‑step workflow",
+      "Provides quick reference table and example commands",
+      "Includes looping mechanism for deeper research",
+      "Self‑contained example output"
+    ],
+    "weaknesses": [
+      "Prerequisites (model availability, agent framework) are only implied",
+      "No explicit validation of user input or error handling",
+      "Limited guidance on customizing the list of research directions"
+    ],
+    "tags": [
+      "research",
+      "multi-agent",
+      "automation",
+      "knowledge‑gathering"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section describing required agent framework and model (e.g., `haiku` model availability).",
+      "Specify how to handle invalid arguments or missing models.",
+      "Allow customization of research directions via optional parameters."
+    ],
+    "normalized_skill_markdown": "---\nname: infinite-gratitude\ndescription: Multi‑agent research skill that dispatches several research agents to explore a topic in parallel, compiles findings, and iterates until the user is satisfied.\n---\n\n# Infinite Gratitude 🐾\n\n> 無限貓報恩 | 無限の恩返し\n> Multi‑agent research that keeps bringing gifts back — like cats! 🐱\n\n## Quick Reference\n\n| Option | Values | Default |\n|--------|--------|---------|\n| `topic` | Required | - |\n| `--depth` | quick / normal / deep | normal |\n| `--agents` | 1‑10 | 5 |\n\n## Usage\n\n```bash\n/infinite-gratitude \"pet AI recognition\"\n/infinite-gratitude \"RAG best practices\" --depth deep\n/infinite-gratitude \"React state management\" --agents 3\n```\n\n## Behavior\n\n### Step 1: Split Directions\nSplit `{topic}` into a set of parallel research directions (default 5):\n1. GitHub projects\n2. HuggingFace models\n3. Papers / articles\n4. Competitors\n5. Best practices\n\n### Step 2: Dispatch Agents\nFor each direction a background research agent is launched:\n```python\nTask(\n    prompt=\"Research {direction} for {topic}...\",\n    subagent_type=\"research-scout\",\n    model=\"haiku\",\n    run_in_background=True\n)\n```\n\n### Step 3: Collect Gifts\nWhen agents finish, their outputs are merged into a structured report.\n\n### Step 4: Loop\nIf the compiled report raises follow‑up questions, ask the user whether to continue. If the user answers **yes**, return to Step 2 with the new questions.\n\n### Step 5: Final Report\nPresent the aggregated findings and any key take‑aways.\n\n## Example Output\n```\n🐾 Infinite Gratitude!\n\n📋 Topic: \"pet AI recognition\"\n🐱 Dispatching 5 agents...\n\n━━━━━━━━━━━━━━━━━━━━━━\n🎁 Wave 1\n━━━━━━━━━━━━━━━━━━━━━━\n\n🐱 GitHub: MegaDescriptor, wildlife-datasets...\n🐱 HuggingFace: DINOv2, CLIP...\n🐱 Papers: Petnow uses Siamese Network...\n🐱 Competitors: Petnow 99%...\n🐱 Tutorials: ArcFace > Triplet Loss...\n\n💡 Key: Data volume is everything!\n\n🔍 New questions:\n   - How to implement ArcFace?\n   - How to use MegaDescriptor?\n\nContinue? (y/n)\n\n🐾 by washinmura.jp\n```\n\n## Notes\n- Uses the `haiku` model to keep inference cost low.\n- Default is 5 agents per wave; the `--agents` flag can adjust this up to 10.\n- `--depth` controls how many iterative loops are performed (quick = 1 wave, deep = continue until the user stops).\n\n## Additional Resources\n- Agent configuration details: `references/agent-config.md`\n\n## Related Skills\n- **ai-dojo** – Foundation for AI coding agents\n- **research-scout** – Single‑agent research implementation\n\n---\n*Part of 🥋 AI Dojo Series by [Washin Village](https://washinmura.jp) 🐾*\n"
+  }
+}
