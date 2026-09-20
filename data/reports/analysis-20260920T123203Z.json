@@ -1,0 +1,279 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-20T12:32:03+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 4,
+  "accepted": 1,
+  "rejected": 3,
+  "items": [
+    {
+      "candidate_id": "d631434a2908ac216db6223a",
+      "candidate": {
+        "candidate_id": "d631434a2908ac216db6223a",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:22+00:00",
+        "source": {
+          "repository": "wsbm393/Fable-Skill",
+          "repository_url": "https://github.com/wsbm393/Fable-Skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/wsbm393/Fable-Skill/blob/4d52fa3d8940e958ba4a915a404b1be16523e06a/SKILL.md",
+          "api_sha": "e7b72cd6d0567ef31b5965cb9089f0043b39d303",
+          "repo_stars": 25,
+          "repo_forks": 2,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-07-18T18:52:41+00:00"
+        },
+        "raw_file": "raw/wsbm393-fable-skill/SKILL.md",
+        "title": "executing-hard-tasks",
+        "category_hint": "content_creation",
+        "content_hash": "b6a15efcbe5644799aa43f64dc230c95a25c60f02a9de2c0565795358d701d1f",
+        "content_characters": 6949
+      },
+      "reviewed_at": "2026-09-20T12:31:45+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "Executing Hard Tasks",
+        "category": "process",
+        "summary": "A structured methodology for tackling complex, multi-step tasks by treating plans as hypotheses, using budgeted checkpoints, and enforcing verification before proceeding. It defines contracts for plans, decision logging, and a disciplined approach to handling failures and surprises.",
+        "quality_score": 68,
+        "uniqueness_score": 78,
+        "usefulness_score": 72,
+        "safety_score": 100,
+        "total_score": 79,
+        "strengths": [
+          "Clear emphasis on hypothesis‑driven planning and risk‑ordered testing",
+          "Well‑defined checkpoint and verification buckets",
+          "Explicit decision‑logging format (DECISION lines)",
+          "Comprehensive rationalizations and red‑flag checklist"
+        ],
+        "weaknesses": [
+          "No concrete end‑to‑end example illustrating the workflow",
+          "Missing explicit definition of required inputs (e.g., initial task description) and outputs (e.g., status report format)",
+          "Structure could be tighter; sections blend narrative with procedural rules",
+          "No guidance on tool selection or environment setup for verification steps"
+        ],
+        "tags": [
+          "process",
+          "task-management",
+          "verification",
+          "planning",
+          "workflow"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short, concrete example that walks through a sample task from plan creation to final verification.",
+          "Define the expected input (e.g., user request) and output (e.g., status report template) formats.",
+          "Separate pure policy statements from actionable steps for easier parsing by agents.",
+          "Provide a brief checklist of prerequisite tools or environment capabilities (e.g., ability to run shell commands, access to logs)."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "7c26b13e59f2c79181edade8",
+      "candidate": {
+        "candidate_id": "7c26b13e59f2c79181edade8",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:27+00:00",
+        "source": {
+          "repository": "GitOfUser/workbuddy-checkin",
+          "repository_url": "https://github.com/GitOfUser/workbuddy-checkin",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/GitOfUser/workbuddy-checkin/blob/cb9f5e21a1fc447a59d16c1184dc671727058656/SKILL.md",
+          "api_sha": "e9a45487b154baf9f84f7564df4e1abf4302e2aa",
+          "repo_stars": 50,
+          "repo_forks": 7,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-09T02:41:02+00:00"
+        },
+        "raw_file": "raw/gitofuser-workbuddy-checkin/SKILL.md",
+        "title": "workbuddy-checkin",
+        "category_hint": "programming",
+        "content_hash": "fed9cf38e9a28b5dd12afec689421798db27e9e24735c169a3f4864b6907ce4e",
+        "content_characters": 2121
+      },
+      "reviewed_at": "2026-09-20T12:31:56+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "WorkBuddy Daily Check-in Automation",
+        "category": "automation",
+        "summary": "This skill automates the daily check‑in process for the WorkBuddy desktop application by launching the program, locating the UI via hard‑coded screen coordinates, and simulating mouse clicks using a Python ctypes script. It includes troubleshooting tips and scheduling details but relies on user‑specific paths and a fixed 1920x1080 resolution. The workflow is useful for WorkBuddy users but needs generalisation and clearer structure.",
+        "quality_score": 60,
+        "uniqueness_score": 70,
+        "usefulness_score": 65,
+        "safety_score": 90,
+        "total_score": 71,
+        "strengths": [
+          "Clear step‑by‑step procedure",
+          "Includes troubleshooting table",
+          "Provides both PowerShell and Python implementations",
+          "Specifies scheduling details"
+        ],
+        "weaknesses": [
+          "Hard‑coded file paths and screen coordinates",
+          "Tied to a specific resolution (1920x1080)",
+          "No explicit input/output definition",
+          "Lacks verification of successful check‑in",
+          "User‑specific information reduces portability"
+        ],
+        "tags": [
+          "automation",
+          "desktop",
+          "python",
+          "windows",
+          "ui"
+        ],
+        "safety_flags": [
+          "potential UI interference",
+          "requires user‑specific paths"
+        ],
+        "recommended_improvements": [
+          "Parameterise file paths and allow configuration via environment variables",
+          "Detect UI elements dynamically (e.g., via accessibility APIs) instead of fixed coordinates",
+          "Add explicit input and output sections describing required prerequisites and expected results",
+          "Include a verification step to confirm the check‑in succeeded (e.g., read UI text or log file)",
+          "Generalise the skill for different screen resolutions or provide calibration instructions"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "ef9cb77bd68e4c58a6d5e3ef",
+      "candidate": {
+        "candidate_id": "ef9cb77bd68e4c58a6d5e3ef",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:28+00:00",
+        "source": {
+          "repository": "AgentTestingClamp/r02-alirezarezvani-claude-skills-seo",
+          "repository_url": "https://github.com/AgentTestingClamp/r02-alirezarezvani-claude-skills-seo",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/AgentTestingClamp/r02-alirezarezvani-claude-skills-seo/blob/09a31a051434968f2082d7c070986369bc7826dd/SKILL.md",
+          "api_sha": "54e00066a1c6d954f1f8e94af004ad9a9df5e9c4",
+          "repo_stars": 47,
+          "repo_forks": 0,
+          "repo_license": null,
+          "repo_updated_at": "2026-06-11T13:27:42+00:00"
+        },
+        "raw_file": "raw/agenttestingclamp-r02-alirezarezvani-claude-skills-seo/SKILL.md",
+        "title": "r00-alirezarezvani-claude-skills--seo",
+        "category_hint": "research",
+        "content_hash": "5b400e60cf0cc9411ae65b2f8654a76f90bf1873b7accd7ecc662b4d8eac5e00",
+        "content_characters": 2979
+      },
+      "reviewed_at": "2026-09-20T12:31:57+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "SEO & Content Marketing Skill Suite",
+        "category": "research",
+        "summary": "A collection of ten SEO‑focused commands for keyword research, content audits, technical SEO, competitor analysis, and more. The skill outlines a consistent interaction pattern and UI symbols but lacks concrete command specifications, input definitions, and example workflows.",
+        "quality_score": "fifty",
+        "uniqueness_score": "sixty",
+        "usefulness_score": "seventy",
+        "safety_score": 100,
+        "total_score": 70,
+        "strengths": [
+          "Clear high‑level overview of SEO tasks",
+          "Consistent interaction pattern and UI conventions",
+          "Safe and non‑malicious content"
+        ],
+        "weaknesses": [
+          "No concrete command definitions (parameters, expected inputs/outputs)",
+          "Missing practical examples and verification steps",
+          "Lacks implementation guidance or code snippets",
+          "No explicit prerequisites or environment setup beyond copying files"
+        ],
+        "tags": [
+          "seo",
+          "content",
+          "marketing",
+          "research"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add detailed specifications for each command, including required inputs, optional parameters, and output format.",
+          "Provide example invocations and sample results for at least two commands.",
+          "Include verification steps or sanity‑checks to confirm analysis completeness.",
+          "Specify any external tools, APIs, or data sources needed (e.g., Google Search Console, Ahrefs).",
+          "Outline prerequisites such as API keys, authentication, or required libraries."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "34e7f62fbc219ff1449440aa",
+      "candidate": {
+        "candidate_id": "34e7f62fbc219ff1449440aa",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:30+00:00",
+        "source": {
+          "repository": "FahrenheitResearch/hermes-weather-plugin",
+          "repository_url": "https://github.com/FahrenheitResearch/hermes-weather-plugin",
+          "default_branch": "main",
+          "path": "skill.md",
+          "html_url": "https://github.com/FahrenheitResearch/hermes-weather-plugin/blob/d474493ef4ffeefabad9dbf0188f72bce3b47b67/skill.md",
+          "api_sha": "a300a95bdd345c0d24b11210e2cdfb96477a82b0",
+          "repo_stars": 48,
+          "repo_forks": 3,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-07T15:59:53+00:00"
+        },
+        "raw_file": "raw/fahrenheitresearch-hermes-weather-plugin/skill.md",
+        "title": "weather-plugin",
+        "category_hint": "research",
+        "content_hash": "887d5feedb098291821f17a3712dde80de07faf8b29ccb0926d01402731c560c",
+        "content_characters": 3688
+      },
+      "reviewed_at": "2026-09-20T12:32:03+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Weather Plugin Usage Guide",
+        "category": "weather",
+        "summary": "A detailed guide for interacting with a weather plugin that provides 12 specific tools for conditions, forecasts, alerts, radar and model imagery, and meteorological calculations. It defines tool selection rules, input conventions, and example payloads to help agents retrieve accurate weather data safely.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 89,
+        "strengths": [
+          "Clear enumeration of all available tools",
+          "Explicit usage rules (lightweight first, image on demand, batching)",
+          "Concrete examples for calculation functions and image parameters",
+          "Geographic zoom guidelines with lat/lon and radius"
+        ],
+        "weaknesses": [
+          "Missing formal input/output schema for each tool",
+          "No guidance on error handling or verification of tool responses",
+          "Some rules are phrased informally and could be ambiguous",
+          "Versioning information is limited to a single version field"
+        ],
+        "tags": [
+          "weather",
+          "plugin",
+          "guide",
+          "meteorology",
+          "api"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a table describing each tool's required parameters and expected JSON response format",
+          "Include sample command calls and expected outputs for verification",
+          "Provide error‑handling recommendations (e.g., fallback tools, retry logic)",
+          "Clarify ambiguous wording (e.g., \"lightweight\" vs \"heavier\" tools) with concrete criteria"
+        ],
+        "normalized_skill_markdown": "---\nname: weather-plugin\ndescription: Guide for using the weather plugin — data queries, radar imagery, model maps, and meteorological calculations\nversion: 2.0.0\nmetadata:\n  hermes:\n    tags: [weather, radar, forecast, meteorology]\n    category: weather\n---\n\n# Weather Plugin Usage Guide\n\nYou have access to **12 weather tools**. Prefer lightweight data tools and only request images when explicitly asked.\n\n## Tool List\n\n| Tool | Purpose |\n|------|---------|\n| `wx_conditions` | Current conditions for a location |\n| `wx_forecast`   | Textual forecast summary |\n| `wx_alerts`     | Active weather alerts/watches |\n| `wx_metar`      | Raw METAR report |\n| `wx_brief`      | Combined conditions, forecast, and alerts |\n| `wx_global`     | Worldwide conditions (non‑US) |\n| `wx_severe`     | Severe weather outlook |\n| `wx_radar_image`| NEXRAD radar PNG image |\n| `wx_model_image`| Model‑derived PNG images (e.g., CAPE, helicity) |\n| `wx_storm_image`| Storm‑scale imagery |\n| `wx_calc`       | Meteorological calculations (dewpoint, wind chill, etc.) |\n| `wx_sounding`   | Atmospheric sounding data |\n\n**Do NOT call any other tool names.**\n\n## Common Query Mappings\n\n- \"How's the weather in **[place]**?\" → `wx_conditions`\n- \"What's the forecast?\" → `wx_forecast`\n- \"Any warnings/watches?\" → `wx_alerts`\n- \"Show me the radar\" → `wx_radar_image`\n- \"Show me CAPE/temperature/wind map\" → `wx_model_image` (comma‑separated vars, e.g., `\"cape,helicity,uh,srh\"`)\n- \"What's the severe weather outlook?\" → `wx_severe`\n- \"Weather in Tokyo/London/etc\" → `wx_global`\n- \"Calculate dewpoint/wind chill/LCL\" → `wx_calc`\n- \"Is there a tornado threat?\" → `wx_severe` then `wx_model_image --var cape` or `--var helicity`\n- \"What does the HRRR show?\" → `wx_model_image` with appropriate variable\n- \"Show me the 18z HRRR\" → `wx_model_image` with `cycle: 18`\n- \"Sounding at a point\" → `wx_sounding`\n\n## Operational Rules\n\n1. **Start lightweight.** Use `wx_conditions` or `wx_brief` before heavier tools.\n2. **Images only on request.** Do not invoke `wx_radar_image` or `wx_model_image` unless the user explicitly wants to see an image.\n3. **US vs International.** Use `wx_global` for non‑US locations; otherwise prefer US‑specific tools.\n4. **Verified calculations.** `wx_calc` relies on Rust‑backed functions verified against MetPy.\n5. **Avoid redundancy.** `wx_brief` already includes conditions, forecast, and alerts; do not call those three separately after it.\n6. **Batch model images.** Never call `wx_model_image` multiple times for different variables. Use a single call with a comma‑separated list (e.g., `\"cape,helicity,uh,srh\"`).\n7. **Severe‑weather package.** For a full severe analysis, request `wx_model_image` with `var: \"cape,helicity,uh,srh\"` to obtain four images in one call.\n8. **Zoom to region.** When the user specifies a corridor or region, always provide `lat`, `lon`, and `radius_km` to limit the image extent. Example mappings:\n   - \"Ohio Valley\" → `lat: 39.5, lon: -83, radius_km: 400`\n   - \"Indiana to New York\" → `lat: 40.5, lon: -77, radius_km: 500`\n   - \"Texas\" → `lat: 31.5, lon: -99, radius_km: 500`\n   - \"Southeast\" → `lat: 33, lon: -85, radius_km: 600`\n   - \"Great Plains\" → `lat: 38, lon: -99, radius_km: 600`\n\n## `wx_calc` Example Payloads\n\n```json\n{ \"function\": \"dewpoint_from_relative_humidity\", \"args\": { \"temperature\": \"30 degC\", \"relative_humidity\": \"65 percent\" } }\n```\n```json\n{ \"function\": \"wind_chill\", \"args\": { \"temperature\": \"-5 degC\", \"speed\": \"30 km/hr\" } }\n```\n```json\n{ \"function\": \"heat_index\", \"args\": { \"temperature\": \"95 degF\", \"relative_humidity\": \"60 percent\" } }\n```\n```json\n{ \"function\": \"lcl\", \"args\": { \"pressure\": \"1000 hPa\", \"temperature\": \"30 degC\", \"dewpoint\": \"20 degC\" } }\n```\n\n## Image Tools Details\n\n- **`wx_radar_image`** returns a JSON object with a PNG file path. Provide a NEXRAD site ID (e.g., `KRTX` for Portland, `KTLX` for Oklahoma City, `KLOT` for Chicago) **or** latitude/longitude. Default size is 1024 px, range 200 km, with a 10 dBZ noise filter.\n- **`wx_model_image`** returns PNG paths for the requested variables. Supported variables include `cape, refl, temp, dewpoint, rh, gust, helicity, uh, precip, mslp, heights_500, jet, srh`. Include `lat`, `lon`, and `radius_km` to zoom, and optionally a `cycle` parameter for specific model run times.\n\n---"
+      },
+      "library_id": "weather/weather-plugin-usage-guide-34e7f62f"
+    }
+  ]
+}

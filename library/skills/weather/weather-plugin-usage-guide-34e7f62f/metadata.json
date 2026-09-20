@@ -1,0 +1,67 @@
+{
+  "library_id": "weather/weather-plugin-usage-guide-34e7f62f",
+  "title": "Weather Plugin Usage Guide",
+  "category": "weather",
+  "tags": [
+    "weather",
+    "plugin",
+    "guide",
+    "meteorology",
+    "api"
+  ],
+  "summary": "A detailed guide for interacting with a weather plugin that provides 12 specific tools for conditions, forecasts, alerts, radar and model imagery, and meteorological calculations. It defines tool selection rules, input conventions, and example payloads to help agents retrieve accurate weather data safely.",
+  "source": {
+    "repository": "FahrenheitResearch/hermes-weather-plugin",
+    "repository_url": "https://github.com/FahrenheitResearch/hermes-weather-plugin",
+    "default_branch": "main",
+    "path": "skill.md",
+    "html_url": "https://github.com/FahrenheitResearch/hermes-weather-plugin/blob/d474493ef4ffeefabad9dbf0188f72bce3b47b67/skill.md",
+    "api_sha": "a300a95bdd345c0d24b11210e2cdfb96477a82b0",
+    "repo_stars": 48,
+    "repo_forks": 3,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-07T15:59:53+00:00"
+  },
+  "discovered_at": "2026-09-13T12:00:30+00:00",
+  "accepted_at": "2026-09-20T12:32:03+00:00",
+  "content_hash": "887d5feedb098291821f17a3712dde80de07faf8b29ccb0926d01402731c560c",
+  "source_excerpt": "--- name: weather-plugin description: Guide for using the weather plugin — data queries, radar imagery, model maps, and meteorological calculations version: 2.0.0 metadata: hermes: tags: [weather, radar, forecast, meteorology] category: weather --- # Weather Plugin Usage Guide You have 12 weather tools. Prefer lightweight data tools and only use images when asked. ## Tool Selection **\"How's the weather in [place]?\"** → `wx_conditions` **\"What's the forecast?\"** → `wx_forecast` **\"Any warnings/watches?\"** → `wx_alerts` **\"Show me the radar\"** → `wx_radar_image` **\"Show me CAPE/temperature/wind map\"** → `wx_model_image` (use comma-separated vars: `\"cape,helicity,uh,srh\"` for multiple in ONE call) **\"What's the severe weather outlook?\"** → `wx…",
+  "review": {
+    "decision": "accept",
+    "title": "Weather Plugin Usage Guide",
+    "category": "weather",
+    "summary": "A detailed guide for interacting with a weather plugin that provides 12 specific tools for conditions, forecasts, alerts, radar and model imagery, and meteorological calculations. It defines tool selection rules, input conventions, and example payloads to help agents retrieve accurate weather data safely.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 89,
+    "strengths": [
+      "Clear enumeration of all available tools",
+      "Explicit usage rules (lightweight first, image on demand, batching)",
+      "Concrete examples for calculation functions and image parameters",
+      "Geographic zoom guidelines with lat/lon and radius"
+    ],
+    "weaknesses": [
+      "Missing formal input/output schema for each tool",
+      "No guidance on error handling or verification of tool responses",
+      "Some rules are phrased informally and could be ambiguous",
+      "Versioning information is limited to a single version field"
+    ],
+    "tags": [
+      "weather",
+      "plugin",
+      "guide",
+      "meteorology",
+      "api"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a table describing each tool's required parameters and expected JSON response format",
+      "Include sample command calls and expected outputs for verification",
+      "Provide error‑handling recommendations (e.g., fallback tools, retry logic)",
+      "Clarify ambiguous wording (e.g., \"lightweight\" vs \"heavier\" tools) with concrete criteria"
+    ],
+    "normalized_skill_markdown": "---\nname: weather-plugin\ndescription: Guide for using the weather plugin — data queries, radar imagery, model maps, and meteorological calculations\nversion: 2.0.0\nmetadata:\n  hermes:\n    tags: [weather, radar, forecast, meteorology]\n    category: weather\n---\n\n# Weather Plugin Usage Guide\n\nYou have access to **12 weather tools**. Prefer lightweight data tools and only request images when explicitly asked.\n\n## Tool List\n\n| Tool | Purpose |\n|------|---------|\n| `wx_conditions` | Current conditions for a location |\n| `wx_forecast`   | Textual forecast summary |\n| `wx_alerts`     | Active weather alerts/watches |\n| `wx_metar`      | Raw METAR report |\n| `wx_brief`      | Combined conditions, forecast, and alerts |\n| `wx_global`     | Worldwide conditions (non‑US) |\n| `wx_severe`     | Severe weather outlook |\n| `wx_radar_image`| NEXRAD radar PNG image |\n| `wx_model_image`| Model‑derived PNG images (e.g., CAPE, helicity) |\n| `wx_storm_image`| Storm‑scale imagery |\n| `wx_calc`       | Meteorological calculations (dewpoint, wind chill, etc.) |\n| `wx_sounding`   | Atmospheric sounding data |\n\n**Do NOT call any other tool names.**\n\n## Common Query Mappings\n\n- \"How's the weather in **[place]**?\" → `wx_conditions`\n- \"What's the forecast?\" → `wx_forecast`\n- \"Any warnings/watches?\" → `wx_alerts`\n- \"Show me the radar\" → `wx_radar_image`\n- \"Show me CAPE/temperature/wind map\" → `wx_model_image` (comma‑separated vars, e.g., `\"cape,helicity,uh,srh\"`)\n- \"What's the severe weather outlook?\" → `wx_severe`\n- \"Weather in Tokyo/London/etc\" → `wx_global`\n- \"Calculate dewpoint/wind chill/LCL\" → `wx_calc`\n- \"Is there a tornado threat?\" → `wx_severe` then `wx_model_image --var cape` or `--var helicity`\n- \"What does the HRRR show?\" → `wx_model_image` with appropriate variable\n- \"Show me the 18z HRRR\" → `wx_model_image` with `cycle: 18`\n- \"Sounding at a point\" → `wx_sounding`\n\n## Operational Rules\n\n1. **Start lightweight.** Use `wx_conditions` or `wx_brief` before heavier tools.\n2. **Images only on request.** Do not invoke `wx_radar_image` or `wx_model_image` unless the user explicitly wants to see an image.\n3. **US vs International.** Use `wx_global` for non‑US locations; otherwise prefer US‑specific tools.\n4. **Verified calculations.** `wx_calc` relies on Rust‑backed functions verified against MetPy.\n5. **Avoid redundancy.** `wx_brief` already includes conditions, forecast, and alerts; do not call those three separately after it.\n6. **Batch model images.** Never call `wx_model_image` multiple times for different variables. Use a single call with a comma‑separated list (e.g., `\"cape,helicity,uh,srh\"`).\n7. **Severe‑weather package.** For a full severe analysis, request `wx_model_image` with `var: \"cape,helicity,uh,srh\"` to obtain four images in one call.\n8. **Zoom to region.** When the user specifies a corridor or region, always provide `lat`, `lon`, and `radius_km` to limit the image extent. Example mappings:\n   - \"Ohio Valley\" → `lat: 39.5, lon: -83, radius_km: 400`\n   - \"Indiana to New York\" → `lat: 40.5, lon: -77, radius_km: 500`\n   - \"Texas\" → `lat: 31.5, lon: -99, radius_km: 500`\n   - \"Southeast\" → `lat: 33, lon: -85, radius_km: 600`\n   - \"Great Plains\" → `lat: 38, lon: -99, radius_km: 600`\n\n## `wx_calc` Example Payloads\n\n```json\n{ \"function\": \"dewpoint_from_relative_humidity\", \"args\": { \"temperature\": \"30 degC\", \"relative_humidity\": \"65 percent\" } }\n```\n```json\n{ \"function\": \"wind_chill\", \"args\": { \"temperature\": \"-5 degC\", \"speed\": \"30 km/hr\" } }\n```\n```json\n{ \"function\": \"heat_index\", \"args\": { \"temperature\": \"95 degF\", \"relative_humidity\": \"60 percent\" } }\n```\n```json\n{ \"function\": \"lcl\", \"args\": { \"pressure\": \"1000 hPa\", \"temperature\": \"30 degC\", \"dewpoint\": \"20 degC\" } }\n```\n\n## Image Tools Details\n\n- **`wx_radar_image`** returns a JSON object with a PNG file path. Provide a NEXRAD site ID (e.g., `KRTX` for Portland, `KTLX` for Oklahoma City, `KLOT` for Chicago) **or** latitude/longitude. Default size is 1024 px, range 200 km, with a 10 dBZ noise filter.\n- **`wx_model_image`** returns PNG paths for the requested variables. Supported variables include `cape, refl, temp, dewpoint, rh, gust, helicity, uh, precip, mslp, heights_500, jet, srh`. Include `lat`, `lon`, and `radius_km` to zoom, and optionally a `cycle` parameter for specific model run times.\n\n---"
+  }
+}

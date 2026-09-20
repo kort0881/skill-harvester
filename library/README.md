@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-19T12:06:49+00:00`
+Последнее обновление: `2026-09-20T12:32:03+00:00`
 
-Активных skills: **41**
+Активных skills: **42**
 
 ## Категории
 
@@ -92,6 +92,12 @@
 | [Fact-Check Workflow Skill](./skills/research/fact-check-workflow-skill-26f5cdb1/SKILL.md) | A comprehensive, semi‑automated fact‑checking skill that guides an agent through claim decomposition, evidence gathering, source evaluation, and transparent verdict generation. It supports multiple languages, various input types (text, URLs, images), and offers several output modes including quick answers and full HTML fact‑check cards. Safety guards prevent disallowed advice and enforce evidence‑ledger transparency. | fact-checking, research, verification, media-literacy, workflow | petar-nauka/fact-check-skill |
 | [Infinite Gratitude – Multi‑Agent Research Workflow](./skills/research/infinite-gratitude-multi-agent-research-workflow-1667c65c/SKILL.md) | Infinite Gratitude is a multi‑agent research skill that splits a user‑provided topic into several parallel directions, dispatches lightweight research agents, aggregates their findings, and iterates based on follow‑up questions. It is designed for quick, normal, or deep research modes and supports up to ten concurrent agents. | research, multi-agent, automation, knowledge‑gathering | sstklen/infinite-gratitude |
 | [Security Audit RLM for Large .NET Codebases](./skills/research/security-audit-rlm-for-large-net-codebases-6b9811bb/SKILL.md) | This skill provides a step‑by‑step workflow to run a privacy‑preserving, tool‑driven RLM security audit on large legacy .NET repositories using the provided `audit.py` script. It covers prerequisites, execution, tuning parameters for big codebases, troubleshooting, and the required markdown/json deliverable format. | security, audit, rlm, dotnet, automation | mitkox/megacode |
+
+### weather
+
+| Skill | Описание | Теги | Источник |
+|---|---|---|---|
+| [Weather Plugin Usage Guide](./skills/weather/weather-plugin-usage-guide-34e7f62f/SKILL.md) | A detailed guide for interacting with a weather plugin that provides 12 specific tools for conditions, forecasts, alerts, radar and model imagery, and meteorological calculations. It defines tool selection rules, input conventions, and example payloads to help agents retrieve accurate weather data safely. | weather, plugin, guide, meteorology, api | FahrenheitResearch/hermes-weather-plugin |
 
 ### writing
 
