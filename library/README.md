@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-22T12:43:06+00:00`
+Последнее обновление: `2026-09-23T12:49:52+00:00`
 
-Активных skills: **42**
+Активных skills: **43**
 
 ## Категории
 
@@ -98,6 +98,12 @@
 | Skill | Описание | Теги | Источник |
 |---|---|---|---|
 | [Weather Plugin Usage Guide](./skills/weather/weather-plugin-usage-guide-34e7f62f/SKILL.md) | A detailed guide for interacting with a weather plugin that provides 12 specific tools for conditions, forecasts, alerts, radar and model imagery, and meteorological calculations. It defines tool selection rules, input conventions, and example payloads to help agents retrieve accurate weather data safely. | weather, plugin, guide, meteorology, api | FahrenheitResearch/hermes-weather-plugin |
+
+### web-generation
+
+| Skill | Описание | Теги | Источник |
+|---|---|---|---|
+| [HTML Anything – Auto‑generate polished HTML pages from ideas, files or URLs](./skills/web-generation/html-anything-auto-generate-polished-html-pages-from-ideas-files-or-urls-da458e5d/SKILL.md) | The skill converts ideas, files, folders, URLs or export requests into a polished, shareable HTML page, automatically selecting a design system and handling assets. It includes a detailed workflow, privacy safeguards and verification steps. | html, web, automation, content-generation, design-systems | clockless-org/html-anything |
 
 ### writing
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-22T12:43:06+00:00",
+  "updated_at": "2026-09-23T12:49:52+00:00",
   "skills": [
     {
       "library_id": "programming/repo-task-proof-loop-3324eff9",
@@ -2875,6 +2875,71 @@
           "Clarify ambiguous wording (e.g., \"lightweight\" vs \"heavier\" tools) with concrete criteria"
         ],
         "normalized_skill_markdown": "---\nname: weather-plugin\ndescription: Guide for using the weather plugin — data queries, radar imagery, model maps, and meteorological calculations\nversion: 2.0.0\nmetadata:\n  hermes:\n    tags: [weather, radar, forecast, meteorology]\n    category: weather\n---\n\n# Weather Plugin Usage Guide\n\nYou have access to **12 weather tools**. Prefer lightweight data tools and only request images when explicitly asked.\n\n## Tool List\n\n| Tool | Purpose |\n|------|---------|\n| `wx_conditions` | Current conditions for a location |\n| `wx_forecast`   | Textual forecast summary |\n| `wx_alerts`     | Active weather alerts/watches |\n| `wx_metar`      | Raw METAR report |\n| `wx_brief`      | Combined conditions, forecast, and alerts |\n| `wx_global`     | Worldwide conditions (non‑US) |\n| `wx_severe`     | Severe weather outlook |\n| `wx_radar_image`| NEXRAD radar PNG image |\n| `wx_model_image`| Model‑derived PNG images (e.g., CAPE, helicity) |\n| `wx_storm_image`| Storm‑scale imagery |\n| `wx_calc`       | Meteorological calculations (dewpoint, wind chill, etc.) |\n| `wx_sounding`   | Atmospheric sounding data |\n\n**Do NOT call any other tool names.**\n\n## Common Query Mappings\n\n- \"How's the weather in **[place]**?\" → `wx_conditions`\n- \"What's the forecast?\" → `wx_forecast`\n- \"Any warnings/watches?\" → `wx_alerts`\n- \"Show me the radar\" → `wx_radar_image`\n- \"Show me CAPE/temperature/wind map\" → `wx_model_image` (comma‑separated vars, e.g., `\"cape,helicity,uh,srh\"`)\n- \"What's the severe weather outlook?\" → `wx_severe`\n- \"Weather in Tokyo/London/etc\" → `wx_global`\n- \"Calculate dewpoint/wind chill/LCL\" → `wx_calc`\n- \"Is there a tornado threat?\" → `wx_severe` then `wx_model_image --var cape` or `--var helicity`\n- \"What does the HRRR show?\" → `wx_model_image` with appropriate variable\n- \"Show me the 18z HRRR\" → `wx_model_image` with `cycle: 18`\n- \"Sounding at a point\" → `wx_sounding`\n\n## Operational Rules\n\n1. **Start lightweight.** Use `wx_conditions` or `wx_brief` before heavier tools.\n2. **Images only on request.** Do not invoke `wx_radar_image` or `wx_model_image` unless the user explicitly wants to see an image.\n3. **US vs International.** Use `wx_global` for non‑US locations; otherwise prefer US‑specific tools.\n4. **Verified calculations.** `wx_calc` relies on Rust‑backed functions verified against MetPy.\n5. **Avoid redundancy.** `wx_brief` already includes conditions, forecast, and alerts; do not call those three separately after it.\n6. **Batch model images.** Never call `wx_model_image` multiple times for different variables. Use a single call with a comma‑separated list (e.g., `\"cape,helicity,uh,srh\"`).\n7. **Severe‑weather package.** For a full severe analysis, request `wx_model_image` with `var: \"cape,helicity,uh,srh\"` to obtain four images in one call.\n8. **Zoom to region.** When the user specifies a corridor or region, always provide `lat`, `lon`, and `radius_km` to limit the image extent. Example mappings:\n   - \"Ohio Valley\" → `lat: 39.5, lon: -83, radius_km: 400`\n   - \"Indiana to New York\" → `lat: 40.5, lon: -77, radius_km: 500`\n   - \"Texas\" → `lat: 31.5, lon: -99, radius_km: 500`\n   - \"Southeast\" → `lat: 33, lon: -85, radius_km: 600`\n   - \"Great Plains\" → `lat: 38, lon: -99, radius_km: 600`\n\n## `wx_calc` Example Payloads\n\n```json\n{ \"function\": \"dewpoint_from_relative_humidity\", \"args\": { \"temperature\": \"30 degC\", \"relative_humidity\": \"65 percent\" } }\n```\n```json\n{ \"function\": \"wind_chill\", \"args\": { \"temperature\": \"-5 degC\", \"speed\": \"30 km/hr\" } }\n```\n```json\n{ \"function\": \"heat_index\", \"args\": { \"temperature\": \"95 degF\", \"relative_humidity\": \"60 percent\" } }\n```\n```json\n{ \"function\": \"lcl\", \"args\": { \"pressure\": \"1000 hPa\", \"temperature\": \"30 degC\", \"dewpoint\": \"20 degC\" } }\n```\n\n## Image Tools Details\n\n- **`wx_radar_image`** returns a JSON object with a PNG file path. Provide a NEXRAD site ID (e.g., `KRTX` for Portland, `KTLX` for Oklahoma City, `KLOT` for Chicago) **or** latitude/longitude. Default size is 1024 px, range 200 km, with a 10 dBZ noise filter.\n- **`wx_model_image`** returns PNG paths for the requested variables. Supported variables include `cape, refl, temp, dewpoint, rh, gust, helicity, uh, precip, mslp, heights_500, jet, srh`. Include `lat`, `lon`, and `radius_km` to zoom, and optionally a `cycle` parameter for specific model run times.\n\n---"
+      }
+    },
+    {
+      "library_id": "web-generation/html-anything-auto-generate-polished-html-pages-from-ideas-files-or-urls-da458e5d",
+      "title": "HTML Anything – Auto‑generate polished HTML pages from ideas, files or URLs",
+      "category": "web-generation",
+      "tags": [
+        "html",
+        "web",
+        "automation",
+        "content-generation",
+        "design-systems"
+      ],
+      "summary": "The skill converts ideas, files, folders, URLs or export requests into a polished, shareable HTML page, automatically selecting a design system and handling assets. It includes a detailed workflow, privacy safeguards and verification steps.",
+      "source": {
+        "repository": "clockless-org/html-anything",
+        "repository_url": "https://github.com/clockless-org/html-anything",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/clockless-org/html-anything/blob/1896831a62670eed7424b8f8e37e56c66cbf2351/SKILL.md",
+        "api_sha": "e17641e09f87d2e4eadfd643ff7f41eff598fc1c",
+        "repo_stars": 144,
+        "repo_forks": 6,
+        "repo_license": "MIT No Attribution",
+        "repo_updated_at": "2026-08-29T15:36:55+00:00"
+      },
+      "discovered_at": "2026-09-06T11:04:16+00:00",
+      "accepted_at": "2026-09-23T12:49:47+00:00",
+      "content_hash": "7dc88216f4d0304534a750df1558728b83cd886aa0b1cf4119032bb0ea5ec5ce",
+      "source_excerpt": "--- name: html-anything description: Turn rich agent answers and any file, folder, URL, or export into a polished single-file HTML page. Auto-picks a default route plus 17 concrete design systems (teaching, dashboard, atlas, timeline-story, document, …). version: 0.1.0 homepage: https://github.com/clockless-org/html-anything when_to_use: User says \"make a webpage\", \"create a teaching site\", \"make an interactive studio\", \"explore this object/system\", \"turn this into HTML\", \"visualize/analyze this\", \"make a dashboard/report/atlas\", \"make it beautiful/readable/shareable\", gives a file/folder/URL to make browsable, names a data source they want exported and converted, or asks for a rich deliverable that would otherwise become a long Markdown an…",
+      "review": {
+        "decision": "accept",
+        "title": "HTML Anything – Auto‑generate polished HTML pages from ideas, files or URLs",
+        "category": "web_generation",
+        "summary": "The skill converts ideas, files, folders, URLs or export requests into a polished, shareable HTML page, automatically selecting a design system and handling assets. It includes a detailed workflow, privacy safeguards and verification steps.",
+        "quality_score": 82,
+        "uniqueness_score": 86,
+        "usefulness_score": 81,
+        "safety_score": 100,
+        "total_score": 87,
+        "strengths": [
+          "Clear input/output definition",
+          "Comprehensive step‑by‑step workflow",
+          "Automatic style selection with many design systems",
+          "Built‑in privacy and accessibility guidelines"
+        ],
+        "weaknesses": [
+          "Very long description may overwhelm newcomers",
+          "Relies on external prompt files that are not included in the skill description",
+          "No concrete short example of generated HTML shown"
+        ],
+        "tags": [
+          "html",
+          "web",
+          "automation",
+          "content-generation",
+          "design-systems"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise quick‑start example with sample input and resulting HTML snippet",
+          "List required external tools (e.g., image generation) explicitly",
+          "Provide a short reference table of available styles and their typical use‑cases"
+        ],
+        "normalized_skill_markdown": "---\nname: html-anything\ndescription: Generate a polished, single‑file HTML page from an idea, file, folder, URL, or exported dataset, automatically selecting a design system and producing assets as needed.\nversion: 0.1.0\nhomepage: https://github.com/clockless-org/html-anything\n---\n\n# html‑anything\n\n**Purpose**\nConvert an idea, file, folder, URL, or export request into a ready‑to‑share HTML page. The skill chooses an appropriate design system (teaching, dashboard, timeline, etc.) and produces `output.html` plus an optional `assets/` folder.\n\n**When to use**\n- User asks for a webpage, teaching site, dashboard, report, atlas, or any visual, shareable output.\n- User provides a file/folder/URL that should be browsable or visualised.\n\n**Inputs**\n| Mode | Description |\n|------|-------------|\n| Idea / brief | Short description of the desired page. |\n| Local file | Path to a file (CSV, PDF, Markdown, etc.). |\n| Folder | Path to a directory to be explored. |\n| URL | Web address to fetch and transform. |\n| Export request | Name of a source platform; the skill will give export steps. |\n\n**Outputs**\n- `output.html` (or `<name>.html`) placed next to the source.\n- Optional `assets/` folder with generated images, icons, etc.\n- A short response containing the path and a note about browser verification.\n\n**Core workflow**\n1. **Understand request** – determine input mode.\n2. **Export guidance** – if only a source name is given, return concise export steps and stop.\n3. **Inspect source** – sample files, fetch URLs, or expand brief into a content plan.\n4. **Select style** – automatically pick one of the predefined styles (`teaching`, `dashboard`, `timeline‑story`, …).\n5. **Load style contract** – read the corresponding style prompt and any `referenceHtml`/`referenceAssets`.\n6. **Build HTML** – generate markup, inline CSS/JS, and embed assets (or create `assets/` folder).\n7. **Verify in a browser** – check rendering, responsiveness, contrast, and interaction.\n8. **Hand‑off** – return the file path and brief status.\n\n**Design requirements**\n- Mobile‑first, WCAG AA contrast, focus states, 44 px touch targets.\n- Inline CSS/JS; no external CDN unless explicitly allowed.\n- Optional dark‑mode support for data‑heavy reports.\n- `data-ha-style=\"<selected‑style>\"` attribute on `<html>`.\n\n**Privacy**\n- Treat generated HTML as sensitive; mask personal identifiers unless the user requests otherwise.\n- Do not provide professional legal/medical advice.\n\n**Example**\n```\nUser: \"Create a teaching site about the solar system.\"\nSkill response: (generates `output.html` using the `teaching` style and returns the path)\n```"
       }
     }
   ],
