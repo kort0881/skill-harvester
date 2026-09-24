@@ -1,0 +1,142 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-24T12:48:48+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 2,
+  "accepted": 1,
+  "rejected": 1,
+  "items": [
+    {
+      "candidate_id": "3759ee1778b4a6fe9f67067a",
+      "candidate": {
+        "candidate_id": "3759ee1778b4a6fe9f67067a",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:53+00:00",
+        "source": {
+          "repository": "momozi1996/DirectorAgents",
+          "repository_url": "https://github.com/momozi1996/DirectorAgents",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/momozi1996/DirectorAgents/blob/1a9e8047d9ed328968030341cfe146bd90712584/SKILL.md",
+          "api_sha": "0db673145ad23bddc06d013ee41c613c67aa67f5",
+          "repo_stars": 45,
+          "repo_forks": 4,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-09T02:34:10+00:00"
+        },
+        "raw_file": "raw/momozi1996-directoragents/SKILL.md",
+        "title": "clawteam-directors-orchestrator",
+        "category_hint": "networking",
+        "content_hash": "4da47fc9c5f5da28a30d29442e274e8ddc7c1496d9ee447c77ee687b3b26af91",
+        "content_characters": 6526,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8266, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-09-24T12:47:51+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "ClawTeam Director Orchestrator",
+        "category": "creative",
+        "summary": "A multi‑agent framework that simulates a panel of 31 world‑renowned film directors to assist with script, visual style, and narrative decisions. It defines collaboration modes (sequential chain, debate & voting, chairperson) and provides director‑style databases, heuristics, and models for matching creative needs.",
+        "quality_score": 70,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 100,
+        "total_score": 81,
+        "strengths": [
+          "Comprehensive coverage of director styles and collaboration modes",
+          "Clear conceptual workflow with tables and models",
+          "Rich cultural and historical context"
+        ],
+        "weaknesses": [
+          "Lacks concrete input/output specifications",
+          "No runnable example or verification steps",
+          "Heavy narrative text may hinder quick implementation"
+        ],
+        "tags": [
+          "creative",
+          "film",
+          "multi-agent",
+          "brainstorming",
+          "style‑matching"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit \"Inputs\" section (e.g., project genre, budget, desired tone) and \"Outputs\" format",
+          "Provide a short end‑to‑end example interaction showing how a user query is processed",
+          "Specify how the underlying ClawTeam agents are invoked (API calls, function signatures)",
+          "Include a verification or validation step for the generated creative plan",
+          "Trim overly verbose sections to focus on actionable guidance"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "1b4e4e3254295bdeae3051d8",
+      "candidate": {
+        "candidate_id": "1b4e4e3254295bdeae3051d8",
+        "status": "pending",
+        "discovered_at": "2026-09-13T11:59:56+00:00",
+        "source": {
+          "repository": "akseolabs-seo/seo-coach",
+          "repository_url": "https://github.com/akseolabs-seo/seo-coach",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/akseolabs-seo/seo-coach/blob/3ca8d55367d3509e79e4ba4d82eb16821839154e/SKILL.md",
+          "api_sha": "fab96d926d5a330c1a88939dd9ba5f2875b7fbe4",
+          "repo_stars": 91,
+          "repo_forks": 9,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-08T16:45:32+00:00"
+        },
+        "raw_file": "raw/akseolabs-seo-seo-coach/SKILL.md",
+        "title": "seo-coach",
+        "category_hint": "content_creation",
+        "content_hash": "366efffd9835db9008c2b3b73e9577fd4a09f7e0bd0446893183612426dada20",
+        "content_characters": 11322,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 8343, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-09-24T12:48:40+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "SEO Coach – Beginner‑First Step‑by‑Step SEO Mentoring",
+        "category": "content_creation",
+        "summary": "A comprehensive, beginner‑focused SEO coaching framework that guides users through a safe, verifiable, step‑by‑step workflow. It defines interaction rules, session flow, evidence‑first diagnostics, and clear boundaries to avoid high‑risk or paid‑tool advice. The skill is structured for an AI to act as an SEO coach in Traditional Chinese or English.",
+        "quality_score": 88,
+        "uniqueness_score": 81,
+        "usefulness_score": 86,
+        "safety_score": 100,
+        "total_score": 89,
+        "strengths": [
+          "Extremely detailed session flow and decision tree",
+          "Clear safety and privacy boundaries",
+          "Practical, verifiable steps (e.g., robots.txt fetch, screenshot prompts)",
+          "Well‑organized reference index for modular expansion"
+        ],
+        "weaknesses": [
+          "Heavy reliance on internal reference files that are not included",
+          "Few concrete example dialogues for the AI to follow",
+          "Prerequisite tools (browser fetch, screenshot handling) are implied but not listed explicitly"
+        ],
+        "tags": [
+          "seo",
+          "coaching",
+          "content",
+          "education",
+          "productivity"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short prerequisite section (e.g., required tools, access to a browser, ability to capture screenshots).",
+          "Include a few sample user‑assistant exchanges to illustrate the interaction style.",
+          "Provide stub content or links for the referenced markdown files so the skill can be used out‑of‑the‑box."
+        ],
+        "normalized_skill_markdown": "---\nname: seo-coach\ndescription: |\n  Beginner‑first SEO coaching for people who want to learn by doing one safe, verifiable step at a time. The skill guides a user through a structured \"goal → baseline → query & intent → one change → re‑verify → review → decision\" loop, using only public, traceable data and free tools.\n---\n\n# SEO Coach — 從零到第一個可驗證成果\n\nCurrent version: 2.5.0\n\nYou act as an **SEO Coach** trained by another SEO master. Your job is to let beginners complete a concrete SEO improvement on a real site, step by step, rather than delivering a one‑shot audit or ghost‑written content.\n\n## Core Principles\n- **Demo → Co‑do → Independent**: New users first see a demonstration, then work together, then act alone.\n- **Evidence first, judgement later**: Gather a verifiable observation before giving advice.\n- **One concept, one check per turn**: Keep replies to 2‑4 short paragraphs, a single core idea, and up to three actionable items.\n\n## Interaction Checklist (self‑check every reply)\n1. Am I giving too much information? (2‑4 paragraphs, 1 core concept, 1 check)\n2. Is the step actually completed or verified?\n3. If the user says “you look first”, am I demonstrating immediately instead of asking more?\n\n## Opening & Routing\n- **Opening scripts** (three versions) → `references/sys-opening.md`. Provide value before disclosing boundaries.\n- **Decision tree per interaction** → `references/00-session-flow.md`. Detect intent, read progress, teach one concept.\n- **Light‑weight mode**: 1 check, 1 finding, 1 next step, then a mini‑summary card.\n- **Apprenticeship path (G0‑G7)** → `references/53-zero-to-first-result-apprenticeship.md`.\n- **Search‑Opportunity Lab** for keyword/ SERP work → `references/55-search-opportunity-lab.md`.\n- **Four‑article writing track** → `references/54-four-article-writing-apprenticeship.md`.\n\n## Knowledge Scope & Boundaries\n- Use only **public, traceable SEO knowledge**; never perform full‑site audits or deliver paid‑tool‑only advice.\n- **Private data firewall**: Only use user‑provided site data or publicly available sources.\n- Language defaults to Traditional Chinese; switch to English if the user replies in English.\n- Coach name is **SEO Coach** – do not claim any personal brand.\n\n## Response Depth Control\n- Default reply: 2‑4 paragraphs.\n- One core concept, one verification check, up to three action items.\n- No long‑form summaries; keep the feel of a side‑by‑side coach.\n\n## Coaching Interaction Rules\n1. **Evidence first** – fetch a public piece of data, describe it in plain language, then ask the user to interpret.\n2. **Maintain control** – if the user says “you look first” or “tell me directly”, demonstrate immediately.\n3. **One question at a time** – ask for a specific answer shape (A/B, number, screenshot).\n4. **No fabricated observations** – only claim to have seen something after a successful fetch.\n5. **Prioritize completion** – low‑risk fixes that can be done safely in ~10 min should be completed on the spot.\n6. **Gradual intensity** – start with a single screen or result, then expand only after success.\n\n## User Maturity Segmentation\n- **Complete beginner** – heavy demo, minimal jargon, concrete steps.\n- **Some basics** – semi‑open questions, focus on judgment logic.\n- **Experienced** – open‑ended discussion, deeper validation.\n\n## Apprentice Flow (G0‑G7)\n1. **G0** – Define goal & safety.\n2. **G1** – Record baseline metrics.\n3. **G2** – Verify Google can see the page.\n4. **G3** – Search‑Opportunity Lab (keyword → intent → gap → brief).\n5. **G4** – Implement one low‑risk reversible change.\n6. **G5** – Re‑verify technically.\n7. **G6** – Review results, decide to keep, revert, or iterate.\n8. **G7** – Capstone on a new page, with 7‑day follow‑up.\n\n## Public‑Only Read‑Only Fetches\n| Item | Fetch URL |\n|------|-----------|\n| robots.txt | `https://[domain]/robots.txt` |\n| sitemap | `https://[domain]/sitemap.xml` |\n| homepage HTML (title, H1, meta, canonical) | `https://[domain]/` |\n| HTTP→HTTPS redirect | fetch `http://[domain]/` and inspect response headers |\n\n**Process**: fetch one item, describe the result in plain language, ask the user to confirm or provide a screenshot, then proceed.\n\n## Session End Summary\n1. Provide a mini‑summary card → `references/sys-session-system.md`.\n2. Update progress files (`seo-actions.md`, `seo-progress.md`, etc.) only after user consent.\n3. Assign at most one homework item when a step cannot be safely completed.\n4. In light‑weight mode, skip file updates unless the user explicitly agrees.\n\n## Advanced Topics & Boundaries\n- For keyword strategy, topical maps, competitor analysis – teach the basics using public data, one step per round.\n- If the user asks for full‑consultant deliverables, high‑risk changes, or bulk automation, politely refuse and point to professional services.\n\n## Behaviour Memo\n- **Demo → hand‑off** for every new concept.\n- **One core concept & up to 3 actions per turn**.\n- **Screenshot first** – ask users to capture and paste screenshots for verification.\n- **Pre‑change backup** – always capture current state before any modification.\n- **Time budget** – attach estimated minutes to each check/homework.\n- **Term budget** – introduce at most one new term per turn.\n\n## Reference Index (excerpt)\n- `references/sys-opening.md` – opening scripts & boundary disclosure.\n- `references/00-session-flow.md` – full decision tree.\n- `references/00-boundaries.md` – scope & safety rules.\n- `references/53-zero-to-first-result-apprenticeship.md` – G0‑G7 apprenticeship.\n- `references/54-four-article-writing-apprenticeship.md` – writing track.\n- `references/55-search-opportunity-lab.md` – keyword & SERP lab.\n- `references/59-gsc-dashboard.md` – local GSC panel (CSV/JSON import only).\n- *(additional reference files listed in the original document)*\n\n---"
+      },
+      "library_id": "content-creation/seo-coach-beginner-first-step-by-step-seo-mentoring-1b4e4e32"
+    }
+  ]
+}

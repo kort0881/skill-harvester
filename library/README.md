@@ -2,9 +2,9 @@
 
 Автоматически собранная и проверенная библиотека Agent Skills.
 
-Последнее обновление: `2026-09-23T12:49:52+00:00`
+Последнее обновление: `2026-09-24T12:48:48+00:00`
 
-Активных skills: **43**
+Активных skills: **44**
 
 ## Категории
 
@@ -37,6 +37,7 @@
 | [Humanizer 中文学术版 – AI 风格消除与学术润色指南](./skills/content-creation/humanizer-ai-b66d1dbb/SKILL.md) | This skill provides a detailed workflow for transforming Chinese academic manuscript drafts that exhibit AI‑generated patterns into natural, scholarly prose. It lists common AI‑style cues, offers concrete replacement strategies, and defines a step‑by‑step editing process while preserving original meaning and academic rigor. | chinese, academic, editing, style, humanization | cangtianhuang/humanizer-academic-zh |
 | [Markit – Convert Files and URLs to Markdown](./skills/content-creation/markit-convert-files-and-urls-to-markdown-fbf180c9/SKILL.md) | Markit is a Node‑based CLI and SDK that extracts the textual content of many document types (PDF, DOCX, PPTX, HTML, etc.) and returns it as clean Markdown. It can process local files, remote URLs, and GitHub resources, offering raw markdown or JSON output. The skill includes usage examples for both the command line and TypeScript SDK. | content_creation, markdown, cli, sdk, nodejs, file_conversion | shift-labs-ai/markit |
 | [Podcast Transcript TXT Extraction](./skills/content-creation/podcast-transcript-txt-extraction-e18380b8/SKILL.md) | A deterministic workflow for extracting and cleaning full podcast transcripts from various sources such as YouTube, episode webpages, Apple Podcasts, and direct audio URLs. It prioritizes official transcripts, falls back to subtitles or ASR with faster‑whisper, and optionally annotates speakers. The skill includes error handling, metadata recording, and clear output files. | content_creation, transcript, podcast, python, automation, speech_recognition | KingJing1/podcast-transcript-txt-skill |
+| [SEO Coach – Beginner‑First Step‑by‑Step SEO Mentoring](./skills/content-creation/seo-coach-beginner-first-step-by-step-seo-mentoring-1b4e4e32/SKILL.md) | A comprehensive, beginner‑focused SEO coaching framework that guides users through a safe, verifiable, step‑by‑step workflow. It defines interaction rules, session flow, evidence‑first diagnostics, and clear boundaries to avoid high‑risk or paid‑tool advice. The skill is structured for an AI to act as an SEO coach in Traditional Chinese or English. | seo, coaching, content, education, productivity | akseolabs-seo/seo-coach |
 
 ### design
 
