@@ -1,0 +1,67 @@
+{
+  "library_id": "programming/receipt-pattern-agent-skill-7c7bc3df",
+  "title": "Receipt Pattern — Agent Skill",
+  "category": "programming",
+  "tags": [
+    "logging",
+    "audit",
+    "json",
+    "typescript",
+    "python",
+    "automation"
+  ],
+  "summary": "The Receipt Pattern skill defines a standardized way for agents to log side‑effect actions (file writes, API mutations, deployments, etc.) into immutable JSON receipts. It includes when to write a receipt, a detailed schema, practical rules, and ready‑to‑use TypeScript and Python helper functions.",
+  "source": {
+    "repository": "vinceglakas/receipt-pattern",
+    "repository_url": "https://github.com/vinceglakas/receipt-pattern",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/vinceglakas/receipt-pattern/blob/f89efaf50c564c97cf9f0e26d0da2121b5092b8d/SKILL.md",
+    "api_sha": "7a6f86617c1f7fa46f2c3d226d6b1b654553af2d",
+    "repo_stars": 21,
+    "repo_forks": 1,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-04-17T06:57:28+00:00"
+  },
+  "discovered_at": "2026-09-20T14:15:42+00:00",
+  "accepted_at": "2026-09-25T12:54:54+00:00",
+  "content_hash": "cee584d7d67fd2cbfbbb00e261b3297e0675c055e40afc23b32aba369addd9d0",
+  "source_excerpt": "# Receipt Pattern — Agent Skill You MUST write a receipt after every session that includes significant actions. ## When to Write a Receipt Write a receipt when your session includes ANY of: - File writes, deletions, or renames - API calls that mutate state (POST, PUT, DELETE, PATCH) - Database writes or schema changes - Sending emails, messages, or notifications - Deployments or infrastructure changes - Shell commands with side effects Do NOT write receipts for read-only operations (file reads, GET requests, db queries, linting, grepping). ## Receipt Location ``` receipts/YYYY-MM-DD-HH-MM-SS-[action-type].json ``` Example: `receipts/2026-03-05-14-35-22-file-write.json` Use the primary action type. Create the `receipts/` directory if it does…",
+  "review": {
+    "decision": "accept",
+    "title": "Receipt Pattern — Agent Skill",
+    "category": "programming",
+    "summary": "The Receipt Pattern skill defines a standardized way for agents to log side‑effect actions (file writes, API mutations, deployments, etc.) into immutable JSON receipts. It includes when to write a receipt, a detailed schema, practical rules, and ready‑to‑use TypeScript and Python helper functions.",
+    "quality_score": 80,
+    "uniqueness_score": 70,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 81,
+    "strengths": [
+      "Clear purpose and when to apply the pattern",
+      "Complete JSON schema with examples",
+      "Ready‑to‑use code templates for TypeScript and Python",
+      "Explicit rules for sequencing, summaries, and rollback eligibility"
+    ],
+    "weaknesses": [
+      "Missing explicit input/output definitions for a generic agent interface",
+      "No automated validation example for the receipt JSON",
+      "Could include a quick‑start checklist or sample receipt file"
+    ],
+    "tags": [
+      "logging",
+      "audit",
+      "json",
+      "typescript",
+      "python",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a small validation script or schema check example",
+      "Provide a concise checklist for agents to follow at session start and end",
+      "Clarify how the receipt integrates with existing agent orchestration frameworks"
+    ],
+    "normalized_skill_markdown": "---\nname: Receipt Pattern\ndescription: Standardized logging of side-effect actions performed by an agent, producing JSON receipts for audit and rollback tracking.\n---\n\n# Receipt Pattern — Agent Skill\n\n## Purpose\nCreate a JSON receipt after every session that performed side‑effect actions (file writes, API mutations, database changes, etc.). The receipt provides an immutable audit trail and helps determine rollback possibilities.\n\n## When to Write a Receipt\nWrite a receipt when the session includes **any** of the following:\n- File writes, deletions, or renames  \n- Mutating API calls (`POST`, `PUT`, `DELETE`, `PATCH`)  \n- Database writes or schema migrations  \n- Sending emails, messages, or notifications  \n- Deployments or infrastructure changes  \n- Shell commands that have side effects\n\nDo **not** write receipts for read‑only operations such as file reads, `GET` requests, or linting.\n\n## Receipt Location\n```\nreceipts/YYYY-MM-DD-HH-MM-SS-[action-type].json\n```\nExample: `receipts/2026-03-05-14-35-22-file-write.json`\nCreate the `receipts/` directory if it does not exist.\n\n## Receipt Schema\n```json\n{\n  \"id\": \"rcpt_<unix_timestamp>_<6_char_hex>\",\n  \"agentId\": \"<your agent name>\",\n  \"sessionId\": \"<session identifier>\",\n  \"timestamp\": \"<ISO 8601>\",\n  \"trigger\": \"manual | scheduled | webhook\",\n  \"status\": \"completed | failed | partial | rolled_back\",\n  \"durationMs\": 0,\n  \"actions\": [\n    {\n      \"sequence\": 1,\n      \"type\": \"file:write | file:delete | api:call | db:write | email:send | deploy | shell:exec\",\n      \"target\": \"<file path, URL, table name, etc.>\",\n      \"summary\": \"<plain English description>\",\n      \"status\": \"success | failed | anomaly\",\n      \"isRollbackEligible\": true,\n      \"durationMs\": 0,\n      \"timestamp\": \"<ISO 8601>\"\n    }\n  ],\n  \"anomalies\": [\n    {\n      \"actionSequence\": 1,\n      \"detail\": \"<unexpected condition>\"\n    }\n  ],\n  \"rollbackAvailable\": false,\n  \"sdkVersion\": \"receipt-pattern/1.0.0\"\n}\n```\n\n## Rules\n1. **Sequence matters** – number actions in the order they occurred.\n2. **Summaries are plain English** – e.g., “Wrote 142 lines to `src/index.ts`”.\n3. **Mark anomalies** – add unexpected events to `anomalies[]`.\n4. **Rollback eligibility** – `true` for file operations that can be restored from version control; `false` for sent emails, API calls, deployments.\n5. `rollbackAvailable` is `true` only if **all** actions are rollback‑eligible.\n6. Write the receipt as the **last** action of the session.\n\n## Session Start Check\n```bash\nls receipts/ 2>/dev/null | tail -5\n```\nRead the most recent receipt to understand the previous session’s state.\n\n## TypeScript Helper\n```typescript\nimport { writeFileSync, mkdirSync, existsSync } from 'fs';\n\ninterface ReceiptAction {\n  sequence: number;\n  type: string;\n  target: string;\n  summary: string;\n  status: 'success' | 'failed' | 'anomaly';\n  isRollbackEligible: boolean;\n  durationMs: number;\n  timestamp: string;\n}\n\ninterface Receipt {\n  id: string;\n  agentId: string;\n  sessionId: string;\n  timestamp: string;\n  trigger: string;\n  status: 'completed' | 'failed' | 'partial' | 'rolled_back';\n  durationMs: number;\n  actions: ReceiptAction[];\n  anomalies: { actionSequence: number; detail: string }[];\n  rollbackAvailable: boolean;\n  sdkVersion: string;\n}\n\nexport function writeReceipt(receipt: Receipt): void {\n  if (!existsSync('receipts')) mkdirSync('receipts', { recursive: true });\n  const ts = new Date().toISOString().replace(/[T:]/g, '-').replace(/\\..+/, '');\n  const mainType = receipt.actions[0]?.type.replace(':', '-') ?? 'unknown';\n  const path = `receipts/${ts}-${mainType}.json`;\n  writeFileSync(path, JSON.stringify(receipt, null, 2));\n}\n```\n\n## Python Helper\n```python\nimport json, os, time, secrets\nfrom datetime import datetime, timezone\n\ndef write_receipt(receipt: dict) -> str:\n    os.makedirs(\"receipts\", exist_ok=True)\n    ts = datetime.now(timezone.utc).strftime(\"%Y-%m-%d-%H-%M-%S\")\n    main_type = receipt[\"actions\"][0][\"type\"].replace(\":\", \"-\") if receipt[\"actions\"] else \"unknown\"\n    path = f\"receipts/{ts}-{main_type}.json\"\n    with open(path, \"w\") as f:\n        json.dump(receipt, f, indent=2)\n    return path\n\ndef make_receipt_id() -> str:\n    return f\"rcpt_{int(time.time())}_{secrets.token_hex(3)}\"\n```\n\n## Completion Signal\nBefore ending any session that performed significant actions:\n1. Assemble all actions into a receipt object.\n2. Call the helper (`writeReceipt` or `write_receipt`).\n3. Mention the receipt file path in the final message.\n"
+  }
+}

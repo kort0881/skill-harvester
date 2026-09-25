@@ -1,271 +1,6 @@
 {
   "items": [
     {
-      "candidate_id": "a516e69e4f0ad380079a9e21",
-      "status": "pending",
-      "discovered_at": "2026-08-30T09:52:20+00:00",
-      "source": {
-        "repository": "TeamWiseFlow/xiaobei",
-        "repository_url": "https://github.com/TeamWiseFlow/xiaobei",
-        "default_branch": "master",
-        "path": "skills/email-ops/SKILL.md",
-        "html_url": "https://github.com/TeamWiseFlow/xiaobei/blob/fdc03d6ccc4d15c89a9dbd23b53217df0e72a2c0/skills/email-ops/SKILL.md",
-        "api_sha": "1493cfb83cd70e73b6026b8220982a90a7a005e1",
-        "repo_stars": 8474,
-        "repo_forks": 1440,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-08-30T01:01:19+00:00"
-      },
-      "raw_file": "skills/email-ops/SKILL.md",
-      "title": "email-ops",
-      "category_hint": "research",
-      "content_hash": "b3b1e5e1ffa35ec7f74c0cc6b30ee5e275628c9f4c4fd624572b46055203192c",
-      "content_characters": 4188,
-      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/email-ops/SKILL.md'"
-    },
-    {
-      "candidate_id": "989d4033677cc0c40f8af787",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:14:33+00:00",
-      "source": {
-        "repository": "microprediction/precise",
-        "repository_url": "https://github.com/microprediction/precise",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/microprediction/precise/blob/4b26c0c3e38e7fc7f868981c61a576880f970e86/SKILL.md",
-        "api_sha": "03accd1c20e1f1163e197e78fb2ff5fc474e10a3",
-        "repo_stars": 335,
-        "repo_forks": 58,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-18T15:20:00+00:00"
-      },
-      "raw_file": "raw/microprediction-precise/SKILL.md",
-      "title": "precise",
-      "category_hint": "programming",
-      "content_hash": "d58e8d2d9f3477f354b7f9c92d0520014bb51e2d4ab279f8b00e61ce2e25680b",
-      "content_characters": 3127
-    },
-    {
-      "candidate_id": "e93160cf055fa000fb74f3ad",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:14:58+00:00",
-      "source": {
-        "repository": "bzd6661/wechat-article-for-ai",
-        "repository_url": "https://github.com/bzd6661/wechat-article-for-ai",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/bzd6661/wechat-article-for-ai/blob/69de9e413cca3fe6b770c40a4dec204afd5b2b3c/SKILL.md",
-        "api_sha": "3a9893b364cee67a92171942680eeb96c33e2117",
-        "repo_stars": 99,
-        "repo_forks": 13,
-        "repo_license": null,
-        "repo_updated_at": "2026-09-19T02:12:35+00:00"
-      },
-      "raw_file": "raw/bzd6661-wechat-article-for-ai/SKILL.md",
-      "title": "wechat-to-md",
-      "category_hint": "content_creation",
-      "content_hash": "b652b6acfbe199f0cb65e67ea7e1120f30e17607027ac9c98072f2487906e655",
-      "content_characters": 2614
-    },
-    {
-      "candidate_id": "27b7da72ba68fd8200289731",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:12+00:00",
-      "source": {
-        "repository": "UditAkhourii/branerail",
-        "repository_url": "https://github.com/UditAkhourii/branerail",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/UditAkhourii/branerail/blob/44c4e501efa7ad0e03fa8bbbd24b5229522c136f/SKILL.md",
-        "api_sha": "d20cd24f8ccf768e19b4ce8eb797333324edc11a",
-        "repo_stars": 50,
-        "repo_forks": 4,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-18T00:56:13+00:00"
-      },
-      "raw_file": "raw/uditakhourii-branerail/SKILL.md",
-      "title": "Branerail Skill: CTO-Level Agent for AI-Native Development",
-      "category_hint": "automation",
-      "content_hash": "542407334977d2915f64a9525473d9e4ad335f7124ff83c754afe16fd9a3012d",
-      "content_characters": 29393
-    },
-    {
-      "candidate_id": "a937e429900a9322ebeea68e",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:33+00:00",
-      "source": {
-        "repository": "Gayaya999/ecommerce-detail-page-generator",
-        "repository_url": "https://github.com/Gayaya999/ecommerce-detail-page-generator",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/Gayaya999/ecommerce-detail-page-generator/blob/234848792b0579ad77c528057e24049f91ad2a19/SKILL.md",
-        "api_sha": "ef70354f0b82a8437cf875e324faab092618ec3a",
-        "repo_stars": 28,
-        "repo_forks": 4,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-18T02:44:52+00:00"
-      },
-      "raw_file": "raw/gayaya999-ecommerce-detail-page-generator/SKILL.md",
-      "title": "ecommerce-detail-page-generator",
-      "category_hint": "design",
-      "content_hash": "c5de2a084e9f1adc2cb1e4c71666f06808454ed5d847d0df7e3da019646e5ecb",
-      "content_characters": 7712
-    },
-    {
-      "candidate_id": "633a5b5db69993cde5c90710",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:38+00:00",
-      "source": {
-        "repository": "pearyj/sillytavern-cards-skill",
-        "repository_url": "https://github.com/pearyj/sillytavern-cards-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/pearyj/sillytavern-cards-skill/blob/0e4c0d18f8f40525aaa522825339074dd94cf811/SKILL.md",
-        "api_sha": "5189f1816857b5aaedc487f654c968a3f23224c1",
-        "repo_stars": 24,
-        "repo_forks": 5,
-        "repo_license": "GNU Affero General Public License v3.0",
-        "repo_updated_at": "2026-09-19T10:18:38+00:00"
-      },
-      "raw_file": "raw/pearyj-sillytavern-cards-skill/SKILL.md",
-      "title": "sillytavern-cards",
-      "category_hint": "automation",
-      "content_hash": "a6e81d8608097810f0d3033dc0f37cfb85b5a75ede585e92cd56e572c4ad5289",
-      "content_characters": 16018
-    },
-    {
-      "candidate_id": "ea4abbc7e9f6ae7f8c968b3f",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:40+00:00",
-      "source": {
-        "repository": "PublicDotCom/claw-skill-public-dot-com",
-        "repository_url": "https://github.com/PublicDotCom/claw-skill-public-dot-com",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/PublicDotCom/claw-skill-public-dot-com/blob/6ffbf85bc1c345fcdf14373641a8c734bd410e90/SKILL.md",
-        "api_sha": "555a15b5ee745871865bcc121dd3f4bea28e6261",
-        "repo_stars": 43,
-        "repo_forks": 4,
-        "repo_license": null,
-        "repo_updated_at": "2026-06-18T08:51:15+00:00"
-      },
-      "raw_file": "raw/publicdotcom-claw-skill-public-dot-com/SKILL.md",
-      "title": "public.com",
-      "category_hint": "automation",
-      "content_hash": "08ec2c532fb1cd91c053805ee73c48e659343b9abf911910e53b2edabc988e38",
-      "content_characters": 32397
-    },
-    {
-      "candidate_id": "7c7bc3df84791b7e93d95cfb",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:42+00:00",
-      "source": {
-        "repository": "vinceglakas/receipt-pattern",
-        "repository_url": "https://github.com/vinceglakas/receipt-pattern",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/vinceglakas/receipt-pattern/blob/f89efaf50c564c97cf9f0e26d0da2121b5092b8d/SKILL.md",
-        "api_sha": "7a6f86617c1f7fa46f2c3d226d6b1b654553af2d",
-        "repo_stars": 21,
-        "repo_forks": 1,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-04-17T06:57:28+00:00"
-      },
-      "raw_file": "raw/vinceglakas-receipt-pattern/SKILL.md",
-      "title": "Receipt Pattern — Agent Skill",
-      "category_hint": "programming",
-      "content_hash": "cee584d7d67fd2cbfbbb00e261b3297e0675c055e40afc23b32aba369addd9d0",
-      "content_characters": 4322
-    },
-    {
-      "candidate_id": "c847ad0e6de5178d49597fe5",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:43+00:00",
-      "source": {
-        "repository": "MIKUZ12/ExamPass-Assistant",
-        "repository_url": "https://github.com/MIKUZ12/ExamPass-Assistant",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/MIKUZ12/ExamPass-Assistant/blob/20453af00c5f165c1403fd14ad9ca86da714bd8a/SKILL.md",
-        "api_sha": "3da9132ada1a3ae9722ce6f6253b380cab6a5edb",
-        "repo_stars": 21,
-        "repo_forks": 3,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-02T11:55:54+00:00"
-      },
-      "raw_file": "raw/mikuz12-exampass-assistant/SKILL.md",
-      "title": "exampass",
-      "category_hint": "research",
-      "content_hash": "8248fccab26e8161c356ed5b63b0f6aa024679aeb12585b1f79c8dc1e60b1ba1",
-      "content_characters": 16673
-    },
-    {
-      "candidate_id": "a52880b9fc788f5aad3ef4cb",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:45+00:00",
-      "source": {
-        "repository": "erhanrensheng/chanlun-skill",
-        "repository_url": "https://github.com/erhanrensheng/chanlun-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/erhanrensheng/chanlun-skill/blob/eb944b2e1655ac6720c931cd82dac1dc19927684/SKILL.md",
-        "api_sha": "10e4f76a59d5bd972091ad77593b887a87825552",
-        "repo_stars": 20,
-        "repo_forks": 2,
-        "repo_license": null,
-        "repo_updated_at": "2026-08-31T04:09:15+00:00"
-      },
-      "raw_file": "raw/erhanrensheng-chanlun-skill/SKILL.md",
-      "title": "chanlun",
-      "category_hint": "automation",
-      "content_hash": "485d39ccbaefcbd96d8490b20b59874de6b705692dd0bc1f6e7bfe1f59ca5c17",
-      "content_characters": 3171
-    },
-    {
-      "candidate_id": "31f82d360be3ca1b1e51e180",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:47+00:00",
-      "source": {
-        "repository": "erayack/svelte-building-blocks",
-        "repository_url": "https://github.com/erayack/svelte-building-blocks",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/erayack/svelte-building-blocks/blob/689cf1c344b8168a37bf6bcaceb8a5c8d7b2fa2c/SKILL.md",
-        "api_sha": "a40e3b4d20b515e4b46e999c01229229c34a654e",
-        "repo_stars": 40,
-        "repo_forks": 0,
-        "repo_license": null,
-        "repo_updated_at": "2026-09-01T12:33:52+00:00"
-      },
-      "raw_file": "raw/erayack-svelte-building-blocks/SKILL.md",
-      "title": "svelte-core-bestpractices",
-      "category_hint": "content_creation",
-      "content_hash": "3d82a8b293da7ae43807544e0b46af2d9abbfad5ec34da709606f13eed71c81c",
-      "content_characters": 9528
-    },
-    {
-      "candidate_id": "c0994c978ad44b11a94269d2",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:15:48+00:00",
-      "source": {
-        "repository": "freestylefly/daily-reporter-skill",
-        "repository_url": "https://github.com/freestylefly/daily-reporter-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/freestylefly/daily-reporter-skill/blob/f16033f9e351d47e505077a1cb262cf0d1e6e895/SKILL.md",
-        "api_sha": "3402801e409a41a555bf1bd25400a1a742298cdf",
-        "repo_stars": 21,
-        "repo_forks": 2,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-15T07:23:01+00:00"
-      },
-      "raw_file": "raw/freestylefly-daily-reporter-skill/SKILL.md",
-      "title": "daily-reporter-skill",
-      "category_hint": "content_creation",
-      "content_hash": "677ee504bfeb428a4aaae798727fe7749363522596c6b3fbe8c6344fbfc7772a",
-      "content_characters": 3132
-    },
-    {
       "candidate_id": "462419e2d047bc8054380af6",
       "status": "pending",
       "discovered_at": "2026-09-20T14:15:50+00:00",
@@ -1937,7 +1672,53 @@
       "content_hash": "6a21601c170f67383d31d9342c0555bb07736f8e2599fee4432ac1a053002169",
       "content_characters": 12323,
       "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/chakra-ui-builder/SKILL.md'"
+    },
+    {
+      "candidate_id": "a516e69e4f0ad380079a9e21",
+      "status": "pending",
+      "discovered_at": "2026-08-30T09:52:20+00:00",
+      "source": {
+        "repository": "TeamWiseFlow/xiaobei",
+        "repository_url": "https://github.com/TeamWiseFlow/xiaobei",
+        "default_branch": "master",
+        "path": "skills/email-ops/SKILL.md",
+        "html_url": "https://github.com/TeamWiseFlow/xiaobei/blob/fdc03d6ccc4d15c89a9dbd23b53217df0e72a2c0/skills/email-ops/SKILL.md",
+        "api_sha": "1493cfb83cd70e73b6026b8220982a90a7a005e1",
+        "repo_stars": 8474,
+        "repo_forks": 1440,
+        "repo_license": "Other",
+        "repo_updated_at": "2026-08-30T01:01:19+00:00"
+      },
+      "raw_file": "skills/email-ops/SKILL.md",
+      "title": "email-ops",
+      "category_hint": "research",
+      "content_hash": "b3b1e5e1ffa35ec7f74c0cc6b30ee5e275628c9f4c4fd624572b46055203192c",
+      "content_characters": 4188,
+      "last_error": "[Errno 2] No such file or directory: '/home/runner/work/skill-harvester/skill-harvester/data/skills/email-ops/SKILL.md'"
+    },
+    {
+      "candidate_id": "c847ad0e6de5178d49597fe5",
+      "status": "pending",
+      "discovered_at": "2026-09-20T14:15:43+00:00",
+      "source": {
+        "repository": "MIKUZ12/ExamPass-Assistant",
+        "repository_url": "https://github.com/MIKUZ12/ExamPass-Assistant",
+        "default_branch": "master",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/MIKUZ12/ExamPass-Assistant/blob/20453af00c5f165c1403fd14ad9ca86da714bd8a/SKILL.md",
+        "api_sha": "3da9132ada1a3ae9722ce6f6253b380cab6a5edb",
+        "repo_stars": 21,
+        "repo_forks": 3,
+        "repo_license": "Other",
+        "repo_updated_at": "2026-09-02T11:55:54+00:00"
+      },
+      "raw_file": "raw/mikuz12-exampass-assistant/SKILL.md",
+      "title": "exampass",
+      "category_hint": "research",
+      "content_hash": "8248fccab26e8161c356ed5b63b0f6aa024679aeb12585b1f79c8dc1e60b1ba1",
+      "content_characters": 16673,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 13209, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
     }
   ],
-  "updated_at": "2026-09-24T12:48:48+00:00"
+  "updated_at": "2026-09-25T12:57:00+00:00"
 }

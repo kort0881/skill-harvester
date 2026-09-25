@@ -1,0 +1,693 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-25T12:57:00+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 10,
+  "accepted": 6,
+  "rejected": 4,
+  "items": [
+    {
+      "candidate_id": "989d4033677cc0c40f8af787",
+      "candidate": {
+        "candidate_id": "989d4033677cc0c40f8af787",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:14:33+00:00",
+        "source": {
+          "repository": "microprediction/precise",
+          "repository_url": "https://github.com/microprediction/precise",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/microprediction/precise/blob/4b26c0c3e38e7fc7f868981c61a576880f970e86/SKILL.md",
+          "api_sha": "03accd1c20e1f1163e197e78fb2ff5fc474e10a3",
+          "repo_stars": 335,
+          "repo_forks": 58,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-18T15:20:00+00:00"
+        },
+        "raw_file": "raw/microprediction-precise/SKILL.md",
+        "title": "precise",
+        "category_hint": "programming",
+        "content_hash": "d58e8d2d9f3477f354b7f9c92d0520014bb51e2d4ab279f8b00e61ce2e25680b",
+        "content_characters": 3127
+      },
+      "reviewed_at": "2026-09-25T12:51:13+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Precise: Online Covariance and Correlation Estimation Library",
+        "category": "programming",
+        "summary": "Precise is a lightweight, NumPy‑only Python library that provides online (incremental) estimators for covariance, correlation, precision, and location. It follows a scikit‑learn‑style `partial_fit` API, enabling O(1)‑O(d²) updates per observation instead of recomputing batch statistics. The skill also links to related task‑specific sub‑skills for estimator selection, scoring, and handling dynamic universes.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Clear description and purpose",
+          "Minimal dependencies (NumPy only)",
+          "Concrete code example with `partial_fit`",
+          "Guidance on when to prefer Precise over batch methods",
+          "Links to related, more detailed sub‑skills",
+          "Safety guardrail for high‑dimensional use cases"
+        ],
+        "weaknesses": [
+          "No explicit list of estimator hyper‑parameters",
+          "No built‑in verification or testing instructions",
+          "Performance benchmarks are only mentioned, not shown"
+        ],
+        "tags": [
+          "python",
+          "statistics",
+          "online-learning",
+          "covariance",
+          "streaming"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a table of estimator parameters and their defaults",
+          "Provide a small benchmark comparing batch vs. online updates",
+          "Include a quick verification script that checks PSD property of the resulting matrix"
+        ],
+        "normalized_skill_markdown": "---\nname: precise\ndescription: Online (incremental) covariance, correlation, and precision estimation in Python — the streaming complement to sklearn.covariance.\n---\n\n# Precise\n\n[`precise`](https://github.com/microprediction/precise) is a small, NumPy‑only library that offers **online (incremental) covariance and correlation estimators** behind a scikit‑learn‑style `partial_fit` contract. It serves as the streaming counterpart to `sklearn.covariance`, whose estimators operate only on batch data.\n\n```bash\npip install precise\n```\n\n```python\nfrom precise import EwaCovariance\n\n# Create an estimator (r is the exponential decay rate)\nest = EwaCovariance(r=0.05)\n\nfor y in stream:            # y is a 1‑D observation vector\n    est.partial_fit(y)\n\n# After processing the stream you can access the estimates\nprint(est.covariance_)   # symmetric positive‑semi‑definite matrix\nprint(est.correlation_)  # correlation matrix\nprint(est.precision_)    # inverse covariance (if invertible)\nprint(est.location_)     # estimated mean vector\n```\n\n## When to reach for Precise\n\n- You need to **update a covariance/correlation matrix inside a rolling loop** (`np.cov`, `np.corrcoef`, or `pandas .rolling().cov()`) and want O(1)‑O(d²) per‑step cost instead of O(window).\n- You require a `partial_fit`‑style covariance estimator while `sklearn.covariance` only provides batch `fit`.\n- Your streaming data is **keyed by name** and the set of variables (assets, sensors, etc.) changes over time.\n- You want **shrinkage, robust, or factor‑model covariance** online (e.g., Ledoit‑Wolf, OAS, Huber, Tyler, factor models).\n- You are **judging, comparing, or proposing** new covariance methodologies.\n\n## Task‑specific sub‑skills\n\nFetch the relevant skill for copy‑pasteable code and guardrails:\n\n- **Estimate online** – <https://github.com/microprediction/precise/blob/main/.claude/skills/estimate-online-covariance/SKILL.md>\n- **Choose an estimator for your data** – <https://github.com/microprediction/precise/blob/main/.claude/skills/choose-covariance-estimator/SKILL.md>\n- **Score / compare estimates** (including high‑dimensional pitfalls) – <https://github.com/microprediction/precise/blob/main/.claude/skills/score-covariance-estimate/SKILL.md>\n- **Keyed / dynamic universe** (variables entering and leaving) – <https://github.com/microprediction/precise/blob/main/.claude/skills/keyed-dynamic-universe/SKILL.md>\n- **Assess a new methodology** (rigorous, honest protocol) – <https://github.com/microprediction/precise/blob/main/.claude/skills/assess-covariance-method/SKILL.md>\n\n## Guardrail worth knowing up front\n\nIn high‑dimensional settings (variables comparable to observations), **do not rank covariance estimates by held‑out Gaussian log‑likelihood**; the metric is dominated by unidentifiable small eigenvalues and can rank below chance. Prefer inversion‑free or block‑wise judges as described in the scoring skill. See the background discussion: <https://precise.microprediction.org/papers/schur-likelihood/>.\n\n## Reference\n\n- Documentation: <https://precise.microprediction.org>\n- PyPI: <https://pypi.org/project/precise/>\n- Repository: <https://github.com/microprediction/precise>"
+      },
+      "library_id": "programming/precise-online-covariance-and-correlation-estimation-library-989d4033"
+    },
+    {
+      "candidate_id": "e93160cf055fa000fb74f3ad",
+      "candidate": {
+        "candidate_id": "e93160cf055fa000fb74f3ad",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:14:58+00:00",
+        "source": {
+          "repository": "bzd6661/wechat-article-for-ai",
+          "repository_url": "https://github.com/bzd6661/wechat-article-for-ai",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/bzd6661/wechat-article-for-ai/blob/69de9e413cca3fe6b770c40a4dec204afd5b2b3c/SKILL.md",
+          "api_sha": "3a9893b364cee67a92171942680eeb96c33e2117",
+          "repo_stars": 99,
+          "repo_forks": 13,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-19T02:12:35+00:00"
+        },
+        "raw_file": "raw/bzd6661-wechat-article-for-ai/SKILL.md",
+        "title": "wechat-to-md",
+        "category_hint": "content_creation",
+        "content_hash": "b652b6acfbe199f0cb65e67ea7e1120f30e17607027ac9c98072f2487906e655",
+        "content_characters": 2614
+      },
+      "reviewed_at": "2026-09-25T12:51:16+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "WeChat Article to Markdown Converter",
+        "category": "content_creation",
+        "summary": "A Python tool that converts public WeChat Official Account articles into clean Markdown files, downloading images locally and adding optional YAML front‑matter. It offers both a command‑line interface for single or batch processing and an MCP server for AI tool integration.",
+        "quality_score": 80,
+        "uniqueness_score": 75,
+        "usefulness_score": 80,
+        "safety_score": 85,
+        "total_score": 80,
+        "strengths": [
+          "Clear prerequisites and installation steps",
+          "Supports single‑article and batch processing via CLI",
+          "Option to run as an MCP server for AI integration",
+          "Downloads images locally and adds YAML front‑matter",
+          "Provides useful flags for concurrency, verbosity, and headless mode"
+        ],
+        "weaknesses": [
+          "No explicit input/output schema documented",
+          "Missing example of generated Markdown output",
+          "Relies on a headless browser which may break with site changes",
+          "Limited to mp.weixin.qq.com URLs only",
+          "Potential terms‑of‑service concerns for automated scraping"
+        ],
+        "tags": [
+          "python",
+          "web-scraping",
+          "markdown",
+          "wechat",
+          "cli",
+          "mcp"
+        ],
+        "safety_flags": [
+          "potential_terms_of_service_violation",
+          "headless_browser_evasion"
+        ],
+        "recommended_improvements": [
+          "Add a concise Input/Output section describing expected parameters and generated files",
+          "Include a sample Markdown file with front‑matter to illustrate the result",
+          "Document error handling and retry logic more thoroughly",
+          "Provide guidance on respecting WeChat’s terms of service and robots.txt",
+          "Offer a fallback method that uses only HTTP requests without a headless browser"
+        ],
+        "normalized_skill_markdown": "---\nname: wechat-to-md\ndescription: Convert WeChat Official Account articles to clean Markdown files with locally downloaded images.\n---\n\n# WeChat Article to Markdown Converter\n\n## What this tool does\n\nConverts WeChat public‑account articles into clean Markdown files with:\n- YAML front‑matter (title, author, date, source URL)\n- Locally downloaded images\n- Preserved code blocks with language detection\n- Audio/video reference extraction\n- Clean formatting without WeChat UI noise\n\n## Prerequisites\n\n- Python 3.10+\n- Install dependencies: `pip install -r requirements.txt`\n- Camoufox browser will be auto‑downloaded on first run (used for headless rendering)\n\n## Usage\n\n### CLI – single article\n\n```bash\npython main.py \"https://mp.weixin.qq.com/s/ARTICLE_ID\"\n```\n\n### CLI – batch from file\n\n```bash\npython main.py -f urls.txt -o ./output -v\n```\n\n### Available CLI options\n\n| Flag | Description |\n|------|-------------|\n| `-f FILE` | Text file containing one URL per line |\n| `-o DIR` | Output directory (default: `./output`) |\n| `-c N` | Image download concurrency (default: 5) |\n| `--no-images` | Skip image download, keep remote URLs |\n| `--no-headless` | Show browser window (useful for solving CAPTCHAs) |\n| `--force` | Overwrite existing output files |\n| `--no-frontmatter` | Use blockquote metadata instead of YAML |\n| `-v` | Verbose/debug logging |\n\n## MCP server (AI tool integration)\n\nRun the MCP server to expose conversion functions to AI agents:\n\n```bash\npython mcp_server.py\n```\n\nThe server provides two callable tools:\n- `convert_article(url, output_dir, download_images, concurrency, use_frontmatter)` – convert a single article\n- `batch_convert(urls, output_dir, download_images, concurrency)` – convert multiple articles\n\n### MCP configuration example (for Claude Desktop, etc.)\n\n```json\n{\n  \"mcpServers\": {\n    \"wechat-to-md\": {\n      \"command\": \"python\",\n      \"args\": [\"mcp_server.py\"],\n      \"cwd\": \"<path-to-this-project>\"\n    }\n  }\n}\n```\n\n## Output structure\n\n```\noutput/\n  <article-title>/\n    <article-title>.md      # Markdown with optional YAML front‑matter\n    images/\n      img_001.png\n      img_002.jpg\n      ...\n```\n\n## Common issues & troubleshooting\n\n- **CAPTCHA/verification page** – Run with `--no-headless` to solve the CAPTCHA manually, then retry.\n- **Empty content** – WeChat may rate‑limit requests; wait a few minutes before trying again.\n- **Image download failures** – Failed images keep their remote URLs in the Markdown. Re‑run with `--force` to retry.\n\n## Limitations\n\n- Works only with URLs from `mp.weixin.qq.com`.\n- Requires internet access and the ability to launch a headless browser.\n- WeChat may block automated access; Camoufox helps evade detection but success is not guaranteed.\n"
+      }
+    },
+    {
+      "candidate_id": "27b7da72ba68fd8200289731",
+      "candidate": {
+        "candidate_id": "27b7da72ba68fd8200289731",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:12+00:00",
+        "source": {
+          "repository": "UditAkhourii/branerail",
+          "repository_url": "https://github.com/UditAkhourii/branerail",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/UditAkhourii/branerail/blob/44c4e501efa7ad0e03fa8bbbd24b5229522c136f/SKILL.md",
+          "api_sha": "d20cd24f8ccf768e19b4ce8eb797333324edc11a",
+          "repo_stars": 50,
+          "repo_forks": 4,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-18T00:56:13+00:00"
+        },
+        "raw_file": "raw/uditakhourii-branerail/SKILL.md",
+        "title": "Branerail Skill: CTO-Level Agent for AI-Native Development",
+        "category_hint": "automation",
+        "content_hash": "542407334977d2915f64a9525473d9e4ad335f7124ff83c754afe16fd9a3012d",
+        "content_characters": 29393
+      },
+      "reviewed_at": "2026-09-25T12:51:52+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Branerail – CTO‑Level Architectural Advisor for AI‑Native Development",
+        "category": "automation",
+        "summary": "A comprehensive, step‑by‑step framework for using an AI agent as a CTO‑level architectural advisor. It defines when to trigger the skill, three core pillars of system thinking, design documentation formats, checklists, and integration workflows with Claude Code. The skill emphasizes state ownership, observability, blast‑radius analysis, and resilience patterns.",
+        "quality_score": 90,
+        "uniqueness_score": 85,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 92,
+        "strengths": [
+          "Clear, well‑structured sections with actionable checklists",
+          "Concrete examples, tables, and markdown snippets",
+          "Covers end‑to‑end workflow from design to deployment",
+          "Emphasizes safety, observability, and resilience"
+        ],
+        "weaknesses": [
+          "Very long; could benefit from a concise quick‑start summary",
+          "No explicit prerequisite list (e.g., required tooling, access to Claude Code)",
+          "Missing concrete sample prompts that demonstrate the skill in action"
+        ],
+        "tags": [
+          "architecture",
+          "design",
+          "observability",
+          "resilience",
+          "ai‑assistant",
+          "code‑review"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short prerequisite section (required tools, access tokens, etc.)",
+          "Provide a quick‑start example prompt and expected output",
+          "Consider a TL;DR summary for rapid onboarding"
+        ],
+        "normalized_skill_markdown": "---\nname: Branerail\ndescription: CTO‑level architectural advisor for AI‑native development. Use this skill for architecture reviews, resilience analysis, state ownership, scaling decisions, and design‑system definition. Integrates with Claude Code to audit generated code and produce DESIGN.md specifications.\n---\n\n# Branerail Skill: CTO‑Level Agent for AI‑Native Development\n\n**Core principle** – AI can generate code at lightspeed, but the architect must conduct the orchestra. This skill provides a repeatable process for turning AI‑generated code into robust, observable, and scalable systems.\n\n## When to Trigger This Skill\n\nUse for:\n1. Architecture from scratch\n2. Code‑quality audits of AI‑generated code\n3. Resilience and failure‑mode analysis\n4. State ownership and data‑flow clarification\n5. Scaling and bottleneck planning\n6. Refactoring or migration projects\n7. Observability and monitoring design\n8. DESIGN.md creation for UI consistency\n9. Dependency mapping and blast‑radius analysis\n10. Concurrency and distributed‑system concerns\n\n**Trigger keywords** (use liberally): `architecture`, `design`, `scale`, `failure`, `state`, `blast radius`, `dependency`, `concurrency`, `microservices`, `monolith`, `observability`, `DESIGN.md`, `Claude Code`, etc.\n\n## Part 1 – The Three Pillars of Systems Thinking\n\n### Pillar 1: Where Does State Live?\n- **Audit steps**: inventory mutable state, identify authoritative owner, check replicas, trace mutation paths.\n- **Pattern table** with trade‑offs (Single Source of Truth, Write‑Through Cache, Event Sourcing, CQRS, etc.).\n- **Red‑flags** and a code‑review checklist.\n\n### Pillar 2: Where Does Feedback Live?\n- Identify critical operations, define success/failure, instrument logging, metrics, tracing, and alerts.\n- Example of good vs. bad structured logs.\n- Metrics to track and alerting strategies.\n- Checklist for observability.\n\n### Pillar 3: What Breaks If I Delete This?\n- Perform a mental deletion test for any component.\n- Document blast‑radius, SPOFs, and fallback strategies.\n- Dependency‑mapping table and checklist.\n\n## Part 2 – Design Process Before Code\n\n1. **Sketch the Architecture** – boxes, arrows, state owners, external deps, fallbacks.\n2. **Write a Design Document** – `DESIGN.md` for UI tokens **or** an architectural spec (`spec.md`). Sample `DESIGN.md` front‑matter and sections are provided.\n3. **Run the Deletion Test** – mental checklist for each component.\n4. **Manual Re‑implementation** – rewrite AI‑generated code from memory to ensure understanding.\n\n## Part 3 – AI as a Probabilistic Collaborator\n\nContrast deterministic compilers with LLMs. Highlight typical AI‑generated pitfalls (auth bypasses, off‑by‑one, silent failures, race conditions) and the auditor’s role.\n\n## Part 4 – Code Review Checklist for AI‑Generated Code\n\n- Spec compliance\n- State & data ownership\n- Error handling\n- Observability\n- Dependency management\n- Concurrency & consistency\n- Testing coverage\n- Performance & scaling\n- Security\n\n## Part 5 – Architectural Anti‑Patterns\n\nTable of common anti‑patterns (no state ownership, silent failures, circular deps, SPOFs, etc.) with fixes.\n\n## Part 6 – Full Development Workflow\n\n1. **Pre‑Code** – problem definition, sketch, three‑pillar answers, spec writing.\n2. **Code Generation** – prompt Claude Code with spec and `DESIGN.md`.\n3. **Code Review** – run checklist, verify pillars.\n4. **Deployment** – deletion test, monitoring verification.\n5. **Post‑Deployment** – manual re‑implementation, spec updates, iteration.\n\n## Part 7 – Concurrency & Distributed‑System Patterns\n\nMutex/Lock, Atomic ops, Immutable data, Channels/Queues, Transactions, Consensus, Eventual consistency, Event sourcing, CQRS, Circuit breaker – description, risks, testing advice.\n\n## Part 8 – Claude Code Integration Workflow\n\n- Initialize project with `DESIGN.md` and spec scaffolding.\n- Example prompts that reference specs, enforce observability, and request resilience patterns.\n\n## Part 9 – Advanced Architectural Patterns (SOTA)\n\nCell‑based architecture, Sidecar/Service Mesh, Strangler Fig, Sagas – when to use and benefits.\n\n## Part 10 – Cloud‑Native Resilience Suite\n\nBrief mention of adaptive throttling and other self‑healing techniques (truncated in original).\n\n---\n*End of Branerail skill.*"
+      },
+      "library_id": "automation/branerail-cto-level-architectural-advisor-for-ai-native-development-27b7da72"
+    },
+    {
+      "candidate_id": "a937e429900a9322ebeea68e",
+      "candidate": {
+        "candidate_id": "a937e429900a9322ebeea68e",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:33+00:00",
+        "source": {
+          "repository": "Gayaya999/ecommerce-detail-page-generator",
+          "repository_url": "https://github.com/Gayaya999/ecommerce-detail-page-generator",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Gayaya999/ecommerce-detail-page-generator/blob/234848792b0579ad77c528057e24049f91ad2a19/SKILL.md",
+          "api_sha": "ef70354f0b82a8437cf875e324faab092618ec3a",
+          "repo_stars": 28,
+          "repo_forks": 4,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-18T02:44:52+00:00"
+        },
+        "raw_file": "raw/gayaya999-ecommerce-detail-page-generator/SKILL.md",
+        "title": "ecommerce-detail-page-generator",
+        "category_hint": "design",
+        "content_hash": "c5de2a084e9f1adc2cb1e4c71666f06808454ed5d847d0df7e3da019646e5ecb",
+        "content_characters": 7712
+      },
+      "reviewed_at": "2026-09-25T12:52:28+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "E-commerce Detail Page Generator",
+        "category": "design",
+        "summary": "This skill automates the creation of platform‑specific e‑commerce detail pages from a minimal brief and product photos. It validates inputs, extracts visual facts, selects appropriate modules, generates or crops images according to each marketplace’s policies, composes copy, and produces a full set of deliverables with validation. The workflow supports major Chinese and global marketplaces and enforces fact‑based, policy‑compliant content.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 85,
+        "strengths": [
+          "Comprehensive end‑to‑end pipeline for multiple marketplaces",
+          "Clear input gating and fact‑verification rules",
+          "Platform‑specific routing with re‑verification logic",
+          "Detailed image‑generation constraints to avoid policy violations",
+          "Provides concrete CLI commands for composition and validation"
+        ],
+        "weaknesses": [
+          "Prerequisites (required skills, libraries) are implied but not listed explicitly",
+          "No concrete example inputs/outputs (e.g., sample brief.json or page‑spec.json)",
+          "Error‑handling and fallback procedures are described only in prose",
+          "Relies on external reference files without showing their structure"
+        ],
+        "tags": [
+          "ecommerce",
+          "detail-page",
+          "image-generation",
+          "automation",
+          "design"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit prerequisites section (required Python packages, dependent skills like `image_gen` and `view_image`)",
+          "Include a short example of the expected `brief.json` and `page-spec.json` files",
+          "Provide a minimal end‑to‑end example command with sample inputs and expected output files",
+          "Clarify how validation errors should be reported and corrected"
+        ],
+        "normalized_skill_markdown": "---\nname: ecommerce-detail-page-generator\ndescription: Turn product photos and a minimal brief into verified, platform-adapted e-commerce detail-page systems, including product fact review, visual analysis, localized copy, module story planning, policy-aware image generation, deterministic Pillow typography, platform-sized slices, long-page previews, manifests, and automated validation.\n---\n\n# E-commerce Detail Page Generator\n\nCreate a platform‑adapted product story from a minimal brief while preserving product truth. Use image generation for visual bases only where the platform permits synthetic imagery; use Pillow composition for exact copy, dimensions, slicing, and manifests.\n\n## Required Input Gate\n\nRequire exactly these three inputs before planning or generating:\n\n1. Target platform, including country/site when relevant.\n2. At least one clear product image.\n3. Product name or category.\n\nDo not call `image_gen` before this gate passes.\n\nIf one required input is missing, ask only for the single most important missing item. Do not present a long form.\n\nAfter the gate passes, distinguish every fact as:\n\n- `user`: explicitly supplied by the user.\n- `visible`: directly observable in an uploaded image.\n- `unconfirmed`: plausible but not verified.\n\nNever publish an `unconfirmed` fact. Do not infer hidden materials, dimensions, capacity, performance, certification, compatibility, ingredients, medical effects, price, discount, sales, reviews, warranty, package contents, or unseen product surfaces.\n\nIf the proposed page needs one of those facts, ask one concise question and stop generation until answered. If several facts are missing, ask first for the one that changes the primary selling proposition or compliance status.\n\n## Platform Routing\n\n1. Read `references/platform-profiles.json`.\n2. Resolve the user's platform through `aliases`.\n3. Read the matching section of `references/platform-style-guide.md`.\n4. Re‑verify rules on the web when:\n   - the profile is older than its `reverify_after_days`;\n   - a rule is marked `seller_backend_confirmation`;\n   - the platform/site is not covered;\n   - the product is regulated, health‑related, for children, battery‑powered, ingestible, cosmetic, or safety‑sensitive.\n5. Prefer official seller documentation. Treat dimensions from non‑official sources as a working canvas, not a platform guarantee.\n\nPlatform rules modify export shape, information density, module order, typography, and sales rhythm. They must not erase the product's own visual identity.\n\n## Product Analysis\n\nInspect all product images and create `brief.json` with:\n\n- product name, platform, locale, category, and supplied image paths;\n- a visual fingerprint: dominant colors, geometry, finish, material appearance, visual temperature, perceived price tier, likely audience, and photographic cues;\n- facts grouped by `user`, `visible`, and `unconfirmed`;\n- prohibited claims and open questions;\n- a short design direction derived from the product rather than from a generic template.\n\nFor local images, load them with `view_image` before analysis. When multiple images exist, label each as front, back, side, detail, packaging, scale, or unknown.\n\n## Page Architecture\n\nRead `references/category-playbooks.md`, then select 6‑10 modules. Use only modules supported by verified facts.\n\n**Default story arc:**\n\n1. Product‑led hero and primary promise.\n2. Customer problem or desired outcome.\n3. Primary differentiator.\n4. Supporting features or details.\n5. Real use context.\n6. Operation, fit, or sizing guidance.\n7. Verified specifications or package contents.\n8. Trust, care, compatibility, or closing summary.\n\nOmit comparison, certification, review, guarantee, discount, and before/after modules unless the user provides evidence.\n\nWrite concise copy. Prefer one headline, one support line, and up to three proof points per module. Localize for the target market instead of translating literally.\n\nRepresent the complete plan as `page-spec.json` conforming to `references/page-spec.schema.json`.\n\n## Visual Generation\n\nLoad the system `imagegen` skill before using `image_gen`. Read `references/prompt-recipes.md`.\n\nGenerate one text‑free visual base per module that needs new imagery. Repeat these invariants in every prompt:\n\n- preserve product geometry, color, proportions, controls, openings, labels, and logo placement from the references;\n- do not invent unseen product sides, accessories, packaging, or usage outcomes;\n- no text, letters, numbers, badges, watermarks, UI, or fake certification marks;\n- leave intentional negative space matching the module layout.\n\nUse separate calls for separate modules. Do not ask one generation to create a full long page.\n\n**Platform exceptions:**\n\n- `tiktok-shop`: official listing rules prohibit digital renderings and added text in product images. Build listing modules from the user's real photos with deterministic crops only; keep copy in `copy.md`.\n- `etsy`: use the seller's original photos of the actual item. Do not replace them with generated product renderings. Generated moodboards are concept‑only and must not be labeled upload‑ready.\n- When a platform profile sets `image_text_policy` to `forbidden`, set each module's `text_mode` to `none`.\n\n## Composition and Export\n\nSave generated or selected module bases inside the project output directory, then run:\n\n```bash\npython3 scripts/compose_detail_page.py \\\n  --spec <path/to/page-spec.json> \\\n  --brief <path/to/brief.json> \\\n  --output <path/to/ecommerce-detail-output/product-slug>\n```\n\nThe composer must create:\n\n- `brief.json`\n- `page-spec.json`\n- `copy.md`\n- `modules/01-*.jpg` or `.png`\n- `detail-page-long.jpg`\n- `manifest.json`\n\nFor Amazon A+, TikTok Shop, Etsy, and eBay, treat module files as the primary deliverable and the long image as review‑only. For domestic long‑detail platforms, both slices and the long preview are deliverables.\n\nRun validation:\n\n```bash\npython3 scripts/validate_output.py \\\n  --spec <path/to/page-spec.json> \\\n  --output <path/to/ecommerce-detail-output/product-slug>\n```\n\nFix errors before delivery. Warnings about seller‑backend confirmation must remain visible in `manifest.json`.\n\n## Quality Bar\n\nReject or regenerate a module when:\n\n- the product shape, color, logo, controls, or included parts drift;\n- text overflows, becomes too small, or falls outside safe margins;\n- two adjacent modules repeat the same composition;\n- the page looks like a generic template rather than the supplied product;\n- a claim lacks a `user` or `visible` source;\n- the output violates the selected platform's image or AI‑content policy.\n\nDeliver the final paths, platform profile used, unresolved backend checks, and any modules restricted to preview‑only use.\n\n## Resources\n\n- `references/platform-profiles.json`: machine‑readable platform rules and evidence metadata.\n- `references/platform-style-guide.md`: platform visual and conversion systems.\n- `references/category-playbooks.md`: category‑specific module choices.\n- `references/prompt-recipes.md`: reusable image‑generation prompt patterns.\n- `references/page-spec.schema.json`: composition contract.\n- `scripts/compose_detail_page.py`: exact text layout, slicing, long preview, and manifest generation.\n- `scripts/validate_output.py`: structural and rendered‑output checks.\n- `scripts/test_pipeline.py`: isolated four‑platform regression test.\n"
+      },
+      "library_id": "design/e-commerce-detail-page-generator-a937e429"
+    },
+    {
+      "candidate_id": "633a5b5db69993cde5c90710",
+      "candidate": {
+        "candidate_id": "633a5b5db69993cde5c90710",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:38+00:00",
+        "source": {
+          "repository": "pearyj/sillytavern-cards-skill",
+          "repository_url": "https://github.com/pearyj/sillytavern-cards-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/pearyj/sillytavern-cards-skill/blob/0e4c0d18f8f40525aaa522825339074dd94cf811/SKILL.md",
+          "api_sha": "5189f1816857b5aaedc487f654c968a3f23224c1",
+          "repo_stars": 24,
+          "repo_forks": 5,
+          "repo_license": "GNU Affero General Public License v3.0",
+          "repo_updated_at": "2026-09-19T10:18:38+00:00"
+        },
+        "raw_file": "raw/pearyj-sillytavern-cards-skill/SKILL.md",
+        "title": "sillytavern-cards",
+        "category_hint": "automation",
+        "content_hash": "a6e81d8608097810f0d3033dc0f37cfb85b5a75ede585e92cd56e572c4ad5289",
+        "content_characters": 16018
+      },
+      "reviewed_at": "2026-09-25T12:53:26+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "SillyTavern Character Card Import & Roleplay",
+        "category": "automation",
+        "summary": "Provides a complete workflow for importing SillyTavern‑compatible character cards (PNG/WEBP/JSON) from local files or online libraries, storing them for OpenClaw, and using them in three interaction modes (Play, Soul, Chat). Includes commands for searching Chub.ai and CharaVault, managing characters, and persisting relationship memory.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 80,
+        "total_score": 82,
+        "strengths": [
+          "Clear step‑by‑step instructions for import, search, and usage",
+          "Supports multiple sources (local, URL, API)",
+          "Well‑defined interaction modes with persistence handling",
+          "Provides concrete command examples and file layout"
+        ],
+        "weaknesses": [
+          "Relies on executing a user‑provided Node script without sandboxing",
+          "No explicit error‑handling or validation steps for downloaded files",
+          "Assumes OpenClaw directory structure without verification"
+        ],
+        "tags": [
+          "automation",
+          "character‑cards",
+          "roleplay",
+          "openclaw",
+          "node",
+          "curl"
+        ],
+        "safety_flags": [
+          "executes external Node script on user‑provided files",
+          "downloads files from arbitrary URLs"
+        ],
+        "recommended_improvements": [
+          "Add validation of downloaded files before processing",
+          "Suggest running the extractor in a sandbox or with limited permissions",
+          "Include error handling examples for missing files or malformed JSON"
+        ],
+        "normalized_skill_markdown": "---\nname: sillytavern-cards\ndescription: Import and roleplay with SillyTavern-compatible character cards (TavernAI V2/V3 PNG format)\nversion: 0.1.0\nuser-invocable: true\n---\n\n# SillyTavern Character Cards\n\nYou are a character card engine that lets users import SillyTavern‑compatible character cards (TavernAI V2 format) and roleplay with them through any messaging channel.\n\n## When to Use\n- Import a character card (PNG, WEBP, or JSON file)\n- Chat or roleplay with an imported character\n- List, edit, or delete imported characters\n- User mentions \"character card\", \"tavern card\", \"chub\", \"waifu\", \"husbando\", or \"roleplay card\"\n- User sends a PNG image and asks to \"load\" or \"import\" it as a character\n\n## When NOT to Use\n- General AI conversation without a character persona\n- Questions about card games or trading cards\n- Requests to create images or artwork (use image‑generation skills instead)\n\n## How Character Cards Work\nA SillyTavern character card is a PNG image with JSON data embedded in its `tEXt` metadata chunk under the keyword `chara` (base64‑encoded). The JSON follows the TavernAI V2 spec:\n\n```json\n{\n  \"spec\": \"chara_card_v2\",\n  \"spec_version\": \"2.0\",\n  \"data\": {\n    \"name\": \"Character Name\",\n    \"description\": \"Personality, background, appearance\",\n    \"personality\": \"Short trait summary\",\n    \"scenario\": \"Current situation/setting\",\n    \"first_mes\": \"Character's opening message\",\n    \"mes_example\": \"Example dialogues separated by <START> tags\",\n    \"system_prompt\": \"System‑level instructions\",\n    \"post_history_instructions\": \"Injected after chat history\",\n    \"alternate_greetings\": [\"Alt opening 1\", \"Alt opening 2\"],\n    \"tags\": [\"tag1\", \"tag2\"],\n    \"creator\": \"card creator name\",\n    \"creator_notes\": \"Notes from the creator\",\n    \"character_version\": \"1.0\",\n    \"character_book\": {\n      \"entries\": [\n        {\n          \"keys\": [\"keyword\"],\n          \"content\": \"Text injected when keyword appears\",\n          \"enabled\": true,\n          \"selective\": false,\n          \"secondary_keys\": [],\n          \"constant\": false,\n          \"position\": \"before_char\"\n        }\n      ]\n    },\n    \"extensions\": {}\n  }\n}\n```\n\nV3 cards add a `ccv3` chunk; V1 cards omit the `spec` wrapper.\n\n## Importing a Card\n### Method 1 – Local File (PNG, WEBP, or JSON)\n```bash\nnode {baseDir}/extract-card.js \"<path-to-file>\" > ~/.openclaw/characters/<character-name>.json\ncp \"<path-to-file>\" ~/.openclaw/characters/<character-name>.png\n```\n\n### Method 2 – From a URL\n```bash\nmkdir -p ~/.openclaw/characters\ncurl -sL \"<url>\" -o /tmp/card-download.png\nnode {baseDir}/extract-card.js /tmp/card-download.png > ~/.openclaw/characters/<character-name>.json\ncp /tmp/card-download.png ~/.openclaw/characters/<character-name>.png\n```\n*Special handling for Chub.ai and CharaVault URLs is shown in the original skill.*\n\n### Method 3 – Search & Install from Online Libraries\nSearch both **Chub.ai** and **CharaVault** (no API key required) and present a combined numbered list. After the user selects a result, download it using the appropriate URL pattern and run the extractor as in Method 2.\n\n## Interaction Modes\n| Mode | Command | Persistence | Use Case |\n|------|---------|-------------|----------|\n| **Play** | `/character play <name>` | Permanent until `/character stop` | Full immersive role‑play (no other skills) |\n| **Soul** | `/character soul <name>` | Permanent until `/character unsoul` | Character personality + full OpenClaw functionality |\n| **Chat** | `/character chat <name>` | Session‑only | Quick casual chat, no file changes |\n\n### Play Mode\n1. Backup `SOUL.md` and overwrite it with a persona‑only file generated from the character JSON.\n2. Append any `character_book` entries to `MEMORY.md` (with proper comment markers for constant/selective entries).\n3. Send `first_mes` and stay in character until the user issues `/character stop`, at which point the original `SOUL.md` is restored.\n\n### Soul Mode\n1. Backup `SOUL.md` and merge the character’s personality into it, keeping all OpenClaw capabilities.\n2. Append lorebook entries to `MEMORY.md` as in Play mode.\n3. Greet the user using `first_mes` (adapted to a natural greeting) and answer tasks in‑character.\n4. Exit with `/character unsoul` (restores the original `SOUL.md`).\n\n### Chat Mode\n- Load the character JSON for the session only.\n- Do **not** modify `SOUL.md` or `MEMORY.md`.\n- Provide `first_mes` and converse; the persona disappears when the session ends or the user issues `/character stop`.\n\n## Relationship Memory (Play & Soul)\nAppend structured entries to `MEMORY.md` after meaningful interactions so the character remembers past conversations.\n\n## Managing Characters\n```bash\n# List\nls ~/.openclaw/characters/*.json | xargs -n1 basename -s .json\n# Show details\ncat ~/.openclaw/characters/<name>.json | node -e \"const d=JSON.parse(require('fs').readFileSync(0,'utf8')); const c=d.data||d; console.log('Name:',c.name); console.log('Creator:',c.creator||'unknown'); console.log('Tags:',(c.tags||[]).join(',')); console.log('Description:',c.description?.slice(0,200)+'...');\"\n# Delete\nrm ~/.openclaw/characters/<name>.json ~/.openclaw/characters/<name>.png\n```\n\n## Slash Commands\n- `/character import <file-or-url>` – Import a card\n- `/character search <query>` – Search Chub.ai & CharaVault\n- `/character list` – List imported characters\n- `/character play <name>` – Full immersion\n- `/character soul <name>` – Personality + full functionality\n- `/character chat <name>` – Temporary chat\n- `/character stop` – Exit Play/Chat mode\n- `/character unsoul` – Exit Soul mode\n- `/character info <name>` – Show card details\n- `/character delete <name>` – Remove a character\n\n## Important Notes\n- Cards may contain NSFW content; respect user preferences.\n- Do not expose raw JSON unless explicitly asked.\n- The avatar PNG is cosmetic and shown in chat when supported.\n- Execute the `extract-card.js` script only on trusted files or within a sandbox to mitigate potential malicious payloads.\n"
+      }
+    },
+    {
+      "candidate_id": "ea4abbc7e9f6ae7f8c968b3f",
+      "candidate": {
+        "candidate_id": "ea4abbc7e9f6ae7f8c968b3f",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:40+00:00",
+        "source": {
+          "repository": "PublicDotCom/claw-skill-public-dot-com",
+          "repository_url": "https://github.com/PublicDotCom/claw-skill-public-dot-com",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/PublicDotCom/claw-skill-public-dot-com/blob/6ffbf85bc1c345fcdf14373641a8c734bd410e90/SKILL.md",
+          "api_sha": "555a15b5ee745871865bcc121dd3f4bea28e6261",
+          "repo_stars": 43,
+          "repo_forks": 4,
+          "repo_license": null,
+          "repo_updated_at": "2026-06-18T08:51:15+00:00"
+        },
+        "raw_file": "raw/publicdotcom-claw-skill-public-dot-com/SKILL.md",
+        "title": "public.com",
+        "category_hint": "automation",
+        "content_hash": "08ec2c532fb1cd91c053805ee73c48e659343b9abf911910e53b2edabc988e38",
+        "content_characters": 32397
+      },
+      "reviewed_at": "2026-09-25T12:54:21+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Public.com Account Manager",
+        "category": "finance",
+        "summary": "A comprehensive skill for interacting with a Public.com brokerage account via its API. It supports viewing portfolios, quotes, order management, and options strategies, with detailed command workflows and error handling. The skill requires the user's API secret and optionally an account ID, and emphasizes user confirmation before any trade execution.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 78,
+        "safety_score": 70,
+        "total_score": 78,
+        "strengths": [
+          "Clear prerequisites and environment setup",
+          "Extensive list of commands covering most brokerage actions",
+          "Step‑by‑step workflows with examples",
+          "Error‑recovery guidance",
+          "Disclaimer and recommendation to isolate execution"
+        ],
+        "weaknesses": [
+          "No explicit input/output schema for each command",
+          "Relies on user‑provided environment variables without validation",
+          "Potential financial risk if confirmations are bypassed",
+          "No sandbox or test mode described"
+        ],
+        "tags": [
+          "finance",
+          "brokerage",
+          "public.com",
+          "automation",
+          "trading",
+          "stocks",
+          "options",
+          "crypto"
+        ],
+        "safety_flags": [
+          "financial_transaction",
+          "requires_user_secret"
+        ],
+        "recommended_improvements": [
+          "Add a concise input/output table for each script",
+          "Implement validation of the API secret format before use",
+          "Provide an optional sandbox/test mode to avoid real trades during experimentation",
+          "Explicitly require a user confirmation step in the workflow before any order‑placing script runs"
+        ],
+        "normalized_skill_markdown": "---\nname: public.com\ndescription: Interact with your Public.com brokerage account using the Public.com API. View portfolio, get quotes, place trades, and manage orders.\n---\n\n# Public.com Account Manager\n> **Disclaimer:** For illustrative and informational purposes only. Not investment advice or recommendations.\n>\n> Run this skill in an isolated environment and, if possible, test on a new Public.com account.\n\n## Prerequisites\n- **Python 3.9+** and **pip**\n- **Public.com account** – sign up at https://public.com/signup\n- **Public.com API key** – obtain at https://public.com/settings/v2/api\n- Install the SDK (auto‑installed on first run or manually):\n  ```bash\n  pip install publicdotcom-py\n  ```\n\n## Configuration\nEnvironment variables:\n- `PUBLIC_COM_SECRET` (required) – your API secret\n- `PUBLIC_COM_ACCOUNT_ID` (optional) – default account ID\n\nIf `PUBLIC_COM_SECRET` is missing, prompt the user to provide it and set it via:\n```bash\nexport PUBLIC_COM_SECRET=[VALUE]\n```\nSimilarly, set `PUBLIC_COM_ACCOUNT_ID` with:\n```bash\nexport PUBLIC_COM_ACCOUNT_ID=[VALUE]\n```\n\n## Error Recovery\n- Missing secret → ask for API secret and retry.\n- No account ID → run `scripts/get_accounts.py` to retrieve IDs.\n- 401 authentication error → advise regenerating the API key.\n- Network issues → ask user to check connection.\n- Other errors → display the message and ask how to proceed.\n\nNever silently retry the same failing command more than once.\n\n## Available Commands\n### Check Setup\n```bash\npython3 scripts/check_setup.py\n```\nRun automatically on first interaction or when the user asks to verify configuration.\n\n### Get Accounts\n```bash\npython3 scripts/get_accounts.py\n```\nReturns account IDs and types; store them for the session.\n\n### Get Portfolio\n```bash\npython3 scripts/get_portfolio.py [--account-id ACCOUNT_ID]\n```\nShows equity, buying power, and positions.\n\n### Get Orders\n```bash\npython3 scripts/get_orders.py [--account-id ACCOUNT_ID]\n```\nLists active orders with details.\n\n### Get History\n```bash\npython3 scripts/get_history.py [--type TYPE] [--limit N] [--account-id ACCOUNT_ID]\n```\nFilters by transaction type and limit.\n\n### Get Quotes\n```bash\npython3 scripts/get_quotes.py SYMBOL [SYMBOL ...] [--account-id ACCOUNT_ID]\n```\nSupports equities, crypto, and options (e.g., `AAPL:EQUITY`, `BTC:CRYPTO`).\n\n### Get Instruments\n```bash\npython3 scripts/get_instruments.py [--type TYPE] [--trading STATUS] [--search TERM] [--limit N]\n```\nLists tradable instruments.\n\n### Get Instrument\n```bash\npython3 scripts/get_instrument.py --symbol SYMBOL [--type TYPE]\n```\nShows details for a specific instrument.\n\n### Get Option Expirations\n```bash\npython3 scripts/get_option_expirations.py SYMBOL\n```\nLists all available expiration dates for the given underlying.\n\n### Get Option Greeks\n```bash\npython3 scripts/get_option_greeks.py OSI_SYMBOL [OSI_SYMBOL ...]\n```\nReturns Delta, Gamma, Theta, Vega, Rho, IV.\n\n### Get Option Chain\n```bash\npython3 scripts/get_option_chain.py SYMBOL [--expiration DATE] [--list-expirations]\n```\nShows calls and puts for the nearest or specified expiration.\n\n### Set Default Account\nInstruct the user to run:\n```bash\nexport PUBLIC_COM_ACCOUNT_ID=[ACCOUNT_ID]\n```\nConfirm the default is set.\n\n### Preflight Calculation\n```bash\npython3 scripts/preflight.py --symbol SYMBOL --type TYPE --side BUY|SELL --order-type TYPE [--quantity N|--amount AMT] [additional flags]\n```\nEstimates cost and buying‑power impact.\n\n### Place Order\n```bash\npython3 scripts/place_order.py --symbol SYMBOL --type TYPE --side BUY|SELL --order-type TYPE [--quantity N|--amount AMT] [additional flags]\n```\n**Workflow:** gather parameters → confirm details with user → execute script → return order ID.\n\n### Cancel Order\n```bash\npython3 scripts/cancel_order.py --order-id ID [--account-id ACCOUNT_ID]\n```\nConfirm cancellation intent before running.\n\n### Get Historical Bars\n```bash\npython3 scripts/get_bars.py --symbol SYMBOL --period PERIOD [--type TYPE] [--aggregation AGG]\n```\nReturns OHLC bars for the requested period.\n\n### Preflight Spread & Place Spread\n```bash\npython3 scripts/preflight_spread.py --spread-type TYPE --sell SELL_OSI --buy BUY_OSI --quantity N --limit-price PRICE\npython3 scripts/place_spread.py --spread-type TYPE --sell SELL_OSI --buy BUY_OSI --quantity N --limit-price PRICE\n```\nEstimate and execute vertical option spreads.\n\n### Preflight Short & Place Short\n```bash\npython3 scripts/preflight_short.py --symbol SYMBOL --quantity N [--order-type TYPE] [--limit-price PRICE]\npython3 scripts/place_short.py --symbol SYMBOL --quantity N [additional flags]\n```\nEstimate and execute short‑sale orders.\n\n### Options Strategy Guidance\nRefer to `options-automation-library.md` for 35+ strategies, risk notes, and code patterns. Map strategies to the appropriate scripts (`preflight.py`, `place_order.py`, `preflight_spread.py`, etc.).\n\n### Get Order Status\n```bash\npython3 scripts/get_order.py --order-id ID\n```\nReturns status, filled quantity, average price, and reject reason.\n\n### Wait For Fill\n```bash\npython3 scripts/wait_for_fill.py --order-id ID [--timeout SECS] [--poll-seconds INTERVAL]\n```\nBlocks until the order reaches a terminal state.\n\n---"
+      }
+    },
+    {
+      "candidate_id": "7c7bc3df84791b7e93d95cfb",
+      "candidate": {
+        "candidate_id": "7c7bc3df84791b7e93d95cfb",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:42+00:00",
+        "source": {
+          "repository": "vinceglakas/receipt-pattern",
+          "repository_url": "https://github.com/vinceglakas/receipt-pattern",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/vinceglakas/receipt-pattern/blob/f89efaf50c564c97cf9f0e26d0da2121b5092b8d/SKILL.md",
+          "api_sha": "7a6f86617c1f7fa46f2c3d226d6b1b654553af2d",
+          "repo_stars": 21,
+          "repo_forks": 1,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-04-17T06:57:28+00:00"
+        },
+        "raw_file": "raw/vinceglakas-receipt-pattern/SKILL.md",
+        "title": "Receipt Pattern — Agent Skill",
+        "category_hint": "programming",
+        "content_hash": "cee584d7d67fd2cbfbbb00e261b3297e0675c055e40afc23b32aba369addd9d0",
+        "content_characters": 4322
+      },
+      "reviewed_at": "2026-09-25T12:54:54+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Receipt Pattern — Agent Skill",
+        "category": "programming",
+        "summary": "The Receipt Pattern skill defines a standardized way for agents to log side‑effect actions (file writes, API mutations, deployments, etc.) into immutable JSON receipts. It includes when to write a receipt, a detailed schema, practical rules, and ready‑to‑use TypeScript and Python helper functions.",
+        "quality_score": 80,
+        "uniqueness_score": 70,
+        "usefulness_score": 75,
+        "safety_score": 100,
+        "total_score": 81,
+        "strengths": [
+          "Clear purpose and when to apply the pattern",
+          "Complete JSON schema with examples",
+          "Ready‑to‑use code templates for TypeScript and Python",
+          "Explicit rules for sequencing, summaries, and rollback eligibility"
+        ],
+        "weaknesses": [
+          "Missing explicit input/output definitions for a generic agent interface",
+          "No automated validation example for the receipt JSON",
+          "Could include a quick‑start checklist or sample receipt file"
+        ],
+        "tags": [
+          "logging",
+          "audit",
+          "json",
+          "typescript",
+          "python",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a small validation script or schema check example",
+          "Provide a concise checklist for agents to follow at session start and end",
+          "Clarify how the receipt integrates with existing agent orchestration frameworks"
+        ],
+        "normalized_skill_markdown": "---\nname: Receipt Pattern\ndescription: Standardized logging of side-effect actions performed by an agent, producing JSON receipts for audit and rollback tracking.\n---\n\n# Receipt Pattern — Agent Skill\n\n## Purpose\nCreate a JSON receipt after every session that performed side‑effect actions (file writes, API mutations, database changes, etc.). The receipt provides an immutable audit trail and helps determine rollback possibilities.\n\n## When to Write a Receipt\nWrite a receipt when the session includes **any** of the following:\n- File writes, deletions, or renames  \n- Mutating API calls (`POST`, `PUT`, `DELETE`, `PATCH`)  \n- Database writes or schema migrations  \n- Sending emails, messages, or notifications  \n- Deployments or infrastructure changes  \n- Shell commands that have side effects\n\nDo **not** write receipts for read‑only operations such as file reads, `GET` requests, or linting.\n\n## Receipt Location\n```\nreceipts/YYYY-MM-DD-HH-MM-SS-[action-type].json\n```\nExample: `receipts/2026-03-05-14-35-22-file-write.json`\nCreate the `receipts/` directory if it does not exist.\n\n## Receipt Schema\n```json\n{\n  \"id\": \"rcpt_<unix_timestamp>_<6_char_hex>\",\n  \"agentId\": \"<your agent name>\",\n  \"sessionId\": \"<session identifier>\",\n  \"timestamp\": \"<ISO 8601>\",\n  \"trigger\": \"manual | scheduled | webhook\",\n  \"status\": \"completed | failed | partial | rolled_back\",\n  \"durationMs\": 0,\n  \"actions\": [\n    {\n      \"sequence\": 1,\n      \"type\": \"file:write | file:delete | api:call | db:write | email:send | deploy | shell:exec\",\n      \"target\": \"<file path, URL, table name, etc.>\",\n      \"summary\": \"<plain English description>\",\n      \"status\": \"success | failed | anomaly\",\n      \"isRollbackEligible\": true,\n      \"durationMs\": 0,\n      \"timestamp\": \"<ISO 8601>\"\n    }\n  ],\n  \"anomalies\": [\n    {\n      \"actionSequence\": 1,\n      \"detail\": \"<unexpected condition>\"\n    }\n  ],\n  \"rollbackAvailable\": false,\n  \"sdkVersion\": \"receipt-pattern/1.0.0\"\n}\n```\n\n## Rules\n1. **Sequence matters** – number actions in the order they occurred.\n2. **Summaries are plain English** – e.g., “Wrote 142 lines to `src/index.ts`”.\n3. **Mark anomalies** – add unexpected events to `anomalies[]`.\n4. **Rollback eligibility** – `true` for file operations that can be restored from version control; `false` for sent emails, API calls, deployments.\n5. `rollbackAvailable` is `true` only if **all** actions are rollback‑eligible.\n6. Write the receipt as the **last** action of the session.\n\n## Session Start Check\n```bash\nls receipts/ 2>/dev/null | tail -5\n```\nRead the most recent receipt to understand the previous session’s state.\n\n## TypeScript Helper\n```typescript\nimport { writeFileSync, mkdirSync, existsSync } from 'fs';\n\ninterface ReceiptAction {\n  sequence: number;\n  type: string;\n  target: string;\n  summary: string;\n  status: 'success' | 'failed' | 'anomaly';\n  isRollbackEligible: boolean;\n  durationMs: number;\n  timestamp: string;\n}\n\ninterface Receipt {\n  id: string;\n  agentId: string;\n  sessionId: string;\n  timestamp: string;\n  trigger: string;\n  status: 'completed' | 'failed' | 'partial' | 'rolled_back';\n  durationMs: number;\n  actions: ReceiptAction[];\n  anomalies: { actionSequence: number; detail: string }[];\n  rollbackAvailable: boolean;\n  sdkVersion: string;\n}\n\nexport function writeReceipt(receipt: Receipt): void {\n  if (!existsSync('receipts')) mkdirSync('receipts', { recursive: true });\n  const ts = new Date().toISOString().replace(/[T:]/g, '-').replace(/\\..+/, '');\n  const mainType = receipt.actions[0]?.type.replace(':', '-') ?? 'unknown';\n  const path = `receipts/${ts}-${mainType}.json`;\n  writeFileSync(path, JSON.stringify(receipt, null, 2));\n}\n```\n\n## Python Helper\n```python\nimport json, os, time, secrets\nfrom datetime import datetime, timezone\n\ndef write_receipt(receipt: dict) -> str:\n    os.makedirs(\"receipts\", exist_ok=True)\n    ts = datetime.now(timezone.utc).strftime(\"%Y-%m-%d-%H-%M-%S\")\n    main_type = receipt[\"actions\"][0][\"type\"].replace(\":\", \"-\") if receipt[\"actions\"] else \"unknown\"\n    path = f\"receipts/{ts}-{main_type}.json\"\n    with open(path, \"w\") as f:\n        json.dump(receipt, f, indent=2)\n    return path\n\ndef make_receipt_id() -> str:\n    return f\"rcpt_{int(time.time())}_{secrets.token_hex(3)}\"\n```\n\n## Completion Signal\nBefore ending any session that performed significant actions:\n1. Assemble all actions into a receipt object.\n2. Call the helper (`writeReceipt` or `write_receipt`).\n3. Mention the receipt file path in the final message.\n"
+      },
+      "library_id": "programming/receipt-pattern-agent-skill-7c7bc3df"
+    },
+    {
+      "candidate_id": "a52880b9fc788f5aad3ef4cb",
+      "candidate": {
+        "candidate_id": "a52880b9fc788f5aad3ef4cb",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:45+00:00",
+        "source": {
+          "repository": "erhanrensheng/chanlun-skill",
+          "repository_url": "https://github.com/erhanrensheng/chanlun-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/erhanrensheng/chanlun-skill/blob/eb944b2e1655ac6720c931cd82dac1dc19927684/SKILL.md",
+          "api_sha": "10e4f76a59d5bd972091ad77593b887a87825552",
+          "repo_stars": 20,
+          "repo_forks": 2,
+          "repo_license": null,
+          "repo_updated_at": "2026-08-31T04:09:15+00:00"
+        },
+        "raw_file": "raw/erhanrensheng-chanlun-skill/SKILL.md",
+        "title": "chanlun",
+        "category_hint": "automation",
+        "content_hash": "485d39ccbaefcbd96d8490b20b59874de6b705692dd0bc1f6e7bfe1f59ca5c17",
+        "content_characters": 3171
+      },
+      "reviewed_at": "2026-09-25T12:55:41+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Chanlun Technical Analysis Skill for Solana Meme Tokens",
+        "category": "automation",
+        "summary": "A skill that performs Chanlun‑style technical analysis on Solana (and other EVM) meme tokens. It fetches K‑line data via the bitget‑wallet‑skill, identifies Chanlun structures (笔, 线段, 中枢) and outputs buy/sell signals, trend assessments and risk warnings. The skill is intended for agents to call programmatically and does not execute trades automatically.",
+        "quality_score": 78,
+        "uniqueness_score": 80,
+        "usefulness_score": 70,
+        "safety_score": 92,
+        "total_score": 80,
+        "strengths": [
+          "Clear dependency checklist and automated install steps",
+          "Well‑structured analysis pipeline with concrete CLI commands",
+          "Detailed domain knowledge of Chanlun concepts",
+          "Multiple ready‑to‑use task templates (buy‑point, market scan, sell‑signal)"
+        ],
+        "weaknesses": [
+          "No concrete example output shown for each script",
+          "Verification / testing guidance is missing",
+          "Relies on external bitget‑wallet‑skill without version pinning",
+          "Documentation is entirely in Chinese, limiting accessibility for non‑Chinese speakers"
+        ],
+        "tags": [
+          "crypto",
+          "technical-analysis",
+          "automation",
+          "trading",
+          "chanlun",
+          "solana",
+          "meme-token"
+        ],
+        "safety_flags": [
+          "financial-advice",
+          "depends-on-external-skill"
+        ],
+        "recommended_improvements": [
+          "Add sample command output and expected JSON format for each script",
+          "Provide a simple verification step (e.g., sanity‑check on number of K‑lines)",
+          "Specify required Python version and pin bitget‑wallet‑skill version",
+          "Include a brief English translation of key sections for broader audience",
+          "Add unit‑test scripts or CI badge to demonstrate maintainability"
+        ],
+        "normalized_skill_markdown": "---\nname: chanlun\nversion: \"2026.3.13-1\"\nupdated: \"2026-03-13\"\ndescription: \"Chanlun technical analysis skill for Solana meme tokens. Identifies K‑line structures, Chanlun笔/线段/中枢, back‑track signals and generates buy/sell recommendations. Intended for use by agents; does not execute trades automatically.\"\n---\n\n# Chanlun Skill\n\n## Dependencies\n\n- **bitget-wallet-skill** – provides K‑line data retrieval and optional trade execution.\n- Python `requests` library.\n\n### Installation checks (run on skill load)\n\n```bash\n# Verify bitget-wallet-skill presence\nls ../bitget-wallet-skill/scripts/bitget_api.py\n```\n\nIf the file is missing, install automatically:\n\n```bash\ncd ..\ngit clone https://github.com/bitget-wallet-ai-lab/bitget-wallet-skill.git\n```\n\nIf cloning fails, inform the user to run the command manually.\n\n### Python dependencies\n\n```bash\npip install requests -q\n```\n\n## Usage Overview\n\nAll analysis is performed via scripts located in the `scripts/` directory. Agents invoke the scripts; users do not need to run them manually.\n\n## Analysis Workflow\n\n### Step 1 – Fetch and preprocess K‑lines\n\n```bash\npython3 scripts/bi.py \\\n  --chain <chain> \\\n  --contract <contract> \\\n  --period <period> \\\n  --size 300\n```\n\n**Recommended periods**\n| Market condition | Period |\n|------------------|--------|\n| Meme‑token intraday | 1m / 5m |\n| Meme‑token swing   | 15m / 1h |\n| SOL / major coins  | 1h / 4h |\n\n**Output interpretation**\n- `原始K线 → 处理K线` – number of merged candles.\n- **笔列表** – direction, start/end time, price, price change.\n- **进行中** – indicates the latest 笔 is still open (not yet confirmed by a reverse pattern).\n\n## Core Chanlun Concepts (Domain Knowledge)\n\n### 包含关系 (Containment)\nTwo candles where one’s high/low fully covers the other are merged:\n- **Uptrend** – keep the larger high and larger low.\n- **Downtrend** – keep the smaller high and smaller low.\n\n### 分型 (Pattern)\n- **顶分型** – three consecutive processed candles where the middle candle has the highest high.\n- **底分型** – three consecutive processed candles where the middle candle has the lowest low.\n\n### 笔 (Stroke)\nA 笔 consists of a top pattern followed by a bottom pattern (or vice‑versa) with:\n- Index distance ≥ 3 (at least one independent processed candle between patterns).\n- Alternating direction.\n- When same‑direction patterns compete, keep the more extreme one.\n\n### Trend Assessment\n- **最新笔方向** – short‑term direction.\n- **笔的序列** – whether successive high/low points are rising or falling.\n- **涨跌幅对比** – shrinking amplitude across same‑direction 笔 may indicate a back‑track (背驰).\n\n## Common Tasks\n\n### 1. Determine if a token has a buy signal\n1. Run `bi.py` to obtain the 笔 list.\n2. Verify the latest 笔 is an upward‑moving, still‑open 笔.\n3. Check recent 笔 for a bottom structure (downward sequence followed by upward).\n4. Look for downward 笔 amplitude contraction → bottom‑back‑track warning.\n5. Combine with volume info (`tx‑info`): decreasing volume on downward 笔 strengthens the bottom signal.\n6. Output a concise conclusion and suggested entry range.\n\n### 2. Scan the market for opportunities\n1. Use `bitget-wallet-skill` rankings (topGainers / Hotpicks) to get candidate tokens.\n2. Run `bi.py` for each candidate.\n3. Filter tokens where the latest 笔 is upward **and** recent structure shows a bottom pattern.\n4. Return the filtered list for user review.\n\n### 3. Evaluate if it is time to sell\n1. Run `bi.py` to obtain the 笔 list.\n2. Verify the latest 笔 is a downward‑moving, still‑open 笔.\n3. Examine upward 笔 sequence for shrinking amplitude → top‑back‑track warning.\n4. Output a risk warning and possible exit suggestion.\n\n## Scripts Reference\n\n### `scripts/analyze.py` – Full analysis (P0 + P1 + P2)\n```bash\npython3 scripts/analyze.py \\\n  --chain <chain> \\\n  --contract <address> \\\n  --period <period> \\\n  --size <n> \\\n  --symbol <name>\n```\n**Outputs**\n- K‑line preprocessing summary\n- 最近5笔 list\n- 最近4条线段\n- 中枢 analysis (ZG/ZD/位置/趋势)\n- 背驰 detection (top/bottom)\n- 买卖点 signals (一买/二买/三买/一卖/二卖/三卖)\n- 综合结论 (trend, recommendation, stop‑loss)\n\n### `scripts/bi.py` – Primary entry (K‑line preprocessing + 笔 detection)\n```bash\npython3 scripts/bi.py \\\n  --chain <chain> \\\n  --contract <address> \\\n  --period <period> \\\n  --size <n>\n```\n**Outputs**\n- Preprocessing summary (raw vs processed count, merges)\n- 笔 list (direction, timestamps, price, change, ongoing flag)\n\n### `scripts/kline_fetch.py` – Direct K‑line retrieval\n```bash\npython3 scripts/kline_fetch.py \\\n  --chain sol --contract \"\" --period 5m --size 100\n```\n\n## Chain Code Quick Reference\n| Chain | Code |\n|-------|------|\n| Solana | sol |\n| Ethereum | eth |\n| BNB Chain | bnb |\n| Base | base |\n| Arbitrum | arbitrum |\n\n*Native tokens (SOL, ETH, BNB) use an empty string `\"\"` for the contract address.*\n\n## Safety Principles\n- This skill **only performs technical analysis**; it never executes trades automatically.\n- Buy/sell signals are advisory – users must perform their own risk assessment and obtain explicit confirmation before any trade.\n- For live trading, combine with `bitget-wallet-skill`’s `security` command and follow best‑practice audit procedures.\n---"
+      }
+    },
+    {
+      "candidate_id": "31f82d360be3ca1b1e51e180",
+      "candidate": {
+        "candidate_id": "31f82d360be3ca1b1e51e180",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:47+00:00",
+        "source": {
+          "repository": "erayack/svelte-building-blocks",
+          "repository_url": "https://github.com/erayack/svelte-building-blocks",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/erayack/svelte-building-blocks/blob/689cf1c344b8168a37bf6bcaceb8a5c8d7b2fa2c/SKILL.md",
+          "api_sha": "a40e3b4d20b515e4b46e999c01229229c34a654e",
+          "repo_stars": 40,
+          "repo_forks": 0,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-01T12:33:52+00:00"
+        },
+        "raw_file": "raw/erayack-svelte-building-blocks/SKILL.md",
+        "title": "svelte-core-bestpractices",
+        "category_hint": "content_creation",
+        "content_hash": "3d82a8b293da7ae43807544e0b46af2d9abbfad5ec34da709606f13eed71c81c",
+        "content_characters": 9528
+      },
+      "reviewed_at": "2026-09-25T12:56:17+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Svelte Core Best Practices",
+        "category": "content_creation",
+        "summary": "A comprehensive guide covering best‑practice patterns for Svelte and SvelteKit development, especially focusing on the new Svelte 5 runes API. It details how to choose the correct reactive primitive, manage state scope, handle DOM boundaries, and verify edits with a checklist.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Clear, step‑by‑step process",
+          "Rich code examples for each primitive",
+          "Practical completion checklist",
+          "Covers both legacy and Svelte 5 runes modes"
+        ],
+        "weaknesses": [
+          "Prerequisites (Svelte version, tooling) are implicit",
+          "No explicit section on testing tools or CI integration",
+          "Long document could benefit from a table of contents"
+        ],
+        "tags": [
+          "svelte",
+          "sveltekit",
+          "frontend",
+          "reactivity",
+          "best‑practices"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit prerequisites section (required Svelte version, TypeScript usage)",
+          "Include a brief overview of testing strategies (unit, component, e2e)",
+          "Provide a concise table of contents for easier navigation"
+        ],
+        "normalized_skill_markdown": "---\nname: svelte-core-bestpractices\ndescription: Svelte best practices for writing, editing, or reviewing Svelte/SvelteKit components and modules.\n---\n\n## Process\n\n1. **Identify the Svelte mode before changing code**\n   - Check `package.json` and existing components.\n   - If the project already uses Svelte 5 runes, write new code in runes mode.\n   - If the touched area is legacy Svelte and a runes migration is not requested, keep the local style consistent.\n   - *Done* when the edit has one clear syntax mode for the touched files.\n\n2. **Put reactivity in the narrowest primitive that fits**\n   - Local reactive state: `$state`.\n   - Computed value: `$derived` or `$derived.by`.\n   - Side effect or external subscription: `$effect`, `{@attach …}`, `createSubscriber`, or an event handler, depending on the trigger.\n   - *Done* when no `$effect` is being used just to compute state.\n\n3. **Keep state scoped**\n   - Component‑only values stay local.\n   - Shared state that must be scoped to a subtree uses **context**.\n   - Shared module state is acceptable only when cross‑user leakage is impossible or irrelevant.\n   - *Done* when SSR state cannot leak between users.\n\n4. **Review DOM boundaries**\n   - Lists use keyed each blocks with stable object identity.\n   - Global listeners use `<svelte:window>` or `<svelte:document>` when possible.\n   - Parent‑to‑child styling uses CSS custom properties before `:global`.\n   - *Done* when the DOM update and cleanup paths are explicit.\n\n---\n\n## `$state`\n\n- Use `$state` only for values that should update a template expression, `$derived`, or `$effect`.\n- Normal variables are fine for everything else.\n- Objects/arrays created with `$state({…})` or `$state([…])` are **deeply reactive**. Mutation triggers updates, but proxying has overhead.\n- For large values that are only reassigned (e.g., API responses), use `$state.raw`.\n- Use `$state.snapshot` before passing proxy state to an external API or storing a moment‑in‑time copy.\n- Rune‑enabled `.svelte.js`/`.svelte.ts` modules should export factories or objects with getters and named mutation methods. Avoid exporting a rune variable that is reassigned internally, and avoid module‑global mutable state when instances or SSR requests need isolation.\n\n---\n\n## `$derived`\n\n```js\nlet square = $derived(num * num);\n```\n\nUse `$derived.by` when the computation needs a function body:\n\n```js\nlet total = $derived.by(() => {\n  return items.reduce((sum, item) => sum + item.price, 0);\n});\n```\n\nDo **not** use `$effect` to assign ordinary computed state:\n\n```js\n// avoid\nlet square;\n$effect(() => {\n  square = num * num;\n});\n```\n\nDerived values are writable, but they re‑evaluate when their dependencies change. If a derived expression returns an object or array, Svelte returns it as‑is; it is not made deeply reactive.\n\n---\n\n## `$effect`\n\nUse `$effect` as an escape hatch for real side effects. Avoid writing Svelte state inside effects.\n\nChoose the tighter tool when one exists:\n\n- External library sync (e.g., D3): `{@attach …}`.\n- User‑triggered work: an event handler or a function binding.\n- Debug logging: `$inspect`.\n- External reactive source: `createSubscriber` from `svelte/reactivity`.\n\nEffects do not run on the server, so `if (browser) { … }` inside an effect is unnecessary.\n\n---\n\n## `$props`\n\nTreat props as changing values. Values that depend on props should usually be **derived**.\n\n```js\nlet { type } = $props();\nlet color = $derived(type === 'danger' ? 'red' : 'green');\n```\n\nAvoid the stale version:\n\n```js\nlet { type } = $props();\nlet color = type === 'danger' ? 'red' : 'green';\n```\n\n---\n\n## `$bindable`\n\nUse `$bindable` only when a child is intentionally an input‑like controller for a parent‑owned value. Keep domain operations (add, save, delete) as callback props so mutation ownership stays visible.\n\n---\n\n## `$inspect.trace`\n\nUse `$inspect.trace(label)` to debug reactivity. Place it as the first line of an `$effect`, `$derived.by`, or a function called by them. It shows which dependency triggered the update.\n\n---\n\n## Events\n\nIn modern Svelte, event listeners are element attributes that start with `on`:\n\n```svelte\n<button onclick={() => save()}>save</button>\n<button {onclick}>save</button>\n<button {...props}>save</button>\n```\n\nFor global targets, prefer Svelte elements over manual lifecycle wiring:\n\n```svelte\n<svelte:window onkeydown={handleKeydown} />\n<svelte:document onvisibilitychange={handleVisibilityChange} />\n```\n\n---\n\n## Snippets\n\nUse snippets for reusable markup that can be rendered with `{@render …}` or passed as props.\n\n```svelte\n{#snippet greeting(name)}\n  <p>hello {name}!</p>\n{/snippet}\n\n{@render greeting('world')}\n```\n\nDeclare snippets in the template. Top‑level snippets can be referenced from `<script>`. A snippet that does not read component state can also be exported from `<script module>`.\n\n---\n\n## Each blocks\n\nUse keyed each blocks for lists with stable item identity:\n\n```svelte\n{#each todos as todo (todo.id)}\n  <TodoItem {todo} />\n{/each}\n```\n\nThe key must uniquely identify the object (use IDs, not array indexes). If an item will be mutated with a binding such as `bind:value={item.count}`, avoid destructuring the item in the each block.\n\n---\n\n## CSS from JavaScript values\n\nUse CSS custom properties through the `style:` directive:\n\n```svelte\n<div style:--columns={columns}>...</div>\n```\n\n```css\n.grid {\n  grid-template-columns: repeat(var(--columns), 1fr);\n}\n```\n\n---\n\n## Styling child components\n\nPass CSS custom properties as the parent‑to‑child styling hook:\n\n```svelte\n<!-- Parent.svelte -->\n<Child --color=\"red\" />\n```\n\n```svelte\n<!-- Child.svelte -->\n<h1>Hello</h1>\n\n<style>\n  h1 { color: var(--color); }\n</style>\n```\n\nUse `:global` only when the child cannot expose a styling hook (e.g., third‑party library components).\n\n---\n\n## Attachments\n\nPrefer `{@attach …}` for new reusable DOM behavior. Return a cleanup function for every global listener or external resource. Existing `use:` actions remain valid for interoperability, but do not omit their `destroy()` path.\n\n---\n\n## Error boundaries\n\nUse `<svelte:boundary>` for local descendant rendering/effect failures and clear the failure condition before calling its `reset` function. It does **not** catch errors thrown directly by event handlers. In SvelteKit, keep route failures distinct: `error(...)` from `load` is handled by the nearest `+error.svelte`.\n\n---\n\n## Context\n\nUse context instead of shared‑module state when state should be scoped to a component subtree—especially important during SSR, where module state can leak between users.\n\nPrefer `createContext` over `setContext`/`getContext` when possible because it provides type safety.\n\n---\n\n## TypeScript and tests\n\n- Type component props, callbacks, snippets, and state collections when a project uses TypeScript.\n- Keep runtime validation at server/API boundaries.\n- Separate verification layers:\n  - Pure unit tests for logic.\n  - Component‑browser tests for isolated component contracts.\n  - End‑to‑end tests for full app flows.\n  - Build checks for bundling evidence.\n\n---\n\n## Async Svelte\n\nSvelte 5.36+ can use `await` expressions and hydratable promises directly inside components. These require `experimental.async` in `svelte.config.js` and are not fully stable. Use async Svelte only when the project has already opted into that experimental mode.\n\n---\n\n## Modern replacements\n\nFor new runes‑mode code, prefer these replacements:\n\n- `$state` for reactive state instead of implicit `let` reactivity.\n- `$derived` for computed values instead of `$:` assignments.\n- `$effect` for side effects instead of `$:` statements.\n- `$props` instead of `export let`, `$$props`, and `$$restProps`.\n- `onclick={…}` instead of `on:click={…}`.\n- `{#snippet …}` / `{@render …}` instead of `<slot>`, `$$slots`, and `<svelte:fragment>`.\n- `<DynamicComponent>` instead of `<svelte:component this={DynamicComponent}>`.\n- `import Self from './ThisComponent.svelte'` and `<Self>` instead of `<svelte:self>`.\n- Classes with `$state` fields for shared reactivity instead of stores when that state is part of a domain object.\n- `{@attach …}` for new DOM behavior; retain `use:action` where interoperability requires it.\n- Arrays and objects in `class` attributes instead of `class:` directives.\n\n---\n\n## Completion check\n\nBefore finishing a Svelte edit or review, verify every touched component/module against this list:\n\n- State uses the narrowest reactive primitive.\n- Computed values are derived, not effect‑assigned.\n- Effects are limited to real side effects or external subscriptions.\n- Prop‑dependent values update when props change.\n- Lists with identity are keyed by stable IDs.\n- Global listeners have a clear cleanup path or use Svelte global elements.\n- Parent‑to‑child styling has an explicit CSS custom property hook when needed.\n- Context is used where SSR‑scoped shared state matters.\n- Rune modules do not export reassigned state or leak accidental globals.\n- Bindings are limited to deliberate input‑like shared values.\n- Route errors and component error boundaries are not conflated.\n- TypeScript checks are paired with runtime validation at untrusted boundaries.\n- Tests target the narrowest appropriate layer.\n- New code follows the project's Svelte mode.\n"
+      },
+      "library_id": "content-creation/svelte-core-best-practices-31f82d36"
+    },
+    {
+      "candidate_id": "c0994c978ad44b11a94269d2",
+      "candidate": {
+        "candidate_id": "c0994c978ad44b11a94269d2",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:48+00:00",
+        "source": {
+          "repository": "freestylefly/daily-reporter-skill",
+          "repository_url": "https://github.com/freestylefly/daily-reporter-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/freestylefly/daily-reporter-skill/blob/f16033f9e351d47e505077a1cb262cf0d1e6e895/SKILL.md",
+          "api_sha": "3402801e409a41a555bf1bd25400a1a742298cdf",
+          "repo_stars": 21,
+          "repo_forks": 2,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-15T07:23:01+00:00"
+        },
+        "raw_file": "raw/freestylefly-daily-reporter-skill/SKILL.md",
+        "title": "daily-reporter-skill",
+        "category_hint": "content_creation",
+        "content_hash": "677ee504bfeb428a4aaae798727fe7749363522596c6b3fbe8c6344fbfc7772a",
+        "content_characters": 3132
+      },
+      "reviewed_at": "2026-09-25T12:57:00+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Daily Reporter – Intelligent Work Report Generator",
+        "category": "content_creation",
+        "summary": "An assistant that converts fragmented work notes, meeting minutes, and chat logs into structured, outcome‑focused daily, weekly, or monthly reports. It classifies input into core output, project progress, routine ops, risks, and learning, then re‑orders according to OKR logic and applies language upgrades. Ready‑to‑use markdown templates and a clear workflow make report creation fast and consistent.",
+        "quality_score": 85,
+        "uniqueness_score": 70,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Clear, step‑by‑step workflow",
+          "Well‑defined input‑output contracts",
+          "Ready‑to‑use markdown templates for three report types",
+          "Explicit verification checklist",
+          "Language upgrade rules add professional tone"
+        ],
+        "weaknesses": [
+          "Lacks concrete code or tool integration examples (e.g., how to call from a CLI or API)",
+          "No multilingual support guidance",
+          "Examples of raw input and final output are minimal"
+        ],
+        "tags": [
+          "report generation",
+          "okr",
+          "content automation",
+          "productivity"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short example showing raw notes and the generated report for each mode",
+          "Provide guidance for integrating the skill into common tools (e.g., VS Code extension, CLI script)",
+          "Include notes on handling non‑Chinese input or mixed‑language content"
+        ],
+        "normalized_skill_markdown": "---\nname: daily-reporter-skill\ndescription: \"Intelligent assistant that transforms fragmented work notes, meeting minutes, and chat logs into structured, outcome‑focused daily, weekly, or monthly reports following OKR principles.\"\n---\n\n# Daily Reporter Skill — 职场汇报智能生成助手\n\n## 概述\n你是一位资深的职场沟通专家，精通将零碎、无序的工作记录转化为专业、结构化、成果导向的汇报文档。你不是简单地润色文字，而是对信息进行 **逻辑重组**——自动识别哪些是 \"核心产出\"，哪些是 \"日常维护\"，并按照 OKR（目标与关键结果）逻辑重新编排。\n\n## 核心能力\n\n### 1. 智能分类引擎\n对用户输入的原始素材进行自动分类：\n\n| 分类 | 说明 | 示例 |\n|------|------|------|\n| **核心产出** | 有明确成果或里程碑的工作 | 上线新功能、签下客户、完成方案 |\n| **项目推进** | 正在进行中的重要项目进展 | 联调中、评审中、测试中 |\n| **日常运营** | 常规性、维护性工作 | 回复邮件、处理工单、日常巡检 |\n| **问题与风险** | 遇到的阻碍或潜在风险 | Bug、延期、资源不足 |\n| **学习成长** | 培训、学习、技能提升 | 参加培训、阅读文档、技术分享 |\n\n### 2. 三种汇报模式\n\n#### 模式一：日报\n**适用场景**：每日下班前快速生成当天工作总结。\n\n**输出模板**：\n```markdown\n### [日期] 工作日报\n\n**📌 今日核心成果**\n- [加粗展示今日最重要的 1-3 件事，用成果语言描述]\n\n**📋 项目进展**\n- **[项目名称]**：[具体动作] → [当前状态/结果]\n- **[项目名称]**：[具体动作] → [当前状态/结果]\n\n**⚠️ 问题与对策**（如无可省略）\n- [问题描述] → [已采取/计划采取的措施]\n\n**📅 明日计划**\n- [简洁列出 2-3 项明日重点]\n```\n\n#### 模式二：周报\n**适用场景**：每周五或周一同步本周/上周进度。\n\n**输出模板**：\n```markdown\n### [起止日期] 周报\n\n**🎯 本周目标达成情况**\n| 目标 | 状态 | 说明 |\n|------|------|------|\n| [OKR目标1] | ✅ 已完成 / 🔄 进行中 / ❌ 未完成 | [简要说明] |\n\n**📌 本周核心成果**\n1. **[成果1]**：[具体描述，用数据说话]\n2. **[成果2]**：[具体描述，用数据说话]\n\n**📋 各项目进展**\n- **[项目A]**：[进展概述，含关键里程碑]\n- **[项目B]**：[进展概述，含关键里程碑]\n\n**⚠️ 风险与阻塞**（如无可省略）\n- [风险描述] → [影响范围] → [应对措施]\n\n**📅 下周计划**\n1. [重点任务1]\n2. [重点任务2]\n```\n\n#### 模式三：月报\n**适用场景**：月度/季度复盘，向上级或跨部门汇报。\n\n**输出模板**：\n```markdown\n### [年月] 月度工作报告\n\n**📊 本月总览**\n- 一句话概括本月工作核心主题和整体进展。\n\n**🏆 关键成果（Top 3-5）**\n1. **[成果名称]**\n   - 背景：[为什么做]\n   - 动作：[做了什么]\n   - 结果：[产出/数据/影响]\n\n**📈 数据看板**（如有量化数据）\n| 指标 | 上月 | 本月 | 变化 |\n|------|------|------|------|\n| [指标1] | [数值] | [数值] | [↑/↓ 百分比] |\n\n**📋 各项目进展**\n[按项目维度汇总]\n\n**💡 经验与反思**\n- [本月最大的收获是什么]\n- [本月最大的教训是什么]\n\n**📅 下月规划**\n- [重点方向1]\n- [重点方向2]\n```\n\n### 3. 内容升级规则\n在转化过程中，自动执行以下优化：\n\n| 原始表达 | 升级后表达 | 规则 |\n|----------|-----------|------|\n| \"改了几个 Bug\" | \"修复 X 项系统缺陷，提升系统稳定性\" | 量化 + 价值化 |\n| \"开了个会\" | \"完成 XX 评审，达成 XX 共识\" | 动作 → 成果 |\n| \"和客户聊了聊\" | \"对接客户需求，明确 XX 方案方向\" | 模糊 → 具体 |\n| \"学了点新东西\" | \"完成 XX 技术预研，输出可行性评估\" | 过程 → 产出 |\n| \"帮同事处理问题\" | \"协助 XX 团队解决 XX 瓶颈，保障项目进度\" | 个人 → 团队价值 |\n\n### 4. 智能去重与合并\n- 多条零碎记录如果属于同一项目或同一类任务，自动合并为一条概括性描述。\n- 重复出现的日常操作（如 \"回了邮件\"、\"处理工单\"）在日报中合并，在周报/月报中降级或省略。\n\n## 使用方法\n\n### 基本用法\n用户只需提供原始的工作记录素材，并指定汇报类型：\n```\n帮我写一份日报（或周报/月报），素材如下：\n[粘贴原始记录]\n```\n\n### 进阶用法\n可以附加上下文信息以获得更精准的输出：\n```\n帮我写一份周报，我的角色是[岗位]，汇报对象是[谁]，本周 OKR 目标是[xxx]。\n素材如下：\n[粘贴原始记录]\n```\n\n### 自定义模板\n如果公司有特定的汇报模板，可以直接提供：\n```\n帮我按以下模板写日报：\n[粘贴公司模板]\n\n素材如下：\n[粘贴原始记录]\n```\n\n## 工作流程\n1. **接收素材**：获取用户的原始工作记录（文字、截图 OCR、语音转文字均可）。\n2. **识别模式**：根据用户指令判断是日报、周报还是月报。\n3. **智能分类**：将素材按 \"核心产出、项目推进、日常运营、问题风险、学习成长\" 五大类别归类。\n4. **逻辑重组**：按 OKR 逻辑重新编排，核心成果置顶，日常运营精简。\n5. **语言升级**：将口语化、碎片化的描述升级为成果导向的职场语言。\n6. **格式输出**：按对应模板生成结构化的汇报文档。\n7. **自检验证**：确保输出满足验收清单的所有检查项。\n\n## 验收标准\n每份生成的汇报必须通过以下检查：\n- [ ] 核心产出是否位于最前面、最显眼的位置？\n- [ ] 琐碎动作是否已合并为有意义的项目进展？\n- [ ] 是否使用了成果导向的语言（而非过程描述）？\n- [ ] 是否包含具体的量化数据（如有）？\n- [ ] 是否包含下一步计划或明日/下周/下月安排？\n- [ ] 语言是否专业但不晦涩，适合汇报对象阅读？\n\n## 注意事项\n- **不编造数据**：如果用户没有提供具体数字，使用定性描述而非捏造数据。\n- **保留关键细节**：人名、项目名、日期等关键信息必须保留，不可概括掉。\n- **适配汇报对象**：如果用户指定了汇报对象（如直属领导 vs 高层），调整详略程度。\n- **尊重原意**：升级语言但不改变事实，不夸大成果。"
+      },
+      "library_id": "content-creation/daily-reporter-intelligent-work-report-generator-c0994c97"
+    }
+  ]
+}
