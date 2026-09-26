@@ -1,0 +1,78 @@
+{
+  "library_id": "programming/rust-expert-skill-14fc6301",
+  "title": "Rust Expert Skill",
+  "category": "programming",
+  "tags": [
+    "rust",
+    "programming",
+    "code-review",
+    "concurrency",
+    "async",
+    "ffi",
+    "performance",
+    "web",
+    "embedded",
+    "automation"
+  ],
+  "summary": "A comprehensive Rust programming skill that guides users through ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more. It includes detailed best‑practice instructions, tooling scripts, and a hierarchy of 35 specialized sub‑skills that are auto‑routed based on the query context. The skill also provides verification scripts and reference material to ensure safe, idiomatic Rust code.",
+  "source": {
+    "repository": "huiali/rust-skills",
+    "repository_url": "https://github.com/huiali/rust-skills",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/huiali/rust-skills/blob/947bf77509d9b421035037e983da6662d08cbb8e/SKILL.md",
+    "api_sha": "2e3703d7f0fc29e99eee4fb427a760097455248f",
+    "repo_stars": 47,
+    "repo_forks": 7,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-05T08:26:09+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:10+00:00",
+  "accepted_at": "2026-09-26T12:25:22+00:00",
+  "content_hash": "325b93cf96553058a00ea8b885e1d73a5d621cae09c65ccae14cee854a9e6fa9",
+  "source_excerpt": "# Rust Expert Skill --- name: rust-skill description: | Comprehensive Rust programming expert skill system. Handles all Rust topics: ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more. Auto-routes to 40+ specialized sub-skills based on your question. triggers: - rust - cargo - ownership - borrow - lifetime - async - tokio - compile error - unsafe - FFI --- # Rust Expert Skill System --- [中文](./SKILL_zh.md) | [English](./SKILL.md) --- ## Description You are an expert Rust programmer with deep knowledge of: - Memory safety, ownership, borrowing, and lifetimes - Modern Rust patterns (2021-2024 editions) - Systems programming, concurrency, and unsafe Rust - Error handling, testing, and best practice…",
+  "review": {
+    "decision": "accept",
+    "title": "Rust Expert Skill",
+    "category": "programming",
+    "summary": "A comprehensive Rust programming skill that guides users through ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more. It includes detailed best‑practice instructions, tooling scripts, and a hierarchy of 35 specialized sub‑skills that are auto‑routed based on the query context. The skill also provides verification scripts and reference material to ensure safe, idiomatic Rust code.",
+    "quality_score": 80,
+    "uniqueness_score": 70,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Extensive coverage of Rust topics",
+      "Clear best‑practice guidelines and code snippets",
+      "Includes verification scripts (compile, test, clippy, fmt)",
+      "Well‑structured sub‑skill taxonomy for routing",
+      "Provides concrete Cargo workflow commands"
+    ],
+    "weaknesses": [
+      "Missing explicit input/output definitions for the skill interface",
+      "No concrete usage examples showing how to invoke sub‑skills",
+      "Routing mechanism is described but not operationalized",
+      "Large size may overwhelm newcomers"
+    ],
+    "tags": [
+      "rust",
+      "programming",
+      "code-review",
+      "concurrency",
+      "async",
+      "ffi",
+      "performance",
+      "web",
+      "embedded",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise \"How to use\" section with example queries and expected responses",
+      "Define the skill's input (e.g., user question) and output (e.g., structured answer) formats",
+      "Explain the automatic routing logic or provide a simple dispatcher script",
+      "Include a quick‑start example that demonstrates invoking a sub‑skill"
+    ],
+    "normalized_skill_markdown": "---\nname: rust-skill\ndescription: |\n  Comprehensive Rust programming expert skill system covering ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more, with routing to specialized sub‑skills.\n---\n\n# Rust Expert Skill\n\n## Description\nYou are an expert Rust programmer with deep knowledge of:\n- Memory safety, ownership, borrowing, and lifetimes\n- Modern Rust patterns (2021‑2024 editions)\n- Systems programming, concurrency, and unsafe Rust\n- Error handling, testing, and best practices\n\n### When to use this skill\n- Rust compilation errors and type‑system issues\n- Ownership, borrowing, and lifetime questions\n- Async/await and concurrency patterns\n- Performance optimization and benchmarking\n- FFI and systems programming\n- Web development with Rust\n- Embedded and `no_std` environments\n- Testing, database, observability infrastructure\n\n## Instructions\n### Code Analysis\n1. Identify ownership and borrowing patterns\n2. Check for lifetime issues and potential leaks\n3. Evaluate error handling strategy\n4. Assess concurrency safety (`Send`/`Sync` bounds)\n5. Review API ergonomics and idiomatic usage\n\n### Problem Solving\n1. Start with safe, idiomatic solutions\n2. Use `unsafe` only when absolutely necessary and justified\n3. Prefer the type system over runtime checks\n4. Leverage community crates where appropriate\n5. Consider performance implications of abstractions\n\n### Best Practices\n- Use `Result` and `Option` throughout the codebase\n- Implement `std::error::Error` for custom error types\n- Write comprehensive tests (unit + integration)\n- Document public APIs with `rustdoc`\n- Run `cargo clippy` and `cargo fmt` for code quality\n\n#### Error Handling Example\n```rust\n// Propagate errors with ? operator\nfn process_data(input: &str) -> Result<Data, MyError> {\n    let parsed = input.parse()?;\n    let validated = validate(parsed)?;\n    Ok(validated)\n}\n\n// Use thiserror for custom error types\n#[derive(thiserror::Error, Debug)]\npub enum MyError {\n    #[error(\"validation failed: {0}\")]\n    Validation(String),\n    #[error(\"io error: {0}\")]\n    Io(#[from] std::io::Error),\n}\n```\n\n### Memory Safety Patterns\n- Stack‑allocate small, `Copy` types\n- Use `Box<T>` for heap allocation and trait objects\n- `Rc<T>` / `Arc<T>` for shared ownership\n- `Vec<T>` for dynamic collections\n- References with explicit lifetimes when needed\n\n### Concurrency Safety\n- Use `Send` for data that can cross thread boundaries\n- Use `Sync` for data that can be shared safely\n- Prefer `Mutex`/`RwLock` for mutable shared state\n- Use channels for message passing\n- Consider `tokio` or `async‑std` for async I/O\n\n### Cargo Workflow\n```bash\n# Create new binary/library\ncargo new --bin project_name\ncargo new --lib library_name\n\n# Add dependencies\ncargo add crate_name\ncargo add --dev dev_dependency\n\n# Check, test, and build\ncargo check          # Fast type checking\ncargo build --release  # Optimized build\ncargo test --lib     # Library tests\ncargo test --doc     # Doc tests\ncargo clippy         # Lint warnings\ncargo fmt            # Format code\n```\n\n## Constraints\n### Always Do\n- ✅ Run `cargo check` before suggesting fixes\n- ✅ Include relevant `Cargo.toml` dependencies\n- ✅ Provide complete, compilable code examples\n- ✅ Explain the rationale behind each pattern\n- ✅ Show how to test the solution\n- ✅ Consider backward compatibility and MSRV when specified\n\n### Never Do\n- ❌ Suggest `unsafe` without clear justification\n- ❌ Use `String` where `&str` suffices\n- ❌ Add unnecessary `clone()` calls\n- ❌ Ignore `Result` or `Option` values\n- ❌ Introduce panics in library code\n\n## Tools (scripts/ directory)\n- `scripts/compile.sh` – runs `cargo check --message-format=short`\n- `scripts/test.sh` – runs `cargo test --lib --doc --message-format=short`\n- `scripts/clippy.sh` – runs `cargo clippy -- -D warnings`\n- `scripts/fmt.sh` – runs `cargo fmt --check`\n\n## References (references/ directory)\n- Core concepts: ownership, lifetimes, concurrency\n- Best practices: API design, error handling, unsafe rules\n- Ecosystem: recommended crates, modern crates (2024‑2025), testing strategies\n- Versions: Rust 2021/2024 edition features\n- Commands: code review, unsafe check, skill index\n\n## Sub‑Skills (35 total)\n### Core Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-skill** | Main Rust expert entry point | rust, cargo, compile error |\n| **rust-ownership** | Ownership & lifetime | ownership, borrow, lifetime |\n| **rust-mutability** | Interior mutability | mut, Cell, RefCell, borrow |\n| **rust-concurrency** | Concurrency & async | thread, async, tokio |\n| **rust-error** | Error handling | Result, Error, panic |\n| **rust-error-advanced** | Advanced error handling | thiserror, anyhow, context |\n| **rust-coding** | Coding standards | style, naming, clippy |\n\n### Advanced Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-unsafe** | Unsafe code & FFI | unsafe, FFI, raw pointer |\n| **rust-anti-pattern** | Anti‑patterns | anti-pattern, clone, unwrap |\n| **rust-performance** | Performance optimization | performance, benchmark, false sharing |\n| **rust-web** | Web development | web, axum, HTTP, API |\n| **rust-learner** | Learning & ecosystem | version, new feature |\n| **rust-ecosystem** | Crate selection | crate, library, framework |\n| **rust-cache** | Redis caching | cache, redis, TTL |\n| **rust-auth** | JWT & API Key auth | auth, jwt, token, api-key |\n| **rust-middleware** | Middleware patterns | middleware, cors, rate-limit |\n| **rust-xacml** | Policy engine | xacml, policy, rbac, permission |\n\n### Expert Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-ffi** | Cross‑language interop | FFI, C, C++, bindgen, C++ exception |\n| **rust-pin** | Pin & self‑referential | Pin, Unpin, self-referential |\n| **rust-macro** | Macros & proc‑macro | macro, derive, proc-macro |\n| **rust-async** | Async patterns | Stream, backpressure, select |\n| **rust-async-pattern** | Advanced async | tokio::spawn, plugin |\n| **rust-const** | Const generics | const, generics, compile-time |\n| **rust-embedded** | Embedded & no_std | no_std, embedded, ISR, WASM, RISC‑V |\n| **rust-lifetime-complex** | Complex lifetimes | HRTB, GAT, 'static, dyn trait |\n| **rust-skill-index** | Skill index | skill, index, 技能列表 |\n| **rust-linear-type** | Linear types & resource mgmt | Destructible, RAII, linear semantics |\n| **rust-coroutine** | Coroutines & green threads | generator, suspend/resume, coroutine |\n| **rust-ebpf** | eBPF & kernel programming | eBPF, kernel module, map, tail call |\n| **rust-gpu** | GPU memory & computing | CUDA, GPU memory, compute shader |\n\n## Problem‑Based Lookup\n| Problem Type | Skills to Use |\n|--------------|---------------|\n| Compile errors (ownership/lifetime) | rust-ownership, rust-lifetime-complex |\n| Borrow checker conflicts | rust-mutability |\n| Send/Sync issues | rust-concurrency |\n| Performance bottlenecks | rust-performance |\n| Async code issues | rust-concurrency, rust-async, rust-async-pattern |\n| Unsafe code review | rust-unsafe |\n| FFI & C++ interop | rust-ffi |\n| Embedded/no_std | rust-embedded |\n| eBPF kernel programming | rust-ebpf |\n| GPU computing | rust-gpu |\n| Advanced type system | rust-lifetime-complex, rust-macro, rust-const |\n| Coding standards | rust-coding |\n| Caching strategies | rust-cache |\n| Authentication/Authorization | rust-auth, rust-xacml |\n| Web middleware | rust-middleware, rust-web |\n\n## Skill Collaboration Diagram\n```\nrust-skill (main entry)\n    │\n    ├─► rust-ownership ──► rust-mutability ──► rust-concurrency ──► rust-async\n    │         │                     │                     │\n    │         └─► rust-unsafe ──────┘                     │\n    │                   │                              │\n    │                   └─► rust-ffi ─────────────────────► rust-ebpf\n    │                             │                         │\n    │                             └────────────────────────► rust-gpu\n    │\n    ├─► rust-error ──► rust-error-advanced ──► rust-anti-pattern\n    │\n    ├─► rust-coding ──► rust-performance\n    │\n    ├─► rust-web ──► rust-middleware ──► rust-auth ──► rust-xacml\n    │                              │\n    │                              └─► rust-cache\n    │\n    └─► rust-learner ──► rust-ecosystem / rust-embedded\n              │\n              └─► rust-pin / rust-macro / rust-const\n                        │\n                        └─► rust-lifetime-complex / rust-async-pattern\n                                  │\n                                  └─► rust-coroutine\n```"
+  }
+}

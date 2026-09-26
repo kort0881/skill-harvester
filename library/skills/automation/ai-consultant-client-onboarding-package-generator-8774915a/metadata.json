@@ -1,0 +1,68 @@
+{
+  "library_id": "automation/ai-consultant-client-onboarding-package-generator-8774915a",
+  "title": "AI Consultant Client Onboarding Package Generator",
+  "category": "automation",
+  "tags": [
+    "onboarding",
+    "consulting",
+    "automation",
+    "document‑generation",
+    "ai‑services"
+  ],
+  "summary": "The skill guides an AI consultant through gathering client details and automatically creates a full onboarding package consisting of a discovery questionnaire, welcome email, plain‑language service agreement, and project brief. It includes clear interaction steps, document structures, tone guidelines, and optional export formats.",
+  "source": {
+    "repository": "diggiehippie/ai-consulting-onboarding",
+    "repository_url": "https://github.com/diggiehippie/ai-consulting-onboarding",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/diggiehippie/ai-consulting-onboarding/blob/71cc95387fbea1b8bbfce9e11dad218a143c2ed3/SKILL.md",
+    "api_sha": "c8042f1d1a58fa8256579b4ce24483d5edd4e359",
+    "repo_stars": 37,
+    "repo_forks": 2,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-16T04:55:26+00:00"
+  },
+  "discovered_at": "2026-09-20T14:15:57+00:00",
+  "accepted_at": "2026-09-26T12:21:33+00:00",
+  "content_hash": "c46c9795a9165a6acb320ce6b7fb82c859fd8c0ad08064c6ab29e64ad146e90a",
+  "source_excerpt": "--- name: ai-consultant-onboarding description: > Generates a complete, professional client onboarding package for AI consultants, AI auditors, and solopreneurs working in the AI space (AI strategy, automation, AI readiness audits, implementation, training, etc.). Use this skill whenever a user asks to onboard a new client, set up a client folder, write a welcome email, generate a discovery questionnaire, draft a service agreement, or create a project brief — especially in an AI consulting context. Also trigger when the user says things like \"I have a new client\", \"prepare onboarding docs\", \"create a client package\", or \"set up a new project\". Produces four ready-to-use deliverables: intake questionnaire, welcome email, service agreement, a…",
+  "review": {
+    "decision": "accept",
+    "title": "AI Consultant Client Onboarding Package Generator",
+    "category": "automation",
+    "summary": "The skill guides an AI consultant through gathering client details and automatically creates a full onboarding package consisting of a discovery questionnaire, welcome email, plain‑language service agreement, and project brief. It includes clear interaction steps, document structures, tone guidelines, and optional export formats.",
+    "quality_score": 80,
+    "uniqueness_score": 70,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Clear, step‑by‑step workflow",
+      "Well‑defined inputs and outputs",
+      "Tailored to AI consulting services",
+      "Includes tone and length guidelines",
+      "Export options outlined"
+    ],
+    "weaknesses": [
+      "Lacks concrete example outputs for each document",
+      "Export step assumes external skills without specifying them",
+      "No fallback for missing client information",
+      "No validation of user‑provided data"
+    ],
+    "tags": [
+      "onboarding",
+      "consulting",
+      "automation",
+      "document‑generation",
+      "ai‑services"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add sample snippets for each generated document",
+      "Specify which export skills to invoke (e.g., docx‑export, pdf‑export)",
+      "Provide guidance on handling incomplete or ambiguous user input",
+      "Include a brief validation checklist for the collected client data"
+    ],
+    "normalized_skill_markdown": "---\nname: ai-consultant-onboarding\ndescription: >\n  Generates a complete, professional client onboarding package for AI consultants, auditors, and solopreneurs. Produces four ready‑to‑use documents: intake questionnaire, welcome email, service agreement, and project brief.\n---\n\n# AI Consultant Client Onboarding Skill\n\nThis skill helps an AI consultant, auditor, or solopreneur onboard a new client efficiently. It gathers required client details, then creates a full onboarding package consisting of four polished documents.\n\n## Step 1 – Gather Client Information\nAsk the user for the following items (or extract them if already provided). Use a single friendly message:\n\n```\nTo create your onboarding package, I need a few quick details:\n\n1. **Client name** (person and/or company)\n2. **Your name / business name**\n3. **Service type** – choose or describe:\n   - AI Readiness Audit\n   - AI Strategy & Roadmap\n   - AI Tool Implementation\n   - AI Workflow Automation\n   - AI Team Training / Workshops\n   - Ongoing AI Retainer / Advisory\n   - Custom (describe briefly)\n4. **Project scope** – one sentence describing the goal\n5. **Timeline** – start date and rough duration\n6. **Budget / investment** (optional)\n7. **Primary contact & email** at the client side\n8. **Anything special** – industry, pain points, tech stack, etc.\n```\n\nWait for the user's answers before proceeding.\n\n## Step 2 – Generate the Onboarding Package\nUsing the collected details, produce the following documents in order. Label each with a clear top‑level header.\n\n### Document 1 – Discovery & Intake Questionnaire\n*Purpose:* Sent before the first call to gather context.\n*Format:* Numbered questions grouped by theme.\n*Sections:* About Your Business, AI Awareness & Current State, Goals & Challenges, Practical & Logistical. Add service‑specific questions (e.g., data security for audits, learning styles for training).\n\n### Document 2 – Welcome Email\n*Purpose:* Sent immediately after the contract is signed.\n*Structure:* Subject line, opening paragraph, 3‑4 bullet points of next steps, brief working‑style overview, practical details (response times, preferred channel), warm closing.\n*Tone:* Confident, human, enthusiastic.\n\n### Document 3 – Service Agreement (Plain Language)\n*Purpose:* Simple, readable agreement (not a legal document).\n*Disclaimer:* Include a top‑level note that the agreement is plain‑language and not a substitute for legal advice.\n*Sections:* Parties, Services, Timeline, Investment (omit if budget missing), Client Requirements, Revisions & Scope Changes, Confidentiality, Intellectual Property, Termination, Signatures.\n\n### Document 4 – Project Brief\n*Purpose:* Internal reference and/or client‑facing overview.\n*Sections:* Project Overview, Objectives, Scope of Work (in‑scope & out‑of‑scope), Timeline & Milestones (simple table or numbered phases), Roles & Responsibilities, Success Metrics, Communication & Tools.\n\n## Step 3 – Deliver & Offer File Export\nAfter generating the four documents, ask the user which export format they prefer:\n\n```\nYour onboarding package is ready! Would you like me to:\n- [ ] Export everything as a Word document (.docx)\n- [ ] Export as a PDF\n- [ ] Export as separate Markdown files\n- [ ] Keep it here to copy‑paste (no export needed)\n```\nIf an export is chosen, invoke the appropriate export skill (e.g., `docx-export`, `pdf-export`) and provide the downloadable files.\n\n## Quality Standards\n- **Specificity:** Use the actual client name, service type, and details; avoid placeholders.\n- **AI‑native language:** Mention relevant AI concepts (LLMs, prompts, automation) where appropriate.\n- **Tone consistency:** Warm, expert, and human.\n- **No filler:** Every sentence must add value.\n- **Length guidelines:** Questionnaire ~15 questions, welcome email ~250 words, agreement ~600 words, brief ~500 words (adjust as needed).\n\n## Reference Files (optional)\n- `references/service-types.md` – detailed scope notes per service type.\n- `references/ai-industry-glossary.md` – common AI terms.\n- `assets/email-subject-lines.md` – 20 subject‑line options.\n\nLoad these only when additional detail is required for a niche or complex service type.\n"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "library_id": "family-coordination/parent-helper-family-coordination-engine-462419e2",
+  "title": "Parent Helper – Family Coordination Engine",
+  "category": "family-coordination",
+  "tags": [
+    "family",
+    "coordination",
+    "meal-planning",
+    "grocery",
+    "automation",
+    "calendar",
+    "notion",
+    "events",
+    "chores"
+  ],
+  "summary": "A comprehensive skill that acts as a family’s coordination hub, handling weekly briefings, meal planning, grocery bargain hunting, co‑parent communication, dashboard updates, chore assignments, and local event scouting. It integrates with Google Calendar, Gmail, Notion, and Chrome automation to keep schedules, meals, and budgets in sync. The skill is triggered by a wide range of family‑related queries and provides structured outputs for easy consumption.",
+  "source": {
+    "repository": "rdmgator12/Parent-Helper",
+    "repository_url": "https://github.com/rdmgator12/Parent-Helper",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/rdmgator12/Parent-Helper/blob/74ca42426fb5226fcd04e5a0ce8215d261c720ee/SKILL.md",
+    "api_sha": "7cdbd060c3f5b37135663267026b050d435ea3c9",
+    "repo_stars": 20,
+    "repo_forks": 3,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-19T03:14:57+00:00"
+  },
+  "discovered_at": "2026-09-20T14:15:50+00:00",
+  "accepted_at": "2026-09-26T12:18:46+00:00",
+  "content_hash": "0f4cfb8671d2c2c846bf5bf04cbd572549585643326b1548ea9df16318b302ae",
+  "source_excerpt": "--- name: parent-helper description: > Family coordination engine. Use this skill whenever the user mentions meals, meal planning, groceries, weekly schedule, family logistics, kid activities, custody schedule, co-parent coordination, family dashboard, weekly briefing, weekly prep, \"what's for dinner\", school events, pickup/dropoff, babysitter, pediatric nutrition, grocery list, grocery cart, \"load the cart\", \"load the carts\", \"bargain hunt\", \"find the deals\", \"compare prices\", \"price check\", \"smart split\", \"save money on groceries\", family calendar review, or anything involving coordinating schedules and meals for a family. Also trigger when the user says \"parent helper\", \"family mode\", \"week ahead\", or \"plan the week\". Trigger on local ev…",
+  "review": {
+    "decision": "accept",
+    "title": "Parent Helper – Family Coordination Engine",
+    "category": "family-coordination",
+    "summary": "A comprehensive skill that acts as a family’s coordination hub, handling weekly briefings, meal planning, grocery bargain hunting, co‑parent communication, dashboard updates, chore assignments, and local event scouting. It integrates with Google Calendar, Gmail, Notion, and Chrome automation to keep schedules, meals, and budgets in sync. The skill is triggered by a wide range of family‑related queries and provides structured outputs for easy consumption.",
+    "quality_score": 70,
+    "uniqueness_score": 80,
+    "usefulness_score": 75,
+    "safety_score": 95,
+    "total_score": 78,
+    "strengths": [
+      "Very detailed end‑to‑end workflow",
+      "Covers many family coordination aspects (meals, chores, events, budgets)",
+      "Clear integration map with common services",
+      "Provides concrete output formats for briefings and lists"
+    ],
+    "weaknesses": [
+      "Numerous placeholder tokens that must be manually replaced",
+      "Lacks explicit input/output specification for each capability",
+      "Few concrete examples or verification steps",
+      "Assumes availability of several MCP integrations without setup guidance"
+    ],
+    "tags": [
+      "family",
+      "coordination",
+      "meal-planning",
+      "grocery",
+      "automation",
+      "calendar",
+      "notion",
+      "events",
+      "chores"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Replace all {{PLACEHOLDERS}} with real family data or provide a template for users to fill",
+      "Add a concise Input/Output table for each core capability",
+      "Include example executions (e.g., sample weekly briefing)",
+      "Provide brief setup instructions for required MCP integrations (Google Calendar, Notion, Chrome)"
+    ],
+    "normalized_skill_markdown": "---\nname: parent-helper\ndescription: Family coordination engine for meals, schedules, groceries, events, and chores.\n---\n\n# Parent Helper — Family Coordination Engine\n\nYou act as the family’s coordination layer, ensuring everyone is fed, scheduled, and synced with zero dropped balls.\n\n## Family Context\n\n### The Household\n- **{{PARENT_1_NAME}}**: {{Job title / schedule type}}. {{Role}}.\n- **{{PARENT_2_NAME}}**: {{Job title / schedule type}}. {{Role}}.\n- **{{CHILD_1_NAME}}**: {{Age}} years old (birthday {{DATE}}). {{Custody notes}}.\n- **{{CHILD_2_NAME}}**: {{Age}} years old (birthday {{DATE}}). {{Notes}}.\n- **Pets**: {{List pets}}.\n\n### Childcare Resources\n- **{{CHILDCARE_CONTACT_NAME}}** ({{relationship}}): Available {{typical availability}}. Typical slot: {{slot}}.\n\n### Allergies & Dietary Restrictions\n- **{{PERSON_NAME}}**: {{Allergy/restriction}}\n\n### School Schedule (if applicable)\n- **Drop‑off:** {{Time range}}\n- **School ends:** {{Time}}\n- **Aftercare:** {{Time range}} (pickup by {{deadline}})\n- **Special days:** {{Details}}\n- **Key School Dates:** {{Dates}}\n\n### Calendar Color Coding\n- **{{Color}}** (colorId {{N}}) — {{Meaning}}\n\n### Custody Rules (if applicable)\n{{Custody description}}\n\n## Core Capabilities\n\n### 1. Weekly Family Briefing (Sunday Night)\nGenerate a comprehensive week‑ahead briefing every Sunday (or on demand).\n\n**Process**\n1. Pull the full week from Google Calendar for all family members.\n2. Identify custody days.\n3. Flag schedule conflicts or gaps.\n4. Note key events.\n5. Identify meals needed per day and headcount.\n6. Generate the meal plan.\n7. Produce the grocery list.\n8. Generate weekly chores and assign them.\n9. Compile into the briefing format.\n10. Push to Notion dashboard (if configured).\n\n**Briefing Format**\n```\n## Family Week Ahead: [Date Range]\n\n### Who's Home\n[Day‑by‑day breakdown]\n\n### Key Events\n[Appointments, activities, birthdays]\n\n### Watch Out\n[Conflicts, coverage gaps]\n\n### Meal Plan\n[Day‑by‑day meals]\n\n### Grocery List\n[Consolidated list by category]\n\n### What's Going On This Week\n[Local events organized by day]\n\n### Chores\n[Weekly chores assigned]\n\n### Action Items\n[Who needs to do what]\n```\n\n### 2. Meal Planning\nCreate age‑appropriate meal plans based on who is home and who is cooking.\n\n**Family Food Profile**\n- **{{PARENT_1_NAME}}**: {{Cooking skill}}. {{Dinner preferences}}.\n- **{{PARENT_2_NAME}}**: {{Cooking skill}}. {{Special skills}}.\n- **{{CHILD_1_NAME}}**: {{Food preferences}}.\n- **{{CHILD_2_NAME}}**: {{Age‑appropriate notes}}.\n\n**Cooking Assignment Logic**\n- Determine who is home and their cooking skill level.\n- Assign simple recipes to limited‑skill cooks, complex ones to skilled cooks, or plan leftovers/crockpot meals when time is tight.\n- Apply a post‑night‑shift rule: treat the evening after a night shift as an “easy‑cook” night.\n\n**Meal Philosophy**\n- Primary goal: eat at home with cooked meals.\n- Batch cooking and leftovers.\n- Breakfast/lunch simple, dinner gets planning focus.\n- Weekend allows more ambitious cooking.\n- Budget target: {{Budget}}.\n\n**When asked about meals**\n1. Check the calendar for headcount and cook availability.\n2. Match meal complexity.\n3. Provide meal plan **and** grocery list.\n4. Offer to load the list into a cart (if automation is set up).\n\n### 3. Multi‑Store Grocery Bargain Hunter & Cart Automation\nConvert meal plans into cost‑optimized, multi‑store shopping lists.\n\n**Your Stores**\n| Store | Distance | Price Tier | Platform | Cart Automation | Membership |\n|-------|----------|-----------|----------|-----------------|------------|\n| **{{STORE_1}}** | {{distance}} | $ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_2}}** | {{distance}} | $ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_3}}** | {{distance}} | $$ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_4}}** | {{distance}} | $$$ | {{website}} | Chrome MCP | {{membership}} |\n\n**Process**\n1. Generate ingredient list from the meal plan.\n2. Consolidate duplicates and estimate quantities.\n3. Organize by category.\n4. **Price Scan** – search each store via Chrome MCP using direct search URLs.\n5. **Smart Split** – assign each item to the cheapest store, group by store, calculate savings.\n6. Present a comparison table and recommended split.\n7. On “load the carts”, build carts via Chrome MCP where supported.\n8. User reviews carts before checkout.\n\n### 4. Co‑Parent Coordination (Gmail)\nDraft professional communications with the co‑parent (never auto‑send).\n\n**Use cases**: schedule changes, activity coordination, logistics, medical/school info.\n\n**Tone**: professional, friendly, concise, child‑focused.\n\n### 5. Family Dashboard (Notion)\nMaintain a living Notion page as the single source of truth.\n\n**Dashboard Page ID**: `{{YOUR_NOTION_PAGE_ID}}`\n\n**Content Sections (overwritten each briefing)**\n- Who's Home This Week\n- Key Events\n- Watch Out\n- Current Meal Plan\n- Grocery List\n- Action Items\n\n**Persistent Databases**\n- To‑Do List\n- Important Dates\n- Recurring Needs\n\n**Update Flow**\n1. `notion-fetch` dashboard.\n2. `notion-update-page` with fresh sections.\n3. `notion-create-pages` for new action items and dates.\n4. Add “Last updated” callout.\n\n### 6. Weekly Chore System\nAssign and track chores adjusted for custody and work schedules.\n\n**Core Rules**\n- Primary caregiver gets no assigned chores.\n- Children receive age‑appropriate chores only on days they are home.\n- Other parent handles remaining tasks.\n- Trash day: {{DAY_OF_WEEK}}.\n\n**Example Chore Tables** (populate with real tasks).\n\n### 7. Local Events Scout\nSurface real, specific events for the family each week.\n\n**Location Configuration**\n- Zip Code: `{{YOUR_ZIP_CODE}}`\n- Nearby Cities: {{CITY_1}}, {{CITY_2}}, {{CITY_3}}, {{CITY_4}}\n\n**Process**\n1. WebSearch local event calendars using targeted queries.\n2. Filter for confirmed events with dates/times/locations.\n3. Tag events by age‑appropriateness.\n4. Note drive time from home.\n5. Output in a day‑by‑day list.\n\n### 8. Schedule Conflict Detection\nIdentify and flag potential conflicts (e.g., both parents working, childcare gaps).\n\n**When a conflict is found** present 2‑3 resolution options.\n\n## Integration Map\n| Service | MCP | Required? | What It Does |\n|---------|-----|-----------|--------------|\n| Google Calendar | Google Calendar MCP | Yes | Read/write schedules, determine custody days |\n| Gmail | Gmail MCP | Optional | Draft co‑parent emails |\n| Notion | Notion MCP | Optional | Dashboard updates |\n| Chrome | Chrome MCP | Optional | Grocery price scanning and cart automation |\n\n## Interaction Patterns\n- **\"Plan the week\"** → Full pipeline (calendar → meal plan → grocery → events → briefing → dashboard).\n- **\"What's for dinner?\"** → Check today’s headcount, suggest dinner from plan or generate quick option.\n- **\"Bargain hunt\"** / **\"Load the carts\"** → Price scan, smart split, cart building.\n- **\"What's going on this weekend?\"** → Local events scout.\n- **\"Chores\"** → Show weekly chore assignments.\n- **\"Email {{CO_PARENT}} about X\"** → Draft email for review.\n\n## Guardrails\n1. Never assume custody days – always verify against the calendar.\n2. Never auto‑send emails – always draft for review.\n3. Child food safety is non‑negotiable – flag any uncertain meals.\n4. Respect parental preferences and vetoes.\n5. Suggest realistic cooking times based on schedules.\n6. Monitor grocery budget and flag overspend.\n"
+  }
+}

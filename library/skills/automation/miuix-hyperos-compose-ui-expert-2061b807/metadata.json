@@ -1,0 +1,67 @@
+{
+  "library_id": "automation/miuix-hyperos-compose-ui-expert-2061b807",
+  "title": "Miuix (HyperOS) Compose UI Expert",
+  "category": "automation",
+  "tags": [
+    "miuix",
+    "compose",
+    "ui",
+    "kotlin",
+    "hyperos",
+    "automation"
+  ],
+  "summary": "A comprehensive skill for assisting with Miuix/HyperOS Compose UI development, covering component catalog, theming, navigation, overlays, and migration. It defines a structured workflow, evidence‑loading strategy, and guardrails to ensure correct API usage and safe code generation.",
+  "source": {
+    "repository": "limczhh/miuix-skill",
+    "repository_url": "https://github.com/limczhh/miuix-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/limczhh/miuix-skill/blob/ab16549a124d1ce1c40a54680a0be4e8d763ee6c/SKILL.md",
+    "api_sha": "b7439f0e3d1078f5657ba963e3306bb81baab0db",
+    "repo_stars": 46,
+    "repo_forks": 0,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-14T02:00:03+00:00"
+  },
+  "discovered_at": "2026-09-20T14:15:52+00:00",
+  "accepted_at": "2026-09-26T12:19:45+00:00",
+  "content_hash": "339f7a8ed90c65115fff2b0b0afa427f0a408aa564e810080baebef4645bc55a",
+  "source_excerpt": "--- name: miuix description: \"Miuix (HyperOS) Compose 专家。用于 Miuix/HyperOS UI 构建、审查、重构；在 Miuix 项目或点名组件/API 时触发：MiuixTheme、ThemeController、miuix-ui、miuix-preference、miuix-blur、miuix-nav；NavigationBar/navigation bar、FloatingNavigationBar/floating navigation bar、NavigationRail、TopAppBar/top app bar、Scaffold、TabRow、Button/TextButton/IconButton、FloatingActionButton/FloatingToolbar、Card、TextField/text field、InputField、SearchBar/search bar、Switch/Checkbox/RadioButton、Slider/slider、SliderPreference/Overscroll、ProgressIndicator、Snackbar、Tooltip/TooltipBox/PlainTooltip/RichTooltip、Badge/BadgedBox、BreadcrumbBar/breadcrumb bar、PullToRefresh/pull to refresh、ColorPicker、OverlayDialog/OverlayBottomSheet/OverlayListPopup、WindowDialog/WindowBottomSheet、Arrow…",
+  "review": {
+    "decision": "accept",
+    "title": "Miuix (HyperOS) Compose UI Expert",
+    "category": "automation",
+    "summary": "A comprehensive skill for assisting with Miuix/HyperOS Compose UI development, covering component catalog, theming, navigation, overlays, and migration. It defines a structured workflow, evidence‑loading strategy, and guardrails to ensure correct API usage and safe code generation.",
+    "quality_score": 85,
+    "uniqueness_score": 90,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Extremely detailed coverage of Miuix modules and components",
+      "Clear step‑by‑step workflow for code generation and review",
+      "Strong safety guardrails to prevent API fabrication",
+      "Includes evidence‑loading strategy and version handling"
+    ],
+    "weaknesses": [
+      "Very long; may be overwhelming for quick reference",
+      "Lacks explicit input/output definitions for the skill",
+      "Few concrete code examples within the skill itself"
+    ],
+    "tags": [
+      "miuix",
+      "compose",
+      "ui",
+      "kotlin",
+      "hyperos",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise \"Inputs / Outputs\" section describing what the skill expects and returns",
+      "Include a short runnable example for a common component (e.g., Button)",
+      "Summarize the workflow in a quick‑start checklist to improve readability"
+    ],
+    "normalized_skill_markdown": "---\nname: miuix\ndescription: \"Miuix (HyperOS) Compose expert for UI construction, review, and refactoring.\"\n---\n\n# Miuix Skill\n\n## Overview\nMiuix is a Compose Multiplatform UI component library that implements Xiaomi HyperOS design language. It targets Android, iOS, Desktop (JVM), macOS, and Web (Wasm/JS) from a single Kotlin codebase.\n\n### Modules\n| Module | Purpose |\n|--------|---------|\n| `miuix-ui` | Core UI components – Button, Switch, TextField, NavigationBar, Scaffold, dialogs, etc. |\n| `miuix-preference` | Settings‑screen components – SwitchPreference, CheckboxPreference, SliderPreference, dropdown selectors |\n| `miuix-icons` | 100+ icons in 5 weights |\n| `miuix-blur` | Backdrop blur, texture effects, progressive blur |\n| `miuix-shader` | RuntimeShader abstraction layer |\n| `miuix-squircle` | Squircle shape with API‑33 fallback |\n| `miuix-nav` | Compose Multiplatform navigation runtime with serializable back‑stack |\n\n## Key Concepts\n- UI must be under an ancestor `MiuixTheme` providing `colorScheme` and `textStyles`.\n- Use natural‑language color requests via the **Color semantics and visual lookup** reference; do not invent tokens.\n- Overlay components render inside a `Scaffold`’s popup layer; window components render in an independent window layer.\n- `PullToRefresh` uses hoisted `isRefreshing` and `rememberPullToRefreshState`.\n- `miuix-nav` separates route/back‑stack from navigation chrome; routes must be `@Serializable`.\n\n## Workflow\n1. **Determine version** – inspect Gradle files or lock files; fall back to snapshot `0.9.4‑rc01` if unknown.\n2. **Resolve code context** – decide if the request targets an existing screen, a standalone app, or an isolated snippet (see the *Resolve Code Context* table).\n3. **Load required evidence** – read only the reference files needed for the intent (project setup, component catalog, design language, etc.).\n4. **Classify scenario** – UI review, component implementation, migration, accessibility, etc.\n5. **Select components** – map user‑spoken component names to the catalog before applying generic Compose advice.\n6. **Verify APIs** – cross‑check signatures against the pinned source snapshot (`4a6b750b`).\n7. **Implement** – follow the **Code Delivery Contract** (standalone app, page‑level integration, or component snippet).\n8. **Validate** – compile, run, and capture visual proof (screenshot, emulator, device).\n\n## Code Delivery Contract\n| Scope | Deliverable |\n|------|-------------|\n| Standalone app | Complete `@Composable App` with `ThemeController`, `MiuixTheme`, required `Scaffold`, imports, and working state |\n| Page integration | `@Composable` page function with hoisted state, required imports, and no duplicate root |\n| Component snippet | Minimal call, required ancestor note, and necessary state/callbacks |\n\n### Guidelines\n- **Never fabricate APIs** – always verify against the source snapshot.\n- **Prefer semantic tokens and `*Defaults` objects** over hard‑coded values.\n- **Explicitly state required ancestors** (e.g., `MiuixTheme` + `Scaffold`).\n- **Report verification facts** – API match, compilation status, visual validation.\n\n## Guardrails\n- Use only public Miuix components; do not mix Material‑3 unless explicitly requested.\n- For color descriptions, map to existing tokens (`error`, `primary`, etc.) and avoid inventing `warning`/`alert` tokens.\n- Verify navigation APIs (`NavKey`, `rememberNavBackStack`, `NavDisplay`) against the source.\n- Ensure accessibility, adaptive layout, and platform‑specific behavior are respected.\n\n---"
+  }
+}

@@ -1,0 +1,840 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-26T12:25:59+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 12,
+  "accepted": 7,
+  "rejected": 5,
+  "items": [
+    {
+      "candidate_id": "462419e2d047bc8054380af6",
+      "candidate": {
+        "candidate_id": "462419e2d047bc8054380af6",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:50+00:00",
+        "source": {
+          "repository": "rdmgator12/Parent-Helper",
+          "repository_url": "https://github.com/rdmgator12/Parent-Helper",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/rdmgator12/Parent-Helper/blob/74ca42426fb5226fcd04e5a0ce8215d261c720ee/SKILL.md",
+          "api_sha": "7cdbd060c3f5b37135663267026b050d435ea3c9",
+          "repo_stars": 20,
+          "repo_forks": 3,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-19T03:14:57+00:00"
+        },
+        "raw_file": "raw/rdmgator12-parent-helper/SKILL.md",
+        "title": "parent-helper",
+        "category_hint": "programming",
+        "content_hash": "0f4cfb8671d2c2c846bf5bf04cbd572549585643326b1548ea9df16318b302ae",
+        "content_characters": 20300
+      },
+      "reviewed_at": "2026-09-26T12:18:46+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Parent Helper – Family Coordination Engine",
+        "category": "family-coordination",
+        "summary": "A comprehensive skill that acts as a family’s coordination hub, handling weekly briefings, meal planning, grocery bargain hunting, co‑parent communication, dashboard updates, chore assignments, and local event scouting. It integrates with Google Calendar, Gmail, Notion, and Chrome automation to keep schedules, meals, and budgets in sync. The skill is triggered by a wide range of family‑related queries and provides structured outputs for easy consumption.",
+        "quality_score": 70,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 95,
+        "total_score": 78,
+        "strengths": [
+          "Very detailed end‑to‑end workflow",
+          "Covers many family coordination aspects (meals, chores, events, budgets)",
+          "Clear integration map with common services",
+          "Provides concrete output formats for briefings and lists"
+        ],
+        "weaknesses": [
+          "Numerous placeholder tokens that must be manually replaced",
+          "Lacks explicit input/output specification for each capability",
+          "Few concrete examples or verification steps",
+          "Assumes availability of several MCP integrations without setup guidance"
+        ],
+        "tags": [
+          "family",
+          "coordination",
+          "meal-planning",
+          "grocery",
+          "automation",
+          "calendar",
+          "notion",
+          "events",
+          "chores"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Replace all {{PLACEHOLDERS}} with real family data or provide a template for users to fill",
+          "Add a concise Input/Output table for each core capability",
+          "Include example executions (e.g., sample weekly briefing)",
+          "Provide brief setup instructions for required MCP integrations (Google Calendar, Notion, Chrome)"
+        ],
+        "normalized_skill_markdown": "---\nname: parent-helper\ndescription: Family coordination engine for meals, schedules, groceries, events, and chores.\n---\n\n# Parent Helper — Family Coordination Engine\n\nYou act as the family’s coordination layer, ensuring everyone is fed, scheduled, and synced with zero dropped balls.\n\n## Family Context\n\n### The Household\n- **{{PARENT_1_NAME}}**: {{Job title / schedule type}}. {{Role}}.\n- **{{PARENT_2_NAME}}**: {{Job title / schedule type}}. {{Role}}.\n- **{{CHILD_1_NAME}}**: {{Age}} years old (birthday {{DATE}}). {{Custody notes}}.\n- **{{CHILD_2_NAME}}**: {{Age}} years old (birthday {{DATE}}). {{Notes}}.\n- **Pets**: {{List pets}}.\n\n### Childcare Resources\n- **{{CHILDCARE_CONTACT_NAME}}** ({{relationship}}): Available {{typical availability}}. Typical slot: {{slot}}.\n\n### Allergies & Dietary Restrictions\n- **{{PERSON_NAME}}**: {{Allergy/restriction}}\n\n### School Schedule (if applicable)\n- **Drop‑off:** {{Time range}}\n- **School ends:** {{Time}}\n- **Aftercare:** {{Time range}} (pickup by {{deadline}})\n- **Special days:** {{Details}}\n- **Key School Dates:** {{Dates}}\n\n### Calendar Color Coding\n- **{{Color}}** (colorId {{N}}) — {{Meaning}}\n\n### Custody Rules (if applicable)\n{{Custody description}}\n\n## Core Capabilities\n\n### 1. Weekly Family Briefing (Sunday Night)\nGenerate a comprehensive week‑ahead briefing every Sunday (or on demand).\n\n**Process**\n1. Pull the full week from Google Calendar for all family members.\n2. Identify custody days.\n3. Flag schedule conflicts or gaps.\n4. Note key events.\n5. Identify meals needed per day and headcount.\n6. Generate the meal plan.\n7. Produce the grocery list.\n8. Generate weekly chores and assign them.\n9. Compile into the briefing format.\n10. Push to Notion dashboard (if configured).\n\n**Briefing Format**\n```\n## Family Week Ahead: [Date Range]\n\n### Who's Home\n[Day‑by‑day breakdown]\n\n### Key Events\n[Appointments, activities, birthdays]\n\n### Watch Out\n[Conflicts, coverage gaps]\n\n### Meal Plan\n[Day‑by‑day meals]\n\n### Grocery List\n[Consolidated list by category]\n\n### What's Going On This Week\n[Local events organized by day]\n\n### Chores\n[Weekly chores assigned]\n\n### Action Items\n[Who needs to do what]\n```\n\n### 2. Meal Planning\nCreate age‑appropriate meal plans based on who is home and who is cooking.\n\n**Family Food Profile**\n- **{{PARENT_1_NAME}}**: {{Cooking skill}}. {{Dinner preferences}}.\n- **{{PARENT_2_NAME}}**: {{Cooking skill}}. {{Special skills}}.\n- **{{CHILD_1_NAME}}**: {{Food preferences}}.\n- **{{CHILD_2_NAME}}**: {{Age‑appropriate notes}}.\n\n**Cooking Assignment Logic**\n- Determine who is home and their cooking skill level.\n- Assign simple recipes to limited‑skill cooks, complex ones to skilled cooks, or plan leftovers/crockpot meals when time is tight.\n- Apply a post‑night‑shift rule: treat the evening after a night shift as an “easy‑cook” night.\n\n**Meal Philosophy**\n- Primary goal: eat at home with cooked meals.\n- Batch cooking and leftovers.\n- Breakfast/lunch simple, dinner gets planning focus.\n- Weekend allows more ambitious cooking.\n- Budget target: {{Budget}}.\n\n**When asked about meals**\n1. Check the calendar for headcount and cook availability.\n2. Match meal complexity.\n3. Provide meal plan **and** grocery list.\n4. Offer to load the list into a cart (if automation is set up).\n\n### 3. Multi‑Store Grocery Bargain Hunter & Cart Automation\nConvert meal plans into cost‑optimized, multi‑store shopping lists.\n\n**Your Stores**\n| Store | Distance | Price Tier | Platform | Cart Automation | Membership |\n|-------|----------|-----------|----------|-----------------|------------|\n| **{{STORE_1}}** | {{distance}} | $ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_2}}** | {{distance}} | $ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_3}}** | {{distance}} | $$ | {{website}} | Chrome MCP | {{membership}} |\n| **{{STORE_4}}** | {{distance}} | $$$ | {{website}} | Chrome MCP | {{membership}} |\n\n**Process**\n1. Generate ingredient list from the meal plan.\n2. Consolidate duplicates and estimate quantities.\n3. Organize by category.\n4. **Price Scan** – search each store via Chrome MCP using direct search URLs.\n5. **Smart Split** – assign each item to the cheapest store, group by store, calculate savings.\n6. Present a comparison table and recommended split.\n7. On “load the carts”, build carts via Chrome MCP where supported.\n8. User reviews carts before checkout.\n\n### 4. Co‑Parent Coordination (Gmail)\nDraft professional communications with the co‑parent (never auto‑send).\n\n**Use cases**: schedule changes, activity coordination, logistics, medical/school info.\n\n**Tone**: professional, friendly, concise, child‑focused.\n\n### 5. Family Dashboard (Notion)\nMaintain a living Notion page as the single source of truth.\n\n**Dashboard Page ID**: `{{YOUR_NOTION_PAGE_ID}}`\n\n**Content Sections (overwritten each briefing)**\n- Who's Home This Week\n- Key Events\n- Watch Out\n- Current Meal Plan\n- Grocery List\n- Action Items\n\n**Persistent Databases**\n- To‑Do List\n- Important Dates\n- Recurring Needs\n\n**Update Flow**\n1. `notion-fetch` dashboard.\n2. `notion-update-page` with fresh sections.\n3. `notion-create-pages` for new action items and dates.\n4. Add “Last updated” callout.\n\n### 6. Weekly Chore System\nAssign and track chores adjusted for custody and work schedules.\n\n**Core Rules**\n- Primary caregiver gets no assigned chores.\n- Children receive age‑appropriate chores only on days they are home.\n- Other parent handles remaining tasks.\n- Trash day: {{DAY_OF_WEEK}}.\n\n**Example Chore Tables** (populate with real tasks).\n\n### 7. Local Events Scout\nSurface real, specific events for the family each week.\n\n**Location Configuration**\n- Zip Code: `{{YOUR_ZIP_CODE}}`\n- Nearby Cities: {{CITY_1}}, {{CITY_2}}, {{CITY_3}}, {{CITY_4}}\n\n**Process**\n1. WebSearch local event calendars using targeted queries.\n2. Filter for confirmed events with dates/times/locations.\n3. Tag events by age‑appropriateness.\n4. Note drive time from home.\n5. Output in a day‑by‑day list.\n\n### 8. Schedule Conflict Detection\nIdentify and flag potential conflicts (e.g., both parents working, childcare gaps).\n\n**When a conflict is found** present 2‑3 resolution options.\n\n## Integration Map\n| Service | MCP | Required? | What It Does |\n|---------|-----|-----------|--------------|\n| Google Calendar | Google Calendar MCP | Yes | Read/write schedules, determine custody days |\n| Gmail | Gmail MCP | Optional | Draft co‑parent emails |\n| Notion | Notion MCP | Optional | Dashboard updates |\n| Chrome | Chrome MCP | Optional | Grocery price scanning and cart automation |\n\n## Interaction Patterns\n- **\"Plan the week\"** → Full pipeline (calendar → meal plan → grocery → events → briefing → dashboard).\n- **\"What's for dinner?\"** → Check today’s headcount, suggest dinner from plan or generate quick option.\n- **\"Bargain hunt\"** / **\"Load the carts\"** → Price scan, smart split, cart building.\n- **\"What's going on this weekend?\"** → Local events scout.\n- **\"Chores\"** → Show weekly chore assignments.\n- **\"Email {{CO_PARENT}} about X\"** → Draft email for review.\n\n## Guardrails\n1. Never assume custody days – always verify against the calendar.\n2. Never auto‑send emails – always draft for review.\n3. Child food safety is non‑negotiable – flag any uncertain meals.\n4. Respect parental preferences and vetoes.\n5. Suggest realistic cooking times based on schedules.\n6. Monitor grocery budget and flag overspend.\n"
+      },
+      "library_id": "family-coordination/parent-helper-family-coordination-engine-462419e2"
+    },
+    {
+      "candidate_id": "2061b8079d4b4394dd8bb21a",
+      "candidate": {
+        "candidate_id": "2061b8079d4b4394dd8bb21a",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:52+00:00",
+        "source": {
+          "repository": "limczhh/miuix-skill",
+          "repository_url": "https://github.com/limczhh/miuix-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/limczhh/miuix-skill/blob/ab16549a124d1ce1c40a54680a0be4e8d763ee6c/SKILL.md",
+          "api_sha": "b7439f0e3d1078f5657ba963e3306bb81baab0db",
+          "repo_stars": 46,
+          "repo_forks": 0,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-14T02:00:03+00:00"
+        },
+        "raw_file": "raw/limczhh-miuix-skill/SKILL.md",
+        "title": "miuix",
+        "category_hint": "automation",
+        "content_hash": "339f7a8ed90c65115fff2b0b0afa427f0a408aa564e810080baebef4645bc55a",
+        "content_characters": 18618
+      },
+      "reviewed_at": "2026-09-26T12:19:45+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Miuix (HyperOS) Compose UI Expert",
+        "category": "automation",
+        "summary": "A comprehensive skill for assisting with Miuix/HyperOS Compose UI development, covering component catalog, theming, navigation, overlays, and migration. It defines a structured workflow, evidence‑loading strategy, and guardrails to ensure correct API usage and safe code generation.",
+        "quality_score": 85,
+        "uniqueness_score": 90,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Extremely detailed coverage of Miuix modules and components",
+          "Clear step‑by‑step workflow for code generation and review",
+          "Strong safety guardrails to prevent API fabrication",
+          "Includes evidence‑loading strategy and version handling"
+        ],
+        "weaknesses": [
+          "Very long; may be overwhelming for quick reference",
+          "Lacks explicit input/output definitions for the skill",
+          "Few concrete code examples within the skill itself"
+        ],
+        "tags": [
+          "miuix",
+          "compose",
+          "ui",
+          "kotlin",
+          "hyperos",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise \"Inputs / Outputs\" section describing what the skill expects and returns",
+          "Include a short runnable example for a common component (e.g., Button)",
+          "Summarize the workflow in a quick‑start checklist to improve readability"
+        ],
+        "normalized_skill_markdown": "---\nname: miuix\ndescription: \"Miuix (HyperOS) Compose expert for UI construction, review, and refactoring.\"\n---\n\n# Miuix Skill\n\n## Overview\nMiuix is a Compose Multiplatform UI component library that implements Xiaomi HyperOS design language. It targets Android, iOS, Desktop (JVM), macOS, and Web (Wasm/JS) from a single Kotlin codebase.\n\n### Modules\n| Module | Purpose |\n|--------|---------|\n| `miuix-ui` | Core UI components – Button, Switch, TextField, NavigationBar, Scaffold, dialogs, etc. |\n| `miuix-preference` | Settings‑screen components – SwitchPreference, CheckboxPreference, SliderPreference, dropdown selectors |\n| `miuix-icons` | 100+ icons in 5 weights |\n| `miuix-blur` | Backdrop blur, texture effects, progressive blur |\n| `miuix-shader` | RuntimeShader abstraction layer |\n| `miuix-squircle` | Squircle shape with API‑33 fallback |\n| `miuix-nav` | Compose Multiplatform navigation runtime with serializable back‑stack |\n\n## Key Concepts\n- UI must be under an ancestor `MiuixTheme` providing `colorScheme` and `textStyles`.\n- Use natural‑language color requests via the **Color semantics and visual lookup** reference; do not invent tokens.\n- Overlay components render inside a `Scaffold`’s popup layer; window components render in an independent window layer.\n- `PullToRefresh` uses hoisted `isRefreshing` and `rememberPullToRefreshState`.\n- `miuix-nav` separates route/back‑stack from navigation chrome; routes must be `@Serializable`.\n\n## Workflow\n1. **Determine version** – inspect Gradle files or lock files; fall back to snapshot `0.9.4‑rc01` if unknown.\n2. **Resolve code context** – decide if the request targets an existing screen, a standalone app, or an isolated snippet (see the *Resolve Code Context* table).\n3. **Load required evidence** – read only the reference files needed for the intent (project setup, component catalog, design language, etc.).\n4. **Classify scenario** – UI review, component implementation, migration, accessibility, etc.\n5. **Select components** – map user‑spoken component names to the catalog before applying generic Compose advice.\n6. **Verify APIs** – cross‑check signatures against the pinned source snapshot (`4a6b750b`).\n7. **Implement** – follow the **Code Delivery Contract** (standalone app, page‑level integration, or component snippet).\n8. **Validate** – compile, run, and capture visual proof (screenshot, emulator, device).\n\n## Code Delivery Contract\n| Scope | Deliverable |\n|------|-------------|\n| Standalone app | Complete `@Composable App` with `ThemeController`, `MiuixTheme`, required `Scaffold`, imports, and working state |\n| Page integration | `@Composable` page function with hoisted state, required imports, and no duplicate root |\n| Component snippet | Minimal call, required ancestor note, and necessary state/callbacks |\n\n### Guidelines\n- **Never fabricate APIs** – always verify against the source snapshot.\n- **Prefer semantic tokens and `*Defaults` objects** over hard‑coded values.\n- **Explicitly state required ancestors** (e.g., `MiuixTheme` + `Scaffold`).\n- **Report verification facts** – API match, compilation status, visual validation.\n\n## Guardrails\n- Use only public Miuix components; do not mix Material‑3 unless explicitly requested.\n- For color descriptions, map to existing tokens (`error`, `primary`, etc.) and avoid inventing `warning`/`alert` tokens.\n- Verify navigation APIs (`NavKey`, `rememberNavBackStack`, `NavDisplay`) against the source.\n- Ensure accessibility, adaptive layout, and platform‑specific behavior are respected.\n\n---"
+      },
+      "library_id": "automation/miuix-hyperos-compose-ui-expert-2061b807"
+    },
+    {
+      "candidate_id": "cc01271fbc43b24982fc969e",
+      "candidate": {
+        "candidate_id": "cc01271fbc43b24982fc969e",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:53+00:00",
+        "source": {
+          "repository": "SystemTce/dify-skills",
+          "repository_url": "https://github.com/SystemTce/dify-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/SystemTce/dify-skills/blob/b259dcc4ad131b4fe2f70266e6d37a8afbaf869e/SKILL.md",
+          "api_sha": "bc75d8600fdcec9b4f97360034496280966ace8b",
+          "repo_stars": 35,
+          "repo_forks": 10,
+          "repo_license": null,
+          "repo_updated_at": "2026-08-27T02:09:53+00:00"
+        },
+        "raw_file": "raw/systemtce-dify-skills/SKILL.md",
+        "title": "Dify Master SKILL",
+        "category_hint": "automation",
+        "content_hash": "90d7c0c4633714d920038cae86846b1c23a2776e812fd57d86027104a0c6e6d0",
+        "content_characters": 9383
+      },
+      "reviewed_at": "2026-09-26T12:20:16+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Dify Master Skill",
+        "category": "automation",
+        "summary": "A modular, progressive skill system covering Dify workflow design, plugin development, performance, security, integration, and reference material. Provides examples, CLI commands, and learning paths for developers.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 89,
+        "strengths": [
+          "Comprehensive coverage of Dify development aspects",
+          "Modular structure with on-demand loading",
+          "Clear examples for workflow, plugin, and performance optimization",
+          "Includes CLI commands and detailed learning paths",
+          "Provides reference sections and community resource links"
+        ],
+        "weaknesses": [
+          "Prerequisites are not explicitly listed",
+          "No verification or testing guidance for the examples",
+          "Content is primarily in Chinese, limiting non‑Chinese users",
+          "Version compatibility details are brief",
+          "Missing concrete success criteria for each sub‑skill"
+        ],
+        "tags": [
+          "dify",
+          "workflow",
+          "plugin",
+          "automation",
+          "llm",
+          "rag",
+          "ai",
+          "development"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section (required Dify version, Python, Docker, etc.)",
+          "Include verification steps or test cases for each sub‑skill",
+          "Provide English translations or bilingual headings for broader accessibility",
+          "Expand the version compatibility matrix and update notes",
+          "Define expected outputs or success criteria for the example workflows"
+        ],
+        "normalized_skill_markdown": "---\nname: dify-master\ndescription: Comprehensive modular skill system for Dify workflow and plugin development\n---\n# Dify Master Skill\n\n> A modular, progressive skill system for Dify development.\n\n## Quick Navigation\n- [What is Dify](#what-is-dify)\n- [Skill Overview](#skill-overview)\n- [Getting Started](#getting-started)\n- [Sub‑Skill Index](#sub-skill-index)\n- [Common References](#common-references)\n\n---\n\n## What is Dify\n\nDify is an open‑source LLMOps platform that provides visual workflow orchestration and a powerful plugin system, enabling developers to quickly build and deploy AI applications.\n\n### Core Features\n- **Visual Workflows** – Drag‑and‑drop orchestration without writing code.\n- **Plugin System** – Extend with tools, models, data sources, etc.\n- **Production‑Ready** – From local development to large‑scale distributed deployment.\n- **Open Ecosystem** – 114K+ GitHub stars, active community, plugin marketplace.\n\n### Architecture Highlights\n- **Beehive Architecture** – Modular and extensible.\n- **Queue‑Driven Graph Engine** – Event‑driven, parallel execution, high performance.\n- **Multiple Runtimes** – Local, Debug, Serverless.\n- **MCP Protocol** – Standard integration with assistants like Claude.\n\n---\n\n## Skill Overview\n\nThe **dify‑master** skill is organized into six core sub‑skills, covering the full development‑to‑deployment lifecycle.\n\n```\n dify‑master (entry point)\n ├── 01‑workflow      # Workflow design\n ├── 02‑plugin        # Plugin development\n ├── 03‑performance   # Performance tuning\n ├── 04‑security      # Security & deployment\n ├── 05‑integration   # Integration & extensions\n └── 06‑reference     # Reference material\n```\n\n### Design Principles\n1. **Modular** – Each sub‑skill is self‑contained and can be used independently.\n2. **Progressive Disclosure** – Start with an overview, then dive deeper as needed.\n3. **Context‑Optimized** – Loads only the necessary content for a given query.\n4. **Practical** – Provides ready‑to‑use code snippets and configuration examples.\n\n---\n\n## Getting Started\n\n### Scenario 1: Create a Simple Q&A Workflow\n```yaml\nworkflow:\n  graph:\n    nodes:\n    - data:\n        type: start\n        variables: []\n      id: start\n    - data:\n        type: llm\n        model:\n          provider: openai\n          name: gpt-4\n        prompt_template:\n        - role: system\n          text: \"You are an assistant\"\n        - role: user\n          text: \"{{#sys.query#}}\"\n      id: llm\n    - data:\n        type: answer\n        answer: \"{{#llm.text#}}\"\n      id: answer\n    edges:\n    - source: start\n      target: llm\n    - source: llm\n      target: answer\n```\n**Next**: Explore the [01‑workflow sub‑skill](./01-workflow/SKILL.md) for more node types and patterns.\n\n### Scenario 2: Build a Simple Tool Plugin\n```python\nfrom typing import Any, Generator\nfrom dify_plugin.entities.tool import ToolInvokeMessage\nfrom dify_plugin import Tool\n\nclass MyTool(Tool):\n    def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage, None, None]:\n        input_text = tool_parameters.get(\"text\", \"\")\n        result = input_text.upper()\n        yield self.create_text_message(result)\n```\n**Next**: Dive into the [02‑plugin sub‑skill](./02-plugin/SKILL.md) for a full development workflow.\n\n### Scenario 3: Boost Workflow Performance with Parallel Branches\n```yaml\n- data:\n    type: parallel\n    branches:\n    - nodes: [tool1, process1]\n    - nodes: [tool2, process2]\n    - nodes: [tool3, process3]\n  id: parallel_execution\n```\n**Next**: Review the [03‑performance sub‑skill](./03-performance/SKILL.md) for additional optimization techniques.\n\n---\n\n## Sub‑Skill Index\n\n### 01. Workflow Design\n- **Triggers**: `node`, `LLM`, `Agent`, `workflow`, `variable`, `knowledge retrieval`, `HTTP Request`, `code`, `if‑else`, `iteration`, `template`, `DSL`, `YAML`\n- **Content**: 10+ node types, 5 design patterns, templates, variable system, best practices.\n- **Link**: [01‑workflow/SKILL.md](./01-workflow/SKILL.md)\n\n### 02. Plugin Development\n- **Triggers**: `plugin`, `tool`, `provider`, `manifest`, `OAuth`, `datasource`, `model`, `extension`\n- **Content**: 4 plugin types, full dev‑to‑publish pipeline, project scaffolding, testing tips.\n- **Link**: [02‑plugin/SKILL.md](./02-plugin/SKILL.md)\n\n### 03. Performance Optimization\n- **Triggers**: `performance`, `cache`, `parallel`, `latency`, `throughput`, `monitor`, `benchmark`\n- **Content**: Workflow graph tuning, LLM prompt & model selection, async plugin execution, monitoring tools.\n- **Link**: [03‑performance/SKILL.md](./03-performance/SKILL.md)\n\n### 04. Security & Deployment\n- **Triggers**: `security`, `deploy`, `Docker`, `Kubernetes`, `SSL`, `auth`, `sandbox`, `SSRF`\n- **Content**: SSRF protection, sandboxing, encryption, auth, Docker/K8s deployment guides, HA, logging, backup.\n- **Link**: [04‑security/SKILL.md](./04-security/SKILL.md)\n\n### 05. Integration & Extensions\n- **Triggers**: `integration`, `API`, `Webhook`, `MCP`, `database`, `Redis`, `RabbitMQ`, `Kafka`, `S3`\n- **Content**: REST/Webhook/Streaming APIs, MCP client/server, external services, troubleshooting.\n- **Link**: [05‑integration/SKILL.md](./05-integration/SKILL.md)\n\n### 06. Reference Material\n- **Triggers**: `reference`, `API`, `SDK`, `CLI`, `DSL`, `YAML`, `documentation`\n- **Content**: Full DSL spec, REST API docs, Python SDK classes, CLI commands, FAQs, community links.\n- **Link**: [06‑reference/SKILL.md](./06-reference/SKILL.md)\n\n---\n\n## Common References\n\n### Variable Syntax\n```yaml\n{{#sys.query#}}          # User query\n{{#sys.files#}}          # Uploaded files\n{{#sys.conversation_id#}}# Conversation ID\n{{#nodeID.output#}}      # Node output\n{{#llm.text#}}           # LLM text output\n{{#conversation.var#}}   # Conversation‑level variable\n{{#item#}}               # Current iteration item\n{{#index#}}              # Current index\n```\n\n### Typical Node Configurations\n```yaml\n# LLM node\n- data:\n    type: llm\n    model:\n      provider: openai\n      name: gpt-4\n      completion_params:\n        temperature: 0.7\n        max_tokens: 2000\n    prompt_template:\n    - role: system\n      text: \"System prompt\"\n    - role: user\n      text: \"{{#sys.query#}}\"\n    context:\n      enabled: true\n      variable_selector: [\"knowledge\", \"result\"]\n```\n\n### Plugin Manifest Example\n```yaml\nversion: 0.0.1\ntype: plugin\nauthor: your-name\nname: plugin-name\nlabel:\n  en_US: Plugin Name\n  zh_Hans: 插件名称\ndescription:\n  en_US: Plugin description\n  zh_Hans: 插件描述\nicon: icon.svg\nresource:\n  memory: 268435456  # 256MB\nplugins:\n  tools:\n    - provider/provider.yaml\nmeta:\n  version: 0.0.1\n  arch: [amd64, arm64]\n  runner:\n    language: python\n    version: \"3.12\"\n    entrypoint: main\ntags:\n  - utilities\n```\n\n### CLI Quick Commands\n```bash\n# Plugin workflow\ndify plugin init          # Scaffold a plugin project\ndify plugin run           # Local debugging\ndify plugin package       # Package the plugin\ndify plugin publish       # Publish to marketplace\n\n# Workflow management\ndify workflow export <id>   # Export a workflow\ndify workflow import <file> # Import a workflow\ndify workflow validate <file> # Validate syntax\n\n# Environment handling\ndify env list               # List env vars\ndify env set <key> <value>  # Set a variable\n```\n\n---\n\n## Learning Paths\n\n### Beginner (0‑1 week)\n1. Read this skill to get the big picture.\n2. Complete the **01‑workflow** basics.\n3. Create your first workflow using the provided template.\n4. Test and iterate on the Dify UI.\n\n### Intermediate (1‑4 weeks)\n1. Deep‑dive into workflow design patterns.\n2. Build a custom tool plugin (02‑plugin).\n3. Apply performance tweaks (03‑performance).\n4. Deploy a small project.\n\n### Expert (1‑3 months)\n1. Master all sub‑skills.\n2. Implement production‑grade security & deployment (04‑security).\n3. Integrate external services (05‑integration).\n4. Contribute back to the community.\n\n---\n\n## Getting Help\n\n- **Official Docs**: https://docs.dify.ai/\n- **GitHub**: https://github.com/langgenius/dify\n- **Plugin Marketplace**: https://marketplace.dify.ai/\n- **Discord**: https://discord.gg/FngNHpbcY7\n- **Reddit**: https://reddit.com/r/difyai\n- **Chinese Community**: https://github.com/langgenius/dify/discussions\n\n---\n\n## Version Info\n- **Current Version**: v1.1.0\n- **Last Updated**: 2026-03-05\n- **Supported Dify Versions**: 0.15.x – 1.9.x\n- **Next Release**: v1.2.0 (more templates & case studies)\n\n---\n\n## License\n\nMIT License – free to use, modify, and distribute.\n\n---\n\n*Start your Dify development journey now – pick a sub‑skill or jump straight into a template!*"
+      },
+      "library_id": "automation/dify-master-skill-cc01271f"
+    },
+    {
+      "candidate_id": "429afd838ae59917ba813806",
+      "candidate": {
+        "candidate_id": "429afd838ae59917ba813806",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:55+00:00",
+        "source": {
+          "repository": "joshferrara/ghostwriter",
+          "repository_url": "https://github.com/joshferrara/ghostwriter",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/joshferrara/ghostwriter/blob/619e43d12872aaa316fae8e3ce52ce979160c250/SKILL.md",
+          "api_sha": "2e981d27b1bb52c6a022578b20c283b7e62d8dd1",
+          "repo_stars": 19,
+          "repo_forks": 1,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-04T01:31:35+00:00"
+        },
+        "raw_file": "raw/joshferrara-ghostwriter/SKILL.md",
+        "title": "ghostwriter",
+        "category_hint": "automation",
+        "content_hash": "bfd1a215efac348fac1ef97d483f17631a0cf87719fa0c6f7daa78eb8e039bdc",
+        "content_characters": 11973
+      },
+      "reviewed_at": "2026-09-26T12:20:48+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Ghostwriter – Personal Writing Style Guide Generator and Writer",
+        "category": "automation",
+        "summary": "Ghostwriter lets an agent learn a user’s personal writing style from their sent emails, texts, Slack messages, or other corpora and creates a standalone markdown style guide. The guide can then be used to draft or edit new content that sounds like the user, with a secondary Humanizer cleanup pass for AI‑artifact removal. The skill is vendor‑neutral, privacy‑first, and works with a variety of data sources.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 85,
+        "safety_score": 95,
+        "total_score": 86,
+        "strengths": [
+          "Clear two‑mode workflow (Generate & Use)",
+          "Comprehensive privacy checklist before data collection",
+          "Vendor‑neutral, works with many data sources",
+          "Produces a portable markdown guide usable by any agent"
+        ],
+        "weaknesses": [
+          "References to external files are placeholders and not included",
+          "No concrete example of the generated guide",
+          "Assumes user has access to specific CLI tools which may be unfamiliar",
+          "The step‑by‑step text is long; could be condensed for quick reference"
+        ],
+        "tags": [
+          "writing",
+          "automation",
+          "personalization",
+          "style-guide",
+          "privacy"
+        ],
+        "safety_flags": [
+          "privacy-sensitive data handling"
+        ],
+        "recommended_improvements": [
+          "Add a short example of the resulting `ghostwriter‑guide.md`",
+          "Provide a quick‑start checklist of required tools and permissions",
+          "Include fallback instructions when no data source is available",
+          "Supply sample commands for the referenced CLIs (gogcli, googleworkspace/cli)"
+        ],
+        "normalized_skill_markdown": "---\nname: ghostwriter\ndescription: Generate a personal writing style guide from your sent messages and use it to draft or edit content in your voice.\n---\n\n# Ghostwriter\n\n**Teach your agent how to write like you.**\n\nGhostwriter turns your sent writing into a practical style guide that any agent can use to produce drafts that sound like you, not like AI. It operates in two modes:\n\n- **Generate mode** – builds a personal style guide (default `ghostwriter-guide.md`) by analyzing email, texts, Slack, or other sent messages.\n- **Use mode** – loads that guide and drafts or edits new content in your voice.\n\nThe skill is agent‑agnostic and vendor‑neutral; it adapts to whatever data‑access tools are already available in the current environment.\n\n---\n\n## Step 0 – Choose a mode\n\nRead the user request and decide which mode applies. If the request is ambiguous, ask a short clarifying question: are they building/updating the guide, or do they want something written now?\n\n---\n\n## Generate mode – Create a personal style guide\n\n### Stage 1 – Detect existing access\n\n1. Inventory the current environment for existing connectors or plugins (Gmail/Outlook, Slack, local iMessage database, etc.).\n2. Prefer any already‑connected source; propose the least‑setup option first.\n3. If nothing is available, move to Stage 2.\n\n### Stage 2 – Select source(s)\n\nPresent the user with the available acquisition methods and brief trade‑offs (one line each). Typical options include:\n\n- Existing connector / MCP / plugin (least setup)\n- Gmail via `openclaw/gogcli`\n- Gmail via `googleworkspace/cli`\n- Local `.mbox` / `.eml` export\n- macOS iMessage database\n- Slack (MCP or API)\n- Any other local corpus (TXT, JSON, CSV, pasted samples)\n\nIf a chosen tool is missing, state that plainly and suggest the next‑best alternative.\n\n### Stage 3 – Privacy confirmation & collection\n\n1. Explain that only **sent** messages will be read and that the final guide contains **patterns and synthetic examples**, not raw private text (unless the user explicitly requests quotes).\n2. Obtain explicit user confirmation before any data is accessed.\n3. Collect sent messages, filtering out:\n   - Forwarded/replied thread history\n   - Transactional or automated notifications\n   - Link‑only messages\n   - One‑word fragments (except when they reveal short‑form voice)\n   - Email signatures, boilerplate, system‑generated iMessage rows\n4. Aim for a few hundred messages across contexts; ~50‑100 can be sufficient for a first pass.\n\n### Stage 4 – Analyze\n\nUsing the dimensions from `analysis‑framework.md`, characterize the writing on:\n\n- tone, rhythm, sentence length\n- openings, closings, sign‑offs\n- formatting habits, humor, technical specificity\n- warmth, directness, hedging\n- request phrasing, feedback style\n- text‑message behavior\n- context‑specific differences (email vs. text vs. Slack)\n\nCapture concrete, reusable patterns (e.g., preferred greetings, median length, favorite words).\n\n### Stage 5 – Write the guide\n\nGenerate a markdown file (default `ghostwriter-guide.md`) based on `ghostwriter‑guide.template.md` that:\n\n1. Is directly usable by any agent.\n2. Uses synthetic examples written in the user’s style (unless real quotes were requested).\n3. Distinguishes long‑form vs. short‑form and work vs. personal contexts.\n4. Ends with a concise **Quick prompt for an agent** paragraph.\n5. Includes a **Humanizer compatibility** section that makes the personal guide primary and applies Humanizer only as a secondary cleanup pass.\n\nSave the file, tell the user where it is, and remind them it can be pasted into any agent.\n\n---\n\n## Use mode – Draft or edit with the guide\n\n### Step 1 – Locate the guide\n\nSearch in this order:\n1. Path explicitly provided by the user.\n2. `ghostwriter-guide.md`\n3. `write-like-me.md`, `style-guide.md`, `write-like-*.md`\n4. Any markdown file the user points to.\n\nRead the entire guide before drafting. If no guide is found, inform the user and offer to (a) paste/provide one, or (b) run **Generate mode** now.\n\n### Step 2 – Gather missing context\n\nAsk only for details not covered by the guide: audience, relationship, goal, required facts, and channel (email, text, Slack, etc.).\n\n### Step 3 – Draft using the guide\n\nProduce the draft respecting the guide’s specifications for:\n- polish, warmth, brevity, punctuation, formatting\n- appropriate openings/closings for the channel and relationship\n- directness, softeners, ask style\n- channel‑specific conventions\n\n### Step 4 – Humanizer cleanup (secondary)\n\nRun the cleanup pass from `humanizer‑cleanup.md`, applying rules **only when they do not conflict** with the personal guide. Preserve the user’s unique quirks (em‑dashes, emojis, rule of three, etc.) and remove generic AI artifacts.\n\n### Step 5 – Deliver\n\nReturn the final draft, noting any assumptions or uncertain sections for the user to review.\n\n---\n\n## Core principles (both modes)\n- **Personal voice overrides generic advice** – the guide is the primary authority.\n- **Privacy first** – read only confirmed sources, store only patterns/synthetic examples.\n- **Progressive disclosure** – only read reference files when needed.\n- **Vendor‑neutral** – prefer existing access; offer alternatives when tools are missing.\n- **Standalone guide** – the generated `ghostwriter‑guide.md` can be used with any other agent.\n\n---\n\n## Attribution\nThe Humanizer cleanup pass adapts ideas from [`blader/humanizer`](https://github.com/blader/humanizer) (MIT, © 2025 Siqi Chen). See `THIRD_PARTY_NOTICES.md`.\n"
+      }
+    },
+    {
+      "candidate_id": "8774915a975e25f18b90db3e",
+      "candidate": {
+        "candidate_id": "8774915a975e25f18b90db3e",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:57+00:00",
+        "source": {
+          "repository": "diggiehippie/ai-consulting-onboarding",
+          "repository_url": "https://github.com/diggiehippie/ai-consulting-onboarding",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/diggiehippie/ai-consulting-onboarding/blob/71cc95387fbea1b8bbfce9e11dad218a143c2ed3/SKILL.md",
+          "api_sha": "c8042f1d1a58fa8256579b4ce24483d5edd4e359",
+          "repo_stars": 37,
+          "repo_forks": 2,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-16T04:55:26+00:00"
+        },
+        "raw_file": "raw/diggiehippie-ai-consulting-onboarding/SKILL.md",
+        "title": "ai-consultant-onboarding",
+        "category_hint": "automation",
+        "content_hash": "c46c9795a9165a6acb320ce6b7fb82c859fd8c0ad08064c6ab29e64ad146e90a",
+        "content_characters": 8357
+      },
+      "reviewed_at": "2026-09-26T12:21:33+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "AI Consultant Client Onboarding Package Generator",
+        "category": "automation",
+        "summary": "The skill guides an AI consultant through gathering client details and automatically creates a full onboarding package consisting of a discovery questionnaire, welcome email, plain‑language service agreement, and project brief. It includes clear interaction steps, document structures, tone guidelines, and optional export formats.",
+        "quality_score": 80,
+        "uniqueness_score": 70,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Clear, step‑by‑step workflow",
+          "Well‑defined inputs and outputs",
+          "Tailored to AI consulting services",
+          "Includes tone and length guidelines",
+          "Export options outlined"
+        ],
+        "weaknesses": [
+          "Lacks concrete example outputs for each document",
+          "Export step assumes external skills without specifying them",
+          "No fallback for missing client information",
+          "No validation of user‑provided data"
+        ],
+        "tags": [
+          "onboarding",
+          "consulting",
+          "automation",
+          "document‑generation",
+          "ai‑services"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add sample snippets for each generated document",
+          "Specify which export skills to invoke (e.g., docx‑export, pdf‑export)",
+          "Provide guidance on handling incomplete or ambiguous user input",
+          "Include a brief validation checklist for the collected client data"
+        ],
+        "normalized_skill_markdown": "---\nname: ai-consultant-onboarding\ndescription: >\n  Generates a complete, professional client onboarding package for AI consultants, auditors, and solopreneurs. Produces four ready‑to‑use documents: intake questionnaire, welcome email, service agreement, and project brief.\n---\n\n# AI Consultant Client Onboarding Skill\n\nThis skill helps an AI consultant, auditor, or solopreneur onboard a new client efficiently. It gathers required client details, then creates a full onboarding package consisting of four polished documents.\n\n## Step 1 – Gather Client Information\nAsk the user for the following items (or extract them if already provided). Use a single friendly message:\n\n```\nTo create your onboarding package, I need a few quick details:\n\n1. **Client name** (person and/or company)\n2. **Your name / business name**\n3. **Service type** – choose or describe:\n   - AI Readiness Audit\n   - AI Strategy & Roadmap\n   - AI Tool Implementation\n   - AI Workflow Automation\n   - AI Team Training / Workshops\n   - Ongoing AI Retainer / Advisory\n   - Custom (describe briefly)\n4. **Project scope** – one sentence describing the goal\n5. **Timeline** – start date and rough duration\n6. **Budget / investment** (optional)\n7. **Primary contact & email** at the client side\n8. **Anything special** – industry, pain points, tech stack, etc.\n```\n\nWait for the user's answers before proceeding.\n\n## Step 2 – Generate the Onboarding Package\nUsing the collected details, produce the following documents in order. Label each with a clear top‑level header.\n\n### Document 1 – Discovery & Intake Questionnaire\n*Purpose:* Sent before the first call to gather context.\n*Format:* Numbered questions grouped by theme.\n*Sections:* About Your Business, AI Awareness & Current State, Goals & Challenges, Practical & Logistical. Add service‑specific questions (e.g., data security for audits, learning styles for training).\n\n### Document 2 – Welcome Email\n*Purpose:* Sent immediately after the contract is signed.\n*Structure:* Subject line, opening paragraph, 3‑4 bullet points of next steps, brief working‑style overview, practical details (response times, preferred channel), warm closing.\n*Tone:* Confident, human, enthusiastic.\n\n### Document 3 – Service Agreement (Plain Language)\n*Purpose:* Simple, readable agreement (not a legal document).\n*Disclaimer:* Include a top‑level note that the agreement is plain‑language and not a substitute for legal advice.\n*Sections:* Parties, Services, Timeline, Investment (omit if budget missing), Client Requirements, Revisions & Scope Changes, Confidentiality, Intellectual Property, Termination, Signatures.\n\n### Document 4 – Project Brief\n*Purpose:* Internal reference and/or client‑facing overview.\n*Sections:* Project Overview, Objectives, Scope of Work (in‑scope & out‑of‑scope), Timeline & Milestones (simple table or numbered phases), Roles & Responsibilities, Success Metrics, Communication & Tools.\n\n## Step 3 – Deliver & Offer File Export\nAfter generating the four documents, ask the user which export format they prefer:\n\n```\nYour onboarding package is ready! Would you like me to:\n- [ ] Export everything as a Word document (.docx)\n- [ ] Export as a PDF\n- [ ] Export as separate Markdown files\n- [ ] Keep it here to copy‑paste (no export needed)\n```\nIf an export is chosen, invoke the appropriate export skill (e.g., `docx-export`, `pdf-export`) and provide the downloadable files.\n\n## Quality Standards\n- **Specificity:** Use the actual client name, service type, and details; avoid placeholders.\n- **AI‑native language:** Mention relevant AI concepts (LLMs, prompts, automation) where appropriate.\n- **Tone consistency:** Warm, expert, and human.\n- **No filler:** Every sentence must add value.\n- **Length guidelines:** Questionnaire ~15 questions, welcome email ~250 words, agreement ~600 words, brief ~500 words (adjust as needed).\n\n## Reference Files (optional)\n- `references/service-types.md` – detailed scope notes per service type.\n- `references/ai-industry-glossary.md` – common AI terms.\n- `assets/email-subject-lines.md` – 20 subject‑line options.\n\nLoad these only when additional detail is required for a niche or complex service type.\n"
+      },
+      "library_id": "automation/ai-consultant-client-onboarding-package-generator-8774915a"
+    },
+    {
+      "candidate_id": "1df015a6270e1370b535c3b2",
+      "candidate": {
+        "candidate_id": "1df015a6270e1370b535c3b2",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:58+00:00",
+        "source": {
+          "repository": "8lampard8/claude-science-cn",
+          "repository_url": "https://github.com/8lampard8/claude-science-cn",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/8lampard8/claude-science-cn/blob/6bc631b7902ec0ceafb5f32a17920ab410d651c5/SKILL.md",
+          "api_sha": "7f56ed4e7467ca416a872baa5e8486865fb2e69c",
+          "repo_stars": 19,
+          "repo_forks": 2,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-20T01:54:58+00:00"
+        },
+        "raw_file": "raw/8lampard8-claude-science-cn/SKILL.md",
+        "title": "claude-science-byok",
+        "category_hint": "automation",
+        "content_hash": "9d1052e02686974a421397a4f86168954a0e328e27f097941d481fe309f7e867",
+        "content_characters": 11063
+      },
+      "reviewed_at": "2026-09-26T12:22:15+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "Claude Science BYOK – Bypass Geo‑block and Login",
+        "category": "automation",
+        "summary": "The skill describes how to download Claude Science from an unblocked CDN, patch the binary to fake OAuth authentication, and run a local API bridge that routes requests to any OpenAI‑compatible provider. It is aimed at users in regions where Claude Science is blocked or who lack a paid Claude subscription.",
+        "quality_score": 45,
+        "uniqueness_score": 60,
+        "usefulness_score": 30,
+        "safety_score": 0,
+        "total_score": 20,
+        "strengths": [
+          "Clear step‑by‑step instructions with commands and verification checklist.",
+          "Provides scripts for automated installation and token generation."
+        ],
+        "weaknesses": [
+          "Encourages circumvention of geo‑restrictions and licensing checks for a proprietary product.",
+          "Instructs users to patch binaries to bypass authentication, which is a violation of Anthropic's terms of service.",
+          "Potentially exposes users to security risks by disabling sandboxing and handling secret API keys insecurely."
+        ],
+        "tags": [
+          "bypass",
+          "geo-block",
+          "authentication-patch",
+          "api-bridge"
+        ],
+        "safety_flags": [
+          "facilitates circumvention of licensing restrictions",
+          "provides instructions to modify proprietary software to bypass authentication"
+        ],
+        "recommended_improvements": [
+          "Remove instructions that patch the Claude Science binary to fake login.",
+          "Avoid providing methods to bypass geo‑blocking or subscription requirements.",
+          "Focus on legitimate use‑cases that comply with Anthropic's terms of service."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "50c243e22d96c37f835e8ada",
+      "candidate": {
+        "candidate_id": "50c243e22d96c37f835e8ada",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:00+00:00",
+        "source": {
+          "repository": "Jill0099/causal-inference-mixtape",
+          "repository_url": "https://github.com/Jill0099/causal-inference-mixtape",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Jill0099/causal-inference-mixtape/blob/5d3d938a18e7cd4992e2023aa309fc02c5008d66/SKILL.md",
+          "api_sha": "08a45d5633a96de36f339ea428e70a72cca39d33",
+          "repo_stars": 17,
+          "repo_forks": 2,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-16T18:54:04+00:00"
+        },
+        "raw_file": "raw/jill0099-causal-inference-mixtape/SKILL.md",
+        "title": "Causal Inference: The Mixtape — Code Skill (v3.1)",
+        "category_hint": "automation",
+        "content_hash": "4051db7a5a42ff3470d0cb7a06167893f450ef59a444f4bde0c67f6cdadc76d7",
+        "content_characters": 13151
+      },
+      "reviewed_at": "2026-09-26T12:22:52+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Causal Inference: The Mixtape – Code Skill (v3.1)",
+        "category": "automation",
+        "summary": "A practitioner‑focused skill that guides users from identifying the causal design to generating runnable Python, R, or Stata code for a wide range of causal‑inference methods. It includes a design‑router, validated script templates, cross‑backend checks via StatsPAI, and detailed diagnostics to produce publishable results.",
+        "quality_score": 82,
+        "uniqueness_score": 86,
+        "usefulness_score": 90,
+        "safety_score": 100,
+        "total_score": 87,
+        "strengths": [
+          "Extensive coverage of causal‑inference methods (DiD, event study, IV, RDD, synthetic control, matching, DML, etc.)",
+          "Clear design‑routing workflow that forces users to think about the assignment mechanism first",
+          "Validated Python scripts (13 + templates) with a built‑in validation suite",
+          "Cross‑language support (Python StatsPAI, pyfixest, linearmodels, R, Stata)",
+          "Practical pitfalls and diagnostic checklist to avoid common mistakes"
+        ],
+        "weaknesses": [
+          "Input‑output specifications for each template are implicit rather than explicit",
+          "Heavy reliance on the external StatsPAI package; installation steps are only briefly mentioned",
+          "Chinese‑language reference files may be inaccessible to many users",
+          "No end‑to‑end example included directly in the skill description",
+          "License and attribution details are omitted"
+        ],
+        "tags": [
+          "causal inference",
+          "econometrics",
+          "python",
+          "r",
+          "stata",
+          "automation",
+          "statistics",
+          "research"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise table of required inputs and expected outputs for each method template",
+          "Provide a minimal end‑to‑end example (e.g., a 2×2 DiD) within the skill markdown",
+          "Include explicit installation commands and version constraints for StatsPAI and other dependencies",
+          "Offer English equivalents or summaries for the Chinese‑language reference files",
+          "State the licensing terms of the skill and any third‑party code it uses"
+        ],
+        "normalized_skill_markdown": "---\nname: causal-inference-mixtape\ndescription: Practitioner‑oriented causal‑inference code templates and workflow covering DiD, event studies, IV, RDD, synthetic control, matching, DML, and related diagnostics in Python, R, and Stata, based on Scott Cunningham’s *Causal Inference: The Mixtape*.\nversion: 3.1.0\n---\n\n# Causal Inference: The Mixtape — Code Skill (v3.1)\n\nThis skill helps users who need to **implement a causal‑inference method** (DiD, staggered DiD, event study, IV/2SLS, regression discontinuity, synthetic control, propensity‑score matching, Honest DiD, wild‑cluster bootstrap, Callaway‑Sant'Anna, Sun‑Abraham, Bacon decomposition, double‑machine learning, causal forests, etc.) in **Python, R, or Stata**.  It follows the workflow advocated in Scott Cunningham’s *Causal Inference: The Mixtape*, extended with recent finance applications and machine‑learning‑based patterns.\n\n---\n\n## 1. Route the design before writing code\n\nAsk the user how treatment was assigned and follow the decision tree below.  The tree maps the assignment mechanism to a causal design and suggests the appropriate estimator.\n\n```\nHow was treatment assigned?\n├─ Randomised                          → diff‑in‑means + RI\n├─ Threshold on a running variable     → RDD / fuzzy / diff‑in‑disc\n├─ Policy date, one date for all       → 2×2 DiD → event study\n├─ Policy date, dates VARY             → staggered: Bacon → CS/SA/BJS\n├─ One treated unit, many controls     → synthetic control\n├─ Self‑selected + an instrument       → IV / 2SLS (LATE)\n├─ Self‑selected + rich observables    → matching / IPW / DML\n└─ None of the above                   → use associational language\n```\n\nThe full tree, estimator choices, and a **StatsPAI** second‑opinion function (`sp.detect_design`, `sp.recommend`, `sp.preflight`) are documented in `references/design-router.md`.  When the design is still unclear, consult `references/method-selection.md` (Chinese‑language guide with links to Stata tutorials).\n\n---\n\n## 2. Choose a Python backend\n\n```python\nimport statspai as sp  # pip install statspai\n```\n\n**StatsPAI** is the primary backend; it implements a broad set of Stata/R causal‑inference commands (`regress`, `ivregress`, `reghdfe`, `csdid`, `rdrobust`, `synth`, `psmatch2`, `outreg2`, Bacon, Callaway‑Sant'Anna, Sun‑Abraham, Honest DiD, wild‑cluster bootstrap, DAGs, Conley SEs, etc.).  Alternative backends are:\n\n* `pyfixest` – fast high‑dimensional fixed effects and independent wild bootstrap.\n* `linearmodels` – deep IV and panel diagnostics.\n* `statsmodels` – plain OLS/GLM.\n* R or Stata – when the reference implementation or replication target requires them.\n\nCross‑backend validation details are in `references/statspai-guide.md`.\n\n---\n\n## 3. Methods covered\n\n| Method | Python (StatsPAI) | R | Stata | Script template |\n|---|---|---|---|---|\n| OLS / regression | `sp.regress` | `estimatr` | `reg`, `reghdfe` | — |\n| DiD (2×2) | `sp.feols` | `fixest` | `reghdfe` | `02` |\n| Event study | `sp.event_study` | `fixest i()` | `reghdfe` | `03` |\n| Staggered DiD | `sp.callaway_santanna`, `sp.sun_abraham`, `sp.did_imputation` | `did`, `fixest` | `csdid` | `04` |\n| Bacon decomposition | `sp.bacon_decomposition` | `bacondecomp` | `bacondecomp` | `04` |\n| Regression discontinuity | `sp.rdrobust`, `sp.rddensity` | `rdrobust` | `rdrobust` | `05` |\n| Instrumental variables | `sp.ivreg` | `AER`, `fixest` | `ivregress` | `06` |\n| Synthetic control | `sp.synth`, `sp.sdid` | `Synth`, `synthdid` | `synth`, `sdid` | `07` |\n| Matching / PSM / IPW | `sp.match`, `sp.ipw`, `sp.psmatch2` | `MatchIt` | `teffects`, `cem` | `08` |\n| Double / Debiased ML | `DoubleML`, `EconML` | `DoubleML`, `grf` | `ddml`, `pdslasso` | — |\n| DAGs / collider bias | `sp.dag`, `dowhy` | `dagitty` | — | `sim_collider_bias.py` |\n| Randomisation inference | `sp.ri_test` | `ri2` | `ritest` | `09` |\n| Clustered inference / wild bootstrap | `sp.wild_cluster_bootstrap` | `fwildclusterboot` | `boottest` | `10` |\n| Honest DiD / pre‑trend power | `sp.honest_did`, `sp.pretrends_power` | `HonestDiD` | `honestdid` | `11` |\n| ... | ... | ... | ... | ... |\n\n---\n\n## 4. Core workflow\n\n1. **Route** the design using `design-router.md` (or `method-selection.md` if needed).\n2. **Load** the corresponding template from `method-patterns.md` (or the runnable script in `scripts/`).\n3. **Adapt** variable names, fixed‑effects structure, and clustering (cluster at the level of treatment assignment).\n4. **Diagnose** with the design‑specific checks in `reporting-checklist.md`.\n5. **Report** key summary statistics (N, number of clusters, treated share, baseline mean, economic magnitude) – avoid reporting t‑statistics alone.\n6. **Write** the identification paragraph using the verb patterns in `identification-writing-patterns.md`.\n\n---\n\n## 5. Common pitfalls (selected)\n\n* **TWFE bias in staggered DiD** – run `sp.bacon_decomposition` and report Callaway‑Sant'Anna or Sun‑Abraham instead of the naïve TWFE estimate.\n* **Event‑study reference period** – ensure the omitted period is correctly dropped; otherwise coefficients are collinear.\n* **Clustering too finely** – always cluster at the level of treatment assignment; clustering at a finer level understates SEs.\n* **Synthetic control inference** – with a single treated unit report permutation‑based p‑values rather than t‑ratios.\n* **DML without cross‑fitting** – use out‑of‑fold predictions; otherwise regularisation bias re‑enters.\n* **Non‑causal framing** – avoid causal language unless the design provides exogenous variation.\n\nFull list (1‑19) is in the original skill document.\n\n---\n\n## 6. Reference files\n\n| File | Purpose |\n|---|---|\n| `references/design-router.md` | Assignment mechanism → design → estimator → diagnostics |\n| `references/method-selection.md` | Chinese guide mapping setting → assumption → method |\n| `references/statspai-guide.md` | StatsPAI API map and gotchas |\n| `references/method-patterns.md` | Code templates for all methods |\n| `references/dml-causal-ml.md` | DML model classes, cross‑fitting, causal forests |\n| `references/reporting-checklist.md` | Checklist of mandatory reporting items |\n| `references/identification-writing-patterns.md` | Templates for the identification paragraph |\n| … | … |\n\n---\n\n## 7. Runnable scripts\n\nThe `scripts/` directory contains 13 validated templates plus shared utilities (`_common.py`).  Run the full validation suite with:\n\n```bash\npython scripts/validate_all.py --list   # list all scripts\npython scripts/validate_all.py --quick  # skip the slow script\n```\n\n---\n\n*Use this skill whenever a user asks for causal‑inference code, diagnostics, or identification write‑ups.  Follow the routing step first, then generate a reproducible script or an answer via the MCP server (`statspai-mcp`) as appropriate.*"
+      },
+      "library_id": "automation/causal-inference-the-mixtape-code-skill-v3-1-50c243e2"
+    },
+    {
+      "candidate_id": "88cd7bcb4bfe6b01a3258c2b",
+      "candidate": {
+        "candidate_id": "88cd7bcb4bfe6b01a3258c2b",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:02+00:00",
+        "source": {
+          "repository": "cruisediary/apple-app-review-skills",
+          "repository_url": "https://github.com/cruisediary/apple-app-review-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/cruisediary/apple-app-review-skills/blob/f9a746fb8e9a0e36368cada8a2d39813310d77c4/SKILL.md",
+          "api_sha": "c35d8a4180f236f6de1c6a5d2d40f187715c326f",
+          "repo_stars": 18,
+          "repo_forks": 1,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-19T17:48:59+00:00"
+        },
+        "raw_file": "raw/cruisediary-apple-app-review-skills/SKILL.md",
+        "title": "apple-app-review-skills",
+        "category_hint": "automation",
+        "content_hash": "0c905b01cf4d0d88f3c274e3071cc06654da1e4fc04e525bc9f3469bda253355",
+        "content_characters": 3928
+      },
+      "reviewed_at": "2026-09-26T12:23:28+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "App Store Rejection Prevention Routing Skill Set",
+        "category": "automation",
+        "summary": "A modular skill collection for auditing iOS/macOS apps against App Store rejection criteria. It defines categories, routing tables, and references to individual audit agents. The skill helps developers identify which specific audit to run based on user intent.",
+        "quality_score": 55,
+        "uniqueness_score": 60,
+        "usefulness_score": 65,
+        "safety_score": 100,
+        "total_score": 70,
+        "strengths": [
+          "Clear high‑level organization of audit categories",
+          "Provides routing tables that map user intents to specific skill files",
+          "Includes front‑matter metadata and concise description"
+        ],
+        "weaknesses": [
+          "Lacks explicit prerequisites, inputs, and expected outputs for each audit",
+          "No step‑by‑step procedures or verification methods for the listed skills",
+          "Relies on external skill files that are not included, limiting standalone usefulness"
+        ],
+        "tags": [
+          "appstore",
+          "audit",
+          "routing",
+          "automation",
+          "ios",
+          "macos"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a brief description of required inputs (e.g., project path, bundle identifier) and expected outputs for each audit skill.",
+          "Provide example command snippets or API calls that invoke the referenced agents.",
+          "Include a short verification checklist to confirm that an audit completed successfully.",
+          "Supply at least one concrete implementation example for a representative skill (e.g., `privacy-policy-check`)."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "e493e255ff521c23efb26046",
+      "candidate": {
+        "candidate_id": "e493e255ff521c23efb26046",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:06+00:00",
+        "source": {
+          "repository": "op7418/Claude-to-IM-skill",
+          "repository_url": "https://github.com/op7418/Claude-to-IM-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/op7418/Claude-to-IM-skill/blob/536908f5e9bd65a151ca4cb4b08d3fedc1a43b4d/SKILL.md",
+          "api_sha": "4de0650eff4fba7a6803c4d7984573145b3cd723",
+          "repo_stars": 2881,
+          "repo_forks": 316,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-18T16:09:09+00:00"
+        },
+        "raw_file": "raw/op7418-claude-to-im-skill/SKILL.md",
+        "title": "claude-to-im",
+        "category_hint": "content_creation",
+        "content_hash": "86f83223616ead223dd151dc06ef18722f5071e3b308f13aedcbab3468b90e18",
+        "content_characters": 13727
+      },
+      "reviewed_at": "2026-09-26T12:23:57+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "accept",
+        "title": "Claude-to-IM Bridge Skill",
+        "category": "content_creation",
+        "summary": "This skill enables users to bridge a Claude or Codex session to popular instant‑messaging platforms (Telegram, Discord, Feishu/Lark, QQ, WeChat). It provides a full lifecycle – setup, start, stop, status, logs, reconfigure and diagnostic (doctor) – with interactive credential collection, token validation and safe handling of secrets.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 95,
+        "total_score": 86,
+        "strengths": [
+          "Comprehensive subcommand design covering the entire bridge lifecycle",
+          "Interactive, tool‑aware setup wizard that adapts to Claude Code vs. Codex environments",
+          "Explicit handling and masking of sensitive credentials",
+          "Built‑in token validation and diagnostic (doctor) procedures",
+          "Clear mapping of user intents to subcommands"
+        ],
+        "weaknesses": [
+          "Relies on external reference files (setup‑guides.md, token‑validation.md) that are not included in the skill description",
+          "Few concrete example command invocations for end‑users",
+          "Error handling for missing required tools (e.g., Bash, Grep) could be more explicit",
+          "Environment detection description could be simplified"
+        ],
+        "tags": [
+          "claude",
+          "im-bridge",
+          "messaging",
+          "setup",
+          "automation"
+        ],
+        "safety_flags": [
+          "handles-sensitive-credentials",
+          "requires-user-consent"
+        ],
+        "recommended_improvements": [
+          "Include short inline examples of how a user would invoke each subcommand (e.g., `/claude-to-im start`)",
+          "Provide a minimal example of the generated `config.env` file format",
+          "Add fallback guidance when required tools are unavailable",
+          "Bundle or summarize the most critical sections of the referenced guide files"
+        ],
+        "normalized_skill_markdown": "---\nname: claude-to-im\ndescription: |\n  Bridge Claude or Codex sessions to Telegram, Discord, Feishu/Lark, QQ, or WeChat, allowing the user to chat with Claude from their phone. Includes subcommands for setup, start, stop, status, logs, reconfigure and diagnostics.\n---\n\n# Claude-to-IM Bridge Skill\n\nYou are managing the Claude-to-IM bridge. User data is stored at `~/.claude-to-im/`.\n\nThe skill directory (SKILL_DIR) is at `~/.claude/skills/claude-to-im`. In Codex installs it may instead be `~/.codex/skills/Claude-to-IM-skill`. If neither path exists, fall back to a glob pattern `**/skills/**/claude-to-im/SKILL.md` or `**/skills/**/Claude-to-IM-skill/SKILL.md` and derive the root from the result.\n\n## Command parsing\n\nParse the user's intent from `$ARGUMENTS` into one of these subcommands:\n\n| User says (examples) | Subcommand |\n|---|---|\n| `setup`, `configure`, `配置`, `我想在飞书上用 Claude`, `帮我连接 Telegram`, `帮我接微信` | setup |\n| `start`, `start bridge`, `启动`, `启动桥接` | start |\n| `stop`, `stop bridge`, `停止`, `停止桥接` | stop |\n| `status`, `bridge status`, `状态`, `运行状态`, `怎么看桥接的运行状态` | status |\n| `logs`, `logs 200`, `查看日志`, `查看日志 200` | logs |\n| `reconfigure`, `修改配置`, `帮我改一下 token`, `换个 bot` | reconfigure |\n| `doctor`, `diagnose`, `诊断`, `挂了`, `没反应了`, `bot 没反应`, `出问题了` | doctor |\n\n**Disambiguation:** Use `status` for a simple health check; use `doctor` when the user reports a problem.\n\nExtract an optional numeric argument for `logs` (default 50).\n\nBefore asking for any platform credentials, read `SKILL_DIR/references/setup-guides.md` internally so you know where to find each credential. Do **not** dump the full guide to the user upfront – only mention the specific next step they need to do (e.g., \"Go to https://open.feishu.cn → your app → Credentials to find the App ID\"). If the user says they don’t know how, then show the relevant section of the guide.\n\n## Runtime detection\n\n1. **Claude Code** – `AskUserQuestion` tool is available. Use it for interactive setup wizards.\n2. **Codex / other** – `AskUserQuestion` is **not** available. Provide non‑interactive guidance: show `SKILL_DIR/config.env.example` and ask the user to create `~/.claude-to-im/config.env` manually.\n\nYou can test this by checking if `AskUserQuestion` is in the available tools list.\n\n## Config check (applies to all subcommands except `setup`)\n\nBefore running any subcommand, verify that `~/.claude-to-im/config.env` exists:\n\n- **If missing**:\n  - In Claude Code: inform the user and automatically start the `setup` wizard via `AskUserQuestion`.\n  - In Codex: show the example config file and stop – the daemon would crash without a config.\n- **If present**: proceed with the requested subcommand.\n\n## Subcommands\n\n### `setup`\nRun an interactive setup wizard. Requires `AskUserQuestion`. If unavailable, display `SKILL_DIR/config.env.example` with field‑by‑field explanations and instruct the user to create the file manually.\n\nWhen interactive, collect input **one field at a time**, confirming each value back to the user (masking secrets to the last 4 characters).\n\n#### Step 1 – Choose channels\nAsk which channels to enable (telegram, discord, feishu, qq, weixin). Accept comma‑separated input and briefly describe each.\n\n#### Step 2 – Collect tokens per channel\nFor each enabled channel, ask for the required credentials, providing a one‑sentence pointer to where the value can be found. Show the full guide section only if the user asks for help.\n\n- **Telegram**: Bot Token → Chat ID → Optional Allowed User IDs.\n- **Discord**: Bot Token → Optional Allowed User IDs → Optional Allowed Channel IDs → Optional Allowed Guild IDs.\n- **Feishu**: App ID → App Secret → Optional Domain → Optional Allowed User IDs. Explain the two‑phase setup required for Feishu.\n- **QQ**: QQ App ID → QQ App Secret → Optional Allowed User OpenIDs → Optional image settings.\n- **Weixin**: Explain QR‑login flow, run `npm run weixin:login`, and wait for success.\n\n#### Step 3 – General settings\nAsk for runtime (`claude`, `codex`, `auto`), working directory, optional model override, and mode (`code`, `plan`, `ask`).\n\n#### Step 4 – Write config and validate\n1. Show a summary table (secrets masked).\n2. Ask for confirmation.\n3. Create required directories with Bash.\n4. Write `~/.claude-to-im/config.env` using the Write tool.\n5. Set permissions `chmod 600`.\n6. Validate tokens using commands described in `SKILL_DIR/references/token-validation.md`.\n7. Report validation results; if any fail, explain how to fix them.\n8. On success, tell the user: \"Setup complete! Run `/claude-to-im start` to start the bridge.\"\n\n### `start`\nPre‑check config existence (see above). Then run:\n```\nbash \"SKILL_DIR/scripts/daemon.sh\" start\n```\nShow the output. On failure, suggest running `doctor` or checking logs.\n\n### `stop`\n```\nbash \"SKILL_DIR/scripts/daemon.sh\" stop\n```\n\n### `status`\n```\nbash \"SKILL_DIR/scripts/daemon.sh\" status\n```\n\n### `logs`\nExtract optional line count N (default 50) and run:\n```\nbash \"SKILL_DIR/scripts/daemon.sh\" logs N\n```\n\n### `reconfigure`\n1. Read current config and display a masked table.\n2. Use `AskUserQuestion` to determine what the user wants to change.\n3. Collect new values with the same guidance as in `setup`.\n4. Update the config atomically (write to a temp file then rename).\n5. Re‑validate any changed tokens.\n6. Remind the user to restart the bridge.\n\nIf the user wants to switch Weixin accounts, run `npm run weixin:login` again.\n\n### `doctor`\nRun:\n```\nbash \"SKILL_DIR/scripts/doctor.sh\"\n```\nShow results and suggest fixes for common failures (missing CLI, stale build artifacts, missing config, Weixin login issues, etc.). For complex issues, refer to `SKILL_DIR/references/troubleshooting.md`.\n\n## Notes\n- Always mask secrets in any output (show only the last 4 characters).\n- The daemon runs as a background Node.js process managed by the platform supervisor (launchd on macOS, setsid on Linux, WinSW/NSSM on Windows).\n- Config persists at `~/.claude-to-im/config.env` across sessions.\n"
+      }
+    },
+    {
+      "candidate_id": "b583c2327885e8cd7e171aef",
+      "candidate": {
+        "candidate_id": "b583c2327885e8cd7e171aef",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:08+00:00",
+        "source": {
+          "repository": "chentao326/teacher-skill",
+          "repository_url": "https://github.com/chentao326/teacher-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/chentao326/teacher-skill/blob/86056ac80f9e5f80c1e965a0de7e358ca54f4bdc/SKILL.md",
+          "api_sha": "c483dcbba5d53b8e11a3ff4154a7c2a5e0e928ed",
+          "repo_stars": 56,
+          "repo_forks": 10,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-18T07:54:56+00:00"
+        },
+        "raw_file": "raw/chentao326-teacher-skill/SKILL.md",
+        "title": "teacher",
+        "category_hint": "research",
+        "content_hash": "0a90b83250894f4e8a0d614535046c9709a670d3b77fd17550f294f1ee618bbc",
+        "content_characters": 6351
+      },
+      "reviewed_at": "2026-09-26T12:24:44+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "AI Teacher Skill for Adaptive Learning",
+        "category": "education",
+        "summary": "The skill defines an AI teacher that adapts to a learner's ability, extracts teaching style from provided materials, and follows a multi‑phase teaching workflow. It includes triggers, phase definitions, and references to many auxiliary modules. While comprehensive, it lacks concrete input/output specifications, examples, and safeguards for the Bash tool it permits.",
+        "quality_score": 70,
+        "uniqueness_score": 75,
+        "usefulness_score": 80,
+        "safety_score": 85,
+        "total_score": 78,
+        "strengths": [
+          "Detailed multi‑phase teaching process",
+          "Adaptive to learner ability",
+          "Supports style mimicry of specific teachers",
+          "Extensive modular design with many reference files"
+        ],
+        "weaknesses": [
+          "No explicit input/output definitions",
+          "Missing concrete usage examples",
+          "Relies on many external reference files not provided",
+          "Unrestricted Bash tool without safety guidelines"
+        ],
+        "tags": [
+          "education",
+          "teaching",
+          "adaptive-learning",
+          "style-mimicry",
+          "workflow"
+        ],
+        "safety_flags": [
+          "uses bash tool without sandbox",
+          "potential for unsafe command execution"
+        ],
+        "recommended_improvements": [
+          "Add a clear \"Inputs\" and \"Outputs\" section describing expected user material formats and produced artifacts",
+          "Provide a short example conversation showing trigger, phase progression, and final output",
+          "Specify safe usage policies for the Bash tool or remove it if not essential",
+          "Include or summarize essential referenced files (e.g., teaching‑sop.md) so the skill is self‑contained",
+          "Add verification steps to confirm learner understanding after each phase"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "14fc6301e41876ab0821ac58",
+      "candidate": {
+        "candidate_id": "14fc6301e41876ab0821ac58",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:10+00:00",
+        "source": {
+          "repository": "huiali/rust-skills",
+          "repository_url": "https://github.com/huiali/rust-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/huiali/rust-skills/blob/947bf77509d9b421035037e983da6662d08cbb8e/SKILL.md",
+          "api_sha": "2e3703d7f0fc29e99eee4fb427a760097455248f",
+          "repo_stars": 47,
+          "repo_forks": 7,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-05T08:26:09+00:00"
+        },
+        "raw_file": "raw/huiali-rust-skills/SKILL.md",
+        "title": "Rust Expert Skill",
+        "category_hint": "automation",
+        "content_hash": "325b93cf96553058a00ea8b885e1d73a5d621cae09c65ccae14cee854a9e6fa9",
+        "content_characters": 11053
+      },
+      "reviewed_at": "2026-09-26T12:25:22+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Rust Expert Skill",
+        "category": "programming",
+        "summary": "A comprehensive Rust programming skill that guides users through ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more. It includes detailed best‑practice instructions, tooling scripts, and a hierarchy of 35 specialized sub‑skills that are auto‑routed based on the query context. The skill also provides verification scripts and reference material to ensure safe, idiomatic Rust code.",
+        "quality_score": 80,
+        "uniqueness_score": 70,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Extensive coverage of Rust topics",
+          "Clear best‑practice guidelines and code snippets",
+          "Includes verification scripts (compile, test, clippy, fmt)",
+          "Well‑structured sub‑skill taxonomy for routing",
+          "Provides concrete Cargo workflow commands"
+        ],
+        "weaknesses": [
+          "Missing explicit input/output definitions for the skill interface",
+          "No concrete usage examples showing how to invoke sub‑skills",
+          "Routing mechanism is described but not operationalized",
+          "Large size may overwhelm newcomers"
+        ],
+        "tags": [
+          "rust",
+          "programming",
+          "code-review",
+          "concurrency",
+          "async",
+          "ffi",
+          "performance",
+          "web",
+          "embedded",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise \"How to use\" section with example queries and expected responses",
+          "Define the skill's input (e.g., user question) and output (e.g., structured answer) formats",
+          "Explain the automatic routing logic or provide a simple dispatcher script",
+          "Include a quick‑start example that demonstrates invoking a sub‑skill"
+        ],
+        "normalized_skill_markdown": "---\nname: rust-skill\ndescription: |\n  Comprehensive Rust programming expert skill system covering ownership, lifetimes, async/await, FFI, performance, web development, embedded systems, and more, with routing to specialized sub‑skills.\n---\n\n# Rust Expert Skill\n\n## Description\nYou are an expert Rust programmer with deep knowledge of:\n- Memory safety, ownership, borrowing, and lifetimes\n- Modern Rust patterns (2021‑2024 editions)\n- Systems programming, concurrency, and unsafe Rust\n- Error handling, testing, and best practices\n\n### When to use this skill\n- Rust compilation errors and type‑system issues\n- Ownership, borrowing, and lifetime questions\n- Async/await and concurrency patterns\n- Performance optimization and benchmarking\n- FFI and systems programming\n- Web development with Rust\n- Embedded and `no_std` environments\n- Testing, database, observability infrastructure\n\n## Instructions\n### Code Analysis\n1. Identify ownership and borrowing patterns\n2. Check for lifetime issues and potential leaks\n3. Evaluate error handling strategy\n4. Assess concurrency safety (`Send`/`Sync` bounds)\n5. Review API ergonomics and idiomatic usage\n\n### Problem Solving\n1. Start with safe, idiomatic solutions\n2. Use `unsafe` only when absolutely necessary and justified\n3. Prefer the type system over runtime checks\n4. Leverage community crates where appropriate\n5. Consider performance implications of abstractions\n\n### Best Practices\n- Use `Result` and `Option` throughout the codebase\n- Implement `std::error::Error` for custom error types\n- Write comprehensive tests (unit + integration)\n- Document public APIs with `rustdoc`\n- Run `cargo clippy` and `cargo fmt` for code quality\n\n#### Error Handling Example\n```rust\n// Propagate errors with ? operator\nfn process_data(input: &str) -> Result<Data, MyError> {\n    let parsed = input.parse()?;\n    let validated = validate(parsed)?;\n    Ok(validated)\n}\n\n// Use thiserror for custom error types\n#[derive(thiserror::Error, Debug)]\npub enum MyError {\n    #[error(\"validation failed: {0}\")]\n    Validation(String),\n    #[error(\"io error: {0}\")]\n    Io(#[from] std::io::Error),\n}\n```\n\n### Memory Safety Patterns\n- Stack‑allocate small, `Copy` types\n- Use `Box<T>` for heap allocation and trait objects\n- `Rc<T>` / `Arc<T>` for shared ownership\n- `Vec<T>` for dynamic collections\n- References with explicit lifetimes when needed\n\n### Concurrency Safety\n- Use `Send` for data that can cross thread boundaries\n- Use `Sync` for data that can be shared safely\n- Prefer `Mutex`/`RwLock` for mutable shared state\n- Use channels for message passing\n- Consider `tokio` or `async‑std` for async I/O\n\n### Cargo Workflow\n```bash\n# Create new binary/library\ncargo new --bin project_name\ncargo new --lib library_name\n\n# Add dependencies\ncargo add crate_name\ncargo add --dev dev_dependency\n\n# Check, test, and build\ncargo check          # Fast type checking\ncargo build --release  # Optimized build\ncargo test --lib     # Library tests\ncargo test --doc     # Doc tests\ncargo clippy         # Lint warnings\ncargo fmt            # Format code\n```\n\n## Constraints\n### Always Do\n- ✅ Run `cargo check` before suggesting fixes\n- ✅ Include relevant `Cargo.toml` dependencies\n- ✅ Provide complete, compilable code examples\n- ✅ Explain the rationale behind each pattern\n- ✅ Show how to test the solution\n- ✅ Consider backward compatibility and MSRV when specified\n\n### Never Do\n- ❌ Suggest `unsafe` without clear justification\n- ❌ Use `String` where `&str` suffices\n- ❌ Add unnecessary `clone()` calls\n- ❌ Ignore `Result` or `Option` values\n- ❌ Introduce panics in library code\n\n## Tools (scripts/ directory)\n- `scripts/compile.sh` – runs `cargo check --message-format=short`\n- `scripts/test.sh` – runs `cargo test --lib --doc --message-format=short`\n- `scripts/clippy.sh` – runs `cargo clippy -- -D warnings`\n- `scripts/fmt.sh` – runs `cargo fmt --check`\n\n## References (references/ directory)\n- Core concepts: ownership, lifetimes, concurrency\n- Best practices: API design, error handling, unsafe rules\n- Ecosystem: recommended crates, modern crates (2024‑2025), testing strategies\n- Versions: Rust 2021/2024 edition features\n- Commands: code review, unsafe check, skill index\n\n## Sub‑Skills (35 total)\n### Core Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-skill** | Main Rust expert entry point | rust, cargo, compile error |\n| **rust-ownership** | Ownership & lifetime | ownership, borrow, lifetime |\n| **rust-mutability** | Interior mutability | mut, Cell, RefCell, borrow |\n| **rust-concurrency** | Concurrency & async | thread, async, tokio |\n| **rust-error** | Error handling | Result, Error, panic |\n| **rust-error-advanced** | Advanced error handling | thiserror, anyhow, context |\n| **rust-coding** | Coding standards | style, naming, clippy |\n\n### Advanced Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-unsafe** | Unsafe code & FFI | unsafe, FFI, raw pointer |\n| **rust-anti-pattern** | Anti‑patterns | anti-pattern, clone, unwrap |\n| **rust-performance** | Performance optimization | performance, benchmark, false sharing |\n| **rust-web** | Web development | web, axum, HTTP, API |\n| **rust-learner** | Learning & ecosystem | version, new feature |\n| **rust-ecosystem** | Crate selection | crate, library, framework |\n| **rust-cache** | Redis caching | cache, redis, TTL |\n| **rust-auth** | JWT & API Key auth | auth, jwt, token, api-key |\n| **rust-middleware** | Middleware patterns | middleware, cors, rate-limit |\n| **rust-xacml** | Policy engine | xacml, policy, rbac, permission |\n\n### Expert Skills\n| Skill | Description | Triggers |\n|-------|-------------|----------|\n| **rust-ffi** | Cross‑language interop | FFI, C, C++, bindgen, C++ exception |\n| **rust-pin** | Pin & self‑referential | Pin, Unpin, self-referential |\n| **rust-macro** | Macros & proc‑macro | macro, derive, proc-macro |\n| **rust-async** | Async patterns | Stream, backpressure, select |\n| **rust-async-pattern** | Advanced async | tokio::spawn, plugin |\n| **rust-const** | Const generics | const, generics, compile-time |\n| **rust-embedded** | Embedded & no_std | no_std, embedded, ISR, WASM, RISC‑V |\n| **rust-lifetime-complex** | Complex lifetimes | HRTB, GAT, 'static, dyn trait |\n| **rust-skill-index** | Skill index | skill, index, 技能列表 |\n| **rust-linear-type** | Linear types & resource mgmt | Destructible, RAII, linear semantics |\n| **rust-coroutine** | Coroutines & green threads | generator, suspend/resume, coroutine |\n| **rust-ebpf** | eBPF & kernel programming | eBPF, kernel module, map, tail call |\n| **rust-gpu** | GPU memory & computing | CUDA, GPU memory, compute shader |\n\n## Problem‑Based Lookup\n| Problem Type | Skills to Use |\n|--------------|---------------|\n| Compile errors (ownership/lifetime) | rust-ownership, rust-lifetime-complex |\n| Borrow checker conflicts | rust-mutability |\n| Send/Sync issues | rust-concurrency |\n| Performance bottlenecks | rust-performance |\n| Async code issues | rust-concurrency, rust-async, rust-async-pattern |\n| Unsafe code review | rust-unsafe |\n| FFI & C++ interop | rust-ffi |\n| Embedded/no_std | rust-embedded |\n| eBPF kernel programming | rust-ebpf |\n| GPU computing | rust-gpu |\n| Advanced type system | rust-lifetime-complex, rust-macro, rust-const |\n| Coding standards | rust-coding |\n| Caching strategies | rust-cache |\n| Authentication/Authorization | rust-auth, rust-xacml |\n| Web middleware | rust-middleware, rust-web |\n\n## Skill Collaboration Diagram\n```\nrust-skill (main entry)\n    │\n    ├─► rust-ownership ──► rust-mutability ──► rust-concurrency ──► rust-async\n    │         │                     │                     │\n    │         └─► rust-unsafe ──────┘                     │\n    │                   │                              │\n    │                   └─► rust-ffi ─────────────────────► rust-ebpf\n    │                             │                         │\n    │                             └────────────────────────► rust-gpu\n    │\n    ├─► rust-error ──► rust-error-advanced ──► rust-anti-pattern\n    │\n    ├─► rust-coding ──► rust-performance\n    │\n    ├─► rust-web ──► rust-middleware ──► rust-auth ──► rust-xacml\n    │                              │\n    │                              └─► rust-cache\n    │\n    └─► rust-learner ──► rust-ecosystem / rust-embedded\n              │\n              └─► rust-pin / rust-macro / rust-const\n                        │\n                        └─► rust-lifetime-complex / rust-async-pattern\n                                  │\n                                  └─► rust-coroutine\n```"
+      },
+      "library_id": "programming/rust-expert-skill-14fc6301"
+    },
+    {
+      "candidate_id": "c843c5eec7701434ace74a15",
+      "candidate": {
+        "candidate_id": "c843c5eec7701434ace74a15",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:11+00:00",
+        "source": {
+          "repository": "mit-han-lab/ncu-report-skill",
+          "repository_url": "https://github.com/mit-han-lab/ncu-report-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/mit-han-lab/ncu-report-skill/blob/74a12918e9f64d78036f14da5f8765e435b949a4/SKILL.md",
+          "api_sha": "437977abcf951c7b41e091842f0ffbeb97a2bff1",
+          "repo_stars": 232,
+          "repo_forks": 36,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-18T06:46:49+00:00"
+        },
+        "raw_file": "raw/mit-han-lab-ncu-report-skill/SKILL.md",
+        "title": "ncu-report-skill",
+        "category_hint": "programming",
+        "content_hash": "3d713ab9b331ee69206b91e8635a9e99dc27d09d2b68a37331a70989eca319dd",
+        "content_characters": 8198
+      },
+      "reviewed_at": "2026-09-26T12:25:59+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "CUDA Kernel Profiling with Nsight Compute on NVIDIA B200",
+        "category": "programming",
+        "summary": "A comprehensive, step‑by‑step workflow for profiling CUDA kernels on NVIDIA B200 (sm_100) using Nsight Compute. It guides the user from creating a run directory, building a harness, collecting reports, parsing them with a Python API, diagnosing bottlenecks, and producing an evidence‑backed optimization report. The skill includes reference documentation, helper scripts, and B200‑specific metric mappings.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Very detailed end‑to‑end workflow",
+          "Clear golden rule (Profile → Diagnose → Plan)",
+          "B200‑specific metric name guidance",
+          "Rich set of helper scripts and reference docs",
+          "Emphasis on evidence‑based recommendations"
+        ],
+        "weaknesses": [
+          "No explicit prerequisites checklist",
+          "Few concrete code snippets or example outputs",
+          "References to external files assume repository context"
+        ],
+        "tags": [
+          "cuda",
+          "profiling",
+          "nsight-compute",
+          "performance",
+          "optimization",
+          "b200",
+          "python",
+          "gpu"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise prerequisites section (e.g., required tools, hardware, Python version)",
+          "Include a minimal harness code example inline",
+          "Show a short excerpt of a parsed NCU report to illustrate analysis output"
+        ],
+        "normalized_skill_markdown": "---\nname: ncu-report-skill\ndescription: Profile CUDA kernels with Nsight Compute on NVIDIA B200 (sm_100). Workflow for profiling, diagnosing, and generating optimization reports.\n---\n\n# Skill: CUDA Kernel Profiling (B200 / Nsight Compute)\n\n**When to use:** user asks to profile a CUDA kernel, analyze its performance, find its bottlenecks, or write an optimization plan based on Nsight Compute data. Triggers include: \"profile X\", \"为什么这个 kernel 慢\", \"ncu report 说...\", \"下一步怎么优化\", \"帮我看一下这份 ncu 报告\".\n\n**Target hardware (this repo):** NVIDIA B200 (sm_100, CC 10.0, 148 SMs, 192 GB HBM3e). Most advice below is generic; B200‑specific notes are explicitly marked.\n\n---\n\n## Golden rule\n\n**Profile → Diagnose → Plan**, in that order. Never guess.\n\nMost under‑performing CUDA kernels are under‑performing for exactly one reason that NCU can tell you in 10 seconds. Don't invent hypotheses before you have the report. Don't start coding a fix before you've matched the observed pattern to a known diagnosis. Don't write a wall of suggestions — rank them by evidence and expected impact.\n\n---\n\n## Quickstart (what to do when someone says \"profile this kernel\")\n\n0. **Create a new run directory** under `profile/<run_name>/` at the repo root — **one directory per run**, never reuse an existing one. Each run contains its own `harness/`, `reports/`, `analysis/`, and `REPORT.md`. This rule is mandatory in this repo. See [`reference/00-directory-layout.md`](reference/00-directory-layout.md).\n\n1. **Decide what you're profiling.** What inputs? Which dispatch path? What question do you want answered? If the kernel takes variable‑sized inputs (variable seq lengths, variable batch sizes), you must pick specific representative shapes from the user's workload — don't profile with arbitrary inputs.\n\n2. **Build a standalone harness** unless the user is profiling through their existing binary. Harnesses compile in seconds, run the kernel in isolation, and let you use `-lineinfo` cleanly so NCU can map SASS back to source. Compile into `profile/<run_name>/harness/`. See [`reference/02-harness-guide.md`](reference/02-harness-guide.md) and the template in [`helpers/harness_template.cu`](helpers/harness_template.cu).\n\n3. **Run two profiles**: `--set full` (with `PmSampling` sections) for the overview, and `--set source --section SourceCounters` for per‑line stall attribution. Write outputs to `profile/<run_name>/reports/`. See [`reference/03-collection.md`](reference/03-collection.md).\n\n4. **Parse with `ncu_report`** Python module — not by eye‑balling the CLI. Write analysis outputs to `profile/<run_name>/analysis/`. Use the helpers in [`helpers/`](helpers/). See [`reference/04-python-api.md`](reference/04-python-api.md).\n\n5. **Work through the six analysis dimensions.** See [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md). Every one matters, but on any given kernel only 1–2 will dominate.\n\n6. **Match patterns to the diagnosis playbook.** See [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md). It maps NCU signal → likely cause → concrete fix, with example counts for \"how big is this\".\n\n7. **Write the report** at `profile/<run_name>/REPORT.md` with evidence‑backed recommendations, ranked by expected impact. See [`reference/07-report-template.md`](reference/07-report-template.md).\n\n---\n\n## File index\n\n### Reference docs (read these when you need details)\n\n| File | Purpose |\n|---|---|\n| [`reference/00-directory-layout.md`](reference/00-directory-layout.md) | **Read first.** Directory / naming conventions — one run = one subdirectory, no cross‑contamination |\n| [`reference/01-workflow.md`](reference/01-workflow.md) | End‑to‑end checklist from \"user request\" to \"final report\" |\n| [`reference/02-harness-guide.md`](reference/02-harness-guide.md) | When and how to build a standalone harness (mandatory for TVM‑FFI, PyTorch kernels, JIT‑compiled code) |\n| [`reference/03-collection.md`](reference/03-collection.md) | NCU command recipes: full, source‑level, PM sampling, custom sections |\n| [`reference/04-python-api.md`](reference/04-python-api.md) | `ncu_report` Python API patterns with copy‑pasteable code |\n| [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md) | Six analysis dimensions: occupancy, balance, stalls, tensor core, timeline, memory |\n| [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md) | Pattern → diagnosis → fix. Merges Blackwell programming principles with NCU signals |\n| [`reference/07-report-template.md`](reference/07-report-template.md) | How to structure the final report |\n| [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) | sm_100 metric names vs older GPUs — many common names are different |\n| [`reference/09-common-issues.md`](reference/09-common-issues.md) | Permissions, PM sampling gaps, TVM‑FFI / PyTorch gotchas |\n\n### Helpers (reusable code)\n\n| File | Purpose |\n|---|---|\n| [`helpers/harness_template.cu`](helpers/harness_template.cu) | Standalone harness template — paste your kernel, fill in input allocation, done |\n| [`helpers/safetensors_loader.h`](helpers/safetensors_loader.h) | Header‑only safetensors reader (no external deps) for loading real workload tensors |\n| [`helpers/analyze_reports.py`](helpers/analyze_reports.py) | Extract key metrics, produce side‑by‑side comparisons |\n| [`helpers/extract_stall_hotspots.py`](helpers/extract_stall_hotspots.py) | Per‑line stall aggregation via `action.source_info(pc)` |\n| [`helpers/plot_timeline.py`](helpers/plot_timeline.py) | ASCII PM‑sampling timeline plotter — makes tail effect visible |\n| [`helpers/list_flashinfer_workloads.py`](helpers/list_flashinfer_workloads.py) | Browse a flashinfer‑trace dataset — shape histograms, filter by axis, resolve safetensors paths for specific UUIDs |\n| [`helpers/ncu_utils.py`](helpers/ncu_utils.py) | Shared Python helpers: safe metric access, per‑instance extraction, report loading |\n\n---\n\n## Critical lessons (don't skip)\n\n1. **The stock `ncu_profile_skill.md` metric names don't all work on B200.** Names like `smsp__inst_executed_op_global_ld.sum`, `dram__bytes.sum`, `l1tex__average_t_sectors_per_request*.ratio` return `None` on sm_100. Use the sm_100 names in [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) or enumerate via `action.metric_names()`.\n\n2. **Always compile with `-lineinfo`.** Without it, NCU's source view is blank and you cannot do per‑line stall analysis. If you can't add `-lineinfo` to the build system (TVM‑FFI, PyTorch inline, JIT), **build a standalone harness** — that's the whole point.\n\n3. **PM sampling is the only way to see tail effects.** Static metrics average over the whole kernel; only the time‑series (either `pmsampling:` metrics or the ASCII plotter in `helpers/`) shows the shape of utilization over time.\n\n4. **Load‑imbalance on variable‑length inputs is often the #1 bottleneck.** If the user's workload has sequences of varying length, per‑SM active‑cycle variance will often dwarf every other effect. Always check the input distribution.\n\n5. **NCU's rule engine (`--page details`) already does half the work.** Each rule comes with `Est. Speedup: X%`. Read them first — they often point straight at the answer.\n\n6. **Don't delegate understanding.** Run the profiles yourself, open the reports, cite specific metric values. Never write \"the profile shows it's memory‑bound\" — instead, name the two or three metric values that back your conclusion (e.g., \"`dram__bytes_read.sum.pct_of_peak_sustained_elapsed` well under 10 %, and `long_scoreboard` stalls dominate the pcsamp histogram, so the kernel is **latency‑bound on L1**, not DRAM‑bandwidth‑bound\"). Fill in the actual numbers from your report. Specificity is the deliverable.\n\n---\n\n## Related skills\n\n- [`blackwell-cuda-programming.md`](blackwell-cuda-programming.md) — Blackwell‑specific programming principles and checklists, preserved as a companion reference. Use it when proposing *new* kernel designs; use this skill when diagnosing *existing* kernels.\n"
+      },
+      "library_id": "programming/cuda-kernel-profiling-with-nsight-compute-on-nvidia-b200-c843c5ee"
+    }
+  ]
+}

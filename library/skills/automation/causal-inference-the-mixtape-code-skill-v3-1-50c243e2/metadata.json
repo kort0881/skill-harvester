@@ -1,0 +1,76 @@
+{
+  "library_id": "automation/causal-inference-the-mixtape-code-skill-v3-1-50c243e2",
+  "title": "Causal Inference: The Mixtape – Code Skill (v3.1)",
+  "category": "automation",
+  "tags": [
+    "causal inference",
+    "econometrics",
+    "python",
+    "r",
+    "stata",
+    "automation",
+    "statistics",
+    "research"
+  ],
+  "summary": "A practitioner‑focused skill that guides users from identifying the causal design to generating runnable Python, R, or Stata code for a wide range of causal‑inference methods. It includes a design‑router, validated script templates, cross‑backend checks via StatsPAI, and detailed diagnostics to produce publishable results.",
+  "source": {
+    "repository": "Jill0099/causal-inference-mixtape",
+    "repository_url": "https://github.com/Jill0099/causal-inference-mixtape",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Jill0099/causal-inference-mixtape/blob/5d3d938a18e7cd4992e2023aa309fc02c5008d66/SKILL.md",
+    "api_sha": "08a45d5633a96de36f339ea428e70a72cca39d33",
+    "repo_stars": 17,
+    "repo_forks": 2,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-16T18:54:04+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:00+00:00",
+  "accepted_at": "2026-09-26T12:22:52+00:00",
+  "content_hash": "4051db7a5a42ff3470d0cb7a06167893f450ef59a444f4bde0c67f6cdadc76d7",
+  "source_excerpt": "--- name: causal-inference-mixtape description: This skill should be used when the user asks to \"implement a DiD regression\", \"run a staggered difference-in-differences\", \"set up an event study\", \"implement IV / 2SLS\", \"run a regression discontinuity design\", \"build synthetic control\", \"do propensity score matching\", \"test parallel trends\", \"run Honest DiD\", \"wild cluster bootstrap\", \"Callaway-Sant'Anna\", \"Sun-Abraham\", \"Bacon decomposition\", \"double machine learning\", \"debiased machine learning\", \"DML / DoubleML\", \"cross-fitting\", \"causal forest\", \"heterogeneous treatment effects\", \"ATE with ML controls\", \"which causal design fits my data\", or needs causal-inference code, diagnostics, or identification writing in Python (StatsPAI), R, or S…",
+  "review": {
+    "decision": "accept",
+    "title": "Causal Inference: The Mixtape – Code Skill (v3.1)",
+    "category": "automation",
+    "summary": "A practitioner‑focused skill that guides users from identifying the causal design to generating runnable Python, R, or Stata code for a wide range of causal‑inference methods. It includes a design‑router, validated script templates, cross‑backend checks via StatsPAI, and detailed diagnostics to produce publishable results.",
+    "quality_score": 82,
+    "uniqueness_score": 86,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 87,
+    "strengths": [
+      "Extensive coverage of causal‑inference methods (DiD, event study, IV, RDD, synthetic control, matching, DML, etc.)",
+      "Clear design‑routing workflow that forces users to think about the assignment mechanism first",
+      "Validated Python scripts (13 + templates) with a built‑in validation suite",
+      "Cross‑language support (Python StatsPAI, pyfixest, linearmodels, R, Stata)",
+      "Practical pitfalls and diagnostic checklist to avoid common mistakes"
+    ],
+    "weaknesses": [
+      "Input‑output specifications for each template are implicit rather than explicit",
+      "Heavy reliance on the external StatsPAI package; installation steps are only briefly mentioned",
+      "Chinese‑language reference files may be inaccessible to many users",
+      "No end‑to‑end example included directly in the skill description",
+      "License and attribution details are omitted"
+    ],
+    "tags": [
+      "causal inference",
+      "econometrics",
+      "python",
+      "r",
+      "stata",
+      "automation",
+      "statistics",
+      "research"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise table of required inputs and expected outputs for each method template",
+      "Provide a minimal end‑to‑end example (e.g., a 2×2 DiD) within the skill markdown",
+      "Include explicit installation commands and version constraints for StatsPAI and other dependencies",
+      "Offer English equivalents or summaries for the Chinese‑language reference files",
+      "State the licensing terms of the skill and any third‑party code it uses"
+    ],
+    "normalized_skill_markdown": "---\nname: causal-inference-mixtape\ndescription: Practitioner‑oriented causal‑inference code templates and workflow covering DiD, event studies, IV, RDD, synthetic control, matching, DML, and related diagnostics in Python, R, and Stata, based on Scott Cunningham’s *Causal Inference: The Mixtape*.\nversion: 3.1.0\n---\n\n# Causal Inference: The Mixtape — Code Skill (v3.1)\n\nThis skill helps users who need to **implement a causal‑inference method** (DiD, staggered DiD, event study, IV/2SLS, regression discontinuity, synthetic control, propensity‑score matching, Honest DiD, wild‑cluster bootstrap, Callaway‑Sant'Anna, Sun‑Abraham, Bacon decomposition, double‑machine learning, causal forests, etc.) in **Python, R, or Stata**.  It follows the workflow advocated in Scott Cunningham’s *Causal Inference: The Mixtape*, extended with recent finance applications and machine‑learning‑based patterns.\n\n---\n\n## 1. Route the design before writing code\n\nAsk the user how treatment was assigned and follow the decision tree below.  The tree maps the assignment mechanism to a causal design and suggests the appropriate estimator.\n\n```\nHow was treatment assigned?\n├─ Randomised                          → diff‑in‑means + RI\n├─ Threshold on a running variable     → RDD / fuzzy / diff‑in‑disc\n├─ Policy date, one date for all       → 2×2 DiD → event study\n├─ Policy date, dates VARY             → staggered: Bacon → CS/SA/BJS\n├─ One treated unit, many controls     → synthetic control\n├─ Self‑selected + an instrument       → IV / 2SLS (LATE)\n├─ Self‑selected + rich observables    → matching / IPW / DML\n└─ None of the above                   → use associational language\n```\n\nThe full tree, estimator choices, and a **StatsPAI** second‑opinion function (`sp.detect_design`, `sp.recommend`, `sp.preflight`) are documented in `references/design-router.md`.  When the design is still unclear, consult `references/method-selection.md` (Chinese‑language guide with links to Stata tutorials).\n\n---\n\n## 2. Choose a Python backend\n\n```python\nimport statspai as sp  # pip install statspai\n```\n\n**StatsPAI** is the primary backend; it implements a broad set of Stata/R causal‑inference commands (`regress`, `ivregress`, `reghdfe`, `csdid`, `rdrobust`, `synth`, `psmatch2`, `outreg2`, Bacon, Callaway‑Sant'Anna, Sun‑Abraham, Honest DiD, wild‑cluster bootstrap, DAGs, Conley SEs, etc.).  Alternative backends are:\n\n* `pyfixest` – fast high‑dimensional fixed effects and independent wild bootstrap.\n* `linearmodels` – deep IV and panel diagnostics.\n* `statsmodels` – plain OLS/GLM.\n* R or Stata – when the reference implementation or replication target requires them.\n\nCross‑backend validation details are in `references/statspai-guide.md`.\n\n---\n\n## 3. Methods covered\n\n| Method | Python (StatsPAI) | R | Stata | Script template |\n|---|---|---|---|---|\n| OLS / regression | `sp.regress` | `estimatr` | `reg`, `reghdfe` | — |\n| DiD (2×2) | `sp.feols` | `fixest` | `reghdfe` | `02` |\n| Event study | `sp.event_study` | `fixest i()` | `reghdfe` | `03` |\n| Staggered DiD | `sp.callaway_santanna`, `sp.sun_abraham`, `sp.did_imputation` | `did`, `fixest` | `csdid` | `04` |\n| Bacon decomposition | `sp.bacon_decomposition` | `bacondecomp` | `bacondecomp` | `04` |\n| Regression discontinuity | `sp.rdrobust`, `sp.rddensity` | `rdrobust` | `rdrobust` | `05` |\n| Instrumental variables | `sp.ivreg` | `AER`, `fixest` | `ivregress` | `06` |\n| Synthetic control | `sp.synth`, `sp.sdid` | `Synth`, `synthdid` | `synth`, `sdid` | `07` |\n| Matching / PSM / IPW | `sp.match`, `sp.ipw`, `sp.psmatch2` | `MatchIt` | `teffects`, `cem` | `08` |\n| Double / Debiased ML | `DoubleML`, `EconML` | `DoubleML`, `grf` | `ddml`, `pdslasso` | — |\n| DAGs / collider bias | `sp.dag`, `dowhy` | `dagitty` | — | `sim_collider_bias.py` |\n| Randomisation inference | `sp.ri_test` | `ri2` | `ritest` | `09` |\n| Clustered inference / wild bootstrap | `sp.wild_cluster_bootstrap` | `fwildclusterboot` | `boottest` | `10` |\n| Honest DiD / pre‑trend power | `sp.honest_did`, `sp.pretrends_power` | `HonestDiD` | `honestdid` | `11` |\n| ... | ... | ... | ... | ... |\n\n---\n\n## 4. Core workflow\n\n1. **Route** the design using `design-router.md` (or `method-selection.md` if needed).\n2. **Load** the corresponding template from `method-patterns.md` (or the runnable script in `scripts/`).\n3. **Adapt** variable names, fixed‑effects structure, and clustering (cluster at the level of treatment assignment).\n4. **Diagnose** with the design‑specific checks in `reporting-checklist.md`.\n5. **Report** key summary statistics (N, number of clusters, treated share, baseline mean, economic magnitude) – avoid reporting t‑statistics alone.\n6. **Write** the identification paragraph using the verb patterns in `identification-writing-patterns.md`.\n\n---\n\n## 5. Common pitfalls (selected)\n\n* **TWFE bias in staggered DiD** – run `sp.bacon_decomposition` and report Callaway‑Sant'Anna or Sun‑Abraham instead of the naïve TWFE estimate.\n* **Event‑study reference period** – ensure the omitted period is correctly dropped; otherwise coefficients are collinear.\n* **Clustering too finely** – always cluster at the level of treatment assignment; clustering at a finer level understates SEs.\n* **Synthetic control inference** – with a single treated unit report permutation‑based p‑values rather than t‑ratios.\n* **DML without cross‑fitting** – use out‑of‑fold predictions; otherwise regularisation bias re‑enters.\n* **Non‑causal framing** – avoid causal language unless the design provides exogenous variation.\n\nFull list (1‑19) is in the original skill document.\n\n---\n\n## 6. Reference files\n\n| File | Purpose |\n|---|---|\n| `references/design-router.md` | Assignment mechanism → design → estimator → diagnostics |\n| `references/method-selection.md` | Chinese guide mapping setting → assumption → method |\n| `references/statspai-guide.md` | StatsPAI API map and gotchas |\n| `references/method-patterns.md` | Code templates for all methods |\n| `references/dml-causal-ml.md` | DML model classes, cross‑fitting, causal forests |\n| `references/reporting-checklist.md` | Checklist of mandatory reporting items |\n| `references/identification-writing-patterns.md` | Templates for the identification paragraph |\n| … | … |\n\n---\n\n## 7. Runnable scripts\n\nThe `scripts/` directory contains 13 validated templates plus shared utilities (`_common.py`).  Run the full validation suite with:\n\n```bash\npython scripts/validate_all.py --list   # list all scripts\npython scripts/validate_all.py --quick  # skip the slow script\n```\n\n---\n\n*Use this skill whenever a user asks for causal‑inference code, diagnostics, or identification write‑ups.  Follow the routing step first, then generate a reproducible script or an answer via the MCP server (`statspai-mcp`) as appropriate.*"
+  }
+}

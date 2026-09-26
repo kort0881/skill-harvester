@@ -1,0 +1,72 @@
+{
+  "library_id": "programming/cuda-kernel-profiling-with-nsight-compute-on-nvidia-b200-c843c5ee",
+  "title": "CUDA Kernel Profiling with Nsight Compute on NVIDIA B200",
+  "category": "programming",
+  "tags": [
+    "cuda",
+    "profiling",
+    "nsight-compute",
+    "performance",
+    "optimization",
+    "b200",
+    "python",
+    "gpu"
+  ],
+  "summary": "A comprehensive, step‑by‑step workflow for profiling CUDA kernels on NVIDIA B200 (sm_100) using Nsight Compute. It guides the user from creating a run directory, building a harness, collecting reports, parsing them with a Python API, diagnosing bottlenecks, and producing an evidence‑backed optimization report. The skill includes reference documentation, helper scripts, and B200‑specific metric mappings.",
+  "source": {
+    "repository": "mit-han-lab/ncu-report-skill",
+    "repository_url": "https://github.com/mit-han-lab/ncu-report-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/mit-han-lab/ncu-report-skill/blob/74a12918e9f64d78036f14da5f8765e435b949a4/SKILL.md",
+    "api_sha": "437977abcf951c7b41e091842f0ffbeb97a2bff1",
+    "repo_stars": 232,
+    "repo_forks": 36,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-18T06:46:49+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:11+00:00",
+  "accepted_at": "2026-09-26T12:25:59+00:00",
+  "content_hash": "3d713ab9b331ee69206b91e8635a9e99dc27d09d2b68a37331a70989eca319dd",
+  "source_excerpt": "--- name: ncu-report-skill description: Profile CUDA kernels with Nsight Compute on B200 / sm_100. Use when the user asks to profile a kernel, analyze its performance, diagnose bottlenecks, read an ncu report, or write an optimization plan — including variants in Chinese (\"profile 一下\", \"为什么慢\", \"ncu 报告\"). --- # Skill: CUDA Kernel Profiling (B200 / Nsight Compute) **When to use:** user asks to profile a CUDA kernel, analyze its performance, find its bottlenecks, or write an optimization plan based on Nsight Compute data. Triggers include: \"profile X\", \"为什么这个 kernel 慢\", \"ncu report 说...\", \"下一步怎么优化\", \"帮我看一下这份 ncu 报告\". **Target hardware (this repo):** NVIDIA B200 (sm_100, CC 10.0, 148 SMs, 192 GB HBM3e). Most advice below is generic; B200-specif…",
+  "review": {
+    "decision": "accept",
+    "title": "CUDA Kernel Profiling with Nsight Compute on NVIDIA B200",
+    "category": "programming",
+    "summary": "A comprehensive, step‑by‑step workflow for profiling CUDA kernels on NVIDIA B200 (sm_100) using Nsight Compute. It guides the user from creating a run directory, building a harness, collecting reports, parsing them with a Python API, diagnosing bottlenecks, and producing an evidence‑backed optimization report. The skill includes reference documentation, helper scripts, and B200‑specific metric mappings.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Very detailed end‑to‑end workflow",
+      "Clear golden rule (Profile → Diagnose → Plan)",
+      "B200‑specific metric name guidance",
+      "Rich set of helper scripts and reference docs",
+      "Emphasis on evidence‑based recommendations"
+    ],
+    "weaknesses": [
+      "No explicit prerequisites checklist",
+      "Few concrete code snippets or example outputs",
+      "References to external files assume repository context"
+    ],
+    "tags": [
+      "cuda",
+      "profiling",
+      "nsight-compute",
+      "performance",
+      "optimization",
+      "b200",
+      "python",
+      "gpu"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise prerequisites section (e.g., required tools, hardware, Python version)",
+      "Include a minimal harness code example inline",
+      "Show a short excerpt of a parsed NCU report to illustrate analysis output"
+    ],
+    "normalized_skill_markdown": "---\nname: ncu-report-skill\ndescription: Profile CUDA kernels with Nsight Compute on NVIDIA B200 (sm_100). Workflow for profiling, diagnosing, and generating optimization reports.\n---\n\n# Skill: CUDA Kernel Profiling (B200 / Nsight Compute)\n\n**When to use:** user asks to profile a CUDA kernel, analyze its performance, find its bottlenecks, or write an optimization plan based on Nsight Compute data. Triggers include: \"profile X\", \"为什么这个 kernel 慢\", \"ncu report 说...\", \"下一步怎么优化\", \"帮我看一下这份 ncu 报告\".\n\n**Target hardware (this repo):** NVIDIA B200 (sm_100, CC 10.0, 148 SMs, 192 GB HBM3e). Most advice below is generic; B200‑specific notes are explicitly marked.\n\n---\n\n## Golden rule\n\n**Profile → Diagnose → Plan**, in that order. Never guess.\n\nMost under‑performing CUDA kernels are under‑performing for exactly one reason that NCU can tell you in 10 seconds. Don't invent hypotheses before you have the report. Don't start coding a fix before you've matched the observed pattern to a known diagnosis. Don't write a wall of suggestions — rank them by evidence and expected impact.\n\n---\n\n## Quickstart (what to do when someone says \"profile this kernel\")\n\n0. **Create a new run directory** under `profile/<run_name>/` at the repo root — **one directory per run**, never reuse an existing one. Each run contains its own `harness/`, `reports/`, `analysis/`, and `REPORT.md`. This rule is mandatory in this repo. See [`reference/00-directory-layout.md`](reference/00-directory-layout.md).\n\n1. **Decide what you're profiling.** What inputs? Which dispatch path? What question do you want answered? If the kernel takes variable‑sized inputs (variable seq lengths, variable batch sizes), you must pick specific representative shapes from the user's workload — don't profile with arbitrary inputs.\n\n2. **Build a standalone harness** unless the user is profiling through their existing binary. Harnesses compile in seconds, run the kernel in isolation, and let you use `-lineinfo` cleanly so NCU can map SASS back to source. Compile into `profile/<run_name>/harness/`. See [`reference/02-harness-guide.md`](reference/02-harness-guide.md) and the template in [`helpers/harness_template.cu`](helpers/harness_template.cu).\n\n3. **Run two profiles**: `--set full` (with `PmSampling` sections) for the overview, and `--set source --section SourceCounters` for per‑line stall attribution. Write outputs to `profile/<run_name>/reports/`. See [`reference/03-collection.md`](reference/03-collection.md).\n\n4. **Parse with `ncu_report`** Python module — not by eye‑balling the CLI. Write analysis outputs to `profile/<run_name>/analysis/`. Use the helpers in [`helpers/`](helpers/). See [`reference/04-python-api.md`](reference/04-python-api.md).\n\n5. **Work through the six analysis dimensions.** See [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md). Every one matters, but on any given kernel only 1–2 will dominate.\n\n6. **Match patterns to the diagnosis playbook.** See [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md). It maps NCU signal → likely cause → concrete fix, with example counts for \"how big is this\".\n\n7. **Write the report** at `profile/<run_name>/REPORT.md` with evidence‑backed recommendations, ranked by expected impact. See [`reference/07-report-template.md`](reference/07-report-template.md).\n\n---\n\n## File index\n\n### Reference docs (read these when you need details)\n\n| File | Purpose |\n|---|---|\n| [`reference/00-directory-layout.md`](reference/00-directory-layout.md) | **Read first.** Directory / naming conventions — one run = one subdirectory, no cross‑contamination |\n| [`reference/01-workflow.md`](reference/01-workflow.md) | End‑to‑end checklist from \"user request\" to \"final report\" |\n| [`reference/02-harness-guide.md`](reference/02-harness-guide.md) | When and how to build a standalone harness (mandatory for TVM‑FFI, PyTorch kernels, JIT‑compiled code) |\n| [`reference/03-collection.md`](reference/03-collection.md) | NCU command recipes: full, source‑level, PM sampling, custom sections |\n| [`reference/04-python-api.md`](reference/04-python-api.md) | `ncu_report` Python API patterns with copy‑pasteable code |\n| [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md) | Six analysis dimensions: occupancy, balance, stalls, tensor core, timeline, memory |\n| [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md) | Pattern → diagnosis → fix. Merges Blackwell programming principles with NCU signals |\n| [`reference/07-report-template.md`](reference/07-report-template.md) | How to structure the final report |\n| [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) | sm_100 metric names vs older GPUs — many common names are different |\n| [`reference/09-common-issues.md`](reference/09-common-issues.md) | Permissions, PM sampling gaps, TVM‑FFI / PyTorch gotchas |\n\n### Helpers (reusable code)\n\n| File | Purpose |\n|---|---|\n| [`helpers/harness_template.cu`](helpers/harness_template.cu) | Standalone harness template — paste your kernel, fill in input allocation, done |\n| [`helpers/safetensors_loader.h`](helpers/safetensors_loader.h) | Header‑only safetensors reader (no external deps) for loading real workload tensors |\n| [`helpers/analyze_reports.py`](helpers/analyze_reports.py) | Extract key metrics, produce side‑by‑side comparisons |\n| [`helpers/extract_stall_hotspots.py`](helpers/extract_stall_hotspots.py) | Per‑line stall aggregation via `action.source_info(pc)` |\n| [`helpers/plot_timeline.py`](helpers/plot_timeline.py) | ASCII PM‑sampling timeline plotter — makes tail effect visible |\n| [`helpers/list_flashinfer_workloads.py`](helpers/list_flashinfer_workloads.py) | Browse a flashinfer‑trace dataset — shape histograms, filter by axis, resolve safetensors paths for specific UUIDs |\n| [`helpers/ncu_utils.py`](helpers/ncu_utils.py) | Shared Python helpers: safe metric access, per‑instance extraction, report loading |\n\n---\n\n## Critical lessons (don't skip)\n\n1. **The stock `ncu_profile_skill.md` metric names don't all work on B200.** Names like `smsp__inst_executed_op_global_ld.sum`, `dram__bytes.sum`, `l1tex__average_t_sectors_per_request*.ratio` return `None` on sm_100. Use the sm_100 names in [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) or enumerate via `action.metric_names()`.\n\n2. **Always compile with `-lineinfo`.** Without it, NCU's source view is blank and you cannot do per‑line stall analysis. If you can't add `-lineinfo` to the build system (TVM‑FFI, PyTorch inline, JIT), **build a standalone harness** — that's the whole point.\n\n3. **PM sampling is the only way to see tail effects.** Static metrics average over the whole kernel; only the time‑series (either `pmsampling:` metrics or the ASCII plotter in `helpers/`) shows the shape of utilization over time.\n\n4. **Load‑imbalance on variable‑length inputs is often the #1 bottleneck.** If the user's workload has sequences of varying length, per‑SM active‑cycle variance will often dwarf every other effect. Always check the input distribution.\n\n5. **NCU's rule engine (`--page details`) already does half the work.** Each rule comes with `Est. Speedup: X%`. Read them first — they often point straight at the answer.\n\n6. **Don't delegate understanding.** Run the profiles yourself, open the reports, cite specific metric values. Never write \"the profile shows it's memory‑bound\" — instead, name the two or three metric values that back your conclusion (e.g., \"`dram__bytes_read.sum.pct_of_peak_sustained_elapsed` well under 10 %, and `long_scoreboard` stalls dominate the pcsamp histogram, so the kernel is **latency‑bound on L1**, not DRAM‑bandwidth‑bound\"). Fill in the actual numbers from your report. Specificity is the deliverable.\n\n---\n\n## Related skills\n\n- [`blackwell-cuda-programming.md`](blackwell-cuda-programming.md) — Blackwell‑specific programming principles and checklists, preserved as a companion reference. Use it when proposing *new* kernel designs; use this skill when diagnosing *existing* kernels.\n"
+  }
+}

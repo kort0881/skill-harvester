@@ -1,0 +1,76 @@
+{
+  "library_id": "automation/dify-master-skill-cc01271f",
+  "title": "Dify Master Skill",
+  "category": "automation",
+  "tags": [
+    "dify",
+    "workflow",
+    "plugin",
+    "automation",
+    "llm",
+    "rag",
+    "ai",
+    "development"
+  ],
+  "summary": "A modular, progressive skill system covering Dify workflow design, plugin development, performance, security, integration, and reference material. Provides examples, CLI commands, and learning paths for developers.",
+  "source": {
+    "repository": "SystemTce/dify-skills",
+    "repository_url": "https://github.com/SystemTce/dify-skills",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/SystemTce/dify-skills/blob/b259dcc4ad131b4fe2f70266e6d37a8afbaf869e/SKILL.md",
+    "api_sha": "bc75d8600fdcec9b4f97360034496280966ace8b",
+    "repo_stars": 35,
+    "repo_forks": 10,
+    "repo_license": null,
+    "repo_updated_at": "2026-08-27T02:09:53+00:00"
+  },
+  "discovered_at": "2026-09-20T14:15:53+00:00",
+  "accepted_at": "2026-09-26T12:20:16+00:00",
+  "content_hash": "90d7c0c4633714d920038cae86846b1c23a2776e812fd57d86027104a0c6e6d0",
+  "source_excerpt": "--- skill_name: dify-master version: 1.0.0 author: Dify SKILL Team description: Dify 工作流和插件开发的完整技能体系 - 模块化、渐进式、实用导向 category: development tags: - dify - workflow - plugin - ai - llm - rag - agent dependencies: [] last_updated: 2026-03-05 triggers: - dify - 工作流 - workflow - 插件 - plugin - 性能 - performance - 安全 - security - 集成 - integration - api - mcp - 参考 - reference - dsl - sdk - cli on_demand: # 按需加载条件触发器 conditions: - when: \"用户提到具体节点类型（如 LLM、Agent、HTTP Request）\" load: \"01-workflow/SKILL.md\" - when: \"用户提到插件开发、工具、Provider\" load: \"02-plugin/SKILL.md\" - when: \"用户提到性能优化、缓存、并行\" load: \"03-performance/SKILL.md\" - when: \"用户提到安全、部署、Docker\" load: \"04-security/SKILL.md\" - when: \"用户提到 API、Webhook、MCP、数据库集成\" load: \"05-integration/SKILL.md\" - when: \"用户查…",
+  "review": {
+    "decision": "accept",
+    "title": "Dify Master Skill",
+    "category": "automation",
+    "summary": "A modular, progressive skill system covering Dify workflow design, plugin development, performance, security, integration, and reference material. Provides examples, CLI commands, and learning paths for developers.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 89,
+    "strengths": [
+      "Comprehensive coverage of Dify development aspects",
+      "Modular structure with on-demand loading",
+      "Clear examples for workflow, plugin, and performance optimization",
+      "Includes CLI commands and detailed learning paths",
+      "Provides reference sections and community resource links"
+    ],
+    "weaknesses": [
+      "Prerequisites are not explicitly listed",
+      "No verification or testing guidance for the examples",
+      "Content is primarily in Chinese, limiting non‑Chinese users",
+      "Version compatibility details are brief",
+      "Missing concrete success criteria for each sub‑skill"
+    ],
+    "tags": [
+      "dify",
+      "workflow",
+      "plugin",
+      "automation",
+      "llm",
+      "rag",
+      "ai",
+      "development"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section (required Dify version, Python, Docker, etc.)",
+      "Include verification steps or test cases for each sub‑skill",
+      "Provide English translations or bilingual headings for broader accessibility",
+      "Expand the version compatibility matrix and update notes",
+      "Define expected outputs or success criteria for the example workflows"
+    ],
+    "normalized_skill_markdown": "---\nname: dify-master\ndescription: Comprehensive modular skill system for Dify workflow and plugin development\n---\n# Dify Master Skill\n\n> A modular, progressive skill system for Dify development.\n\n## Quick Navigation\n- [What is Dify](#what-is-dify)\n- [Skill Overview](#skill-overview)\n- [Getting Started](#getting-started)\n- [Sub‑Skill Index](#sub-skill-index)\n- [Common References](#common-references)\n\n---\n\n## What is Dify\n\nDify is an open‑source LLMOps platform that provides visual workflow orchestration and a powerful plugin system, enabling developers to quickly build and deploy AI applications.\n\n### Core Features\n- **Visual Workflows** – Drag‑and‑drop orchestration without writing code.\n- **Plugin System** – Extend with tools, models, data sources, etc.\n- **Production‑Ready** – From local development to large‑scale distributed deployment.\n- **Open Ecosystem** – 114K+ GitHub stars, active community, plugin marketplace.\n\n### Architecture Highlights\n- **Beehive Architecture** – Modular and extensible.\n- **Queue‑Driven Graph Engine** – Event‑driven, parallel execution, high performance.\n- **Multiple Runtimes** – Local, Debug, Serverless.\n- **MCP Protocol** – Standard integration with assistants like Claude.\n\n---\n\n## Skill Overview\n\nThe **dify‑master** skill is organized into six core sub‑skills, covering the full development‑to‑deployment lifecycle.\n\n```\n dify‑master (entry point)\n ├── 01‑workflow      # Workflow design\n ├── 02‑plugin        # Plugin development\n ├── 03‑performance   # Performance tuning\n ├── 04‑security      # Security & deployment\n ├── 05‑integration   # Integration & extensions\n └── 06‑reference     # Reference material\n```\n\n### Design Principles\n1. **Modular** – Each sub‑skill is self‑contained and can be used independently.\n2. **Progressive Disclosure** – Start with an overview, then dive deeper as needed.\n3. **Context‑Optimized** – Loads only the necessary content for a given query.\n4. **Practical** – Provides ready‑to‑use code snippets and configuration examples.\n\n---\n\n## Getting Started\n\n### Scenario 1: Create a Simple Q&A Workflow\n```yaml\nworkflow:\n  graph:\n    nodes:\n    - data:\n        type: start\n        variables: []\n      id: start\n    - data:\n        type: llm\n        model:\n          provider: openai\n          name: gpt-4\n        prompt_template:\n        - role: system\n          text: \"You are an assistant\"\n        - role: user\n          text: \"{{#sys.query#}}\"\n      id: llm\n    - data:\n        type: answer\n        answer: \"{{#llm.text#}}\"\n      id: answer\n    edges:\n    - source: start\n      target: llm\n    - source: llm\n      target: answer\n```\n**Next**: Explore the [01‑workflow sub‑skill](./01-workflow/SKILL.md) for more node types and patterns.\n\n### Scenario 2: Build a Simple Tool Plugin\n```python\nfrom typing import Any, Generator\nfrom dify_plugin.entities.tool import ToolInvokeMessage\nfrom dify_plugin import Tool\n\nclass MyTool(Tool):\n    def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage, None, None]:\n        input_text = tool_parameters.get(\"text\", \"\")\n        result = input_text.upper()\n        yield self.create_text_message(result)\n```\n**Next**: Dive into the [02‑plugin sub‑skill](./02-plugin/SKILL.md) for a full development workflow.\n\n### Scenario 3: Boost Workflow Performance with Parallel Branches\n```yaml\n- data:\n    type: parallel\n    branches:\n    - nodes: [tool1, process1]\n    - nodes: [tool2, process2]\n    - nodes: [tool3, process3]\n  id: parallel_execution\n```\n**Next**: Review the [03‑performance sub‑skill](./03-performance/SKILL.md) for additional optimization techniques.\n\n---\n\n## Sub‑Skill Index\n\n### 01. Workflow Design\n- **Triggers**: `node`, `LLM`, `Agent`, `workflow`, `variable`, `knowledge retrieval`, `HTTP Request`, `code`, `if‑else`, `iteration`, `template`, `DSL`, `YAML`\n- **Content**: 10+ node types, 5 design patterns, templates, variable system, best practices.\n- **Link**: [01‑workflow/SKILL.md](./01-workflow/SKILL.md)\n\n### 02. Plugin Development\n- **Triggers**: `plugin`, `tool`, `provider`, `manifest`, `OAuth`, `datasource`, `model`, `extension`\n- **Content**: 4 plugin types, full dev‑to‑publish pipeline, project scaffolding, testing tips.\n- **Link**: [02‑plugin/SKILL.md](./02-plugin/SKILL.md)\n\n### 03. Performance Optimization\n- **Triggers**: `performance`, `cache`, `parallel`, `latency`, `throughput`, `monitor`, `benchmark`\n- **Content**: Workflow graph tuning, LLM prompt & model selection, async plugin execution, monitoring tools.\n- **Link**: [03‑performance/SKILL.md](./03-performance/SKILL.md)\n\n### 04. Security & Deployment\n- **Triggers**: `security`, `deploy`, `Docker`, `Kubernetes`, `SSL`, `auth`, `sandbox`, `SSRF`\n- **Content**: SSRF protection, sandboxing, encryption, auth, Docker/K8s deployment guides, HA, logging, backup.\n- **Link**: [04‑security/SKILL.md](./04-security/SKILL.md)\n\n### 05. Integration & Extensions\n- **Triggers**: `integration`, `API`, `Webhook`, `MCP`, `database`, `Redis`, `RabbitMQ`, `Kafka`, `S3`\n- **Content**: REST/Webhook/Streaming APIs, MCP client/server, external services, troubleshooting.\n- **Link**: [05‑integration/SKILL.md](./05-integration/SKILL.md)\n\n### 06. Reference Material\n- **Triggers**: `reference`, `API`, `SDK`, `CLI`, `DSL`, `YAML`, `documentation`\n- **Content**: Full DSL spec, REST API docs, Python SDK classes, CLI commands, FAQs, community links.\n- **Link**: [06‑reference/SKILL.md](./06-reference/SKILL.md)\n\n---\n\n## Common References\n\n### Variable Syntax\n```yaml\n{{#sys.query#}}          # User query\n{{#sys.files#}}          # Uploaded files\n{{#sys.conversation_id#}}# Conversation ID\n{{#nodeID.output#}}      # Node output\n{{#llm.text#}}           # LLM text output\n{{#conversation.var#}}   # Conversation‑level variable\n{{#item#}}               # Current iteration item\n{{#index#}}              # Current index\n```\n\n### Typical Node Configurations\n```yaml\n# LLM node\n- data:\n    type: llm\n    model:\n      provider: openai\n      name: gpt-4\n      completion_params:\n        temperature: 0.7\n        max_tokens: 2000\n    prompt_template:\n    - role: system\n      text: \"System prompt\"\n    - role: user\n      text: \"{{#sys.query#}}\"\n    context:\n      enabled: true\n      variable_selector: [\"knowledge\", \"result\"]\n```\n\n### Plugin Manifest Example\n```yaml\nversion: 0.0.1\ntype: plugin\nauthor: your-name\nname: plugin-name\nlabel:\n  en_US: Plugin Name\n  zh_Hans: 插件名称\ndescription:\n  en_US: Plugin description\n  zh_Hans: 插件描述\nicon: icon.svg\nresource:\n  memory: 268435456  # 256MB\nplugins:\n  tools:\n    - provider/provider.yaml\nmeta:\n  version: 0.0.1\n  arch: [amd64, arm64]\n  runner:\n    language: python\n    version: \"3.12\"\n    entrypoint: main\ntags:\n  - utilities\n```\n\n### CLI Quick Commands\n```bash\n# Plugin workflow\ndify plugin init          # Scaffold a plugin project\ndify plugin run           # Local debugging\ndify plugin package       # Package the plugin\ndify plugin publish       # Publish to marketplace\n\n# Workflow management\ndify workflow export <id>   # Export a workflow\ndify workflow import <file> # Import a workflow\ndify workflow validate <file> # Validate syntax\n\n# Environment handling\ndify env list               # List env vars\ndify env set <key> <value>  # Set a variable\n```\n\n---\n\n## Learning Paths\n\n### Beginner (0‑1 week)\n1. Read this skill to get the big picture.\n2. Complete the **01‑workflow** basics.\n3. Create your first workflow using the provided template.\n4. Test and iterate on the Dify UI.\n\n### Intermediate (1‑4 weeks)\n1. Deep‑dive into workflow design patterns.\n2. Build a custom tool plugin (02‑plugin).\n3. Apply performance tweaks (03‑performance).\n4. Deploy a small project.\n\n### Expert (1‑3 months)\n1. Master all sub‑skills.\n2. Implement production‑grade security & deployment (04‑security).\n3. Integrate external services (05‑integration).\n4. Contribute back to the community.\n\n---\n\n## Getting Help\n\n- **Official Docs**: https://docs.dify.ai/\n- **GitHub**: https://github.com/langgenius/dify\n- **Plugin Marketplace**: https://marketplace.dify.ai/\n- **Discord**: https://discord.gg/FngNHpbcY7\n- **Reddit**: https://reddit.com/r/difyai\n- **Chinese Community**: https://github.com/langgenius/dify/discussions\n\n---\n\n## Version Info\n- **Current Version**: v1.1.0\n- **Last Updated**: 2026-03-05\n- **Supported Dify Versions**: 0.15.x – 1.9.x\n- **Next Release**: v1.2.0 (more templates & case studies)\n\n---\n\n## License\n\nMIT License – free to use, modify, and distribute.\n\n---\n\n*Start your Dify development journey now – pick a sub‑skill or jump straight into a template!*"
+  }
+}
