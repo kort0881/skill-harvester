@@ -1,0 +1,72 @@
+{
+  "library_id": "programming/kernelwiki-blackwell-hopper-kernel-optimization-knowledge-base-2b8efc1c",
+  "title": "KernelWiki – Blackwell & Hopper Kernel Optimization Knowledge Base",
+  "category": "programming",
+  "tags": [
+    "programming",
+    "gpu",
+    "optimization",
+    "cuda",
+    "nvidia",
+    "kernel",
+    "knowledge-base"
+  ],
+  "summary": "KernelWiki provides a local, searchable knowledge base for optimizing NVIDIA Blackwell (SM100) and Hopper (SM90) GPU kernels. It includes scripts for natural‑language queries, page retrieval, regex searches, and pre‑built indices, along with citation guidelines and reproducible code snippets. The skill is scoped to advanced kernel techniques and PR references, avoiding generic CUDA or distributed‑system topics.",
+  "source": {
+    "repository": "mit-han-lab/KernelWiki",
+    "repository_url": "https://github.com/mit-han-lab/KernelWiki",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/mit-han-lab/KernelWiki/blob/b6b4301f15e8ce6955a56776690643ce5db369e6/SKILL.md",
+    "api_sha": "bbb33edb420a6a3dbcf546794efa1503f6f16524",
+    "repo_stars": 458,
+    "repo_forks": 57,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-20T09:38:00+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:16+00:00",
+  "accepted_at": "2026-09-27T13:10:28+00:00",
+  "content_hash": "c84764f4de8e38e7045d863e89fd67841cb9f58b6bf6129c3ba10b2d590bf838",
+  "source_excerpt": "--- name: KernelWiki description: Use when the user asks about optimizing NVIDIA Blackwell (SM100, B200) or Hopper (SM90, H100) GPU kernels — tcgen05/TMEM/CLC/NVFP4/2-SM cooperative, warp specialization, FlashAttention-4, DeepGEMM, FlashMLA, MoE, grouped GEMM, CuTe-DSL/PTX/Triton on Blackwell, or wants concrete PR references from CUTLASS/SGLang/vLLM/FlashInfer/PyTorch. Do NOT use for generic CUDA Q&A that is not Blackwell/Hopper-specific, host-side framework integration, or distributed systems (DeepEP/EPLB/DualPipe). argument-hint: \"[natural-language-question] | [--tag foo --type kernel] | [page-id]\" allowed-tools: \"Bash Read Grep Glob\" --- # KernelWiki — Blackwell & Hopper Kernel Optimization Wiki Query a structured, cross-referenced knowl…",
+  "review": {
+    "decision": "accept",
+    "title": "KernelWiki – Blackwell & Hopper Kernel Optimization Knowledge Base",
+    "category": "programming",
+    "summary": "KernelWiki provides a local, searchable knowledge base for optimizing NVIDIA Blackwell (SM100) and Hopper (SM90) GPU kernels. It includes scripts for natural‑language queries, page retrieval, regex searches, and pre‑built indices, along with citation guidelines and reproducible code snippets. The skill is scoped to advanced kernel techniques and PR references, avoiding generic CUDA or distributed‑system topics.",
+    "quality_score": 88,
+    "uniqueness_score": 92,
+    "usefulness_score": 86,
+    "safety_score": 100,
+    "total_score": 91,
+    "strengths": [
+      "Comprehensive usage instructions and multiple query pathways",
+      "Clear scope definition and exclusion criteria",
+      "Includes reproducible code snippets and performance claim format",
+      "Self‑contained scripts with minimal external dependencies",
+      "Structured output pattern for reliable citation"
+    ],
+    "weaknesses": [
+      "Assumes the repository is already cloned locally",
+      "No explicit guide for installing optional Python dependencies",
+      "May be overwhelming for users unfamiliar with the specific GPU architecture",
+      "Lacks example responses showing the final formatted answer"
+    ],
+    "tags": [
+      "programming",
+      "gpu",
+      "optimization",
+      "cuda",
+      "nvidia",
+      "kernel",
+      "knowledge-base"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a brief installation/setup section (e.g., cloning the repo, optional pip install)",
+      "Provide a small example of a full answer generated from a query",
+      "Include troubleshooting tips for missing Python packages or script errors",
+      "Offer a quick‑start cheat sheet summarising the most common query commands"
+    ],
+    "normalized_skill_markdown": "---\nname: KernelWiki\ndescription: Use when the user asks about optimizing NVIDIA Blackwell (SM100, B200) or Hopper (SM90, H100) GPU kernels – tcgen05/TMEM/CLC/NVFP4/2‑SM cooperative, warp specialization, FlashAttention‑4, DeepGEMM, FlashMLA, MoE, grouped GEMM, CuTe‑DSL/PTX/Triton on Blackwell, or wants concrete PR references from CUTLASS/SGLang/vLLM/FlashInfer/PyTorch.\n---\n\n# KernelWiki — Blackwell & Hopper Kernel Optimization Wiki\n\nQuery a structured, cross‑referenced knowledge base of GPU kernel optimization for NVIDIA Blackwell (SM100) and Hopper (SM90). The repository update date is recorded in `README.md`; run `python3 scripts/repo_status.py` for current corpus counts.\n\n## When To Use This Skill\n\nTrigger this skill when the user asks about:\n\n- **Blackwell/SM100 kernel programming** — tcgen05.mma, TMEM, CLC, 2‑SM cooperative, NVFP4, FP8/FP4 block scaling, PDL/GDC\n- **Kernel implementations** — FlashAttention‑4, DeepGEMM, FlashMLA, NSA, GatedDeltaNet, NVFP4 GEMM/GEMV, fused MoE, gated dual GEMM\n- **Performance patterns** — low SM utilization, memory‑bound, register pressure, compute‑bound, tail effects, pipeline stalls\n- **DSLs for Blackwell** — CuTe DSL, CUDA C++ with PTX inline, Triton on Blackwell\n- **Hopper → Blackwell migration** — wgmma → tcgen05, register → TMEM accumulators\n- **PR references** — \"how did vLLM/SGLang/FlashInfer/CUTLASS/PyTorch implement X for SM100?\"\n- **Competition context** — GPU Mode NVFP4 hackathon and FlashInfer MLSys 2026 task definitions, speed‑of‑light data, and dated results snapshots; participant write‑ups are separate blog sources\n\nDo **NOT** use this skill for:\n\n- Generic CUDA questions unrelated to Blackwell/Hopper tensor cores\n- Host‑side framework integration (model loading, request routing, scheduling policy)\n- Distributed systems topics — DeepEP, EPLB, DualPipe are out of scope\n\n## How To Query\n\nAll commands below run from the skill directory (the clone root — the directory this `SKILL.md` lives in). The scripts auto‑resolve the wiki root; **no environment variable required**.\n\n### Runtime dependencies\n\nThe query and maintenance scripts are self‑contained. They use the host `PyYAML` package when present and fall back to the bundled pure‑Python loader and dumper when it is missing. Invoke them directly with `python3`; do not assume `pip`, a virtualenv, network access, or a pre‑installed `PyYAML` package is available. `requirements.txt` is optional and only installs the faster host implementation.\n\n### Path 1: Unified search (preferred for natural language)\n\n```bash\npython3 scripts/query.py \"how to fuse gate‑up dual GEMM on Blackwell\"\npython3 scripts/query.py --tag nvfp4 --type kernel\npython3 scripts/query.py --repo cutlass --limit 20\npython3 scripts/query.py --symptom tail-effect --compact\n```\n\nFilters: `--type`, `--tag`, `--repo`, `--language`, `--architecture`, `--symptom`, `--confidence`, `--limit`, `--compact`, `--paths‑only`. `--tag` and `--architecture` accept aliases — `--tag UMMA` matches `tcgen05`, `--architecture B200` matches `sm100`, etc.\n\n### Path 2: Fetch a specific page by id or path\n\n```bash\npython3 scripts/get_page.py kernel-flash-attention-4\npython3 scripts/get_page.py pr-cutlass-2472\npython3 scripts/get_page.py kernel-flash-attention-4 --follow-sources\npython3 scripts/get_page.py kernel-flash-attention-4 --body-only\n```\n\n### Path 3: Regex text search across wiki bodies and PR pages\n\n```bash\npython3 scripts/grep_wiki.py \"tcgen05\" --only wiki\npython3 scripts/grep_wiki.py \"two-CTA\" --only wiki\npython3 scripts/grep_wiki.py \"nvfp4\" \"block_scale\" --any\n```\n\n### Path 4: Pre‑built cross‑reference indices\n\nAuto‑generated under `queries/`:\n\n- `queries/by-architecture.md` — exact SM, family‑only, and validated‑unknown architecture evidence\n- `queries/by-problem.md` — symptom → pattern page → candidate techniques\n- `queries/by-technique.md` — 17 techniques with architectures, confidence, reproducibility, source count\n- `queries/by-hardware-feature.md` — tcgen05/tmem/clc/tma/nvfp4/etc. → related wiki + PR pages\n- `queries/by-kernel-type.md` — gemm/attention/moe/mla/gated‑delta‑net → pages\n- `queries/by-language.md` — cute‑dsl/cuda‑cpp/ptx/triton → guide page + related kernels/sources\n- `queries/by-repo.md` — PR pages grouped by source repository\n\n### Path 5: Primer, schema, examples\n\nCompanion docs under `references/`:\n\n- `references/primer.md` — topic map: hardware features, techniques, symptoms, canonical page IDs. Read this first when the question is broad.\n- `references/schema.md` — condensed front‑matter schema, confidence rules, reproducibility ladder, controlled vocabulary, canonical aliases.\n- `references/examples.md` — 10 worked query patterns mapping user questions → command sequences → synthesis.\n\n## Output Pattern\n\nWhen answering from this KB:\n\n1. **Cite specific pages** with paths (e.g., `wiki/kernels/flash-attention-4.md`) and IDs (`kernel-flash-attention-4`).\n2. **Follow `sources:` fields** to trace claims back to PRs/blogs/docs.\n3. **Respect confidence levels** — `verified` > `source‑reported` > `inferred` > `experimental`. Call out when a claim is `experimental` or `inferred`.\n4. **Include code snippets** from wiki pages when they exist — technique/kernel/language pages are guaranteed `snippet`‑reproducibility (validator‑enforced).\n5. **Report performance claims with all six fields** — `gpu`, `dtype`, `shape`, `metric`, `value`, `source_id`.\n\n## Knowledge Base Contents\n\n- Source PR pages, synthesized wiki pages, blog/doc/contest summaries, candidate ledgers, query indices, and artifact bundles.\n- **Verbatim upstream asset bundles** in `artifacts/` (PR patches and complete kernel files or excerpts) — pinned to upstream SHAs via `PROVENANCE.yaml`\n- **Auto‑generated query indices** in `queries/`\n- **Controlled vocabulary** (80+ tags) in `data/tags.yaml`, alias map in `data/aliases.yaml`\n- **Hybrid version‑claim registry** — per‑page `version_sensitive: <id>` pointers + `data/version-claims.yaml` central registry, validated for bidirectional consistency\n- **Status script** `scripts/repo_status.py` — current corpus counts\n- **Validator** `scripts/validate.py` — schema, link, artifact, and ledger checks\n- **Blackwell‑first** — Hopper‑only wiki pages carry explicit `blackwell_relevance`; source pages preserve upstream evidence and are exempt\n\nTo refresh the corpus: run `scripts/refresh_candidate_ledger.py`, regenerate PR pages and query indices, then validate.\n\n## Quality Guarantees\n\n- Every `verified` page has official‑doc + upstream‑code evidence\n- Every technique/kernel/language page has a compilable snippet\n- Every PR page has `inclusion_reason` and an evidence‑backed status; current distribution: 942 merged, 2 closed without merge\n- All Hopper‑only wiki pages have explicit `blackwell_relevance`; source pages are exempt"
+  }
+}

@@ -6557,7 +6557,749 @@
         "normalized_skill_markdown": "---\nname: ncu-report-skill\ndescription: Profile CUDA kernels with Nsight Compute on NVIDIA B200 (sm_100). Workflow for profiling, diagnosing, and generating optimization reports.\n---\n\n# Skill: CUDA Kernel Profiling (B200 / Nsight Compute)\n\n**When to use:** user asks to profile a CUDA kernel, analyze its performance, find its bottlenecks, or write an optimization plan based on Nsight Compute data. Triggers include: \"profile X\", \"为什么这个 kernel 慢\", \"ncu report 说...\", \"下一步怎么优化\", \"帮我看一下这份 ncu 报告\".\n\n**Target hardware (this repo):** NVIDIA B200 (sm_100, CC 10.0, 148 SMs, 192 GB HBM3e). Most advice below is generic; B200‑specific notes are explicitly marked.\n\n---\n\n## Golden rule\n\n**Profile → Diagnose → Plan**, in that order. Never guess.\n\nMost under‑performing CUDA kernels are under‑performing for exactly one reason that NCU can tell you in 10 seconds. Don't invent hypotheses before you have the report. Don't start coding a fix before you've matched the observed pattern to a known diagnosis. Don't write a wall of suggestions — rank them by evidence and expected impact.\n\n---\n\n## Quickstart (what to do when someone says \"profile this kernel\")\n\n0. **Create a new run directory** under `profile/<run_name>/` at the repo root — **one directory per run**, never reuse an existing one. Each run contains its own `harness/`, `reports/`, `analysis/`, and `REPORT.md`. This rule is mandatory in this repo. See [`reference/00-directory-layout.md`](reference/00-directory-layout.md).\n\n1. **Decide what you're profiling.** What inputs? Which dispatch path? What question do you want answered? If the kernel takes variable‑sized inputs (variable seq lengths, variable batch sizes), you must pick specific representative shapes from the user's workload — don't profile with arbitrary inputs.\n\n2. **Build a standalone harness** unless the user is profiling through their existing binary. Harnesses compile in seconds, run the kernel in isolation, and let you use `-lineinfo` cleanly so NCU can map SASS back to source. Compile into `profile/<run_name>/harness/`. See [`reference/02-harness-guide.md`](reference/02-harness-guide.md) and the template in [`helpers/harness_template.cu`](helpers/harness_template.cu).\n\n3. **Run two profiles**: `--set full` (with `PmSampling` sections) for the overview, and `--set source --section SourceCounters` for per‑line stall attribution. Write outputs to `profile/<run_name>/reports/`. See [`reference/03-collection.md`](reference/03-collection.md).\n\n4. **Parse with `ncu_report`** Python module — not by eye‑balling the CLI. Write analysis outputs to `profile/<run_name>/analysis/`. Use the helpers in [`helpers/`](helpers/). See [`reference/04-python-api.md`](reference/04-python-api.md).\n\n5. **Work through the six analysis dimensions.** See [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md). Every one matters, but on any given kernel only 1–2 will dominate.\n\n6. **Match patterns to the diagnosis playbook.** See [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md). It maps NCU signal → likely cause → concrete fix, with example counts for \"how big is this\".\n\n7. **Write the report** at `profile/<run_name>/REPORT.md` with evidence‑backed recommendations, ranked by expected impact. See [`reference/07-report-template.md`](reference/07-report-template.md).\n\n---\n\n## File index\n\n### Reference docs (read these when you need details)\n\n| File | Purpose |\n|---|---|\n| [`reference/00-directory-layout.md`](reference/00-directory-layout.md) | **Read first.** Directory / naming conventions — one run = one subdirectory, no cross‑contamination |\n| [`reference/01-workflow.md`](reference/01-workflow.md) | End‑to‑end checklist from \"user request\" to \"final report\" |\n| [`reference/02-harness-guide.md`](reference/02-harness-guide.md) | When and how to build a standalone harness (mandatory for TVM‑FFI, PyTorch kernels, JIT‑compiled code) |\n| [`reference/03-collection.md`](reference/03-collection.md) | NCU command recipes: full, source‑level, PM sampling, custom sections |\n| [`reference/04-python-api.md`](reference/04-python-api.md) | `ncu_report` Python API patterns with copy‑pasteable code |\n| [`reference/05-analysis-dimensions.md`](reference/05-analysis-dimensions.md) | Six analysis dimensions: occupancy, balance, stalls, tensor core, timeline, memory |\n| [`reference/06-diagnosis-playbook.md`](reference/06-diagnosis-playbook.md) | Pattern → diagnosis → fix. Merges Blackwell programming principles with NCU signals |\n| [`reference/07-report-template.md`](reference/07-report-template.md) | How to structure the final report |\n| [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) | sm_100 metric names vs older GPUs — many common names are different |\n| [`reference/09-common-issues.md`](reference/09-common-issues.md) | Permissions, PM sampling gaps, TVM‑FFI / PyTorch gotchas |\n\n### Helpers (reusable code)\n\n| File | Purpose |\n|---|---|\n| [`helpers/harness_template.cu`](helpers/harness_template.cu) | Standalone harness template — paste your kernel, fill in input allocation, done |\n| [`helpers/safetensors_loader.h`](helpers/safetensors_loader.h) | Header‑only safetensors reader (no external deps) for loading real workload tensors |\n| [`helpers/analyze_reports.py`](helpers/analyze_reports.py) | Extract key metrics, produce side‑by‑side comparisons |\n| [`helpers/extract_stall_hotspots.py`](helpers/extract_stall_hotspots.py) | Per‑line stall aggregation via `action.source_info(pc)` |\n| [`helpers/plot_timeline.py`](helpers/plot_timeline.py) | ASCII PM‑sampling timeline plotter — makes tail effect visible |\n| [`helpers/list_flashinfer_workloads.py`](helpers/list_flashinfer_workloads.py) | Browse a flashinfer‑trace dataset — shape histograms, filter by axis, resolve safetensors paths for specific UUIDs |\n| [`helpers/ncu_utils.py`](helpers/ncu_utils.py) | Shared Python helpers: safe metric access, per‑instance extraction, report loading |\n\n---\n\n## Critical lessons (don't skip)\n\n1. **The stock `ncu_profile_skill.md` metric names don't all work on B200.** Names like `smsp__inst_executed_op_global_ld.sum`, `dram__bytes.sum`, `l1tex__average_t_sectors_per_request*.ratio` return `None` on sm_100. Use the sm_100 names in [`reference/08-b200-metric-names.md`](reference/08-b200-metric-names.md) or enumerate via `action.metric_names()`.\n\n2. **Always compile with `-lineinfo`.** Without it, NCU's source view is blank and you cannot do per‑line stall analysis. If you can't add `-lineinfo` to the build system (TVM‑FFI, PyTorch inline, JIT), **build a standalone harness** — that's the whole point.\n\n3. **PM sampling is the only way to see tail effects.** Static metrics average over the whole kernel; only the time‑series (either `pmsampling:` metrics or the ASCII plotter in `helpers/`) shows the shape of utilization over time.\n\n4. **Load‑imbalance on variable‑length inputs is often the #1 bottleneck.** If the user's workload has sequences of varying length, per‑SM active‑cycle variance will often dwarf every other effect. Always check the input distribution.\n\n5. **NCU's rule engine (`--page details`) already does half the work.** Each rule comes with `Est. Speedup: X%`. Read them first — they often point straight at the answer.\n\n6. **Don't delegate understanding.** Run the profiles yourself, open the reports, cite specific metric values. Never write \"the profile shows it's memory‑bound\" — instead, name the two or three metric values that back your conclusion (e.g., \"`dram__bytes_read.sum.pct_of_peak_sustained_elapsed` well under 10 %, and `long_scoreboard` stalls dominate the pcsamp histogram, so the kernel is **latency‑bound on L1**, not DRAM‑bandwidth‑bound\"). Fill in the actual numbers from your report. Specificity is the deliverable.\n\n---\n\n## Related skills\n\n- [`blackwell-cuda-programming.md`](blackwell-cuda-programming.md) — Blackwell‑specific programming principles and checklists, preserved as a companion reference. Use it when proposing *new* kernel designs; use this skill when diagnosing *existing* kernels.\n"
       },
       "library_id": "programming/cuda-kernel-profiling-with-nsight-compute-on-nvidia-b200-c843c5ee"
+    },
+    {
+      "candidate_id": "2e590e160211f738050c3c96",
+      "candidate": {
+        "candidate_id": "2e590e160211f738050c3c96",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:13+00:00",
+        "source": {
+          "repository": "rkmahale17/rulcode.com",
+          "repository_url": "https://github.com/rkmahale17/rulcode.com",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/rkmahale17/rulcode.com/blob/667dba3a2c6a3067e70bc70c58126e7e85e32cba/SKILL.md",
+          "api_sha": "fb27da6951c5b4751e2c8261c83b8ecad610c630",
+          "repo_stars": 15,
+          "repo_forks": 3,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-11T13:22:07+00:00"
+        },
+        "raw_file": "raw/rkmahale17-rulcode-com/SKILL.md",
+        "title": "rulcode-development",
+        "category_hint": "programming",
+        "content_hash": "ffbf64a909c7712ec0e0bb5318ae77d98195ea2e28e8efe192f046e7392b59b6",
+        "content_characters": 1719
+      },
+      "reviewed_at": "2026-09-27T13:09:59+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "RulCode Development Workflow",
+        "category": "programming",
+        "summary": "The skill provides a step‑by‑step workflow for contributors to develop and extend the RulCode interview preparation platform built with React, Vite, TypeScript, and Supabase. It explains how to identify the target area, set up the development environment, implement changes following existing patterns, and verify the work with build and lint commands. The guide includes concrete npm commands and references to project structure, making it practical for developers working on the repository.",
+        "quality_score": 70,
+        "uniqueness_score": 80,
+        "usefulness_score": 65,
+        "safety_score": 100,
+        "total_score": 79,
+        "strengths": [
+          "Clear high‑level workflow",
+          "Includes concrete npm commands for setup, build, and lint",
+          "Mentions project structure and relevant directories",
+          "Suitable for contributors familiar with the stack"
+        ],
+        "weaknesses": [
+          "Missing explicit prerequisites list",
+          "No defined inputs or expected outputs for changes",
+          "Lacks concrete example of a change",
+          "Minimal guidance on testing or CI integration"
+        ],
+        "tags": [
+          "react",
+          "vite",
+          "typescript",
+          "supabase",
+          "development",
+          "workflow"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section with required tools and access",
+          "Provide a small example change (e.g., adding a new algorithm problem)",
+          "Specify expected inputs/outputs for each type of change",
+          "Include testing steps or reference to the project's test suite",
+          "Detail verification beyond build/lint, such as visual checks or screenshots"
+        ],
+        "normalized_skill_markdown": "---\nname: rulcode-development\ndescription: Develop and extend the RulCode technical interview preparation platform built with React, Vite, TypeScript, and Supabase.\n---\n\n# RulCode Development\n\nThis skill guides contributors through adding or modifying features in the RulCode platform, a React/Vite/TypeScript application for technical interview preparation.\n\n## Prerequisites\n- Node.js (>=18) and npm installed\n- Access to the repository `rkmahale17/rulcode.com`\n- Familiarity with React, TypeScript, Tailwind CSS, and Supabase\n\n## Workflow\n\n### 1. Identify the target area\n- **Algorithm problems** – files under `src/` (arrays, strings, trees, etc.)\n- **Visualizations** – animation components (see `.agents/skills/visualization/SKILL.md`)\n- **UI components** – React components using Tailwind and shadcn/ui (`components.json`)\n- **Backend / data** – Supabase schema and functions in `supabase/`\n\n### 2. Set up the development environment\n```bash\nnpm install\nnpm run dev\n```\nThe project uses Vite (`vite.config.ts`), TypeScript (`tsconfig.json`), and Tailwind CSS (`tailwind.config.ts`).\n\n### 3. Implement the change\n- Follow existing patterns in `src/` for file structure and naming.\n- Respect strict TypeScript settings (`tsconfig.app.json`).\n- Run ESLint (`eslint.config.js`) during development.\n- Ensure new problems include difficulty metadata and language implementations.\n\n### 4. Verify the change\n```bash\nnpm run build\nnpm run lint\n```\nOpen the development server and confirm the UI updates at the appropriate route.\n\n### 5. Optional: Add tests\nIf the repository includes a testing framework, add unit or integration tests for new components or logic.\n\n## References\n- Project README\n- `.agents/skills/visualization/SKILL.md` for visualization guidelines"
+      },
+      "library_id": "programming/rulcode-development-workflow-2e590e16"
+    },
+    {
+      "candidate_id": "f3a3e27c72ef635c4527626d",
+      "candidate": {
+        "candidate_id": "f3a3e27c72ef635c4527626d",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:15+00:00",
+        "source": {
+          "repository": "somasays/skill-creator",
+          "repository_url": "https://github.com/somasays/skill-creator",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/somasays/skill-creator/blob/a56d39fc513ac7059016a2196f4c9e72266461a5/SKILL.md",
+          "api_sha": "dab3c49028a81a158bbc43cde62b37d46422982a",
+          "repo_stars": 7,
+          "repo_forks": 2,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-08-28T19:07:48+00:00"
+        },
+        "raw_file": "raw/somasays-skill-creator/SKILL.md",
+        "title": "create-skills",
+        "category_hint": "automation",
+        "content_hash": "dc115aa142241b03bd0fef3d378cbe0d6dc9f1f761225648651ad7c0e13817c2",
+        "content_characters": 14725
+      },
+      "reviewed_at": "2026-09-27T13:10:04+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Guide to Authoring Claude Skills (create-skills)",
+        "category": "automation",
+        "summary": "This skill provides a comprehensive, step‑by‑step methodology for creating Claude SKILL.md files. It covers when to create a skill, how to capture intent, the required folder anatomy, writing effective YAML frontmatter, structuring the body, testing, packaging, and common pitfalls. The guide includes templates, examples, and verification checklists to ensure reusable, reliable skills.",
+        "quality_score": 85,
+        "uniqueness_score": 70,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Clear, well‑structured workflow with numbered steps",
+          "Detailed guidance on description writing and progressive disclosure",
+          "Includes practical templates, examples, and test checklists",
+          "Addresses common failure modes and provides mitigation strategies"
+        ],
+        "weaknesses": [
+          "Lengthy; some sections could be more concise",
+          "Prerequisites are implicit rather than explicitly listed",
+          "No concrete example of a finished SKILL.md file end‑to‑end"
+        ],
+        "tags": [
+          "automation",
+          "skill-development",
+          "documentation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit \"Prerequisites\" section (e.g., access to Claude, basic file system knowledge)",
+          "Provide a short, complete example of a finished skill folder with SKILL.md and a reference file",
+          "Condense repetitive wording to improve readability"
+        ],
+        "normalized_skill_markdown": "---\nname: create-skills\ndescription: Guide for authoring Claude SKILL.md files, covering intent capture, anatomy, description writing, body composition, testing, packaging, and common pitfalls.\n---\n\n# Creating Claude Skills\n\nSkills are reusable instruction sets that teach Claude how to perform specific tasks consistently and well. A skill is a folder with a `SKILL.md` file and optional supporting resources. When triggered, Claude reads the `SKILL.md` and follows its instructions.\n\n## When to Create a Skill\n\nCreate a skill when:\n- A task needs **consistent, repeatable execution** across many conversations\n- The task involves **specific tools, sequences, or output formats** that Claude wouldn't know by default\n- You've iterated on a workflow manually and want to **capture what works**\n- The instructions are too detailed to repeat every time but too important to leave to chance\n\nDon't create a skill when:\n- A simple prompt gets the job done\n- The task is a one‑off\n- The behavior is already built into Claude\n\n## Workflow\n\n```\n1. Capture Intent → 2. Research & Interview → 3. Draft SKILL.md →\n4. Test with real prompts → 5. Refine → 6. Package & deliver\n```\n\n## Step 1: Capture Intent\n\nAnswer these four questions:\n1. **What should the skill enable Claude to do?**\n2. **When should it trigger?**\n3. **What's the expected output?**\n4. **Are the outputs objectively verifiable?**\n\nIf the conversation already contains a workflow, extract the tools, sequence, and input/output formats. Fill gaps with targeted questions.\n\n## Step 2: Skill Anatomy\n\n```\nskill-name/\n├── SKILL.md              ← Required. The instruction file.\n│   ├── YAML frontmatter   (name + description)\n│   └── Markdown body      (instructions)\n│\n└── Optional resources/\n    ├── scripts/           Executable code for deterministic tasks\n    ├── references/        Docs loaded into context as needed\n    └── assets/            Templates, icons, fonts used in output\n```\n\n**Do not include** human‑focused docs like `README.md`.\n\n### Progressive Disclosure (Three‑Level Loading)\n| Level | What | When loaded | Size guidance |\n|-------|------|-------------|---------------|\n| **1. Metadata** | `name` + `description` in YAML frontmatter | Always | ~100 words |\n| **2. SKILL.md body** | Full markdown instructions | When skill triggers | <500 lines ideal |\n| **3. Bundled resources** | Scripts, references, assets | On‑demand via explicit read | Unlimited |\n\n## Step 3: Writing the YAML Frontmatter\n\n### `name`\nA short, lowercase, hyphenated identifier (e.g., `docx`, `frontend-design`).\n\n### `description` (Critical)\nThe description is the primary trigger. Use a “pushy” style that lists primary and secondary trigger phrases and explicit exclusions.\n\n**Template**\n```yaml\ndescription: >\n  [What the skill does — 1 sentence].\n  Use this skill when [primary triggers].\n  Also use when [secondary triggers].\n  Covers [key capabilities].\n  Do NOT use for [explicit exclusions].\n```\n\n**Checklist**\n- States what the skill does\n- Lists explicit trigger phrases\n- Includes secondary triggers\n- Mentions relevant file types/extensions\n- Provides exclusions\n- Slightly “pushy” to avoid under‑triggering\n\n## Step 4: Writing the SKILL.md Body\n\n### Structure Patterns\n| Pattern | Best for |\n|---------|----------|\n| Workflow‑based | Sequential processes |\n| Task‑based | Distinct operations |\n| Reference/Guidelines | Standards, specs |\n| Capabilities‑based | Integrated systems |\n\n### Writing Principles\n- Use **imperative** form.\n- **Explain the WHY**, not just the WHAT.\n- Avoid heavy‑handed `MUST`/`NEVER`; provide reasoning.\n- Include **few‑shot examples**.\n- Define output formats explicitly.\n\n**Example of a few‑shot section**\n```markdown\n## Commit message format\n\n**Example 1:**\nInput: Added user authentication with JWT tokens\nOutput: feat(auth): implement JWT‑based authentication\n\n**Example 2:**\nInput: Fixed crash when uploading files over 10MB\nOutput: fix(upload): handle large file uploads without crash\n```\n\n### Organizing Large Skills\nIf the body exceeds ~500 lines, move detailed content to `references/` files and point to them from the main `SKILL.md`.\n\n### Scripts & Assets\nScripts handle deterministic tasks (e.g., file conversion). Assets hold static templates, fonts, icons, etc.\n\n## Step 5: Testing\n\nCreate 2‑3 realistic test prompts that a user would actually say. Verify:\n1. Skill triggers correctly\n2. Claude follows the instructions\n3. Output quality meets expectations\n4. Edge cases are handled\n\nOptionally, add an `evals/evals.json` file for structured evaluation.\n\n## Step 6: Common Pitfalls & Fixes\n| Pitfall | Fix |\n|---------|-----|\n| Skill never triggers | Make description more explicit and “pushy” |\n| Skill triggers on wrong requests | Add clear exclusions |\n| Claude ignores instructions | Add few‑shot examples |\n| Output format inconsistent | Provide exact template |\n| SKILL.md too long | Split into `references/` files |\n| Skill too rigid | Replace MUST/NEVER with reasoning |\n| Skill only works for test examples | Generalize principles |\n| Wasted steps | Remove unproductive instructions |\n\n## Step 7: Packaging & Delivery\n1. Verify folder structure and valid YAML frontmatter.\n2. Check all referenced files exist.\n3. Copy the skill folder to the output directory.\n4. Present a brief summary and installation steps.\n5. (Optional) Run `scripts/package_skill.py <path/to/skill-folder>` to create a `.skill` archive.\n\n---\n\n**Quick Reference**: A ready‑to‑use template is available at `templates/skill-template.md` within the skill folder.\n\n---\n\n**Meta‑Advice for Skill Authors**\n- Spend most time perfecting the description.\n- Explain reasoning, not just rules.\n- Draft, then revisit with fresh eyes.\n- Generalize from specific feedback.\n- Keep the skill lean and focused.\n- Aim for broad applicability.\n- Set high standards; Claude can meet them.\n"
+      },
+      "library_id": "automation/guide-to-authoring-claude-skills-create-skills-f3a3e27c"
+    },
+    {
+      "candidate_id": "2b8efc1c33759577c652494a",
+      "candidate": {
+        "candidate_id": "2b8efc1c33759577c652494a",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:16+00:00",
+        "source": {
+          "repository": "mit-han-lab/KernelWiki",
+          "repository_url": "https://github.com/mit-han-lab/KernelWiki",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/mit-han-lab/KernelWiki/blob/b6b4301f15e8ce6955a56776690643ce5db369e6/SKILL.md",
+          "api_sha": "bbb33edb420a6a3dbcf546794efa1503f6f16524",
+          "repo_stars": 458,
+          "repo_forks": 57,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-20T09:38:00+00:00"
+        },
+        "raw_file": "raw/mit-han-lab-kernelwiki/SKILL.md",
+        "title": "KernelWiki",
+        "category_hint": "programming",
+        "content_hash": "c84764f4de8e38e7045d863e89fd67841cb9f58b6bf6129c3ba10b2d590bf838",
+        "content_characters": 7080
+      },
+      "reviewed_at": "2026-09-27T13:10:28+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "KernelWiki – Blackwell & Hopper Kernel Optimization Knowledge Base",
+        "category": "programming",
+        "summary": "KernelWiki provides a local, searchable knowledge base for optimizing NVIDIA Blackwell (SM100) and Hopper (SM90) GPU kernels. It includes scripts for natural‑language queries, page retrieval, regex searches, and pre‑built indices, along with citation guidelines and reproducible code snippets. The skill is scoped to advanced kernel techniques and PR references, avoiding generic CUDA or distributed‑system topics.",
+        "quality_score": 88,
+        "uniqueness_score": 92,
+        "usefulness_score": 86,
+        "safety_score": 100,
+        "total_score": 91,
+        "strengths": [
+          "Comprehensive usage instructions and multiple query pathways",
+          "Clear scope definition and exclusion criteria",
+          "Includes reproducible code snippets and performance claim format",
+          "Self‑contained scripts with minimal external dependencies",
+          "Structured output pattern for reliable citation"
+        ],
+        "weaknesses": [
+          "Assumes the repository is already cloned locally",
+          "No explicit guide for installing optional Python dependencies",
+          "May be overwhelming for users unfamiliar with the specific GPU architecture",
+          "Lacks example responses showing the final formatted answer"
+        ],
+        "tags": [
+          "programming",
+          "gpu",
+          "optimization",
+          "cuda",
+          "nvidia",
+          "kernel",
+          "knowledge-base"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a brief installation/setup section (e.g., cloning the repo, optional pip install)",
+          "Provide a small example of a full answer generated from a query",
+          "Include troubleshooting tips for missing Python packages or script errors",
+          "Offer a quick‑start cheat sheet summarising the most common query commands"
+        ],
+        "normalized_skill_markdown": "---\nname: KernelWiki\ndescription: Use when the user asks about optimizing NVIDIA Blackwell (SM100, B200) or Hopper (SM90, H100) GPU kernels – tcgen05/TMEM/CLC/NVFP4/2‑SM cooperative, warp specialization, FlashAttention‑4, DeepGEMM, FlashMLA, MoE, grouped GEMM, CuTe‑DSL/PTX/Triton on Blackwell, or wants concrete PR references from CUTLASS/SGLang/vLLM/FlashInfer/PyTorch.\n---\n\n# KernelWiki — Blackwell & Hopper Kernel Optimization Wiki\n\nQuery a structured, cross‑referenced knowledge base of GPU kernel optimization for NVIDIA Blackwell (SM100) and Hopper (SM90). The repository update date is recorded in `README.md`; run `python3 scripts/repo_status.py` for current corpus counts.\n\n## When To Use This Skill\n\nTrigger this skill when the user asks about:\n\n- **Blackwell/SM100 kernel programming** — tcgen05.mma, TMEM, CLC, 2‑SM cooperative, NVFP4, FP8/FP4 block scaling, PDL/GDC\n- **Kernel implementations** — FlashAttention‑4, DeepGEMM, FlashMLA, NSA, GatedDeltaNet, NVFP4 GEMM/GEMV, fused MoE, gated dual GEMM\n- **Performance patterns** — low SM utilization, memory‑bound, register pressure, compute‑bound, tail effects, pipeline stalls\n- **DSLs for Blackwell** — CuTe DSL, CUDA C++ with PTX inline, Triton on Blackwell\n- **Hopper → Blackwell migration** — wgmma → tcgen05, register → TMEM accumulators\n- **PR references** — \"how did vLLM/SGLang/FlashInfer/CUTLASS/PyTorch implement X for SM100?\"\n- **Competition context** — GPU Mode NVFP4 hackathon and FlashInfer MLSys 2026 task definitions, speed‑of‑light data, and dated results snapshots; participant write‑ups are separate blog sources\n\nDo **NOT** use this skill for:\n\n- Generic CUDA questions unrelated to Blackwell/Hopper tensor cores\n- Host‑side framework integration (model loading, request routing, scheduling policy)\n- Distributed systems topics — DeepEP, EPLB, DualPipe are out of scope\n\n## How To Query\n\nAll commands below run from the skill directory (the clone root — the directory this `SKILL.md` lives in). The scripts auto‑resolve the wiki root; **no environment variable required**.\n\n### Runtime dependencies\n\nThe query and maintenance scripts are self‑contained. They use the host `PyYAML` package when present and fall back to the bundled pure‑Python loader and dumper when it is missing. Invoke them directly with `python3`; do not assume `pip`, a virtualenv, network access, or a pre‑installed `PyYAML` package is available. `requirements.txt` is optional and only installs the faster host implementation.\n\n### Path 1: Unified search (preferred for natural language)\n\n```bash\npython3 scripts/query.py \"how to fuse gate‑up dual GEMM on Blackwell\"\npython3 scripts/query.py --tag nvfp4 --type kernel\npython3 scripts/query.py --repo cutlass --limit 20\npython3 scripts/query.py --symptom tail-effect --compact\n```\n\nFilters: `--type`, `--tag`, `--repo`, `--language`, `--architecture`, `--symptom`, `--confidence`, `--limit`, `--compact`, `--paths‑only`. `--tag` and `--architecture` accept aliases — `--tag UMMA` matches `tcgen05`, `--architecture B200` matches `sm100`, etc.\n\n### Path 2: Fetch a specific page by id or path\n\n```bash\npython3 scripts/get_page.py kernel-flash-attention-4\npython3 scripts/get_page.py pr-cutlass-2472\npython3 scripts/get_page.py kernel-flash-attention-4 --follow-sources\npython3 scripts/get_page.py kernel-flash-attention-4 --body-only\n```\n\n### Path 3: Regex text search across wiki bodies and PR pages\n\n```bash\npython3 scripts/grep_wiki.py \"tcgen05\" --only wiki\npython3 scripts/grep_wiki.py \"two-CTA\" --only wiki\npython3 scripts/grep_wiki.py \"nvfp4\" \"block_scale\" --any\n```\n\n### Path 4: Pre‑built cross‑reference indices\n\nAuto‑generated under `queries/`:\n\n- `queries/by-architecture.md` — exact SM, family‑only, and validated‑unknown architecture evidence\n- `queries/by-problem.md` — symptom → pattern page → candidate techniques\n- `queries/by-technique.md` — 17 techniques with architectures, confidence, reproducibility, source count\n- `queries/by-hardware-feature.md` — tcgen05/tmem/clc/tma/nvfp4/etc. → related wiki + PR pages\n- `queries/by-kernel-type.md` — gemm/attention/moe/mla/gated‑delta‑net → pages\n- `queries/by-language.md` — cute‑dsl/cuda‑cpp/ptx/triton → guide page + related kernels/sources\n- `queries/by-repo.md` — PR pages grouped by source repository\n\n### Path 5: Primer, schema, examples\n\nCompanion docs under `references/`:\n\n- `references/primer.md` — topic map: hardware features, techniques, symptoms, canonical page IDs. Read this first when the question is broad.\n- `references/schema.md` — condensed front‑matter schema, confidence rules, reproducibility ladder, controlled vocabulary, canonical aliases.\n- `references/examples.md` — 10 worked query patterns mapping user questions → command sequences → synthesis.\n\n## Output Pattern\n\nWhen answering from this KB:\n\n1. **Cite specific pages** with paths (e.g., `wiki/kernels/flash-attention-4.md`) and IDs (`kernel-flash-attention-4`).\n2. **Follow `sources:` fields** to trace claims back to PRs/blogs/docs.\n3. **Respect confidence levels** — `verified` > `source‑reported` > `inferred` > `experimental`. Call out when a claim is `experimental` or `inferred`.\n4. **Include code snippets** from wiki pages when they exist — technique/kernel/language pages are guaranteed `snippet`‑reproducibility (validator‑enforced).\n5. **Report performance claims with all six fields** — `gpu`, `dtype`, `shape`, `metric`, `value`, `source_id`.\n\n## Knowledge Base Contents\n\n- Source PR pages, synthesized wiki pages, blog/doc/contest summaries, candidate ledgers, query indices, and artifact bundles.\n- **Verbatim upstream asset bundles** in `artifacts/` (PR patches and complete kernel files or excerpts) — pinned to upstream SHAs via `PROVENANCE.yaml`\n- **Auto‑generated query indices** in `queries/`\n- **Controlled vocabulary** (80+ tags) in `data/tags.yaml`, alias map in `data/aliases.yaml`\n- **Hybrid version‑claim registry** — per‑page `version_sensitive: <id>` pointers + `data/version-claims.yaml` central registry, validated for bidirectional consistency\n- **Status script** `scripts/repo_status.py` — current corpus counts\n- **Validator** `scripts/validate.py` — schema, link, artifact, and ledger checks\n- **Blackwell‑first** — Hopper‑only wiki pages carry explicit `blackwell_relevance`; source pages preserve upstream evidence and are exempt\n\nTo refresh the corpus: run `scripts/refresh_candidate_ledger.py`, regenerate PR pages and query indices, then validate.\n\n## Quality Guarantees\n\n- Every `verified` page has official‑doc + upstream‑code evidence\n- Every technique/kernel/language page has a compilable snippet\n- Every PR page has `inclusion_reason` and an evidence‑backed status; current distribution: 942 merged, 2 closed without merge\n- All Hopper‑only wiki pages have explicit `blackwell_relevance`; source pages are exempt"
+      },
+      "library_id": "programming/kernelwiki-blackwell-hopper-kernel-optimization-knowledge-base-2b8efc1c"
+    },
+    {
+      "candidate_id": "45f38311277aeab5f4a29f2e",
+      "candidate": {
+        "candidate_id": "45f38311277aeab5f4a29f2e",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:18+00:00",
+        "source": {
+          "repository": "BTHawake/Teacher_skill",
+          "repository_url": "https://github.com/BTHawake/Teacher_skill",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/BTHawake/Teacher_skill/blob/e17dae06aea3a0e8470eb7f28bf1e3fad0e86316/SKILL.md",
+          "api_sha": "547c050f9b289c9c2162c571194f9bb42f7b0605",
+          "repo_stars": 2,
+          "repo_forks": 0,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-06-25T12:04:50+00:00"
+        },
+        "raw_file": "raw/bthawake-teacher-skill/SKILL.md",
+        "title": "teacher",
+        "category_hint": "content_creation",
+        "content_hash": "b63e346d5117028c9483e40874d275dddf8dc54666994bca4a631b7862dc5205",
+        "content_characters": 8059
+      },
+      "reviewed_at": "2026-09-27T13:11:28+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "AI Teacher Skill – Structured Teaching Workflow",
+        "category": "content_creation",
+        "summary": "A comprehensive skill that enables an AI to act as a personalized teacher, diagnosing learner ability, extracting material, mimicking teaching styles, and delivering multi‑phase instruction with assessments. It defines triggers, phases, and many auxiliary reference files.",
+        "quality_score": 62,
+        "uniqueness_score": 78,
+        "usefulness_score": 71,
+        "safety_score": 95,
+        "total_score": 77,
+        "strengths": [
+          "Clear high‑level teaching workflow (Phase 0‑5)",
+          "Extensive trigger list and language handling",
+          "Incorporates style‑mimicry and assessment generation",
+          "Considers learner ability and adaptive pacing"
+        ],
+        "weaknesses": [
+          "Relies heavily on external reference files that are not included",
+          "Lacks concrete input/output specifications and example interactions",
+          "No concrete code snippets or command examples",
+          "Some sections are vague (e.g., “search skill”, “reverse_distill.py”)",
+          "Missing explicit error‑handling for network failures beyond brief notes"
+        ],
+        "tags": [
+          "teaching",
+          "adaptive-learning",
+          "style-mimicry",
+          "assessment",
+          "workflow"
+        ],
+        "safety_flags": [
+          "none"
+        ],
+        "recommended_improvements": [
+          "Provide concrete examples of a full interaction (user input, AI response, assessment flow)",
+          "Include or inline the essential referenced documents (e.g., teaching‑sop.md, extraction‑framework.md) or summarize their key steps",
+          "Specify exact input formats (e.g., how materials are supplied) and output formats (e.g., quiz JSON)",
+          "Add code snippets for the Bash tools or scripts referenced",
+          "Clarify error handling for network search failures and how the agent should recover"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "ac2921a466aeb550d4b5116e",
+      "candidate": {
+        "candidate_id": "ac2921a466aeb550d4b5116e",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:20+00:00",
+        "source": {
+          "repository": "go-sqlex/sqlex",
+          "repository_url": "https://github.com/go-sqlex/sqlex",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/go-sqlex/sqlex/blob/209e0bcd8568571a1906f0f72f51082c5650ef54/SKILL.md",
+          "api_sha": "a187a34e97153d56702d76ed79d9d8777eee988e",
+          "repo_stars": 53,
+          "repo_forks": 1,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-20T12:22:44+00:00"
+        },
+        "raw_file": "raw/go-sqlex-sqlex/SKILL.md",
+        "title": "sqlex — AI Assistant Quick Reference",
+        "category_hint": "automation",
+        "content_hash": "7c39258ce711a85015dfec73ad02a591116026c85b45a131570da5d6233f6aed",
+        "content_characters": 13238
+      },
+      "reviewed_at": "2026-09-27T13:12:12+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "sqlex — Go Database/sql Enhancement Reference",
+        "category": "automation",
+        "summary": "A comprehensive reference for the sqlex Go library, which extends database/sql with struct scanning, named parameters, hook middleware, generic JSON column types, and automatic IN expansion. It provides clear usage patterns, code examples, best practices, and pitfalls to avoid for developers working with PostgreSQL, MySQL, SQLite, Oracle, or SQL Server.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 78,
+        "safety_score": 100,
+        "total_score": 86,
+        "strengths": [
+          "Well‑structured with sections for concepts, API decision tree, usage examples, and best practices",
+          "Rich code snippets covering connection, queries, IN expansion, transactions, hooks, and JSON handling",
+          "Includes tables that clarify behavior and edge cases",
+          "Provides clear guidance on common pitfalls and migration from sqlx"
+        ],
+        "weaknesses": [
+          "Prerequisites (Go version, required imports) are implicit rather than listed explicitly",
+          "No dedicated verification or testing checklist for the examples",
+          "Lengthy; newcomers may find the amount of information overwhelming"
+        ],
+        "tags": [
+          "go",
+          "database",
+          "sql",
+          "sqlex",
+          "automation",
+          "programming"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit \"Prerequisites\" section listing Go version, required modules, and import statements",
+          "Provide a short \"Quick‑Start Checklist\" summarizing the most common steps",
+          "Include a simple test script or verification steps to confirm the library works with a sample database"
+        ],
+        "normalized_skill_markdown": "---\nname: sqlex\ndescription: Modern Go wrapper enhancing database/sql with struct scanning, named parameters, hooks, JSONValue, IN expansion, and unified placeholder support.\n---\n\n# sqlex — AI Assistant Quick Reference\n\n> This document is a decision reference for AI programming assistants, focused on \"what API to use, how to use it, and what pitfalls to avoid\".\n> For full documentation (installation, testing, migration guide, etc.), see [README.md](README.md).\n\n## 1. Core Concepts\n\n**Positioning**: Go `database/sql` enhancement wrapper (not an ORM), upgraded from jmoiron/sqlx.\n**Module path**: `github.com/go-sqlex/sqlex`\n**Go version**: 1.21+ | **Databases**: PostgreSQL, MySQL, SQLite, Oracle, SQL Server\n\n**Key Design**:\n- Unified `?` placeholder; framework auto‑Rebinds to `$N`/`@pN`/`:argN`\n- DB / Tx / Conn interfaces aligned (`BindExt` + `NamedExt`); function signatures accept any\n- Hook onion model; zero overhead when not registered\n- StrictMode defaults to lenient (consistent with sqlx `Unsafe()`); can enable strict checking\n\n## 2. API Decision Tree\n\n```\nNeed to query?\n├─ Single row → db.Get(&dest, query, args...)       or db.NamedGet(&dest, query, arg)\n├─ Multiple rows → db.Select(&dest, query, args...)  or db.NamedSelect(&dest, query, arg)\n└─ Raw rows → db.Queryx / db.QueryRowx              or db.NamedQuery\n\nNeed to execute?\n├─ Normal → db.Exec / db.MustExec                    or db.NamedExec\n└─ In transaction → tx.Exec / tx.CloseWithErr(err)   or tx.NamedExec\n\nNeed prepared statements?\n├─ Positional → db.Preparex / db.PreparexContext\n├─ Named → db.PrepareNamed / db.PrepareNamedContext\n└─ Note: Prepared stmts do not support IN slice expansion (placeholders fixed at Prepare time)\n\nNeed single connection? → db.Connx(ctx) → conn (aligned with DB/Tx interface)\n\nNeed JSON column? → types.JSONValue[T] (generic, replaces JSONText)\n```\n\n## 3. Usage Essentials\n\n### 3.1 Connection\n\n```go\ndb, err := sqlex.Connect(\"postgres\", dsn)   // with Ping\ndb, err := sqlex.Open(\"mysql\", dsn)          // no Ping\ndb := sqlex.MustConnect(\"sqlite3\", \":memory:\") // panics on failure\n```\n\n### 3.2 Queries (unified `?` placeholder)\n\n```go\n// Positional args — framework auto‑Rebinds; MySQL/PG/SQLite/SQL Server unified syntax\ndb.Get(&user, \"SELECT * FROM users WHERE id = ?\", 1)\ndb.Select(&users, \"SELECT * FROM users WHERE age > ?\", 18)\n\n// Named args — supports struct or map[string]any\ndb.NamedGet(&user, `SELECT * FROM users WHERE name = :name`, map[string]any{\"name\": \"Alice\"})\ndb.NamedSelect(&users, `SELECT * FROM users WHERE age > :min_age`, map[string]any{\"min_age\": 18})\ndb.NamedExec(`INSERT INTO users (name, email) VALUES (:name, :email)`, User{Name: \"Alice\", Email: \"a@b.c\"})\n```\n\n### 3.3 IN Queries (auto‑expansion)\n\n```go\n// Positional args: auto‑detects slice + IN list context recognition\ndb.Select(&users, \"SELECT * FROM users WHERE id IN (?)\", []int{1, 2, 3})\n\n// Named args: built‑in IN expansion\ndb.NamedSelect(&users, `SELECT * FROM users WHERE id IN (:ids)`, map[string]any{\"ids\": []int{1, 2, 3}})\n```\n\n**IN list context recognition**: slice auto‑expansion requires both ① strict `(?)` form (only `?` + optional whitespace between `(` and `)`) and ② the complete identifier before `(` is `IN` (case‑insensitive, including `NOT IN`). Other `(?)` contexts are treated as single values — **no `AsValue` needed**.\n\n| SQL pattern | Slice arg | Behavior |\n|---|---|---|\n| `IN (?)` / `NOT IN (?)` | slice | Expand |\n| `IN (?, ?, ?)` | scalars | No expand |\n| `WHERE x = ?` | slice | No expand |\n| `ANY(?)` / `ALL(?)` / `VALUES (?)` / `func(?)` | slice | No expand |\n| `col_in (?)` / `t.in (?)` | slice | No expand |\n\n**Escape hatches**: `sqlex.AsValue(v)` force no expand (even in IN context) | `sqlex.AsList(slice)` force expand (even outside IN context, e.g. `ANY(?)`)\n\n**Known edge case**: `IN /* comment */ (?)` prevents IN recognition; use `AsList` as fallback.\n\n### 3.4 Transaction Management\n\n```go\ntx, err := db.Beginx()\nif err != nil {\n    return err\n}\ndefer func() { tx.CloseWithErr(err) }()  // err==nil → Commit, err!=nil → Rollback\n\n_, err = tx.NamedExec(`INSERT INTO users (name) VALUES (:name)`, User{Name: \"Bob\"})\nif err != nil {\n    return err  // auto‑Rollback in defer\n}\nreturn nil      // auto‑Commit in defer\n```\n\n### 3.5 Conn (single connection)\n\n```go\nconn, err := db.Connx(ctx)\ndefer conn.Close()\n// Conn fully aligned with DB/Tx interface\nconn.Get(&user, \"SELECT * FROM users WHERE id = ?\", 1)\nconn.NamedGet(&user, `SELECT * FROM users WHERE name = :name`, map[string]any{\"name\": \"Alice\"})\n```\n\n### 3.6 JSONValue[T]\n\n```go\nimport \"github.com/go-sqlex/sqlex/types\"\n\ntype Config struct {\n    ID       int                       `db:\"id\"`\n    Settings types.JSONValue[Settings] `db:\"settings\"`\n}\ncfg := Config{Settings: types.NewJSONValue(Settings{Theme: \"dark\", FontSize: 14})}\nif cfg.Settings.Valid {\n    theme := cfg.Settings.Val.Theme // \"dark\"\n}\n// Val is zero value when !Valid\n```\n\n### 3.7 Hook Aspects\n\n```go\ntype MetricsHook struct{}\nfunc (h *MetricsHook) BeforeQuery(ctx context.Context, event *sqlex.QueryEvent) context.Context { return ctx }\nfunc (h *MetricsHook) AfterQuery(ctx context.Context, event *sqlex.QueryEvent) {\n    recordMetric(event.Query, event.Duration, event.Error, event.OperationType, event.RowsAffected)\n}\n\ndb.AddHook(&MetricsHook{})\n// Hooks also apply to Tx/Conn (auto‑inherited)\n// Multiple Hooks: BeforeQuery forward order, AfterQuery reverse order (onion model)\n// Covers full lifecycle: OpQuery/OpExec/OpBegin/OpCommit/OpRollback\n```\n\n**Conditional filtering**: sqlex does not ship a built‑in filter; use decorators:\n```go\n// Only fire on slow queries\ndb.AddHook(SlowOnly(&AlertHook{}, 500*time.Millisecond))\n```\n\n**Per‑call Hooks** (`WithCallHooks`): attach Hooks to a `context.Context` for per‑request behaviour (dynamic schema, tenant routing) without mutating the shared DB or changing method signatures. Only `*Context` methods observe them; global Hooks wrap call‑scoped ones (`global Before → call Before → SQL → call After → global After`):\n```go\nctx := sqlex.WithCallHooks(r.Context(), &SchemaHook{Schema: tenant})\ndb.SelectContext(ctx, &users, \"SELECT * FROM {{schema}}.users WHERE age > ?\", 18)\n// Tx from BeginTxx does NOT capture call‑scoped Hooks — pass the same ctx to tx.XxxContext\n// Stmt merges at execution time, never permanently bound to a call's Hooks\n```\n\n## 4. Best Practices and Common Pitfalls\n\n### ✅ Recommended\n1. **Use unified `?` placeholder** — All query methods auto‑Rebind\n2. **Use `CloseWithErr` for transactions** — `defer func() { tx.CloseWithErr(err) }()`\n3. **Use Context methods in production** — `GetContext`/`SelectContext` for timeout control\n4. **Close prepared statements** — `Stmt`/`NamedStmt` hold `sql.Stmt`, use `defer stmt.Close()` to avoid resource leaks\n5. **NamedSelect + IN** — No need to manually call `In()`\n6. **ANY(?)/VALUES(?) auto‑safe** — No longer expand by default; no `AsValue` needed\n7. **Register Hooks at initialization** — Tx/Conn auto‑inherit DB's Hooks\n8. **PostgreSQL JSONB `?` operator** — Use `??` escape\n9. **StrictMode optional** — Default lenient; enable `db.SetStrict(true)` for development\n\n### ⚠️ Common Pitfalls\n1. **Preparex already auto‑Rebinds** — No need to manually distinguish database types\n2. **NameMapper only set in `init()`** — Use `DB.MapperFunc()` at runtime instead\n3. **Tx is not concurrency‑safe** — Do not share Tx across goroutines\n4. **Hooks execute synchronously** — Heavy operations should be async inside Hooks\n5. **Named parameter names limited to ASCII** — `[A-Za-z_][A-Za-z0-9_.]*`; digit‑starting `:123` not recognized\n6. **Stmt/NamedStmt do not support IN expansion** — placeholders fixed at Prepare time; use `db.Select`/`db.NamedSelect` for IN queries\n7. **Stmt/NamedStmt must be Closed** — hold `sql.Stmt`, forgetting `Close()` causes resource leaks until `DB.Close()`\n8. **StrictMode defaults to lenient** — Consistent with sqlx `db.Unsafe()` behavior\n\n## 5. Differences from jmoiron/sqlx\n\n### New Capabilities\n| Feature | Description |\n|---------|-------------|\n| Hook aspects | `AddHook` pluggable SQL interceptors (onion model) |\n| Per‑call Hooks | `WithCallHooks` inject Hooks via context for dynamic schema/tenant routing |\n| JSONValue[T] | Generic JSON column type |\n| NamedGet/NamedSelect | Convenient named parameter queries (built‑in IN expansion) |\n| CloseWithErr | Auto Commit/Rollback based on error |\n| NamedExt/BindExt | DB/Tx unified programming interface |\n| Select/Get auto‑IN | Detects slice args + IN list context recognition (only `IN (?)` expands) |\n| StrictMode | Default lenient, can enable strict checking |\n| Auto‑Rebind | All query methods auto‑convert `?` |\n| Conn enhancement | Fully aligned with DB/Tx interface |\n| SQL Server bracket identifiers | `scanBracketIdentifier` supports `[col?name]` |\n\n### Bug Fixes\n- Unified lexical scanner for Rebind/In/compileNamedQuery\n- Rebind skips `?` inside strings/comments/double quotes/backticks/brackets/dollar quoting\n- Named parser skips colons inside strings/comments/etc.\n- Parameter name rules tightened to `[A-Za-z_][A-Za-z0-9_.]*`\n- Missing params preserved as literals\n- Fixed ConnectContext leak, NamedStmt.Exec return value, Named query Rebind missing\n\n## 6. API Quick Reference\n\n### Top‑level Functions\n| Function | Description |\n|----------|-------------|\n| `Connect/ConnectContext/MustConnect` | Connect to database (with Ping) |\n| `Open/MustOpen` | Open connection (no Ping) |\n| `Select/SelectContext` | Query multiple rows (accepts Queryer) |\n| `Get/GetContext` | Query single row (accepts Queryer) |\n| `In` | Expand IN slice args |\n| `AsValue` | Force no expansion (even in IN(?) context) |\n| `AsList` | Force expansion (even outside IN(?) context) |\n| `Named` | Named parameter binding |\n| `Rebind` | Convert bind variable format |\n\n### DB‑Only Methods\n`Beginx/BeginTxx`, `Connx`, `AddHook`, `WithCallHooks`, `MapperFunc`, `Preparex/PreparexContext`, `PrepareNamed/PrepareNamedContext`, `SetStrict/IsStrict`\n\n### Tx‑Only Methods\n`CloseWithErr(err)`, `Stmtx/StmtxContext`, `TryStmtx/TryStmtxContext`, `SetStrict/IsStrict`\n\n### DB and Tx Shared Methods\n`Get/GetContext`, `Select/SelectContext`, `Queryx/QueryxContext`, `QueryRowx/QueryRowxContext`, `Exec/ExecContext`, `MustExec/MustExecContext`, `NamedGet/NamedGetContext`, `NamedSelect/NamedSelectContext`, `NamedExec/NamedExecContext`, `NamedQuery/NamedQueryContext`, `Rebind`, `BindNamed`\n\n### Conn Methods (aligned with DB/Tx)\n**Context**: `GetContext`, `SelectContext`, `QueryxContext`, `QueryRowxContext`, `ExecContext`, `MustExecContext`, `NamedGetContext`, `NamedSelectContext`, `NamedExecContext`, `NamedQueryContext`\n\n**Non‑Context** (delegate `context.Background()`): `Get`, `Select`, `Queryx`, `QueryRowx`, `Exec`, `MustExec`, `NamedGet`, `NamedSelect`, `NamedExec`, `NamedQuery`\n\n**Utility**: `Rebind`, `BindNamed`, `DriverName`, `SetStrict/IsStrict`, `BeginTxx`, `PreparexContext`, `PrepareNamedContext`\n\n### types Sub‑package\n| Type | Description |\n|------|-------------|\n| `JSONValue[T]` | Generic JSON column (Scan/Value + MarshalJSON/UnmarshalJSON; Val/Valid direct access) |\n| `JSONText` | `json.RawMessage` wrapper, supports Scan/Value |\n| `NullJSONText` | Nullable JSONText |\n| `GzippedText` | Auto gzip compress/decompress `[]byte` |\n| `BitBool` | MySQL BIT(1) boolean type |\n\n### Hook Related\n| Type | Description |\n|------|-------------|\n| `Hook` interface | `BeforeQuery(ctx, *QueryEvent) ctx` + `AfterQuery(ctx, *QueryEvent)` |\n| `QueryEvent` | Contains Query, Args, StartTime, Duration, Error, OperationType, RowsAffected, LastInsertID |\n| `OpType` | Operation type enum: OpQuery/OpExec/OpBegin/OpCommit/OpRollback |\n"
+      },
+      "library_id": "automation/sqlex-go-database-sql-enhancement-reference-ac2921a4"
+    },
+    {
+      "candidate_id": "ee41ba6f6221842827b6918b",
+      "candidate": {
+        "candidate_id": "ee41ba6f6221842827b6918b",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:22+00:00",
+        "source": {
+          "repository": "eze-is/ai-partner-chat",
+          "repository_url": "https://github.com/eze-is/ai-partner-chat",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/eze-is/ai-partner-chat/blob/1170b66b4b9b0194fb45d622cdd7bcd575c05df1/SKILL.md",
+          "api_sha": "328cedc224db7a3182161e6a62470210670133df",
+          "repo_stars": 214,
+          "repo_forks": 27,
+          "repo_license": null,
+          "repo_updated_at": "2026-08-20T13:11:12+00:00"
+        },
+        "raw_file": "raw/eze-is-ai-partner-chat/SKILL.md",
+        "title": "ai-partner-chat",
+        "category_hint": "automation",
+        "content_hash": "cb93e51fe22c3a985d57c953ca786333a9f195d10debb200f6c7851b66b3b7ac",
+        "content_characters": 11899
+      },
+      "reviewed_at": "2026-09-27T13:12:48+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "AI Partner Chat – Personalized Context‑Aware Conversational Agent",
+        "category": "automation",
+        "summary": "This skill enables an AI assistant to hold personalized, context‑aware conversations by loading user and AI persona definitions and indexing the user's markdown notes with vector embeddings. It dynamically generates chunking code for each note, stores the embeddings in a local ChromaDB, and retrieves relevant chunks during a chat to enrich responses. The workflow covers initial setup, persona management, note indexing, query handling, and maintenance.",
+        "quality_score": 70,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 100,
+        "total_score": 81,
+        "strengths": [
+          "Clear end‑to‑end workflow from setup to maintenance",
+          "Uses local vector store (ChromaDB) and open‑source multilingual embedding model",
+          "Dynamic note chunking concept adds flexibility",
+          "Provides concrete script examples and command‑line usage"
+        ],
+        "weaknesses": [
+          "Core chunking function is left as a TODO, requiring the user to implement AI‑generated code",
+          "No automated tests or verification steps",
+          "Relies on external .claude directory which may be confusing for newcomers",
+          "Limited error‑handling guidance"
+        ],
+        "tags": [
+          "personalization",
+          "knowledge-management",
+          "vector-db",
+          "chroma",
+          "embedding",
+          "ai-agent",
+          "python"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Provide a minimal reference implementation of `chunk_note_file` or a template to help users get started",
+          "Add a verification section with sample queries and expected outputs",
+          "Include automated test scripts for indexing and retrieval",
+          "Clarify the role of the `.claude` directory and how to obtain the required scripts"
+        ],
+        "normalized_skill_markdown": "---\nname: ai-partner-chat\ndescription: 基于用户画像和向量化笔记提供个性化对话。当用户需要个性化交流、上下文感知的回应，或希望 AI 记住并引用其之前的想法和笔记时使用。\n---\n\n# AI Partner Chat\n\n## Overview\nProvide personalized, context‑aware conversations by loading user and AI persona files, indexing markdown notes with embeddings, and retrieving relevant chunks during a chat.\n\n## Prerequisites\n1. **Create directory structure**\n   ```bash\n   mkdir -p config notes vector_db scripts\n   ```\n2. **Set up Python environment**\n   ```bash\n   python3 -m venv venv\n   ./venv/bin/pip install -r .claude/skills/ai-partner-chat/scripts/requirements.txt\n   ```\n3. **Copy persona templates** from `.claude/skills/ai-partner-chat/assets/` to `config/` and rename them to `user-persona.md` and `ai-persona.md`.\n4. **Add your markdown notes** to the `notes/` directory.\n5. **Initialize the vector database** by running the indexing script (see below).\n\n## Core Workflow\n### 1. Indexing Notes\nCreate `scripts/chunk_and_index.py` with the following skeleton:\n```python\nimport sys\nfrom pathlib import Path\nfrom typing import List\nsys.path.insert(0, str(Path(__file__).parent.parent / \".claude/skills/ai-partner-chat/scripts\"))\n\nfrom chunk_schema import Chunk, validate_chunk\nfrom vector_indexer import VectorIndexer\n\ndef chunk_note_file(filepath: str) -> List[Chunk]:\n    \"\"\"Analyze the given note and return a list of Chunk objects.\n    The implementation should inspect the file format (headings, dates, etc.)\n    and produce chunks that conform to `chunk_schema.Chunk`.\n    \"\"\"\n    # Example simple implementation – replace with AI‑generated logic as needed\n    with open(filepath, \"r\", encoding=\"utf-8\") as f:\n        text = f.read()\n    # Very naive split by double newlines\n    parts = [p.strip() for p in text.split(\"\\n\\n\") if p.strip()]\n    chunks = []\n    for i, part in enumerate(parts):\n        chunk = {\n            \"content\": part,\n            \"metadata\": {\n                \"filename\": Path(filepath).name,\n                \"filepath\": str(Path(filepath).resolve()),\n                \"chunk_id\": i,\n                \"chunk_type\": \"generic\"\n            }\n        }\n        validate_chunk(chunk)\n        chunks.append(chunk)\n    return chunks\n\n\ndef main():\n    indexer = VectorIndexer(db_path=\"./vector_db\")\n    indexer.initialize_db()\n    all_chunks = []\n    for note_file in Path(\"./notes\").rglob(\"*.md\"):\n        chunks = chunk_note_file(str(note_file))\n        all_chunks.extend(chunks)\n    indexer.index_chunks(all_chunks)\n\nif __name__ == \"__main__\":\n    main()\n```\nRun the script:\n```bash\n./venv/bin/python scripts/chunk_and_index.py\n```\n### 2. Conversational Retrieval\n```python\nfrom scripts.vector_utils import get_relevant_notes\n\nrelevant = get_relevant_notes(query=user_query, db_path=\"./vector_db\", top_k=5)\n```\nOr via CLI:\n```bash\npython scripts/query_notes.py \"What did I write about project X?\" --top-k 5\n```\nCombine the retrieved notes with the persona files to construct a prompt for your LLM.\n\n## Maintenance\n- **Add new notes**: `python scripts/add_note.py /path/to/new_note.md`\n- **Update personas**: edit `config/user-persona.md` or `config/ai-persona.md` and restart the conversation.\n- **Re‑index**: `python scripts/init_vector_db.py ./notes --db-path ./vector_db`\n\n## Technical Details\n- **Vector store**: ChromaDB persisted in `vector_db/`\n- **Embedding model**: `BAAI/bge-m3` (multilingual, works well with Chinese text)\n- **Chunk schema**: see `scripts/chunk_schema.py`\n- **Key design principle**: user data lives outside the skill directory, making backup and migration straightforward.\n\n## Best Practices\n- Keep persona files specific and up‑to‑date.\n- Write substantive notes; richer content yields better retrieval.\n- Periodically re‑index after large note changes.\n- Respect privacy – avoid storing highly sensitive data in plain text if the environment is shared.\n\n## Troubleshooting\n- **Database errors**: ensure `vector_db/` is writable and dependencies are installed.\n- **Poor retrieval**: verify notes contain enough content, try increasing `top_k`, or re‑run the indexing script.\n- **Chunking problems**: adjust the logic in `chunk_note_file` or let Claude generate a more sophisticated chunker.\n"
+      },
+      "library_id": "automation/ai-partner-chat-personalized-context-aware-conversational-agent-ee41ba6f"
+    },
+    {
+      "candidate_id": "23a6aa8fed0bd061ccaf7c68",
+      "candidate": {
+        "candidate_id": "23a6aa8fed0bd061ccaf7c68",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:25+00:00",
+        "source": {
+          "repository": "sanchitnis/SrujanaBuddy",
+          "repository_url": "https://github.com/sanchitnis/SrujanaBuddy",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/sanchitnis/SrujanaBuddy/blob/1d0d57d59a6e094d4d60080ff2416e6a25a87a99/SKILL.md",
+          "api_sha": "d3295a85a28a18bdd5cd1463626e39f631d89078",
+          "repo_stars": 2,
+          "repo_forks": 4,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-08-12T08:27:57+00:00"
+        },
+        "raw_file": "raw/sanchitnis-srujanabuddy/SKILL.md",
+        "title": "SrujanaBuddy — Routing Core",
+        "category_hint": "automation",
+        "content_hash": "347496e53e4614626d55a5721b3f9205a689d4b876f94a448490eb28087f377f",
+        "content_characters": 11491
+      },
+      "reviewed_at": "2026-09-27T13:13:57+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "SrujanaBuddy Routing Core",
+        "category": "automation",
+        "summary": "This skill defines the core routing and session‑management logic for the SrujanaBuddy AI coaching companion. It covers user initialization, aspiration tracking, coaching‑context calibration, specialist‑agent selection, session‑type routing, wellbeing escalation thresholds, reference loading, and a consent‑driven session‑ending hook. The workflow is organized around a set of file‑based artifacts stored in a user‑specific memory folder.",
+        "quality_score": 70,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Comprehensive end‑to‑end coaching workflow",
+          "Clear file‑based data model (srujana‑memory)",
+          "Explicit wellbeing escalation tiers",
+          "Consent‑driven anonymized session logging",
+          "Extensible specialist‑agent routing tables"
+        ],
+        "weaknesses": [
+          "Missing explicit input/output definitions for each step",
+          "Limited concrete examples of a full session flow",
+          "File‑path assumptions may not hold on all systems",
+          "No error‑handling details for missing files or malformed data",
+          "Heavy reliance on external files without versioning guidance"
+        ],
+        "tags": [
+          "ai",
+          "coaching",
+          "routing",
+          "automation",
+          "session-management"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise \"Inputs\" and \"Outputs\" section for each major rule",
+          "Provide a short example walkthrough of a beginner orientation session",
+          "Document fallback behavior when required files are absent or corrupted",
+          "Specify required directory permissions and environment variables more precisely",
+          "Consider packaging the routing tables as JSON/YAML for easier maintenance"
+        ],
+        "normalized_skill_markdown": "---\nname: \"SrujanaBuddy Routing Core\"\ndescription: \"Core routing logic for the SrujanaBuddy AI coaching companion, handling user initialization, aspiration tracking, coaching context, specialist agent selection, session type routing, wellbeing escalation, reference loading, and a consent‑driven session‑ending hook.\"\n---\n\n# SrujanaBuddy — Routing Core\n\n> **Always‑loaded routing file.** For the full coaching philosophy, session scripts, guardrails, and principles, load `SKILL-context.md` when a session requires deeper guidance.\n>\n> **Connectors** (reference only): Calendar audit · Mentor share packets · Manodhara referral — see `connectors/` for integration specs.\n\n## Identity\n\nYou are **SrujanaBuddy**, REVA's AI coaching companion. **At the start of every session, follow the Initialization Sequence in `AGENTS.md`**:\n\n1. **Locate `srujana-memory`** – verify the folder exists. Accept any of the following locations:\n   - sibling `../srujana-memory`\n   - desktop `~/Desktop/srujana-memory`\n   - path defined by environment variable `SRUJANA_MEMORY_DIR`\n   - If none exist, halt and ask the user to create it.\n2. **Check for Profile** – look for `srujana-memory/my-memory/soul.md`.\n3. **Returning User** – if the profile exists:\n   - Load `srujana-memory/my-memory/soul.md` to read the user type (`student`, `scholar`, `mentor`, …) and name.\n   - Look for update logs in `srujana-memory/mentor-mentee/student-[avatar]/` (or the appropriate collaborative‑pair folder).\n   - Render the GPS map from `srujana-memory/my-memory/semantic/gps-map.md` (or the research map from `my-memory/semantic/research-pipeline.md`) inside the greeting.\n4. **New User** – if the profile is missing:\n   - Prompt for name and user type.\n   - Create `srujana-memory/my-memory/soul.md` using the provided templates.\n5. **GPS Map** – ensure all student goal plans and maps are saved to `srujana-memory/my-memory/semantic/gps-map.md`.\n\n## Aspirations North Star Rule\n\n1. During **Getting Started**, collaboratively fill `Templates/StudentAspirationsForm.yaml`.\n2. Save the completed aspirations as `srujana-memory/my-memory/semantic/aspirations.yaml`.\n3. Plan aspiration refinement in follow‑up sessions.\n4. Use both artifacts in coaching decisions:\n   - **Living profile** – `srujana-memory/my-memory/soul.md`\n   - **Aspirations** – `srujana-memory/my-memory/semantic/aspirations.yaml`\n5. If the profile signals and aspirations diverge, ask a clarification question.\n6. **Progressive update rule** – review and update aspirations and coaching context every 30‑60 days; they are not locked after intake.\n\n## Coaching Context Rule\n\nEach student profile includes a **Coaching Context and Preferences** section capturing:\n- Work style preference (fast/ambitious vs. slow/fun‑oriented)\n- Energy baseline (1‑10 scale)\n- Overwhelm level (None / Mild / Moderate / High)\n- Clarity state (Clear / Exploring / Confused / Paralysed)\n- Show‑up consistency (reliability signal)\n- System readiness (prerequisites met?)\n\n**Calibration** – use the context to adapt every session:\n- **High energy + clear + low overwhelm** → ambitious planning, big goals, fast‑paced sessions\n- **Low energy + exploring + high overwhelm** → wellbeing first, grounding, small wins, lightness\n- **Exploring clarity** → option‑opening, strengths discovery, aspirations refinement\n- **Show‑up pattern** – add accountability/reminder structure for unreliable students; trust reliable ones.\n\n**Update** – at the end of each session (or month‑end review) adjust any changed fields (energy, overwhelm, clarity, notes on what worked).\n\n## Specialist Agent Routing\n\n| # | Agent | File |\n|---|-------|------|\n| 1 | Academic Learning Coach | `agents/academic-learning-coach.md` |\n| 2 | Course Buddies (named slots) | `agents/course-buddy-template.md` + `agents/course-buddies/instances/[course‑slug]/skill.md` + `knowledge/[CourseCode]-[ShortName]/wiki/index.md` |\n| 3 | Assessment and Competition Coach | `agents/assessment-competition-coach.md` |\n| 4 | Drive‑with‑GPS Agent (Goal Plan Sankalpa) | `agents/drive-with-gps.md` |\n| 6 | Inner Mastery and Soft Skills Coach | `agents/inner-mastery-coach.md` |\n| 7 | Integral Life Coach | `agents/integral-life-coach.md` |\n| 8 | Career and Pathway Coach | `agents/career-pathway-coach.md` |\n| 9 | Competency and Portfolio Coach | `agents/competency-portfolio-coach.md` |\n| 10 | Out‑of‑Curriculum Coach | `agents/out-of-curriculum-coach.md` |\n| 11 | Enterprising Skills Mentor | `agents/enterprising-skills-mentor.md` |\n| 12 | Support and Escalation Guide | `agents/support-escalation-guide.md` |\n| 13 | Faculty Mentor Coordination Agent | `agents/faculty-mentor-coordination-agent.md` |\n| 14 | Academic History Agent | `agents/academic-history-agent.md` |\n| 15 | Srujana Presence Agent | `agents/srujana-presence-agent.md` |\n| 16 | Aspiration Horizon Agent | `agents/aspiration-horizon-agent.md` |\n| 17 | Svadharma Navigator | `agents/svadharma-navigator.md` |\n\n## Session Type Routing\n\n| # | Session Type | Primary Agent(s) |\n|---|--------------|------------------|\n| 1 | Beginner interactive orientation | Drive‑with‑GPS Agent + Integral Life Coach |\n| 2 | Daily focus planning (with dopamine baseline) | Drive‑with‑GPS Agent |\n| 3 | Weekly Svadhyaya review and reset | Integral Life Coach + Drive‑with‑GPS Agent |\n| 4 | Learning‑to‑learn coaching | Academic Learning Coach |\n| 5 | Assessment preparation coaching | Assessment and Competition Coach |\n| 6 | Subject mastery session (Socratic) | Course Buddy (load `knowledge/[CourseCode]-[ShortName]/wiki/index.md` if built) |\n| 7 | Socratic concept clarification | Course Buddy + Academic Learning Coach |\n| 8 | Competition and hackathon preparation | Assessment and Competition Coach |\n| 9 | Career pathway planning | Career and Pathway Coach |\n| 10 | Placement readiness coaching | Career and Pathway Coach + Competency and Portfolio Coach |\n| 11 | Portfolio build and review | Competency and Portfolio Coach |\n| 12 | Club, NCC, NSS growth planning | Integral Life Coach + Out‑of‑Curriculum Coach |\n| 13 | Dopamine and focus reset | Drive‑with‑GPS Agent + Inner Mastery Coach |\n| 14 | Sankalpa and Execution Reset (GPS) | Drive‑with‑GPS Agent |\n| 15 | AI use reflection (anti‑brain‑rot) | Academic Learning Coach + Drive‑with‑GPS Agent |\n| 16 | Panchakosha monthly review | Inner Mastery and Soft Skills Coach |\n| 17 | Out‑of‑Curriculum planning | Out‑of‑Curriculum Coach |\n| 18 | Enterprising readiness and venture coaching | Enterprising Skills Mentor |\n| 19 | Faculty mentor preparation | Faculty Mentor Coordination Agent |\n| 20 | Faculty mentor debrief and minutes | Faculty Mentor Coordination Agent |\n| 21 | Wellbeing stabilization (Tier 2) | Inner Mastery and Soft Skills Coach + Wellness Triage Agent |\n| 22 | Student support and escalation (Tier 3) | Support and Escalation Guide + Wellness Triage Agent |\n| 23 | Scholarship and fee support workflow | Support and Escalation Guide |\n| 24 | Feedback and improvement session | Drive‑with‑GPS Agent + Support and Escalation Guide |\n| 25 | Wellness Triage and Crisis Support | Wellness Triage Agent |\n| 26 | IPL readiness assessment (Advanced C Programming) | Load `.agents/skills/ipl-readiness/SKILL.md` |\n| 27 | Aspiration definition and progressive refinement | Svadharma Navigator |\n| 28 | Swadharma depth exploration (L2+ mentees only) | Svadharma Navigator |\n| 29 | ACP program coaching and level progression (B25CI0201) | Load `.agents/skills/cse-acp/SKILL.md` |\n| 30 | Engineering habits coaching (all B.Tech streams) | Load `.agents/skills/engineering-habits/SKILL.md` |\n\n> **GPS Map rule** – Load `agents/aspiration-horizon-agent.md` at the start **and** end of every session. Update the ASCII goals map whenever aspirations or milestones shift, and persist it to `srujana-memory/my-memory/semantic/gps-map.md`.\n\n## Wellbeing Escalation Thresholds\n\n1. **Tier 1 (Coaching)** – normal stress, exam anxiety, motivation dips.\n2. **Tier 2 (Inner State Support)** – persistent distress, relational crisis, identity confusion. *Trigger*: energy ≤ 5 for two consecutive sessions.\n3. **Tier 3 (Referral)** – safety risk or severe concern. *Trigger*: energy ≤ 3 or any red‑flag indicator.\n\n*Do not attempt clinical diagnosis or therapy.*\n\n## Reference Load Map\n\nLoad **only** the references relevant to the current session type. Do **not** load all references by default.\n\n| Reference | Load for session types (#) |\n|-----------|---------------------------|\n| `references/REVA University.md` | Career (9, 10), Academic (1, 4, 5, 6, 7) |\n| `references/reva-values-anchor.md` | Integral Life (3, 7, 16), Wellness (21, 22, 25) |\n| `references/five-spheres-framework.md` | Weekly review (3), Wellness (21, 22, 25), Accountability (2, 13) |\n| `references/srujana-pathway-framework.md` | Career (9, 10), Portfolio (11), Out‑of‑Curriculum (17) |\n| `references/student-year-group-modes.md` | Academic (1, 4, 5), Career (9) |\n| `references/dopamine-stewardship-student.md` | Accountability/Dopamine (2, 13), Inner Mastery (6, 16) |\n| `references/stm-sankalpa-framework.md` | Daily Sankalpa (2), Weekly Svadhyaya (3), Execution Reset (14) |\n| `references/gtd-lite-student-edition.md` | GTD/planning (14) *(legacy reference)* |\n| `agents/REVA-Branding.md` | Any session generating HTML, visual, or branded outputs |\n\nFor full coaching principles, output scaffolds, and guardrails, load `SKILL-context.md`.\n\n## Session‑Ending Hook\n\n**Trigger words / phrases** (detect any of these to activate the hook): `bye`, `goodbye`, `see you`, `enough for now`, `that's all`, `i'm done`, `talk later`, `gotta go`, `i'll stop here`, `thanks that's enough`, `cya`, `ok bye`.\n\n**Hook script (run on trigger, before final farewell):**\n\n1. Rebuild the local HTML dashboard: execute `python tools/build_buddy_dashboard.py` to refresh profile completeness, KPIs, and collaborative status.\n2. Ask the student:\n   > \"Hey, before you go — can I save an anonymized version of our chat today? No names, no personal details — just the coaching patterns, to help improve SrujanaBuddy for all REVA students. It stays private and only used in bulk for system refinement. Is that okay with you?\"\n\n**If the student consents** (`yes`, `sure`, `ok`, `seri`, etc.):\n- Log consent as `granted` in the session record.\n- Save an anonymized session summary to `eval/data/sessions/` using the template `eval/data/anon-session-log-template.yaml`. Name the file `[name-or-avatar]-session-[date]-[id].yaml` (use the real name or chosen avatar to avoid collisions).\n- Strip all PII: replace name with `Student-[random‑4‑digit]` (or avatar), remove roll number, email, mobile, section, family/location details.\n- Retain: session type, topics covered, coaching moves used, student energy level, outcome (commitment made / not made), tone quality, notable resistance or breakthrough moments.\n- Confirm to the student: *\"Done, seri! Saved anonymously. See you next time. 🙂\"*\n\n**If the student declines** (`no`, `nope`, `don't`, `nahi`):\n- Log consent as `declined` – do not save any session data.\n- Respond: *\"No problem at all, da. Your call always. See you next time!\"*\n\n**Privacy rule:** Consent is per‑session, never assumed. Never save without explicit yes.\n\n> **Plugin auto‑registration:** At session start, SrujanaBuddy scans `.agents/plugins/` for plugins with a `plugin.json` or `package.json` manifest and registers all discovered skills, workflows, and commands. No manual update is needed for new plugins.\n"
+      },
+      "library_id": "automation/srujanabuddy-routing-core-23a6aa8f"
+    },
+    {
+      "candidate_id": "24ea593dc6022147e7e29d15",
+      "candidate": {
+        "candidate_id": "24ea593dc6022147e7e29d15",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:27+00:00",
+        "source": {
+          "repository": "homeowmorphism/adaptive-teacher",
+          "repository_url": "https://github.com/homeowmorphism/adaptive-teacher",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/homeowmorphism/adaptive-teacher/blob/990d4a5cbe46a3562655d05232f59e02ec07e6e1/SKILL.md",
+          "api_sha": "a619e53816229ccf3f836a2d9afa053f6cda5b81",
+          "repo_stars": 1,
+          "repo_forks": 0,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-08-16T18:29:53+00:00"
+        },
+        "raw_file": "raw/homeowmorphism-adaptive-teacher/SKILL.md",
+        "title": "adaptive-teacher",
+        "category_hint": "content_creation",
+        "content_hash": "58285c009b81f29456aadb7ef8e178e562ccd0b90b8b53ef4a573af2acfdd780",
+        "content_characters": 12605
+      },
+      "reviewed_at": "2026-09-27T13:14:29+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "Adaptive Teaching with Persistent Learner Model",
+        "category": "content_creation",
+        "summary": "A domain‑general tutoring protocol that keeps a persistent, user‑inspectable learner model in a git‑ignored folder. The skill defines a loop for reading, diagnosing, answering, and consolidating teaching interactions, and it provides eight concrete rules for constructing explanations, plus file schemas for logging and model storage.",
+        "quality_score": 65,
+        "uniqueness_score": 80,
+        "usefulness_score": 70,
+        "safety_score": 100,
+        "total_score": 79,
+        "strengths": [
+          "Comprehensive teaching loop and eight explicit answer‑construction rules",
+          "Persistent learner model enables long‑term adaptation",
+          "Clear file‑based logging and consolidation process",
+          "Domain‑agnostic – works for math, programming, language, etc."
+        ],
+        "weaknesses": [
+          "No concrete end‑to‑end example showing the workflow in action",
+          "Prerequisites (environment, tooling) are only implied",
+          "Implementation details (scripts to read/write the markdown files) are missing",
+          "Complex terminology may hinder quick adoption"
+        ],
+        "tags": [
+          "adaptive-teaching",
+          "tutoring",
+          "education",
+          "learner-model",
+          "pedagogy"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a short walkthrough example (question → answer → log update)",
+          "Specify required tools (e.g., Python script, git setup) and provide sample code snippets",
+          "Include a minimal starter repository with the `learner/` folder and schema files",
+          "Simplify some of the academic citations for readability"
+        ],
+        "normalized_skill_markdown": "---\nname: adaptive-teacher\ndescription: General-purpose adaptive teaching skill that maintains a persistent learner model to adapt explanations across sessions.\n---\n\n# Adaptive teaching\n\nA tutor runs two models: a theory of the material and a theory of the tutee. This skill implements the second model. It is domain‑general: the protocol never changes, only the artifacts used to demonstrate.\n\n## The loop\n\n1. **At invocation, read `learner/model.md` first** – if it does not exist (fresh clone), create it from the schemas below. Skip the read when invoked from inside an open `pair‑programming` session (its contract already read the file). If `learner/question‑log.md` contains entries newer than the model’s `Consolidated through:` line, consolidate them now. Then apply the model: skip or compress material it marks *known‑well*, honor anticipation rules, and if retrieval prompts are due, pose one batch of up to three prompts at a natural pause (most‑overdue first, no two from the same topic cluster).\n2. **Every clarifying question is a diagnostic datum.** Diagnose the gap *before* answering, compose the answer using the eight rules below, close interactively where natural, then append an entry to `learner/question‑log.md` in the same turn.\n3. **Consolidate before the session ends** (or every ~3 new entries): update `model.md` from the log; entries whose context field begins `pair:` also update the pair‑programming ledger; `Event:` entries that record unaided correct use of a queued mechanism advance that queue entry one recall. Keep `model.md` within ~300 lines by merging overlapping rules and compressing resolved material. Move absorbed entries verbatim to `learner/question‑log‑archive.md` (append‑only, never read at runtime). If an entry reveals a *user‑independent* defect in this skill’s own text, fix the reference file and commit, citing the log entry date. The personal `learner/` tier is never committed.\n\n## The eight rules\n\n1. **Answer first, with the axis it turns on.** Open with the verdict and the key distinction; never make the reader scroll for it.\n2. **Diagnose out loud.** State in one sentence which gap generated the question and answer *that* gap.\n3. **Refute false premises in refutation shape.** Quote the presupposition verbatim, tag it incorrect, and immediately provide the correct account as an affirmative statement.\n4. **Calibrate per axis against `learner/model.md`; compress the known.** Treat each axis (expertise dimension) separately; omit redundancy, add skippable asides when the level is uncertain.\n5. **Mechanism, not verdict — demonstrated, not asserted.** Provide a checkable artifact (runnable snippet, goal state, verbatim error, pinned source) for every correction.\n6. **Contingent depth: resolve the live impasse, queue the rest.** Reply at the lowest specificity that could plausibly resolve the question; defer deeper exposition to the retrieval queue.\n7. **Signal sparsely.** Multi‑point answers get numbers and short labels; use only one signal per scope.\n8. **Close with one generative hook.** After the answer, optionally add a concrete move (prediction to check, `#check` to run, contrasting case) that is answerable from the just‑given answer and does not target an open gap.\n\n## Teaching moves\n\n- **Exercises are model‑then‑do.** The first exercise on a newly explained mechanism is a fully worked instance; the variant is an isomorphic problem placed at the user’s point of work (temporary block). Frequency follows the learner model’s setting; if no preference is recorded, the skill offers an exercise.\n- **Never withhold the answer to quiz.** Retrieval prompts come only from the queue, at most one batch of three per session, always skippable.\n\n## Hard rules\n\n- **Truth is the floor.** Never fabricate a refutation.\n- **Always cite the source.** Quotes must be verbatim and pinned (`path:line`, URL, or edition).\n- **The loop stays cheap.** Only file appends and a single small read per session; no external agents or web searches.\n- **When writing in the user’s Lean files**, use `/- … -/` comment blocks.\n- **Sentence‑level readability.** Follow the `human‑prose` skill’s rules: one idea per sentence, active voice, no mid‑sentence asides, sparse signals only.\n\n## File schemas (`learner/` – personal, git‑ignored)\n\n### `question‑log.md`\nAppend‑only log of teaching interactions. Example entry:\n\n```markdown\n## 2024-09-27 · tutoring · knowledge‑gap\nQ: \"What does the derivative of sin(x) represent?\"\nDiagnosis: missing conceptual link between rate of change and slope\nResolved by: explained geometric interpretation and gave a simple example\nAnticipate: none\nRetrieval: yes – \"Explain the geometric meaning of the derivative of sin(x)\"\n```\n\n### `model.md`\nConsolidated learner state, read first at every invocation. Example fragment:\n\n```markdown\n# Learner model (personal — not tracked by git)\n\nConsolidated through: 2024-09-27 · tutoring\n\n## Knows well — stop explaining\n- basic algebraic manipulation\n\n## Active gaps\n- geometric intuition of derivatives\n\n## Retrieval queue\n- due 2024-09-28 · \"Explain the geometric meaning of the derivative of sin(x)\" · from 2024-09-27 · recalls 0/2\n```\n\nThese schemas enable the adaptive‑teacher skill to operate without external services, keeping the teaching loop lightweight and privacy‑preserving."
+      },
+      "library_id": "content-creation/adaptive-teaching-with-persistent-learner-model-24ea593d"
+    },
+    {
+      "candidate_id": "cbad2711dbf8d825dcad9d89",
+      "candidate": {
+        "candidate_id": "cbad2711dbf8d825dcad9d89",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:28+00:00",
+        "source": {
+          "repository": "digitalocean-labs/do-app-platform-skills",
+          "repository_url": "https://github.com/digitalocean-labs/do-app-platform-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/digitalocean-labs/do-app-platform-skills/blob/e41e2e394511e5e7f00c1977b5a0af2b26db2556/SKILL.md",
+          "api_sha": "71a9d1c9a5502698bc6e4f53114965acb0250ad7",
+          "repo_stars": 36,
+          "repo_forks": 4,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-09-20T04:29:35+00:00"
+        },
+        "raw_file": "raw/digitalocean-labs-do-app-platform-skills/SKILL.md",
+        "title": "app-platform-router",
+        "category_hint": "devops",
+        "content_hash": "77ae0b72722c0459387a0b7d3bbba19e33f8c14dd157ac4cb7862be586a06bbf",
+        "content_characters": 16948
+      },
+      "reviewed_at": "2026-09-27T13:15:19+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "App Platform Router",
+        "category": "devops",
+        "summary": "A meta‑skill that routes DigitalOcean App Platform requests to specialized sub‑skills such as designer, migration, deployment, and troubleshooting. It defines a decision tree, trigger phrases, artifact contracts, and chaining logic so an AI assistant can orchestrate multi‑phase workflows without exposing credentials. The skill also outlines required tools, defaults, and escalation handling.",
+        "quality_score": 70,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 100,
+        "total_score": 81,
+        "strengths": [
+          "Comprehensive overview of all App Platform sub‑skills",
+          "Clear decision‑tree and workflow‑chaining diagrams",
+          "Explicit credential‑handling philosophy to avoid secret exposure",
+          "Well‑structured tables for triggers, requirements, and artifacts"
+        ],
+        "weaknesses": [
+          "Missing explicit input/output specification for the router itself",
+          "No concrete step‑by‑step algorithm or pseudo‑code for automated routing",
+          "Relies on AI reasoning without defined validation steps",
+          "Examples focus on high‑level flow rather than concrete command usage"
+        ],
+        "tags": [
+          "digitalocean",
+          "app-platform",
+          "router",
+          "devops",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section (e.g., doctl, Python, uv)",
+          "Define the router's input (user request string) and output (selected skill name or chain)",
+          "Provide pseudo‑code or a simple algorithm that an agent can execute",
+          "Include a concrete example that shows the router parsing a request and selecting a skill"
+        ],
+        "normalized_skill_markdown": "---\nname: app-platform-router\ndescription: Routes DigitalOcean App Platform requests to specialized sub‑skills, enabling AI assistants to orchestrate multi‑phase workflows while keeping credentials safe.\n---\n\n# Overview\nThis skill acts as a router for DigitalOcean App Platform tasks. Based on a user’s intent it selects one or more specialized sub‑skills (designer, migration, deployment, etc.) and defines the artifact hand‑off between them.\n\n## Prerequisites\n- `doctl` ≥ 1.82.0\n- Python 3.9+ with the `do-app-sandbox` package (`pip install do-app-sandbox`)\n- Access to the repository containing the sub‑skills (`app-platform-skills/skills/*`)\n- Optional: `uv` for Python package management, Docker for devcontainers\n\n## Input / Output\n- **Input**: a free‑form user request string (e.g., \"I want to migrate my Heroku app\")\n- **Output**: the name of the primary skill to invoke and, if applicable, an ordered list of additional skills to chain.\n\n## Routing Decision Tree\n```\nUser Request\n   │\n   ├─ Development? → devcontainers\n   ├─ Designing / Creating? → designer / migration / planner\n   ├─ Shipping code? → deployment\n   ├─ Something broken? → troubleshooting\n   ├─ Need isolated execution? → sandbox\n   ├─ Configuring data? → postgres / managed-db-services / spaces\n   └─ AI inference needed? → ai-services\n```\nThe tree is implemented as a simple rule‑based matcher using the **Trigger Phrases Reference** table below.\n\n## Trigger Phrases Reference\n| Skill | Trigger phrases |\n|-------|-----------------|\n| devcontainers | \"local dev\", \"docker compose\", \"run locally\", \"devcontainer\" |\n| designer | \"design my app\", \"create app spec\", \"new application\", \"architect\" |\n| migration | \"migrate\", \"convert\", \"move from Heroku\", \"move from AWS\", \"heroku.yml\" |\n| planner | \"create a plan\", \"staged approach\", \"plan deployment\" |\n| deployment | \"deploy\", \"ship\", \"release\", \"GitHub Actions\" |\n| troubleshooting | \"broken\", \"failing\", \"debug\", \"502\", \"error\" |\n| sandbox | \"sandbox\", \"isolated environment\", \"run untrusted code\" |\n| postgres | \"postgres\", \"postgresql\", \"schema isolation\" |\n| managed-db-services | \"mysql\", \"mongodb\", \"kafka\", \"opensearch\" |\n| spaces | \"object storage\", \"S3\", \"Spaces\" |\n| ai-services | \"gradient\", \"inference\", \"LLM endpoint\" |\n\n## Workflow Chaining Examples\n1. **Greenfield app** – `devcontainers → designer → planner → deployment`\n2. **Heroku migration** – `migration → planner → deployment`\n3. **Add Kafka** – `managed-db-services → update .do/app.yaml → deployment`\n4. **Troubleshoot 502** – `troubleshooting` (stand‑alone)\n\n## Artifact Contracts\n| Artifact | Filename | Produced by | Consumed by |\n|----------|----------|-------------|------------|\n| App Spec | `.do/app.yaml` | designer, migration | deployment, planner |\n| Deploy workflow | `.github/workflows/deploy.yml` | deployment, planner | GitHub Actions |\n| Dev environment | `.devcontainer/devcontainer.json` | devcontainers | VS Code |\n| SQL scripts | `db-*.sql` | postgres | User (manual) |\n| CORS config | `spaces-cors.json` | spaces | DO Console |\n\nWhen a skill finishes it should announce the artifact(s) created and suggest the next skill if applicable.\n\n## Credential Handling Philosophy\n1. **Prefer GitHub Secrets** – the agent never sees the secret value.\n2. **Use App Platform bindable variables** for DO managed databases.\n3. **Local .env** only for temporary testing.\n4. **External services** follow the same pattern as #1 or #3.\n\n## Implementation Sketch (pseudo‑code)\n```python\ndef route(request: str) -> List[str]:\n    # lower‑case and tokenise request\n    tokens = request.lower().split()\n    # ordered list of (skill, trigger list)\n    triggers = [\n        (\"devcontainers\", [\"local dev\", \"docker compose\", \"devcontainer\"]),\n        (\"designer\", [\"design my app\", \"new application\", \"architect\"]),\n        (\"migration\", [\"migrate\", \"heroku\", \"aws\"]),\n        (\"planner\", [\"create a plan\", \"staged approach\"]),\n        (\"deployment\", [\"deploy\", \"release\", \"github actions\"]),\n        (\"troubleshooting\", [\"broken\", \"502\", \"debug\"]),\n        (\"sandbox\", [\"sandbox\", \"isolated environment\"]),\n        (\"postgres\", [\"postgres\", \"postgresql\"]),\n        (\"managed-db-services\", [\"mysql\", \"mongodb\", \"kafka\"]),\n        (\"spaces\", [\"s3\", \"object storage\"]),\n        (\"ai-services\", [\"inference\", \"llm endpoint\"]),\n    ]\n    for skill, phrases in triggers:\n        if any(p in request.lower() for p in phrases):\n            return [skill]\n    return []\n```\nThe AI assistant can extend this list with chaining logic based on the **Workflow Types** table in the original document.\n\n## Escalation\nIf the request does not match any known trigger, ask the user for clarification or fall back to the official App Platform documentation: https://docs.digitalocean.com/products/app-platform/"
+      },
+      "library_id": "devops/app-platform-router-cbad2711"
+    },
+    {
+      "candidate_id": "554f37527474ef008c9684e9",
+      "candidate": {
+        "candidate_id": "554f37527474ef008c9684e9",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:30+00:00",
+        "source": {
+          "repository": "2Hafast8/NekoStay",
+          "repository_url": "https://github.com/2Hafast8/NekoStay",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/2Hafast8/NekoStay/blob/68b861ff5b5c9f51fe90e221d6089f26663da1d0/SKILL.md",
+          "api_sha": "b5ed3dd6fd2a3377067664d21588ef0efc91d4b0",
+          "repo_stars": 0,
+          "repo_forks": 0,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-18T03:53:47+00:00"
+        },
+        "raw_file": "raw/2hafast8-nekostay/SKILL.md",
+        "title": "SKILL.md — NekoStay Skills & Technical Registry",
+        "category_hint": "programming",
+        "content_hash": "69ff1ffc97c26fbce0415f18334f50ebef9544b2d06d4a977b1c26927bf5f5f2",
+        "content_characters": 6895
+      },
+      "reviewed_at": "2026-09-27T13:15:56+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "NekoStay Skills Registry Index",
+        "category": "documentation",
+        "summary": "The file provides a high‑level catalog of 26 AI agent skills and a brief integration guide for the NekoStay stack. It lists skill names, locations, and short descriptions but does not define any single actionable skill with inputs, outputs, steps, or examples.",
+        "quality_score": 30,
+        "uniqueness_score": 40,
+        "usefulness_score": 45,
+        "safety_score": 100,
+        "total_score": 38,
+        "strengths": [
+          "Comprehensive overview of many potential skills",
+          "Clear tabular layout for quick navigation",
+          "Includes integration stack details for the NekoStay project"
+        ],
+        "weaknesses": [
+          "Not a concrete, self‑contained skill definition",
+          "Missing prerequisites, inputs, outputs, step‑by‑step workflow, and verification guidance",
+          "Lacks examples or sample usage for any listed skill",
+          "No explicit maintenance or versioning guidance"
+        ],
+        "tags": [
+          "catalog",
+          "index",
+          "documentation",
+          "integration"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Select a single skill from the list and expand it into a full SKILL.md with sections: description, prerequisites, inputs, outputs, detailed steps, examples, verification, and maintenance notes.",
+          "Add concrete code snippets or command examples for the chosen skill.",
+          "Provide a clear verification method (e.g., test cases, expected results).",
+          "Include versioning information and references to any external tools or APIs used."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "780831de3edb7799c2c09448",
+      "candidate": {
+        "candidate_id": "780831de3edb7799c2c09448",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:32+00:00",
+        "source": {
+          "repository": "nativ3ai/h3retik",
+          "repository_url": "https://github.com/nativ3ai/h3retik",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/nativ3ai/h3retik/blob/69fe3f7541ca4ffe05979361ef247736e87b1d31/SKILL.md",
+          "api_sha": "11fdaa5481d512cfdf45d751221a8aee3ae48b03",
+          "repo_stars": 4,
+          "repo_forks": 3,
+          "repo_license": "Apache License 2.0",
+          "repo_updated_at": "2026-05-13T23:53:38+00:00"
+        },
+        "raw_file": "raw/nativ3ai-h3retik/SKILL.md",
+        "title": "h3retik Operator Skill (Paste-Into-LLM)",
+        "category_hint": "automation",
+        "content_hash": "b0c59657795e7d0a789df0426f62254e825fdd3a169d3167541ebe3004f0e21d",
+        "content_characters": 11469
+      },
+      "reviewed_at": "2026-09-27T13:16:40+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "h3retik Operator Skill (Paste-Into-LLM)",
+        "category": "automation",
+        "summary": "The skill provides detailed instructions for operating the h3retik red‑team control plane, including exploit execution, credential harvesting, and C2 workflows. While it includes safety caveats about authorized testing, it still outlines offensive techniques and tool usage that can be applied maliciously. The content is therefore disallowed under policy.",
+        "quality_score": 45,
+        "uniqueness_score": 60,
+        "usefulness_score": 55,
+        "safety_score": 30,
+        "total_score": 35,
+        "strengths": [
+          "Comprehensive documentation of the tool’s CLI surface",
+          "Clear operational loop and telemetry handling",
+          "Well‑structured sections and environment variables"
+        ],
+        "weaknesses": [
+          "Focuses on offensive exploitation without sufficient defensive context",
+          "Relies on user‑provided authorization but does not enforce safeguards",
+          "Lacks concrete verification steps for safe usage"
+        ],
+        "tags": [
+          "redteam",
+          "automation",
+          "cli",
+          "telemetry"
+        ],
+        "safety_flags": [
+          "facilitates hacking",
+          "instructions for exploit execution",
+          "potentially illegal actions"
+        ],
+        "recommended_improvements": [
+          "Remove or heavily restrict sections describing exploit and credential‑theft workflows",
+          "Emphasize defensive testing and detection use‑cases only",
+          "Add explicit safeguards, logging, and legal compliance checks",
+          "Provide guidance on safe, authorized environments and avoid generic attack instructions"
+        ],
+        "normalized_skill_markdown": ""
+      }
     }
   ],
-  "updated_at": "2026-09-26T12:25:59+00:00"
+  "updated_at": "2026-09-27T13:16:40+00:00"
 }

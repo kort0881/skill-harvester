@@ -1,270 +1,6 @@
 {
   "items": [
     {
-      "candidate_id": "2e590e160211f738050c3c96",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:13+00:00",
-      "source": {
-        "repository": "rkmahale17/rulcode.com",
-        "repository_url": "https://github.com/rkmahale17/rulcode.com",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/rkmahale17/rulcode.com/blob/667dba3a2c6a3067e70bc70c58126e7e85e32cba/SKILL.md",
-        "api_sha": "fb27da6951c5b4751e2c8261c83b8ecad610c630",
-        "repo_stars": 15,
-        "repo_forks": 3,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-11T13:22:07+00:00"
-      },
-      "raw_file": "raw/rkmahale17-rulcode-com/SKILL.md",
-      "title": "rulcode-development",
-      "category_hint": "programming",
-      "content_hash": "ffbf64a909c7712ec0e0bb5318ae77d98195ea2e28e8efe192f046e7392b59b6",
-      "content_characters": 1719
-    },
-    {
-      "candidate_id": "f3a3e27c72ef635c4527626d",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:15+00:00",
-      "source": {
-        "repository": "somasays/skill-creator",
-        "repository_url": "https://github.com/somasays/skill-creator",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/somasays/skill-creator/blob/a56d39fc513ac7059016a2196f4c9e72266461a5/SKILL.md",
-        "api_sha": "dab3c49028a81a158bbc43cde62b37d46422982a",
-        "repo_stars": 7,
-        "repo_forks": 2,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-08-28T19:07:48+00:00"
-      },
-      "raw_file": "raw/somasays-skill-creator/SKILL.md",
-      "title": "create-skills",
-      "category_hint": "automation",
-      "content_hash": "dc115aa142241b03bd0fef3d378cbe0d6dc9f1f761225648651ad7c0e13817c2",
-      "content_characters": 14725
-    },
-    {
-      "candidate_id": "2b8efc1c33759577c652494a",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:16+00:00",
-      "source": {
-        "repository": "mit-han-lab/KernelWiki",
-        "repository_url": "https://github.com/mit-han-lab/KernelWiki",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/mit-han-lab/KernelWiki/blob/b6b4301f15e8ce6955a56776690643ce5db369e6/SKILL.md",
-        "api_sha": "bbb33edb420a6a3dbcf546794efa1503f6f16524",
-        "repo_stars": 458,
-        "repo_forks": 57,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-20T09:38:00+00:00"
-      },
-      "raw_file": "raw/mit-han-lab-kernelwiki/SKILL.md",
-      "title": "KernelWiki",
-      "category_hint": "programming",
-      "content_hash": "c84764f4de8e38e7045d863e89fd67841cb9f58b6bf6129c3ba10b2d590bf838",
-      "content_characters": 7080
-    },
-    {
-      "candidate_id": "45f38311277aeab5f4a29f2e",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:18+00:00",
-      "source": {
-        "repository": "BTHawake/Teacher_skill",
-        "repository_url": "https://github.com/BTHawake/Teacher_skill",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/BTHawake/Teacher_skill/blob/e17dae06aea3a0e8470eb7f28bf1e3fad0e86316/SKILL.md",
-        "api_sha": "547c050f9b289c9c2162c571194f9bb42f7b0605",
-        "repo_stars": 2,
-        "repo_forks": 0,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-06-25T12:04:50+00:00"
-      },
-      "raw_file": "raw/bthawake-teacher-skill/SKILL.md",
-      "title": "teacher",
-      "category_hint": "content_creation",
-      "content_hash": "b63e346d5117028c9483e40874d275dddf8dc54666994bca4a631b7862dc5205",
-      "content_characters": 8059
-    },
-    {
-      "candidate_id": "ac2921a466aeb550d4b5116e",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:20+00:00",
-      "source": {
-        "repository": "go-sqlex/sqlex",
-        "repository_url": "https://github.com/go-sqlex/sqlex",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/go-sqlex/sqlex/blob/209e0bcd8568571a1906f0f72f51082c5650ef54/SKILL.md",
-        "api_sha": "a187a34e97153d56702d76ed79d9d8777eee988e",
-        "repo_stars": 53,
-        "repo_forks": 1,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-20T12:22:44+00:00"
-      },
-      "raw_file": "raw/go-sqlex-sqlex/SKILL.md",
-      "title": "sqlex — AI Assistant Quick Reference",
-      "category_hint": "automation",
-      "content_hash": "7c39258ce711a85015dfec73ad02a591116026c85b45a131570da5d6233f6aed",
-      "content_characters": 13238
-    },
-    {
-      "candidate_id": "ee41ba6f6221842827b6918b",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:22+00:00",
-      "source": {
-        "repository": "eze-is/ai-partner-chat",
-        "repository_url": "https://github.com/eze-is/ai-partner-chat",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/eze-is/ai-partner-chat/blob/1170b66b4b9b0194fb45d622cdd7bcd575c05df1/SKILL.md",
-        "api_sha": "328cedc224db7a3182161e6a62470210670133df",
-        "repo_stars": 214,
-        "repo_forks": 27,
-        "repo_license": null,
-        "repo_updated_at": "2026-08-20T13:11:12+00:00"
-      },
-      "raw_file": "raw/eze-is-ai-partner-chat/SKILL.md",
-      "title": "ai-partner-chat",
-      "category_hint": "automation",
-      "content_hash": "cb93e51fe22c3a985d57c953ca786333a9f195d10debb200f6c7851b66b3b7ac",
-      "content_characters": 11899
-    },
-    {
-      "candidate_id": "c3908821b7932bcdfcf9bf43",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:23+00:00",
-      "source": {
-        "repository": "alchaincyf/paul-graham-skill",
-        "repository_url": "https://github.com/alchaincyf/paul-graham-skill",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/alchaincyf/paul-graham-skill/blob/e6ed220cd417e8bfc100dddd38a41a62fa692a71/SKILL.md",
-        "api_sha": "bf5c0f17fa35abbccfd6016c6d7f8699d8744e7a",
-        "repo_stars": 97,
-        "repo_forks": 26,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-10T04:06:17+00:00"
-      },
-      "raw_file": "raw/alchaincyf-paul-graham-skill/SKILL.md",
-      "title": "paul-graham-perspective",
-      "category_hint": "content_creation",
-      "content_hash": "42439f6bc22c23ad4dcab7e7fd7901ce2ec2515c229cd46f512e41eca5bb5de5",
-      "content_characters": 16358
-    },
-    {
-      "candidate_id": "23a6aa8fed0bd061ccaf7c68",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:25+00:00",
-      "source": {
-        "repository": "sanchitnis/SrujanaBuddy",
-        "repository_url": "https://github.com/sanchitnis/SrujanaBuddy",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/sanchitnis/SrujanaBuddy/blob/1d0d57d59a6e094d4d60080ff2416e6a25a87a99/SKILL.md",
-        "api_sha": "d3295a85a28a18bdd5cd1463626e39f631d89078",
-        "repo_stars": 2,
-        "repo_forks": 4,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-08-12T08:27:57+00:00"
-      },
-      "raw_file": "raw/sanchitnis-srujanabuddy/SKILL.md",
-      "title": "SrujanaBuddy — Routing Core",
-      "category_hint": "automation",
-      "content_hash": "347496e53e4614626d55a5721b3f9205a689d4b876f94a448490eb28087f377f",
-      "content_characters": 11491
-    },
-    {
-      "candidate_id": "24ea593dc6022147e7e29d15",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:27+00:00",
-      "source": {
-        "repository": "homeowmorphism/adaptive-teacher",
-        "repository_url": "https://github.com/homeowmorphism/adaptive-teacher",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/homeowmorphism/adaptive-teacher/blob/990d4a5cbe46a3562655d05232f59e02ec07e6e1/SKILL.md",
-        "api_sha": "a619e53816229ccf3f836a2d9afa053f6cda5b81",
-        "repo_stars": 1,
-        "repo_forks": 0,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-08-16T18:29:53+00:00"
-      },
-      "raw_file": "raw/homeowmorphism-adaptive-teacher/SKILL.md",
-      "title": "adaptive-teacher",
-      "category_hint": "content_creation",
-      "content_hash": "58285c009b81f29456aadb7ef8e178e562ccd0b90b8b53ef4a573af2acfdd780",
-      "content_characters": 12605
-    },
-    {
-      "candidate_id": "cbad2711dbf8d825dcad9d89",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:28+00:00",
-      "source": {
-        "repository": "digitalocean-labs/do-app-platform-skills",
-        "repository_url": "https://github.com/digitalocean-labs/do-app-platform-skills",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/digitalocean-labs/do-app-platform-skills/blob/e41e2e394511e5e7f00c1977b5a0af2b26db2556/SKILL.md",
-        "api_sha": "71a9d1c9a5502698bc6e4f53114965acb0250ad7",
-        "repo_stars": 36,
-        "repo_forks": 4,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-20T04:29:35+00:00"
-      },
-      "raw_file": "raw/digitalocean-labs-do-app-platform-skills/SKILL.md",
-      "title": "app-platform-router",
-      "category_hint": "devops",
-      "content_hash": "77ae0b72722c0459387a0b7d3bbba19e33f8c14dd157ac4cb7862be586a06bbf",
-      "content_characters": 16948
-    },
-    {
-      "candidate_id": "554f37527474ef008c9684e9",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:30+00:00",
-      "source": {
-        "repository": "2Hafast8/NekoStay",
-        "repository_url": "https://github.com/2Hafast8/NekoStay",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/2Hafast8/NekoStay/blob/68b861ff5b5c9f51fe90e221d6089f26663da1d0/SKILL.md",
-        "api_sha": "b5ed3dd6fd2a3377067664d21588ef0efc91d4b0",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-18T03:53:47+00:00"
-      },
-      "raw_file": "raw/2hafast8-nekostay/SKILL.md",
-      "title": "SKILL.md — NekoStay Skills & Technical Registry",
-      "category_hint": "programming",
-      "content_hash": "69ff1ffc97c26fbce0415f18334f50ebef9544b2d06d4a977b1c26927bf5f5f2",
-      "content_characters": 6895
-    },
-    {
-      "candidate_id": "780831de3edb7799c2c09448",
-      "status": "pending",
-      "discovered_at": "2026-09-20T14:16:32+00:00",
-      "source": {
-        "repository": "nativ3ai/h3retik",
-        "repository_url": "https://github.com/nativ3ai/h3retik",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/nativ3ai/h3retik/blob/69fe3f7541ca4ffe05979361ef247736e87b1d31/SKILL.md",
-        "api_sha": "11fdaa5481d512cfdf45d751221a8aee3ae48b03",
-        "repo_stars": 4,
-        "repo_forks": 3,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-05-13T23:53:38+00:00"
-      },
-      "raw_file": "raw/nativ3ai-h3retik/SKILL.md",
-      "title": "h3retik Operator Skill (Paste-Into-LLM)",
-      "category_hint": "automation",
-      "content_hash": "b0c59657795e7d0a789df0426f62254e825fdd3a169d3167541ebe3004f0e21d",
-      "content_characters": 11469
-    },
-    {
       "candidate_id": "3e5a991d639bd1d3a18f225a",
       "status": "pending",
       "discovered_at": "2026-09-20T14:16:34+00:00",
@@ -2334,7 +2070,30 @@
       "category_hint": "programming",
       "content_hash": "65d2fb9ad283be0cef5746062d66711bba91e12e446dbb8d59b6a4ef00053cb5",
       "content_characters": 6178
+    },
+    {
+      "candidate_id": "c3908821b7932bcdfcf9bf43",
+      "status": "pending",
+      "discovered_at": "2026-09-20T14:16:23+00:00",
+      "source": {
+        "repository": "alchaincyf/paul-graham-skill",
+        "repository_url": "https://github.com/alchaincyf/paul-graham-skill",
+        "default_branch": "master",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/alchaincyf/paul-graham-skill/blob/e6ed220cd417e8bfc100dddd38a41a62fa692a71/SKILL.md",
+        "api_sha": "bf5c0f17fa35abbccfd6016c6d7f8699d8744e7a",
+        "repo_stars": 97,
+        "repo_forks": 26,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-10T04:06:17+00:00"
+      },
+      "raw_file": "raw/alchaincyf-paul-graham-skill/SKILL.md",
+      "title": "paul-graham-perspective",
+      "category_hint": "content_creation",
+      "content_hash": "42439f6bc22c23ad4dcab7e7fd7901ce2ec2515c229cd46f512e41eca5bb5de5",
+      "content_characters": 16358,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 9723, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
     }
   ],
-  "updated_at": "2026-09-27T12:12:49+00:00"
+  "updated_at": "2026-09-27T13:16:40+00:00"
 }

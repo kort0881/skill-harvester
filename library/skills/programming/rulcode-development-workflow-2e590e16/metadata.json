@@ -1,0 +1,70 @@
+{
+  "library_id": "programming/rulcode-development-workflow-2e590e16",
+  "title": "RulCode Development Workflow",
+  "category": "programming",
+  "tags": [
+    "react",
+    "vite",
+    "typescript",
+    "supabase",
+    "development",
+    "workflow"
+  ],
+  "summary": "The skill provides a step‑by‑step workflow for contributors to develop and extend the RulCode interview preparation platform built with React, Vite, TypeScript, and Supabase. It explains how to identify the target area, set up the development environment, implement changes following existing patterns, and verify the work with build and lint commands. The guide includes concrete npm commands and references to project structure, making it practical for developers working on the repository.",
+  "source": {
+    "repository": "rkmahale17/rulcode.com",
+    "repository_url": "https://github.com/rkmahale17/rulcode.com",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/rkmahale17/rulcode.com/blob/667dba3a2c6a3067e70bc70c58126e7e85e32cba/SKILL.md",
+    "api_sha": "fb27da6951c5b4751e2c8261c83b8ecad610c630",
+    "repo_stars": 15,
+    "repo_forks": 3,
+    "repo_license": "Other",
+    "repo_updated_at": "2026-09-11T13:22:07+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:13+00:00",
+  "accepted_at": "2026-09-27T13:09:59+00:00",
+  "content_hash": "ffbf64a909c7712ec0e0bb5318ae77d98195ea2e28e8efe192f046e7392b59b6",
+  "source_excerpt": "--- name: rulcode-development description: \"Develop and extend the RulCode technical interview preparation platform built with React, Vite, TypeScript, and Supabase. Use when adding new algorithm problems, building visualization components, implementing DSA topic pages, updating the problem editor, or modifying the interview preparation UI.\" --- # RulCode Development Build and extend the RulCode platform — a React/Vite/TypeScript application for technical interview preparation covering DSA, system design, and frontend concepts. ## Workflow ### 1. Understand the request Identify which area of the platform the change targets: - **Algorithm problems**: Adding or editing problems in `src/` covering arrays, strings, hashing, two pointers, slidin…",
+  "review": {
+    "decision": "accept",
+    "title": "RulCode Development Workflow",
+    "category": "programming",
+    "summary": "The skill provides a step‑by‑step workflow for contributors to develop and extend the RulCode interview preparation platform built with React, Vite, TypeScript, and Supabase. It explains how to identify the target area, set up the development environment, implement changes following existing patterns, and verify the work with build and lint commands. The guide includes concrete npm commands and references to project structure, making it practical for developers working on the repository.",
+    "quality_score": 70,
+    "uniqueness_score": 80,
+    "usefulness_score": 65,
+    "safety_score": 100,
+    "total_score": 79,
+    "strengths": [
+      "Clear high‑level workflow",
+      "Includes concrete npm commands for setup, build, and lint",
+      "Mentions project structure and relevant directories",
+      "Suitable for contributors familiar with the stack"
+    ],
+    "weaknesses": [
+      "Missing explicit prerequisites list",
+      "No defined inputs or expected outputs for changes",
+      "Lacks concrete example of a change",
+      "Minimal guidance on testing or CI integration"
+    ],
+    "tags": [
+      "react",
+      "vite",
+      "typescript",
+      "supabase",
+      "development",
+      "workflow"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section with required tools and access",
+      "Provide a small example change (e.g., adding a new algorithm problem)",
+      "Specify expected inputs/outputs for each type of change",
+      "Include testing steps or reference to the project's test suite",
+      "Detail verification beyond build/lint, such as visual checks or screenshots"
+    ],
+    "normalized_skill_markdown": "---\nname: rulcode-development\ndescription: Develop and extend the RulCode technical interview preparation platform built with React, Vite, TypeScript, and Supabase.\n---\n\n# RulCode Development\n\nThis skill guides contributors through adding or modifying features in the RulCode platform, a React/Vite/TypeScript application for technical interview preparation.\n\n## Prerequisites\n- Node.js (>=18) and npm installed\n- Access to the repository `rkmahale17/rulcode.com`\n- Familiarity with React, TypeScript, Tailwind CSS, and Supabase\n\n## Workflow\n\n### 1. Identify the target area\n- **Algorithm problems** – files under `src/` (arrays, strings, trees, etc.)\n- **Visualizations** – animation components (see `.agents/skills/visualization/SKILL.md`)\n- **UI components** – React components using Tailwind and shadcn/ui (`components.json`)\n- **Backend / data** – Supabase schema and functions in `supabase/`\n\n### 2. Set up the development environment\n```bash\nnpm install\nnpm run dev\n```\nThe project uses Vite (`vite.config.ts`), TypeScript (`tsconfig.json`), and Tailwind CSS (`tailwind.config.ts`).\n\n### 3. Implement the change\n- Follow existing patterns in `src/` for file structure and naming.\n- Respect strict TypeScript settings (`tsconfig.app.json`).\n- Run ESLint (`eslint.config.js`) during development.\n- Ensure new problems include difficulty metadata and language implementations.\n\n### 4. Verify the change\n```bash\nnpm run build\nnpm run lint\n```\nOpen the development server and confirm the UI updates at the appropriate route.\n\n### 5. Optional: Add tests\nIf the repository includes a testing framework, add unit or integration tests for new components or logic.\n\n## References\n- Project README\n- `.agents/skills/visualization/SKILL.md` for visualization guidelines"
+  }
+}

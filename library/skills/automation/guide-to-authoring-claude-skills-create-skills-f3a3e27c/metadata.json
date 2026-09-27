@@ -1,0 +1,61 @@
+{
+  "library_id": "automation/guide-to-authoring-claude-skills-create-skills-f3a3e27c",
+  "title": "Guide to Authoring Claude Skills (create-skills)",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "skill-development",
+    "documentation"
+  ],
+  "summary": "This skill provides a comprehensive, step‑by‑step methodology for creating Claude SKILL.md files. It covers when to create a skill, how to capture intent, the required folder anatomy, writing effective YAML frontmatter, structuring the body, testing, packaging, and common pitfalls. The guide includes templates, examples, and verification checklists to ensure reusable, reliable skills.",
+  "source": {
+    "repository": "somasays/skill-creator",
+    "repository_url": "https://github.com/somasays/skill-creator",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/somasays/skill-creator/blob/a56d39fc513ac7059016a2196f4c9e72266461a5/SKILL.md",
+    "api_sha": "dab3c49028a81a158bbc43cde62b37d46422982a",
+    "repo_stars": 7,
+    "repo_forks": 2,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-08-28T19:07:48+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:15+00:00",
+  "accepted_at": "2026-09-27T13:10:04+00:00",
+  "content_hash": "dc115aa142241b03bd0fef3d378cbe0d6dc9f1f761225648651ad7c0e13817c2",
+  "source_excerpt": "--- name: create-skills description: Use this skill whenever the user wants to create a new Claude skill, write a SKILL.md file, turn a workflow into a reusable skill, package instructions for Claude to follow, or build a custom automation that Claude can trigger. Also use when the user says \"make this a skill\", \"create a skill for X\", \"I want Claude to always do X\", or asks how skills work. Covers skill anatomy, writing patterns, description optimization, progressive disclosure, testing, and packaging. Even if the user just mentions wanting to standardize a workflow or create reusable instructions, this skill applies. --- # Creating Claude Skills Skills are reusable instruction sets that teach Claude how to perform specific tasks consisten…",
+  "review": {
+    "decision": "accept",
+    "title": "Guide to Authoring Claude Skills (create-skills)",
+    "category": "automation",
+    "summary": "This skill provides a comprehensive, step‑by‑step methodology for creating Claude SKILL.md files. It covers when to create a skill, how to capture intent, the required folder anatomy, writing effective YAML frontmatter, structuring the body, testing, packaging, and common pitfalls. The guide includes templates, examples, and verification checklists to ensure reusable, reliable skills.",
+    "quality_score": 85,
+    "uniqueness_score": 70,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Clear, well‑structured workflow with numbered steps",
+      "Detailed guidance on description writing and progressive disclosure",
+      "Includes practical templates, examples, and test checklists",
+      "Addresses common failure modes and provides mitigation strategies"
+    ],
+    "weaknesses": [
+      "Lengthy; some sections could be more concise",
+      "Prerequisites are implicit rather than explicitly listed",
+      "No concrete example of a finished SKILL.md file end‑to‑end"
+    ],
+    "tags": [
+      "automation",
+      "skill-development",
+      "documentation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an explicit \"Prerequisites\" section (e.g., access to Claude, basic file system knowledge)",
+      "Provide a short, complete example of a finished skill folder with SKILL.md and a reference file",
+      "Condense repetitive wording to improve readability"
+    ],
+    "normalized_skill_markdown": "---\nname: create-skills\ndescription: Guide for authoring Claude SKILL.md files, covering intent capture, anatomy, description writing, body composition, testing, packaging, and common pitfalls.\n---\n\n# Creating Claude Skills\n\nSkills are reusable instruction sets that teach Claude how to perform specific tasks consistently and well. A skill is a folder with a `SKILL.md` file and optional supporting resources. When triggered, Claude reads the `SKILL.md` and follows its instructions.\n\n## When to Create a Skill\n\nCreate a skill when:\n- A task needs **consistent, repeatable execution** across many conversations\n- The task involves **specific tools, sequences, or output formats** that Claude wouldn't know by default\n- You've iterated on a workflow manually and want to **capture what works**\n- The instructions are too detailed to repeat every time but too important to leave to chance\n\nDon't create a skill when:\n- A simple prompt gets the job done\n- The task is a one‑off\n- The behavior is already built into Claude\n\n## Workflow\n\n```\n1. Capture Intent → 2. Research & Interview → 3. Draft SKILL.md →\n4. Test with real prompts → 5. Refine → 6. Package & deliver\n```\n\n## Step 1: Capture Intent\n\nAnswer these four questions:\n1. **What should the skill enable Claude to do?**\n2. **When should it trigger?**\n3. **What's the expected output?**\n4. **Are the outputs objectively verifiable?**\n\nIf the conversation already contains a workflow, extract the tools, sequence, and input/output formats. Fill gaps with targeted questions.\n\n## Step 2: Skill Anatomy\n\n```\nskill-name/\n├── SKILL.md              ← Required. The instruction file.\n│   ├── YAML frontmatter   (name + description)\n│   └── Markdown body      (instructions)\n│\n└── Optional resources/\n    ├── scripts/           Executable code for deterministic tasks\n    ├── references/        Docs loaded into context as needed\n    └── assets/            Templates, icons, fonts used in output\n```\n\n**Do not include** human‑focused docs like `README.md`.\n\n### Progressive Disclosure (Three‑Level Loading)\n| Level | What | When loaded | Size guidance |\n|-------|------|-------------|---------------|\n| **1. Metadata** | `name` + `description` in YAML frontmatter | Always | ~100 words |\n| **2. SKILL.md body** | Full markdown instructions | When skill triggers | <500 lines ideal |\n| **3. Bundled resources** | Scripts, references, assets | On‑demand via explicit read | Unlimited |\n\n## Step 3: Writing the YAML Frontmatter\n\n### `name`\nA short, lowercase, hyphenated identifier (e.g., `docx`, `frontend-design`).\n\n### `description` (Critical)\nThe description is the primary trigger. Use a “pushy” style that lists primary and secondary trigger phrases and explicit exclusions.\n\n**Template**\n```yaml\ndescription: >\n  [What the skill does — 1 sentence].\n  Use this skill when [primary triggers].\n  Also use when [secondary triggers].\n  Covers [key capabilities].\n  Do NOT use for [explicit exclusions].\n```\n\n**Checklist**\n- States what the skill does\n- Lists explicit trigger phrases\n- Includes secondary triggers\n- Mentions relevant file types/extensions\n- Provides exclusions\n- Slightly “pushy” to avoid under‑triggering\n\n## Step 4: Writing the SKILL.md Body\n\n### Structure Patterns\n| Pattern | Best for |\n|---------|----------|\n| Workflow‑based | Sequential processes |\n| Task‑based | Distinct operations |\n| Reference/Guidelines | Standards, specs |\n| Capabilities‑based | Integrated systems |\n\n### Writing Principles\n- Use **imperative** form.\n- **Explain the WHY**, not just the WHAT.\n- Avoid heavy‑handed `MUST`/`NEVER`; provide reasoning.\n- Include **few‑shot examples**.\n- Define output formats explicitly.\n\n**Example of a few‑shot section**\n```markdown\n## Commit message format\n\n**Example 1:**\nInput: Added user authentication with JWT tokens\nOutput: feat(auth): implement JWT‑based authentication\n\n**Example 2:**\nInput: Fixed crash when uploading files over 10MB\nOutput: fix(upload): handle large file uploads without crash\n```\n\n### Organizing Large Skills\nIf the body exceeds ~500 lines, move detailed content to `references/` files and point to them from the main `SKILL.md`.\n\n### Scripts & Assets\nScripts handle deterministic tasks (e.g., file conversion). Assets hold static templates, fonts, icons, etc.\n\n## Step 5: Testing\n\nCreate 2‑3 realistic test prompts that a user would actually say. Verify:\n1. Skill triggers correctly\n2. Claude follows the instructions\n3. Output quality meets expectations\n4. Edge cases are handled\n\nOptionally, add an `evals/evals.json` file for structured evaluation.\n\n## Step 6: Common Pitfalls & Fixes\n| Pitfall | Fix |\n|---------|-----|\n| Skill never triggers | Make description more explicit and “pushy” |\n| Skill triggers on wrong requests | Add clear exclusions |\n| Claude ignores instructions | Add few‑shot examples |\n| Output format inconsistent | Provide exact template |\n| SKILL.md too long | Split into `references/` files |\n| Skill too rigid | Replace MUST/NEVER with reasoning |\n| Skill only works for test examples | Generalize principles |\n| Wasted steps | Remove unproductive instructions |\n\n## Step 7: Packaging & Delivery\n1. Verify folder structure and valid YAML frontmatter.\n2. Check all referenced files exist.\n3. Copy the skill folder to the output directory.\n4. Present a brief summary and installation steps.\n5. (Optional) Run `scripts/package_skill.py <path/to/skill-folder>` to create a `.skill` archive.\n\n---\n\n**Quick Reference**: A ready‑to‑use template is available at `templates/skill-template.md` within the skill folder.\n\n---\n\n**Meta‑Advice for Skill Authors**\n- Spend most time perfecting the description.\n- Explain reasoning, not just rules.\n- Draft, then revisit with fresh eyes.\n- Generalize from specific feedback.\n- Keep the skill lean and focused.\n- Aim for broad applicability.\n- Set high standards; Claude can meet them.\n"
+  }
+}

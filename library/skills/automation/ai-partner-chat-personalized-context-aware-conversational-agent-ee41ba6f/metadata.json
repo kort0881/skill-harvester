@@ -1,0 +1,71 @@
+{
+  "library_id": "automation/ai-partner-chat-personalized-context-aware-conversational-agent-ee41ba6f",
+  "title": "AI Partner Chat – Personalized Context‑Aware Conversational Agent",
+  "category": "automation",
+  "tags": [
+    "personalization",
+    "knowledge-management",
+    "vector-db",
+    "chroma",
+    "embedding",
+    "ai-agent",
+    "python"
+  ],
+  "summary": "This skill enables an AI assistant to hold personalized, context‑aware conversations by loading user and AI persona definitions and indexing the user's markdown notes with vector embeddings. It dynamically generates chunking code for each note, stores the embeddings in a local ChromaDB, and retrieves relevant chunks during a chat to enrich responses. The workflow covers initial setup, persona management, note indexing, query handling, and maintenance.",
+  "source": {
+    "repository": "eze-is/ai-partner-chat",
+    "repository_url": "https://github.com/eze-is/ai-partner-chat",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/eze-is/ai-partner-chat/blob/1170b66b4b9b0194fb45d622cdd7bcd575c05df1/SKILL.md",
+    "api_sha": "328cedc224db7a3182161e6a62470210670133df",
+    "repo_stars": 214,
+    "repo_forks": 27,
+    "repo_license": null,
+    "repo_updated_at": "2026-08-20T13:11:12+00:00"
+  },
+  "discovered_at": "2026-09-20T14:16:22+00:00",
+  "accepted_at": "2026-09-27T13:12:48+00:00",
+  "content_hash": "cb93e51fe22c3a985d57c953ca786333a9f195d10debb200f6c7851b66b3b7ac",
+  "source_excerpt": "--- name: ai-partner-chat description: 基于用户画像和向量化笔记提供个性化对话。当用户需要个性化交流、上下文感知的回应，或希望 AI 记住并引用其之前的想法和笔记时使用。 --- # AI Partner Chat ## Overview Provide personalized, context-aware conversations by integrating user persona, AI persona, and vectorized personal notes. This skill enables AI to remember and reference the user's previous thoughts, preferences, and knowledge base, creating a more coherent and personalized interaction experience. ## Prerequisites Before first use, complete these steps in order: 1. **Create directory structure** ```bash mkdir -p config notes vector_db scripts ``` 2. **Set up Python environment** ```bash python3 -m venv venv ./venv/bin/pip install -r .claude/skills/ai-partner-chat/scripts/requirements.txt ``` Note: First …",
+  "review": {
+    "decision": "accept",
+    "title": "AI Partner Chat – Personalized Context‑Aware Conversational Agent",
+    "category": "automation",
+    "summary": "This skill enables an AI assistant to hold personalized, context‑aware conversations by loading user and AI persona definitions and indexing the user's markdown notes with vector embeddings. It dynamically generates chunking code for each note, stores the embeddings in a local ChromaDB, and retrieves relevant chunks during a chat to enrich responses. The workflow covers initial setup, persona management, note indexing, query handling, and maintenance.",
+    "quality_score": 70,
+    "uniqueness_score": 80,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 81,
+    "strengths": [
+      "Clear end‑to‑end workflow from setup to maintenance",
+      "Uses local vector store (ChromaDB) and open‑source multilingual embedding model",
+      "Dynamic note chunking concept adds flexibility",
+      "Provides concrete script examples and command‑line usage"
+    ],
+    "weaknesses": [
+      "Core chunking function is left as a TODO, requiring the user to implement AI‑generated code",
+      "No automated tests or verification steps",
+      "Relies on external .claude directory which may be confusing for newcomers",
+      "Limited error‑handling guidance"
+    ],
+    "tags": [
+      "personalization",
+      "knowledge-management",
+      "vector-db",
+      "chroma",
+      "embedding",
+      "ai-agent",
+      "python"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Provide a minimal reference implementation of `chunk_note_file` or a template to help users get started",
+      "Add a verification section with sample queries and expected outputs",
+      "Include automated test scripts for indexing and retrieval",
+      "Clarify the role of the `.claude` directory and how to obtain the required scripts"
+    ],
+    "normalized_skill_markdown": "---\nname: ai-partner-chat\ndescription: 基于用户画像和向量化笔记提供个性化对话。当用户需要个性化交流、上下文感知的回应，或希望 AI 记住并引用其之前的想法和笔记时使用。\n---\n\n# AI Partner Chat\n\n## Overview\nProvide personalized, context‑aware conversations by loading user and AI persona files, indexing markdown notes with embeddings, and retrieving relevant chunks during a chat.\n\n## Prerequisites\n1. **Create directory structure**\n   ```bash\n   mkdir -p config notes vector_db scripts\n   ```\n2. **Set up Python environment**\n   ```bash\n   python3 -m venv venv\n   ./venv/bin/pip install -r .claude/skills/ai-partner-chat/scripts/requirements.txt\n   ```\n3. **Copy persona templates** from `.claude/skills/ai-partner-chat/assets/` to `config/` and rename them to `user-persona.md` and `ai-persona.md`.\n4. **Add your markdown notes** to the `notes/` directory.\n5. **Initialize the vector database** by running the indexing script (see below).\n\n## Core Workflow\n### 1. Indexing Notes\nCreate `scripts/chunk_and_index.py` with the following skeleton:\n```python\nimport sys\nfrom pathlib import Path\nfrom typing import List\nsys.path.insert(0, str(Path(__file__).parent.parent / \".claude/skills/ai-partner-chat/scripts\"))\n\nfrom chunk_schema import Chunk, validate_chunk\nfrom vector_indexer import VectorIndexer\n\ndef chunk_note_file(filepath: str) -> List[Chunk]:\n    \"\"\"Analyze the given note and return a list of Chunk objects.\n    The implementation should inspect the file format (headings, dates, etc.)\n    and produce chunks that conform to `chunk_schema.Chunk`.\n    \"\"\"\n    # Example simple implementation – replace with AI‑generated logic as needed\n    with open(filepath, \"r\", encoding=\"utf-8\") as f:\n        text = f.read()\n    # Very naive split by double newlines\n    parts = [p.strip() for p in text.split(\"\\n\\n\") if p.strip()]\n    chunks = []\n    for i, part in enumerate(parts):\n        chunk = {\n            \"content\": part,\n            \"metadata\": {\n                \"filename\": Path(filepath).name,\n                \"filepath\": str(Path(filepath).resolve()),\n                \"chunk_id\": i,\n                \"chunk_type\": \"generic\"\n            }\n        }\n        validate_chunk(chunk)\n        chunks.append(chunk)\n    return chunks\n\n\ndef main():\n    indexer = VectorIndexer(db_path=\"./vector_db\")\n    indexer.initialize_db()\n    all_chunks = []\n    for note_file in Path(\"./notes\").rglob(\"*.md\"):\n        chunks = chunk_note_file(str(note_file))\n        all_chunks.extend(chunks)\n    indexer.index_chunks(all_chunks)\n\nif __name__ == \"__main__\":\n    main()\n```\nRun the script:\n```bash\n./venv/bin/python scripts/chunk_and_index.py\n```\n### 2. Conversational Retrieval\n```python\nfrom scripts.vector_utils import get_relevant_notes\n\nrelevant = get_relevant_notes(query=user_query, db_path=\"./vector_db\", top_k=5)\n```\nOr via CLI:\n```bash\npython scripts/query_notes.py \"What did I write about project X?\" --top-k 5\n```\nCombine the retrieved notes with the persona files to construct a prompt for your LLM.\n\n## Maintenance\n- **Add new notes**: `python scripts/add_note.py /path/to/new_note.md`\n- **Update personas**: edit `config/user-persona.md` or `config/ai-persona.md` and restart the conversation.\n- **Re‑index**: `python scripts/init_vector_db.py ./notes --db-path ./vector_db`\n\n## Technical Details\n- **Vector store**: ChromaDB persisted in `vector_db/`\n- **Embedding model**: `BAAI/bge-m3` (multilingual, works well with Chinese text)\n- **Chunk schema**: see `scripts/chunk_schema.py`\n- **Key design principle**: user data lives outside the skill directory, making backup and migration straightforward.\n\n## Best Practices\n- Keep persona files specific and up‑to‑date.\n- Write substantive notes; richer content yields better retrieval.\n- Periodically re‑index after large note changes.\n- Respect privacy – avoid storing highly sensitive data in plain text if the environment is shared.\n\n## Troubleshooting\n- **Database errors**: ensure `vector_db/` is writable and dependencies are installed.\n- **Poor retrieval**: verify notes contain enough content, try increasing `top_k`, or re‑run the indexing script.\n- **Chunking problems**: adjust the logic in `chunk_note_file` or let Claude generate a more sophisticated chunker.\n"
+  }
+}
