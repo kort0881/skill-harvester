@@ -1,0 +1,274 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-09-28T15:42:42+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 4,
+  "accepted": 0,
+  "rejected": 4,
+  "items": [
+    {
+      "candidate_id": "3e5a991d639bd1d3a18f225a",
+      "candidate": {
+        "candidate_id": "3e5a991d639bd1d3a18f225a",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:34+00:00",
+        "source": {
+          "repository": "xuec699-sudo/math-modeling-skills",
+          "repository_url": "https://github.com/xuec699-sudo/math-modeling-skills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/xuec699-sudo/math-modeling-skills/blob/0ac52b3085d8d54284647060eb07ace016d55e10/SKILL.md",
+          "api_sha": "5cbcdce543d8c6bc2a346ed817be260a4bc2b834",
+          "repo_stars": 243,
+          "repo_forks": 16,
+          "repo_license": null,
+          "repo_updated_at": "2026-09-15T11:49:24+00:00"
+        },
+        "raw_file": "raw/xuec699-sudo-math-modeling-skills/SKILL.md",
+        "title": "math-modeling-contest",
+        "category_hint": "automation",
+        "content_hash": "9c53f485708e3c4b26a91390f310b5d13781184e432f0580e7e85ed3868301c0",
+        "content_characters": 14604
+      },
+      "reviewed_at": "2026-09-28T15:41:38+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "Math Modeling Contest End-to-End Workflow",
+        "category": "automation",
+        "summary": "The skill describes a comprehensive pipeline for solving, coding, and writing full solutions to Chinese and international math modeling contests. It defines roles, gates, state logging, and scripts to generate reproducible code, figures, and DOCX papers. While thorough, the content enables users to produce complete contest submissions with minimal effort, which can be misused for academic cheating.",
+        "quality_score": 78,
+        "uniqueness_score": 84,
+        "usefulness_score": 71,
+        "safety_score": 28,
+        "total_score": 40,
+        "strengths": [
+          "Very detailed, step‑by‑step workflow with clear gates and artifacts",
+          "Includes reproducibility practices, state logging, and script references",
+          "Covers both Chinese and English contest requirements"
+        ],
+        "weaknesses": [
+          "Lacks explicit disclaimer against misuse for cheating",
+          "Provides instructions to generate complete contest papers, which can facilitate academic dishonesty",
+          "Heavy reliance on internal scripts that are not included, making the skill hard to execute as‑is"
+        ],
+        "tags": [
+          "math modeling",
+          "contest workflow",
+          "automation",
+          "paper generation"
+        ],
+        "safety_flags": [
+          "facilitates academic cheating",
+          "potential for misuse in contest environments"
+        ],
+        "recommended_improvements": [
+          "Add a clear disclaimer that the skill is for educational guidance only and must not be used to submit work for contests",
+          "Remove or restrict sections that automate full solution generation and paper writing",
+          "Provide guidance on how to use the workflow for learning and practice rather than for submission"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "b8575e258b5962233026d4c1",
+      "candidate": {
+        "candidate_id": "b8575e258b5962233026d4c1",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:35+00:00",
+        "source": {
+          "repository": "better-world-ai/agent-cli-creator",
+          "repository_url": "https://github.com/better-world-ai/agent-cli-creator",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/better-world-ai/agent-cli-creator/blob/ed471104079476b9f6d47481272324611dac25c8/SKILL.md",
+          "api_sha": "d97a013bdbf2be75db5b9911a55f117446b56e7f",
+          "repo_stars": 26,
+          "repo_forks": 0,
+          "repo_license": "MIT License",
+          "repo_updated_at": "2026-08-26T16:43:16+00:00"
+        },
+        "raw_file": "raw/better-world-ai-agent-cli-creator/SKILL.md",
+        "title": "agent-cli-creator",
+        "category_hint": "programming",
+        "content_hash": "9e7d1eb087cb36c50b45d9d6f87978edfc6fb3934362d130d37656ec488b5398",
+        "content_characters": 4071
+      },
+      "reviewed_at": "2026-09-28T15:41:41+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "Agent CLI Creator for Browser Automation",
+        "category": "programming",
+        "summary": "A step‑by‑step guide for an AI Coding Agent to generate a CLI tool that automates interactions with a website via the kimi‑webbridge daemon. It defines phases from prerequisites through site exploration, implementation, verification, and companion skill creation.",
+        "quality_score": 78,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 85,
+        "total_score": 77,
+        "strengths": [
+          "Clear multi‑phase workflow that separates discovery, scaffolding, and verification.",
+          "Explicit verification commands and a uniform JSON output contract for CLI commands.",
+          "Integrates with the specific kimi‑webbridge tool, giving concrete prerequisite checks."
+        ],
+        "weaknesses": [
+          "Heavy reliance on external reference files (e.g., references/go-layout.md) that are not included.",
+          "Placeholders like {platform} and {command} are left unresolved, making the skill hard to follow directly.",
+          "No concrete code snippets or example implementations for any language.",
+          "Lacks explicit safety disclaimer about respecting website terms of service and user privacy."
+        ],
+        "tags": [
+          "automation",
+          "cli",
+          "web-automation",
+          "programming"
+        ],
+        "safety_flags": [
+          "potential for misuse in automating unauthorized actions on third‑party websites",
+          "requires user to have appropriate permissions for login and data manipulation"
+        ],
+        "recommended_improvements": [
+          "Embed essential example snippets (e.g., a minimal Go or Python CLI scaffold) instead of only referencing external markdown files.",
+          "Replace all placeholder variables with concrete examples or clearly document how they should be substituted.",
+          "Add a brief disclaimer reminding users to obtain permission from target sites and to comply with terms of service.",
+          "Provide a short safety checklist (e.g., rate‑limit requests, avoid credential leakage) before proceeding with login automation."
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "f889efd772068ce63f195cf3",
+      "candidate": {
+        "candidate_id": "f889efd772068ce63f195cf3",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:37+00:00",
+        "source": {
+          "repository": "dask/dask",
+          "repository_url": "https://github.com/dask/dask",
+          "default_branch": "main",
+          "path": "AGENTS.md",
+          "html_url": "https://github.com/dask/dask/blob/9dc535daa30d7d36d63d4a003b54342fbc7032db/AGENTS.md",
+          "api_sha": "b281baf7e916efd5bdcbf598fedc108f09a7fb67",
+          "repo_stars": 13920,
+          "repo_forks": 1957,
+          "repo_license": "BSD 3-Clause \"New\" or \"Revised\" License",
+          "repo_updated_at": "2026-09-20T10:03:38+00:00"
+        },
+        "raw_file": "raw/dask-dask/AGENTS.md",
+        "title": "AGENTS.md — Dask Project Guide for Coding Agents",
+        "category_hint": "programming",
+        "content_hash": "7b81facd9cfa95bda0c6e79a7ac0a02ab298b9d10d9c47b8f8746189c70fe53b",
+        "content_characters": 16205
+      },
+      "reviewed_at": "2026-09-28T15:42:21+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "Dask Project Reference Guide for Coding Agents",
+        "category": "programming",
+        "summary": "The document provides an extensive overview of the Dask codebase, its architecture, configuration, testing, CI/CD, and contribution patterns. While it is a valuable reference for developers, it lacks the concrete, step‑by‑step structure expected of a skill (prerequisites, inputs, outputs, verification). Minor re‑formatting and addition of actionable workflow elements would make it suitable for agents.",
+        "quality_score": 55,
+        "uniqueness_score": 60,
+        "usefulness_score": 70,
+        "safety_score": 100,
+        "total_score": 71,
+        "strengths": [
+          "Very thorough coverage of Dask internals, testing, and CI pipelines",
+          "Includes concrete command‑line examples for building, testing, and linting",
+          "Clear tables for modules, subpackages, and external dependencies"
+        ],
+        "weaknesses": [
+          "No explicit prerequisites, inputs, or outputs defined",
+          "Missing a concise, repeatable workflow that an agent can execute",
+          "Lengthy narrative makes it hard for an automated agent to parse and act on",
+          "No verification or validation steps for the described actions"
+        ],
+        "tags": [
+          "dask",
+          "python",
+          "parallel-computing",
+          "testing",
+          "ci/cd"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a YAML front‑matter with name and short description",
+          "Define clear prerequisites (e.g., Python version, pixi installed)",
+          "Specify inputs (e.g., target module to modify) and expected outputs (e.g., updated file, test results)",
+          "Break the guide into discrete, actionable steps that an agent can invoke programmatically",
+          "Include verification steps such as checking test exit codes or linting results",
+          "Condense the content to focus on the most common agent tasks (e.g., adding a backend, running tests)"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    },
+    {
+      "candidate_id": "5e73406a4be6e96752561523",
+      "candidate": {
+        "candidate_id": "5e73406a4be6e96752561523",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:16:39+00:00",
+        "source": {
+          "repository": "Parthkk90/aleoskills",
+          "repository_url": "https://github.com/Parthkk90/aleoskills",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/Parthkk90/aleoskills/blob/c1c1a6d1f4d5235e241c1a791339d046d505c806/SKILL.md",
+          "api_sha": "32a541acd8f8fffd63fe2a5b634c6f69b6bfbba9",
+          "repo_stars": 0,
+          "repo_forks": 0,
+          "repo_license": null,
+          "repo_updated_at": "2026-07-07T16:47:05+00:00"
+        },
+        "raw_file": "raw/parthkk90-aleoskills/SKILL.md",
+        "title": "aleo-skills",
+        "category_hint": "automation",
+        "content_hash": "abb80f464031280f931df09562b3546103630dd0ab1044eca602d6abf73b4680",
+        "content_characters": 3560
+      },
+      "reviewed_at": "2026-09-28T15:42:38+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "needs_revision",
+        "title": "Aleo Development Skill Index",
+        "category": "automation",
+        "summary": "The skill provides a high‑level index of sub‑skills for building privacy‑preserving dApps on the Aleo blockchain. While it organizes topics like scaffolding, wallet integration, and deployment, it lacks concrete instructions, prerequisites, inputs/outputs, examples, and verification steps needed for practical use. The content is safe but not actionable in its current form.",
+        "quality_score": 30,
+        "uniqueness_score": 40,
+        "usefulness_score": 35,
+        "safety_score": 100,
+        "total_score": 51,
+        "strengths": [
+          "Covers a niche domain (Aleo blockchain)",
+          "Clear categorization of sub‑topics",
+          "Provides a concise navigation table"
+        ],
+        "weaknesses": [
+          "No detailed step‑by‑step procedures",
+          "Missing prerequisites, inputs, and outputs for each task",
+          "No examples or verification guidance",
+          "Not a self‑contained skill; merely an index"
+        ],
+        "tags": [
+          "aleo",
+          "blockchain",
+          "privacy",
+          "zero-knowledge",
+          "automation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add full SKILL.md content for each listed sub‑skill with explicit prerequisites, inputs, outputs, and step‑by‑step instructions",
+          "Include code snippets, CLI commands, and example workflows",
+          "Provide verification methods to confirm successful execution",
+          "Ensure maintainability by adding versioning notes and update guidelines"
+        ],
+        "normalized_skill_markdown": ""
+      }
+    }
+  ]
+}
