@@ -1,0 +1,69 @@
+{
+  "library_id": "programming/cortex-code-integration-for-snowflake-operations-d0060cb6",
+  "title": "Cortex Code Integration for Snowflake Operations",
+  "category": "programming",
+  "tags": [
+    "snowflake",
+    "cortex",
+    "integration",
+    "security",
+    "routing",
+    "cli"
+  ],
+  "summary": "This skill lets Claude Code delegate Snowflake‑specific tasks to the Cortex Code CLI in a secure, routed manner. It defines dynamic discovery, LLM‑based routing, three approval modes, and security envelopes to protect execution while providing audit logging and context enrichment.",
+  "source": {
+    "repository": "Snowflake-Labs/subagent-cortex-code",
+    "repository_url": "https://github.com/Snowflake-Labs/subagent-cortex-code",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Snowflake-Labs/subagent-cortex-code/blob/f3557faf20581ece1c46ab1a10b8041a4bb88532/SKILL.md",
+    "api_sha": "e578f8f51ce5f104e897a0e2d32871fb9170903b",
+    "repo_stars": 60,
+    "repo_forks": 8,
+    "repo_license": "Other",
+    "repo_updated_at": "2026-09-22T11:56:21+00:00"
+  },
+  "discovered_at": "2026-09-27T12:11:44+00:00",
+  "accepted_at": "2026-10-02T13:59:22+00:00",
+  "content_hash": "2ac27e13cc8841f0f274121b207f3f2399760522c5006a3c13e34a305b63a42e",
+  "source_excerpt": "# Cortex Code Integration — Reference Documentation > **Installing?** Use: `npx skills add snowflake-labs/subagent-cortex-code --copy` > This installs from `skills/cortex-code/` which is the universal, agent-agnostic skill. This skill enables Claude Code to leverage Cortex Code's specialized Snowflake expertise by intelligently routing Snowflake-related operations to Cortex Code CLI in headless mode. ## Architecture Overview **Routing Principle**: ONLY Snowflake operations → Cortex Code. Everything else → Claude Code. **Key Components**: - Dynamic skill discovery at session initialization - LLM-based semantic routing (not keyword matching) - Security wrapper with approval modes (prompt/auto/envelope_only) - Stateless Cortex execution with c…",
+  "review": {
+    "decision": "accept",
+    "title": "Cortex Code Integration for Snowflake Operations",
+    "category": "programming",
+    "summary": "This skill lets Claude Code delegate Snowflake‑specific tasks to the Cortex Code CLI in a secure, routed manner. It defines dynamic discovery, LLM‑based routing, three approval modes, and security envelopes to protect execution while providing audit logging and context enrichment.",
+    "quality_score": 78,
+    "uniqueness_score": 86,
+    "usefulness_score": 81,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Comprehensive architecture overview and security model",
+      "Clear routing logic distinguishing Snowflake vs. generic tasks",
+      "Multiple approval modes with audit logging",
+      "Rich examples and troubleshooting guide"
+    ],
+    "weaknesses": [
+      "No explicit input/output schema for the skill",
+      "Relies on many external scripts and environment configuration",
+      "Long documentation may be overwhelming for quick onboarding",
+      "Missing quick‑start checklist"
+    ],
+    "tags": [
+      "snowflake",
+      "cortex",
+      "integration",
+      "security",
+      "routing",
+      "cli"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise input/output specification for the skill",
+      "Provide a short quick‑start section with required installations",
+      "Include a diagram of the routing flow for visual learners",
+      "Offer versioning information and compatibility notes"
+    ],
+    "normalized_skill_markdown": "---\nname: \"Cortex Code Integration\"\ndescription: \"Routes Snowflake‑related requests from Claude Code to the Cortex Code CLI with configurable security envelopes and audit logging.\"\n---\n\n# Cortex Code Integration — Reference Documentation\n\n> **Installation**: `npx skills add snowflake-labs/subagent-cortex-code --copy`\n> Installs the skill under `skills/cortex-code/` (agent‑agnostic).\n\n## Overview\nThis skill enables Claude Code to delegate Snowflake‑specific operations to the **Cortex Code** CLI running in head‑less mode. All non‑Snowflake work is handled directly by Claude Code.\n\n## Architecture\n- **Dynamic discovery** of Cortex capabilities at session start.\n- **LLM‑based semantic routing** (no simple keyword matching).\n- **Security wrapper** with three approval modes:\n  1. **prompt** – user approves predicted tools (default).\n  2. **auto** – auto‑approve, mandatory audit logging.\n  3. **envelope_only** – auto‑approve, no tool prediction, envelope blocklist only.\n- Stateless Cortex execution; context is explicitly enriched.\n- Hybrid memory: Claude keeps full conversation, Cortex receives only the enriched prompt.\n- Audit logging in JSONL for compliance.\n\n## Configuration\nCreate or edit `config.yaml` in the skill’s install directory (or use an organization‑wide policy at `~/.snowflake/cortex/claude-skill-policy.yaml`). Key fields:\n```yaml\napproval_mode: prompt   # or auto, envelope_only\nsecurity:\n  sanitize_conversation_history: true\n  credential_blocking: true\n  envelope: RW           # default envelope (RO, RW, RESEARCH, DEPLOY, NONE)\n  disallowed_tools: []   # custom blocklist when envelope = NONE\naudit_log_path: \"./audit.log\"\n```\n\n## Session Initialization\n1. **Discover Cortex capabilities**\n   ```bash\n   python scripts/discover_cortex.py\n   ```\n   - Runs `cortex skill list`.\n   - Parses each skill’s `SKILL.md` front‑matter.\n   - Caches the mapping in `~/.cache/cortex-skill/`.\n2. **Load routing context** – cached data is kept in memory for the session.\n\n## Request Handling Workflow\n1. **Analyze request**\n   ```bash\n   python scripts/route_request.py --prompt \"USER_PROMPT_HERE\"\n   ```\n   Returns a JSON decision (`cortex` or `claude`) with a confidence score.\n2. **Routing decision**\n   - **Cortex** if the request mentions Snowflake objects, Snowflake‑SQL, Cortex AI features, Snowpark, data‑governance, etc.\n   - **Claude** for local file work, generic programming, other databases, DevOps, Git, etc.\n3. **Security envelope & approval** (only for Cortex paths)\n   - The wrapper reads `approval_mode`.\n   - In **prompt** mode it runs:\n     ```bash\n     python scripts/security_wrapper.py --prompt \"ENRICHED_PROMPT\" --envelope \"RW\"\n     ```\n     showing a tool‑prediction prompt to the user.\n   - In **auto** / **envelope_only** the call proceeds automatically, respecting the envelope blocklist.\n4. **Context enrichment**\n   - Pull recent Claude exchanges (last 2‑3 turns).\n   - Pull recent Cortex session summaries:\n     ```bash\n     python scripts/read_cortex_sessions.py --limit 3\n     ```\n   - Build the final prompt:\n     ```text\n     # Claude context\n     ...\n\n     # Recent Cortex work\n     ...\n\n     # User request\n     USER_PROMPT_HERE\n     ```\n5. **Execute Cortex headlessly**\n   ```bash\n   python scripts/execute_cortex.py \\\n     --prompt \"ENRICHED_PROMPT\" \\\n     --connection \"connection_name\" \\\n     --envelope \"RW\" \\\n     --disallowed-tools \"tool1\" \"tool2\"\n   ```\n   - Internally runs `cortex -p \"prompt\" --output-format stream-json`.\n   - Parses the NDJSON stream, handling `assistant`, `tool_use`, and `result` events.\n6. **Return results** – format SQL tables, artifacts, or status messages back to Claude.\n\n## Security Envelopes\n| Envelope | Allowed | Blocked |\n|----------|---------|---------|\n| **RO** | Read‑only tools, SELECT queries | Write, Edit, destructive Bash |\n| **RW** | Read/Write, most SQL/DML | Destructive Bash (`rm -rf`, `sudo` etc.) |\n| **RESEARCH** | Read + web tools | Write, destructive Bash |\n| **DEPLOY** | Deployment tools (e.g., `snowflake_deploy`) | Destructive Bash |\n| **NONE** | Custom blocklist via `--disallowed-tools` |\n\n## Examples\n### 1. Snowflake query\n**Prompt**: \"Show me the top 10 customers by revenue in Snowflake\"\n- Routed to Cortex, envelope **RW**.\n- Executes `SELECT … ORDER BY total DESC LIMIT 10` via `snowflake_sql_execute`.\n- Returns a formatted table.\n\n### 2. Local file read\n**Prompt**: \"Read the config.json file in this directory\"\n- Routed to Claude; uses the built‑in `Read` tool.\n\n### 3. Data‑quality check\n**Prompt**: \"Check data quality for the SALES_DATA table\"\n- Routed to Cortex, envelope **RW**.\n- Runs the `data-quality` skill, returns a report with null‑rate, duplicates, etc.\n\n## Troubleshooting\n- **Cortex CLI not found**: ensure `cortex` is in `$PATH` (`~/.snowflake/cortex/`).\n- **Approval prompt missing**: verify `approval_mode` in `config.yaml` or organization policy.\n- **Credential path detected**: remove credential references from the prompt or adjust the allowlist.\n- **Audit log absent**: confirm `audit_log_path` and directory permissions.\n- **Routing mis‑classifies**: edit `scripts/route_request.py` to add custom trigger patterns.\n\n## Advanced Customisation\nEdit `scripts/route_request.py` to extend forced patterns:\n```python\nFORCE_CORTEX_PATTERNS = [\"snowflake\", \"cortex\", \"warehouse\", \"snowpark\"]\nFORCE_CLAUDE_PATTERNS = [\"local file\", \"git commit\", \"python script\"]\n```\n\n---"
+  }
+}

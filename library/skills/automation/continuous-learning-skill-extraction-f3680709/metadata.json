@@ -1,0 +1,63 @@
+{
+  "library_id": "automation/continuous-learning-skill-extraction-f3680709",
+  "title": "Continuous Learning Skill Extraction",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "knowledge-management",
+    "continuous-learning",
+    "skill-extraction"
+  ],
+  "summary": "A meta‑skill that continuously monitors user requests and coding sessions, identifies reusable knowledge, and automatically creates new Claude Code skills. It defines when to extract a skill, quality criteria, a step‑by‑step extraction workflow, and lifecycle management.",
+  "source": {
+    "repository": "AlexMikhalev/claude-code-continuous-learning-skill",
+    "repository_url": "https://github.com/AlexMikhalev/claude-code-continuous-learning-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/AlexMikhalev/claude-code-continuous-learning-skill/blob/1ce1b99b4fe5559ae0b571aeafa68dfb621a4a5f/SKILL.md",
+    "api_sha": "6b9b93be8887a771c5154918709a843422532beb",
+    "repo_stars": 38,
+    "repo_forks": 224,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-14T12:21:44+00:00"
+  },
+  "discovered_at": "2026-09-27T12:11:53+00:00",
+  "accepted_at": "2026-10-02T14:02:50+00:00",
+  "content_hash": "69eaebf9176dda173e7f9d4e4ad3f329d91cac13b61a0a6a9b999336de974a7e",
+  "source_excerpt": "--- name: continuous-learning description: | Continuous learning system that monitors all user requests and interactions to identify learning opportunities. Active during: (1) Every user request and task, (2) All coding sessions and problem-solving activities, (3) When discovering solutions, patterns, or techniques, (4) During /retrospective sessions. Automatically evaluates whether current work contains valuable, reusable knowledge and creates new Claude Code skills when appropriate. author: Claude Code version: 2.4.0 allowed-tools: - Read - Write - Edit - Grep - Glob - WebSearch - WebFetch - Skill - AskUserQuestion - TodoWrite --- # Continuous Learning Skill You are a continuous learning system that extracts reusable knowledge from work s…",
+  "review": {
+    "decision": "accept",
+    "title": "Continuous Learning Skill Extraction",
+    "category": "automation",
+    "summary": "A meta‑skill that continuously monitors user requests and coding sessions, identifies reusable knowledge, and automatically creates new Claude Code skills. It defines when to extract a skill, quality criteria, a step‑by‑step extraction workflow, and lifecycle management.",
+    "quality_score": 78,
+    "uniqueness_score": 85,
+    "usefulness_score": 72,
+    "safety_score": 100,
+    "total_score": 83,
+    "strengths": [
+      "Clear, detailed workflow for knowledge extraction",
+      "Includes quality gates, anti‑patterns, and lifecycle guidance",
+      "Provides concrete example of a extracted skill",
+      "Lists required tools and permissions"
+    ],
+    "weaknesses": [
+      "No explicit definition of input (e.g., session transcript) and output (skill file)",
+      "Verbose; could be more concise for quick reference",
+      "Lacks ready‑to‑run automation snippets or scripts"
+    ],
+    "tags": [
+      "automation",
+      "knowledge-management",
+      "continuous-learning",
+      "skill-extraction"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an explicit Input/Output section (e.g., input: session log, output: SKILL.md file)",
+      "Provide a short checklist or one‑page cheat sheet",
+      "Include a sample command or script that creates the new skill file automatically"
+    ],
+    "normalized_skill_markdown": "---\nname: continuous-learning\ndescription: |\n  System that monitors user requests and coding sessions to identify reusable knowledge, evaluates its value, and automatically creates new Claude Code skills when appropriate.\nauthor: Claude Code\nversion: 2.4.0\nallowed-tools:\n  - Read\n  - Write\n  - Edit\n  - Grep\n  - Glob\n  - WebSearch\n  - WebFetch\n  - Skill\n  - AskUserQuestion\n  - TodoWrite\n---\n\n# Continuous Learning Skill\n\nYou are a continuous‑learning system that extracts reusable knowledge from work sessions and codifies it into new Claude Code skills. This enables autonomous improvement over time.\n\n## When to Extract a Skill\n\nExtract a skill when you encounter:\n1. **Non‑obvious solutions** – debugging techniques or workarounds that required significant investigation.\n2. **Project‑specific patterns** – conventions, configurations, or architectural decisions not documented elsewhere.\n3. **Tool integration knowledge** – nuanced usage of a library or API that the official docs don’t cover.\n4. **Error resolution** – misleading error messages whose true root cause you uncovered.\n5. **Workflow optimisations** – multi‑step processes that can be streamlined.\n\n## Skill Quality Criteria\n- **Reusable** – helps with future tasks, not just the current one.\n- **Non‑trivial** – requires discovery, not a simple lookup.\n- **Specific** – includes exact trigger conditions and solution details.\n- **Verified** – the solution has been tested and works.\n\n## Extraction Process\n### Step 1: Identify the Knowledge\n- What was the problem?\n- What made the solution non‑obvious?\n- What trigger conditions (error messages, symptoms) indicate this situation?\n\n### Step 2: Research Best Practices (When Appropriate)\n- Search official docs, recent blog posts, or community discussions.\n- Cite sources in a **References** section.\n- Skip searching for internal‑only patterns or well‑known stable concepts.\n\n### Step 3: Structure the New Skill\nCreate a `SKILL.md` with the following template:\n\n```markdown\n---\nname: <descriptive‑kebab‑case‑name>\ndescription: |\n  <Precise description with use‑cases, trigger conditions, and problem solved>\nauthor: <original‑author or \"Claude Code\">\nversion: 1.0.0\ndate: <YYYY‑MM‑DD>\n---\n\n# <Skill Name>\n\n## Problem\n<Clear description>\n\n## Context / Trigger Conditions\n<Exact error messages, symptoms, or scenarios>\n\n## Solution\n<Step‑by‑step instructions>\n\n## Verification\n<How to confirm the fix works>\n\n## Example\n<Concrete example>\n\n## Notes\n<Caveats, edge cases>\n\n## References\n<Optional links>\n```\n\n### Step 4: Write Effective Descriptions\nInclude specific symptoms, context markers, and action phrases so semantic matching surfaces the skill when relevant.\n\n### Step 5: Save the Skill\n- Project‑specific: `.claude/skills/<skill‑name>/SKILL.md`\n- User‑wide: `~/.claude/skills/<skill‑name>/SKILL.md`\n- Add supporting scripts in a `scripts/` sub‑directory if needed.\n\n## Retrospective Mode\nWhen `/retrospective` is invoked:\n1. Review the session for extractable knowledge.\n2. List candidate skills with brief justifications.\n3. Prioritise the highest‑value items (1‑3 per session).\n4. Create the skill files.\n5. Summarise what was created and why.\n\n## Quality Gates (Checklist)\n- [ ] Description contains specific trigger conditions\n- [ ] Solution has been verified\n- [ ] Content is actionable and reusable\n- [ ] No sensitive information is included\n- [ ] No duplicate of existing documentation\n- [ ] Web research performed when appropriate\n- [ ] References section added if external sources were used\n\n## Anti‑Patterns to Avoid\n- Over‑extraction of trivial fixes\n- Vague descriptions\n- Unverified solutions\n- Duplicating official documentation\n- Stale knowledge – mark with version/date and deprecate when outdated\n\n## Skill Lifecycle\n1. **Creation** – initial extraction with verification.\n2. **Refinement** – update with new use‑cases or edge cases.\n3. **Deprecation** – mark when underlying tools change.\n4. **Archival** – remove if no longer relevant.\n\n---"
+  }
+}
