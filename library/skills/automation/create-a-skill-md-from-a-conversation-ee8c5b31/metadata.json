@@ -1,0 +1,63 @@
+{
+  "library_id": "automation/create-a-skill-md-from-a-conversation-ee8c5b31",
+  "title": "Create a SKILL.md from a Conversation",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "documentation",
+    "agent-customization",
+    "workflow-extraction"
+  ],
+  "summary": "The skill guides users to extract a repeatable workflow from a chat transcript and generate a concise SKILL.md file for repository‑scoped agent customization. It defines inputs, outputs, step‑by‑step extraction, clarifying questions, and acceptance criteria.",
+  "source": {
+    "repository": "momentiascz/invitacionxv",
+    "repository_url": "https://github.com/momentiascz/invitacionxv",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/momentiascz/invitacionxv/blob/f1003925174590436d834cafb293e4c4e4b6c32f/SKILL.md",
+    "api_sha": "df5121a962d8460ceca8fece8742469949984676",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": null,
+    "repo_updated_at": "2026-07-16T22:51:41+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:14+00:00",
+  "accepted_at": "2026-10-03T12:45:31+00:00",
+  "content_hash": "06dfe1a4706ad2cece69af806572a242929374daec825d8bb08ba979f8ecbc4b",
+  "source_excerpt": "<!-- Skill: agent-customization (workspace-scoped helper) Purpose: Guide creating a reusable `SKILL.md` from a conversation or workflow. --> # SKILL: Create a SKILL.md from a Conversation ## Summary This skill extracts a repeatable workflow from a conversation and produces a concise, usable `SKILL.md` file for agent customization. It is intended to be used in a workspace (repository-scoped) to capture the team's conversational workflow, decision points, and completion criteria. ## When to run - After a multi-step pair-programming session, design discussion, or debugging conversation. - When a recurring workflow, checklist, or runbook emerges from chat and should be codified. ## Inputs - Full conversation history (chat transcript) or a descr…",
+  "review": {
+    "decision": "accept",
+    "title": "Create a SKILL.md from a Conversation",
+    "category": "automation",
+    "summary": "The skill guides users to extract a repeatable workflow from a chat transcript and generate a concise SKILL.md file for repository‑scoped agent customization. It defines inputs, outputs, step‑by‑step extraction, clarifying questions, and acceptance criteria.",
+    "quality_score": 78,
+    "uniqueness_score": 68,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 80,
+    "strengths": [
+      "Clear structure with sections for summary, inputs, outputs, procedure, and acceptance criteria",
+      "Practical step‑by‑step extraction workflow",
+      "Includes templates for clarifying questions and example prompts",
+      "Safety‑focused, no harmful instructions"
+    ],
+    "weaknesses": [
+      "Missing explicit prerequisites (e.g., required tools or access permissions)",
+      "No concrete example of the generated SKILL.md output",
+      "Could benefit from a brief illustration of branching logic handling"
+    ],
+    "tags": [
+      "automation",
+      "documentation",
+      "agent-customization",
+      "workflow-extraction"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short \"Prerequisites\" section (e.g., need a text editor, repository write access, conversation transcript)",
+      "Provide a minimal example of the resulting SKILL.md file to illustrate expected format",
+      "Show a concrete decision‑branch example to demonstrate handling of conditional steps"
+    ],
+    "normalized_skill_markdown": "---\nname: Create a SKILL.md from a Conversation\ndescription: Extracts a repeatable workflow from a conversation and generates a concise SKILL.md file for repository‑scoped agent customization.\n---\n\n# SKILL: Create a SKILL.md from a Conversation\n\n## Summary\nThis skill extracts a repeatable workflow from a conversation and produces a concise, usable `SKILL.md` file for agent customization. It is intended to be used in a workspace (repository‑scoped) to capture the team's conversational workflow, decision points, and completion criteria.\n\n## Prerequisites\n- Access to the full conversation transcript or a detailed description of the steps taken.\n- Write permission to the repository root.\n- A text editor or IDE capable of creating and editing markdown files.\n\n## When to Run\n- After a multi‑step pair‑programming session, design discussion, or debugging conversation.\n- When a recurring workflow, checklist, or runbook emerges from chat and should be codified.\n\n## Inputs\n- Full conversation history (chat transcript) **or** a description of the steps already taken.\n\n## Outputs\n- A draft `SKILL.md` saved to the workspace root.\n- A short list of clarifying questions (if any) needed to finalize the skill.\n\n## Extraction Procedure (step‑by‑step)\n1. Review the conversation context end‑to‑end.\n2. Identify explicit steps performed or recommended (list them in order).\n3. Identify decision points and branching logic (conditions → outcomes).\n4. Capture quality criteria and completion checks (how to know the task is done).\n5. Note any required inputs, files, or environmental assumptions.\n\n## Clarifying Questions (templates)\n- What final outcome should this skill produce (artifact, file, or state)?\n- Should the skill be workspace‑scoped or user‑personal?\n- Prefer a short checklist or a full multi‑step workflow with examples?\n\n## Drafting & Iteration\n1. Draft the skill using the extraction results (include steps, decision points, and checks).\n2. Save the draft as `SKILL.md` in the repo root.\n3. Highlight ambiguous or missing parts as explicit clarifying questions.\n4. Ask the user the clarifying questions, incorporate answers, and update the draft.\n5. Finalize and mark the skill ready for use.\n\n## Acceptance Criteria / Quality Checklist\n- Step sequence is complete and ordered.\n- Decision branches are explicit and actionable.\n- Completion checks are measurable (tests, files, states).\n- Examples or sample prompts are included for quick testing.\n- The file is saved in the workspace and linked to usage instructions.\n\n## Example Prompts to Run This Skill\n- \"Create a SKILL.md that codifies the debugging workflow we used in the last chat.\"\n- \"Extract the deployment checklist from this conversation and save it as SKILL.md.\"\n\n## Suggested Follow‑ups\n- Add example conversation snippets to the skill to improve training.\n- Create a companion `.instructions.md` with required prompts and tools.\n- Link the skill from the repository README or a `.vscode` snippets file.\n\n## Notes for Maintainers\n- Keep the skill concise — focus on reproducible steps and clear branching.\n- Version changes with a short changelog at the top of the file.\n\n---\nGenerated by the `agent-customization` helper.\n---"
+  }
+}

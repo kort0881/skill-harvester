@@ -1,0 +1,68 @@
+{
+  "library_id": "automation/china-hot-ranks-aggregator-c51bbac5",
+  "title": "China Hot Ranks Aggregator",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "data‑aggregation",
+    "python",
+    "cli",
+    "social‑media"
+  ],
+  "summary": "A Python‑based aggregator that fetches hot‑trend data from seven major Chinese platforms (Weibo, Bilibili, Baidu, CSDN, GitHub, Zhihu, Douyin). It offers one‑click retrieval, formatted output, and optional integration via mcporter.",
+  "source": {
+    "repository": "sunsally821-coder/Hot-Ranks",
+    "repository_url": "https://github.com/sunsally821-coder/Hot-Ranks",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/sunsally821-coder/Hot-Ranks/blob/d461f6973c7b3f86d488b9961e09cfe836f22481/SKILL.md",
+    "api_sha": "05b70112a343f368fbf4b19196af36020c6cbc5f",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-04-07T02:16:30+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:02+00:00",
+  "accepted_at": "2026-10-03T12:40:31+00:00",
+  "content_hash": "7d45fb04d9cfc69bbbe108b898cae812e4010b5baa1fcd1f5a6bea0a201232d8",
+  "source_excerpt": "--- name: china-hot-ranks description: 中国热榜聚合器 - 一键获取微博、B 站、百度、CSDN、GitHub、知乎、抖音等 7 大平台的热门内容。支持全量获取和单平台查询，输出格式化热榜数据。 homepage: https://github.com/lucianaib0318/china-hot-ranks metadata: {\"clawdbot\":{\"emoji\":\"📊\",\"requires\":{\"bins\":[\"python3\",\"curl\",\"mcporter\"]}}} --- # 中国热榜聚合器 📊 > **一键获取全网热点，掌握流量密码** 支持 7 大主流平台的热门内容获取：微博、B 站、百度、CSDN、GitHub、知乎、抖音。 --- ## ✨ 特性 - 🎯 **7 大平台覆盖** - 社交媒体、视频、搜索、技术社区全覆盖 - 🚀 **一键获取** - 单命令获取所有平台热榜 - 📝 **格式化输出** - 带链接、热度指数、播放量等详细信息 - 🔧 **灵活选择** - 支持获取全部或指定平台 - 📦 **开箱即用** - 无需 API Key，基于现有工具链 --- ## 🚀 快速开始 ### 方式一：直接运行脚本 ```bash # 获取所有热榜 python3 hot_ranks.py # 获取指定平台 python3 hot_ranks.py weibo # 微博热搜 python3 hot_ranks.py bilibili # B 站热门 python3 hot_ranks.py github # GitHub Trending ``` ### 方式二：使用 Skill 命令 ```bash # 通过 …",
+  "review": {
+    "decision": "accept",
+    "title": "China Hot Ranks Aggregator",
+    "category": "automation",
+    "summary": "A Python‑based aggregator that fetches hot‑trend data from seven major Chinese platforms (Weibo, Bilibili, Baidu, CSDN, GitHub, Zhihu, Douyin). It offers one‑click retrieval, formatted output, and optional integration via mcporter.",
+    "quality_score": 78,
+    "uniqueness_score": 70,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 82,
+    "strengths": [
+      "Clear description and purpose",
+      "Comprehensive feature list",
+      "Step‑by‑step usage examples",
+      "Provides both CLI and programmatic interfaces",
+      "Includes project structure and contribution guide"
+    ],
+    "weaknesses": [
+      "Missing explicit input/output schema for the API functions",
+      "Relies on non‑standard tool 'mcporter' without installation guidance",
+      "No error‑handling or rate‑limit advice in the documentation",
+      "Some external services (Tavily, Jina Reader) are mentioned without setup details"
+    ],
+    "tags": [
+      "automation",
+      "data‑aggregation",
+      "python",
+      "cli",
+      "social‑media"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise API reference table with function signatures and expected return types",
+      "Provide installation instructions for mcporter and any required MCP services",
+      "Document how to obtain and configure Tavily and GitHub tokens",
+      "Include error handling examples and guidance on rate limits"
+    ],
+    "normalized_skill_markdown": "---\nname: china-hot-ranks\ndescription: 中国热榜聚合器 - 一键获取微博、B 站、百度、CSDN、GitHub、知乎、抖音等 7 大平台的热门内容，支持全量获取和单平台查询，输出格式化热榜数据。\n---\n\n# 中国热榜聚合器 📊\n\n> **一键获取全网热点，掌握流量密码**\n\n支持 7 大主流平台的热门内容获取：微博、B 站、百度、CSDN、GitHub、知乎、抖音。\n\n## ✨ 特性\n\n- 🎯 **7 大平台覆盖** – 社交媒体、视频、搜索、技术社区全覆盖\n- 🚀 **一键获取** – 单命令获取所有平台热榜\n- 📝 **格式化输出** – 带链接、热度指数、播放量等详细信息\n- 🔧 **灵活选择** – 支持获取全部或指定平台\n- 📦 **开箱即用** – 无需 API Key，基于现有工具链（可选 Tavily / GitHub Token）\n\n## 🚀 快速开始\n\n### 方式一：直接运行脚本\n\n```bash\n# 获取所有热榜\npython3 hot_ranks.py\n\n# 获取指定平台\npython3 hot_ranks.py weibo      # 微博热搜\npython3 hot_ranks.py bilibili   # B 站热门\npython3 hot_ranks.py github     # GitHub Trending\n```\n\n### 方式二：使用 Skill 命令（mcporter）\n\n```bash\n# 通过 mcporter 调用全部热榜\nmcporter call 'hot_ranks.get_all()'\n\n# 获取单个平台\nmcporter call 'hot_ranks.get_weibo()'\nmcporter call 'hot_ranks.get_bilibili()'\n```\n\n## 📊 支持平台\n\n| 平台 | 获取方式 | 数据内容 | 更新频率 |\n|------|----------|----------|----------|\n| 微博热搜 | mcporter (weibo MCP) | 热搜话题 + 热度指数 | 实时 |\n| B 站热门 | Jina Reader | 视频标题 + 播放量 | 实时 |\n| 百度热搜 | Jina Reader | 热搜话题 + 热度标记 | 实时 |\n| CSDN 热榜 | Jina Reader | 技术文章 + 浏览量 | 小时级 |\n| GitHub Trending | GitHub MCP API | 开源项目 + Star 数 | 日级 |\n| 知乎热榜 | Tavily 搜索 | 热门问题 | 小时级 |\n| 抖音热榜 | Tavily 搜索 | 热门视频 | 实时 |\n\n## 📝 输出示例\n\n### 微博热搜\n```\n1. 习近平总书记的 2026 全国两会日历\n   https://m.weibo.cn/search?...\n2. 微信 朋友圈编辑 🔥113 万\n   https://m.weibo.cn/search?...\n3. 国产手机涨价 2000 元 🔥84 万\n   https://m.weibo.cn/search?...\n```\n\n### B 站热门\n```\n1. 当面一套，背后一套 - 小潮院长 175.5 万播放\n   http://www.bilibili.com/video/BV1BbwFznEpm\n2. 开拓者去欢愉打工然后丧失仅存的一丝梦想 - 觅 2 166 万播放\n   http://www.bilibili.com/video/BV1M5NFzrEKK\n```\n\n### GitHub Trending\n```\n1. freeCodeCamp/freeCodeCamp ⭐380,000\n   freeCodeCamp.org's open-source codebase and curriculum\n   https://github.com/freeCodeCamp/freeCodeCamp\n2. EbookFoundation/free-programming-books ⭐350,000\n   Freely available programming books\n   https://github.com/EbookFoundation/free-programming-books\n```\n\n## 🔧 依赖要求\n\n**必需**\n- Python 3.6+\n- curl\n- mcporter\n\n**可选（增强功能）**\n- Tavily API Key（用于知乎/抖音热榜）\n- GitHub Token（用于 GitHub Trending）\n\n## 📁 项目结构\n```\nchina-hot-ranks/\n├── hot_ranks.py              # 主程序\n├── SKILL.md                  # 本文档\n├── README.md                 # 项目说明\n├── requirements.txt          # Python 依赖\n├── examples/\n│   └── output_sample.md      # 输出示例\n├── docs/\n│   └── api_reference.md      # API 参考\n└── LICENSE                   # MIT 许可证\n```\n\n## 🛠️ 高级用法\n\n### 导出为 Markdown\n```bash\npython3 hot_ranks.py > hot_ranks_$(date +%Y%m%d).md\n```\n\n### 定时获取（Cron Job）\n```bash\n# 每天早上 9 点获取热榜\n0 9 * * * cd /path/to/china-hot-ranks && python3 hot_ranks.py >> hot_ranks.log\n```\n\n### 在 Python 项目中集成\n```python\nfrom hot_ranks import HotRanksAggregator\n\naggregator = HotRanksAggregator()\n\n# 获取微博热搜\nweibo_data = aggregator.get_weibo()\n\n# 获取所有热榜\nall_data = aggregator.get_all()\n```\n\n## 🎯 使用场景\n\n- **内容创作者**：追踪热点话题，快速选题。\n- **市场营销**：监控品牌舆情，发现流行趋势。\n- **开发者**：关注技术趋势和开源项目。\n- **研究人员**：分析社交媒体行为和兴趣分布。\n\n## ⚠️ 注意事项\n\n1. **API 限制**\n   - 微博热搜依赖 weibo MCP 服务。\n   - GitHub 需要有效 Token。\n   - 知乎/抖音通过 Tavily 搜索，受调用配额限制。\n2. **数据时效性**：不同平台更新频率不同，请根据需求选择。\n3. **网络要求**：需要能够访问国内平台，GitHub 可能需要代理。\n\n## 🤝 贡献指南\n\n1. Fork 本项目\n2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)\n3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)\n4. 推送到分支 (`git push origin feature/AmazingFeature`)\n5. 发起 Pull Request\n\n## 📄 许可证\n\nMIT 许可证 – 查看 [LICENSE](LICENSE) 文件了解详情。\n\n## 🙏 致谢\n\n- [weibo-mcp](https://github.com/ModelContextProtocol/servers) – 微博 MCP 服务\n- [Jina AI](https://jina.ai/) – 网页读取服务\n- [GitHub MCP](https://github.com/modelcontextprotocol/servers) – GitHub MCP 服务\n- [Tavily](https://tavily.com/) – 搜索服务\n\n**Made with ❤️ by lucianaib0318**"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "library_id": "education/interactive-study-workspace-tutor-d5d20205",
+  "title": "Interactive Study Workspace Tutor",
+  "category": "education",
+  "tags": [
+    "education",
+    "spaced-repetition",
+    "tutoring",
+    "git",
+    "workflow",
+    "interactive-learning"
+  ],
+  "summary": "A comprehensive Agent Skill that creates a git‑tracked study workspace with spaced‑repetition (FSRS), lesson templates, and interactive tutoring. It supports multiple learning approaches (concept, project, challenge) and integrates research agents, visual‑explainers, and optional sci‑agent plugins. The skill defines a clear command set (init, start, status, review, break, etc.) and a detailed lesson workflow that keeps the user doing the implementation while the agent teaches and reviews.",
+  "source": {
+    "repository": "mordor-forge/study-skill",
+    "repository_url": "https://github.com/mordor-forge/study-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/mordor-forge/study-skill/blob/dffa35f955c421d65c326342b5273727906b26ee/SKILL.md",
+    "api_sha": "5ade40fc4d9023177ecaa8a21fc5329a0104183c",
+    "repo_stars": 39,
+    "repo_forks": 4,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-24T15:10:49+00:00"
+  },
+  "discovered_at": "2026-09-27T12:11:59+00:00",
+  "accepted_at": "2026-10-03T12:39:59+00:00",
+  "content_hash": "d595eed696454ce94a0d5c03642ba99abe3810c7a1f904990b0708b7d9436433",
+  "source_excerpt": "--- name: study description: \"Interactive learning tutor with spaced repetition, research helpers, and restart-safe study workspaces. Use when the user wants to learn something new: teach me, I want to study, help me learn, study X, create a course on, tutorial for, walk me through learning. Also use for commands like study init, study start, study status, study review, study break, and book catalog setup/search. Works across Claude Code, Codex, Hermes, Cline, OpenCode, and other Agent Skills-compatible clients for programming, math, physics, science, engineering, and other structured learning.\" --- # Study Workspace - Interactive Tutor A structured learning environment where **you write the code**, and the agent teaches, guides, and superv…",
+  "review": {
+    "decision": "accept",
+    "title": "Interactive Study Workspace Tutor",
+    "category": "education",
+    "summary": "A comprehensive Agent Skill that creates a git‑tracked study workspace with spaced‑repetition (FSRS), lesson templates, and interactive tutoring. It supports multiple learning approaches (concept, project, challenge) and integrates research agents, visual‑explainers, and optional sci‑agent plugins. The skill defines a clear command set (init, start, status, review, break, etc.) and a detailed lesson workflow that keeps the user doing the implementation while the agent teaches and reviews.",
+    "quality_score": 78,
+    "uniqueness_score": 84,
+    "usefulness_score": 89,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Very detailed workflow and contract for study sessions",
+      "Integrates spaced‑repetition and git for safe iteration",
+      "Supports multiple learning approaches and visual enrichment",
+      "Clear command definitions and session state handling"
+    ],
+    "weaknesses": [
+      "Prerequisites (git, Python, uv, FSRS binary) are not listed explicitly",
+      "Relies on many external reference files that are not provided in the snippet",
+      "No concrete usage example or quick‑start illustration",
+      "Lengthy specification may be overwhelming for beginners"
+    ],
+    "tags": [
+      "education",
+      "spaced-repetition",
+      "tutoring",
+      "git",
+      "workflow",
+      "interactive-learning"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short prerequisites section (git, Python, uv, FSRS tool)",
+      "Provide a minimal example of running `study init` and `study start`",
+      "Include sample content for the `references/` files or inline the most important snippets",
+      "Summarize the core loop in a concise diagram or bullet list for quick reference"
+    ],
+    "normalized_skill_markdown": "---\nname: study\ndescription: \"Interactive learning tutor with spaced repetition, research helpers, and restart‑safe study workspaces. Use when the user wants to learn something new: teach me, I want to study, help me learn, study X, create a course on, tutorial for, walk me through learning. Also use for commands like study init, study start, study status, study review, study break, and book catalog setup/search. Works across Claude Code, Codex, Hermes, Cline, OpenCode, and other Agent Skills‑compatible clients for programming, math, physics, science, engineering, and other structured learning.\"\n---\n\n# Study Workspace - Interactive Tutor\n\nA structured learning environment where **you write the code**, and the agent teaches, guides, and supervises. Every lesson has notes and exercises you implement yourself, with spaced repetition for long‑term retention.\n\n## Philosophy\n\n- **You do the work** – The agent teaches and supervises, you implement\n- **Structured lessons** – each lesson = notes + exercise + review\n- **Spaced repetition** – FSRS algorithm resurfaces concepts before you forget\n- **Research‑backed content** – lessons enriched by live docs, notebooks, web research, and sciagent‑skills domain expertise\n- **ADHD‑aware** – energy gating, capped reviews, no guilt, detailed break state\n- **Git‑tracked progress** – all attempts saved, safe to experiment\n\n## Agent Compatibility\n\nThis skill follows the open Agent Skills folder shape: `SKILL.md` plus optional `references/`, `templates/`, and `scripts/`. The durable behavior is the study workspace contract, not any single agent client’s slash‑command implementation.\n\nBefore running a workflow in a new client, read:\n- `references/agent-adapters.md` for Claude Code, Codex, Hermes, Cline, OpenCode, and generic agent setup.\n- `references/workspace‑lifecycle.md` for the init/start/break/resume state contract shared by all agents.\n\n## Commands\n\n### `study init <topic> [--template=<name>] [--source <path>]`\nInitialize a new study workspace.\n\n**Steps:**\n1. Read `references/workspace‑lifecycle.md` for the shared workspace contract.\n2. Sanitize topic to a directory name, create workspace, `git init`.\n3. **Template resolution** – read `references/template‑resolution.md`:\n   - Auto‑detect language from topic → select template + mode (code‑as‑subject or code‑as‑tool).\n   - Detect scientific domain → attach matching sciagent‑skills if plugin is installed.\n   - Copy template files, create `lessons/`, `practice/`, `notes/`, `.fsrs/`.\n4. **Ask learning approach** (project‑based, concept‑based, challenge‑based) and store the choice.\n5. If `--source` is provided, ingest the material (NotebookLM, pdfplumber, etc.) and record it in the config.\n6. If a book catalog exists at `~/.config/study/book-catalog.json`, suggest matching books and let the user add them as sources.\n7. Create `.study-config.json` (see Config Schema below), commit, and show a welcome message.\n\n### `study start`\nStart or resume a learning session.\n\n- Checks the current `session_state.phase` and either resumes or begins a fresh session.\n- Performs an energy check (full, half, fumes) to decide whether to present a new lesson, a review, or suggest a break.\n- Optionally asks for a time budget.\n- Executes an FSRS warm‑up review (max 3 items, ≤5 min).\n- Enters the **Main Lesson Loop** (teach → user implements → review → completion) described below.\n\n### `study status`\nShow a progress overview derived from `.study-config.json`. If a visual‑explainer is available, generate an HTML dashboard; otherwise output a plain‑text summary.\n\n### `study review`\nRun a standalone spaced‑repetition session using the FSRS protocol.\n\n### `study add‑source <path>`\nAdd a PDF/ebook to the current workspace, ingesting it via the research‑agents backend.\n\n### `study catalog build <library‑path>`\nBuild a personal book catalog:\n```bash\ncd <skill‑dir>/scripts/catalog && uv run study‑catalog build <library‑path>\n```\n\n### `study catalog search <query>`\nSearch the catalog:\n```bash\ncd <skill‑dir>/scripts/catalog && uv run study‑catalog search \"<query>\"\n```\n\n### `study break`\nSave session state, write a session summary, and commit before exiting.\n\n## Lesson Structure\nEach lesson file lives in `lessons/NN‑topic.md` and follows this template:\n```markdown\n# Lesson N: Topic\n\n## Concept\n[Clear explanation — enriched by research agent findings]\n\n## Key Points\n- Point 1\n- Point 2\n\n## Reference Example (Don't Copy!)\n[Small example illustrating the concept]\n\n## Common Pitfalls\n- Pitfall and how to avoid it\n\n## Exercise\n\n### What to Build\n[Clear description]\n\n### Requirements\n1. Requirement 1\n2. Requirement 2\n\n### Success Criteria\n- [ ] Criterion 1\n- [ ] Criterion 2\n\n### Where to Work\nCreate your implementation in: `practice/lesson‑NN/`\n```\n\n## Teaching Rules\n1. **NEVER write implementation code for the user.** Small reference examples (2‑5 lines) are OK.\n2. **Guide, don't solve.** Provide hints, ask probing questions, and point to concepts.\n3. **Feedback is specific.** Quote the user’s code, explain why it is right or wrong.\n4. **Encourage experimentation.** Git history preserves all attempts.\n\n## User Interaction\nAfter presenting a new lesson:\n```\nWhat would you like to do?\n1. Read the lesson and start the exercise\n2. I have questions about the concept first\n3. Take a break\n```\nAfter providing feedback:\n```\nWhat's next?\n1. I'll revise my implementation\n2. Questions about the feedback\n3. I think it's done — final review?\n4. Move to next lesson\n5. Take a break\n```\nWhen the user is stuck, ask for the specific confusion, give hints, optionally spawn a research sub‑agent, and point to relevant lesson sections.\n\n## Visual Enrichment\nRead `references/visual‑libraries.md` to select the appropriate rendering library (KaTeX, JSXGraph, Plotly.js, p5.js, SchemDraw, etc.). If a visual‑explainer sub‑agent is available, invoke it with a prompt that specifies the desired output location (e.g., `practice/lesson‑NN/diagrams/`). If not, fall back to ASCII diagrams.\n\n## Config Schema (v3)\n```json\n{\n  \"version\": 3,\n  \"topic\": \"Go Concurrency\",\n  \"template\": \"go-idiomatic\",\n  \"template_mode\": \"code-as-subject\",\n  \"approach\": \"concept\",\n  \"end_goal\": null,\n  \"difficulty\": \"beginner\",\n  \"difficulty_override\": null,\n  \"next_calibration_at_lesson\": 4,\n  \"mode\": \"tutorial\",\n  \"created\": \"2026-04-04T10:00:00Z\",\n  \"sciagent_skills\": [],\n  \"sciagent_primary\": null,\n  \"progress\": {\n    \"current_lesson\": 0,\n    \"lessons_completed\": 0,\n    \"session_count\": 0,\n    \"last_session\": null\n  },\n  \"lessons\": [],\n  \"session_state\": {\n    \"phase\": \"idle\",\n    \"pending_action\": null,\n    \"context\": null,\n    \"energy\": null,\n    \"time_budget_minutes\": null\n  },\n  \"sources\": [],\n  \"review\": {\n    \"fsrs_data_path\": \".fsrs/cards.json\",\n    \"items_due\": 0,\n    \"last_review\": null\n  },\n  \"catalog_path\": \"~/.config/study/book-catalog.json\"\n}\n```\n\n## Git Conventions\n- `[agent]` – lesson notes, feedback, guidance written by the active agent\n- `[user]` – user’s implementation work\n- `[session]` – session start/end markers\n\nAlways commit before switching turns to keep `git diff` reliable for review.\n\n## Workspace Layout\n```\nworkspace/\n├── .study-config.json\n├── .fsrs/cards.json\n├── lessons/\n│   ├── plan.md              (project approach only)\n│   ├── 01-intro.md\n│   └── 02-next-topic.md\n├── practice/\n│   ├── lesson-01/\n│   └── lesson-02/\n├── notes/\n│   ├── feedback-2026-04-04.md\n│   └── session-2026-04-04.md\n├── sources/                  (chunked text from PDFs, if no NLM)\n└── [template files]          (go.mod, Makefile, etc.)\n```\n\n## Learning Approaches\n- **concept** (default) – focused lessons with standalone exercises.\n- **project** – build toward a final product; each lesson advances the build.\n- **challenge** – progressive difficulty, minimal notes, maximum practice.\n\nThe chosen approach is stored in `.study-config.json` under `approach` and influences lesson generation.\n\n## Modes\nPer‑session modes that can change within an approach:\n- **tutorial** – structured lessons with concepts + exercises (default)\n- **practice** – work on exercises without new concepts\n- **exploration** – user‑driven, the agent assists and answers questions\n- **review** – spaced‑repetition of previous lessons via FSRS\n"
+  }
+}

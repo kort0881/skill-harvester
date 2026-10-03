@@ -1,0 +1,66 @@
+{
+  "library_id": "design/baoyu-comic-knowledge-comic-creator-bcbf6c3b",
+  "title": "Baoyu Comic – Knowledge Comic Creator",
+  "category": "design",
+  "tags": [
+    "comic",
+    "education",
+    "design",
+    "automation",
+    "multilingual"
+  ],
+  "summary": "A skill that generates original educational comics by combining selectable art styles, tones, layouts and languages. It defines a clear command‑line interface, detailed option tables, a step‑by‑step workflow, and file‑structure conventions for producing storyboard, prompts, images and a final PDF.",
+  "source": {
+    "repository": "Aston1690/baoyu-comic",
+    "repository_url": "https://github.com/Aston1690/baoyu-comic",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Aston1690/baoyu-comic/blob/564c2917d04f491eabe26f95932ea9dfb74eac42/SKILL.md",
+    "api_sha": "b12e9380ba9863b66f240bdcf139cc50a5a4e7a5",
+    "repo_stars": 22,
+    "repo_forks": 2,
+    "repo_license": null,
+    "repo_updated_at": "2026-08-30T09:40:19+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:05+00:00",
+  "accepted_at": "2026-10-03T12:41:23+00:00",
+  "content_hash": "4699cddca48330e7d05514a4fbfbee29b42db1aa372b8c1f8158f5c0ff84eee1",
+  "source_excerpt": "--- name: baoyu-comic description: Knowledge comic creator supporting multiple art styles and tones. Creates original educational comics with detailed panel layouts and sequential image generation. Use when user asks to create \"知识漫画\", \"教育漫画\", \"biography comic\", \"tutorial comic\", or \"Logicomix-style comic\". version: 1.56.1 metadata: openclaw: homepage: https://github.com/JimLiu/baoyu-skills#baoyu-comic requires: anyBins: - bun - npx --- # Knowledge Comic Creator Create original knowledge comics with flexible art style × tone combinations. ## Usage ```bash /baoyu-comic posts/turing-story/source.md /baoyu-comic article.md --art manga --tone warm /baoyu-comic # then paste content ``` ## Options ### Visual Dimensions | Option | Values | Descript…",
+  "review": {
+    "decision": "accept",
+    "title": "Baoyu Comic – Knowledge Comic Creator",
+    "category": "design",
+    "summary": "A skill that generates original educational comics by combining selectable art styles, tones, layouts and languages. It defines a clear command‑line interface, detailed option tables, a step‑by‑step workflow, and file‑structure conventions for producing storyboard, prompts, images and a final PDF.",
+    "quality_score": 80,
+    "uniqueness_score": 70,
+    "usefulness_score": 75,
+    "safety_score": 100,
+    "total_score": 81,
+    "strengths": [
+      "Comprehensive option tables for art styles, tones and layouts",
+      "Clear multi‑step workflow with checkpoints",
+      "Explicit file‑structure and naming conventions",
+      "Supports partial workflows and auto‑selection based on content",
+      "Provides detailed script execution instructions"
+    ],
+    "weaknesses": [
+      "Lacks concrete example of a full end‑to‑end run",
+      "No explicit error‑handling examples",
+      "Relies on external image‑generation skills without specifying their interface in detail"
+    ],
+    "tags": [
+      "comic",
+      "education",
+      "design",
+      "automation",
+      "multilingual"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short end‑to‑end example showing input markdown and resulting PDF",
+      "Include sample error messages and recovery steps",
+      "Reference the exact interface of the required image‑generation skill (e.g., command‑line flags)"
+    ],
+    "normalized_skill_markdown": "---\nname: baoyu-comic\ndescription: Knowledge comic creator supporting multiple art styles and tones. Creates original educational comics with detailed panel layouts and sequential image generation.\n---\n\n# Knowledge Comic Creator\n\nCreate original knowledge comics with flexible art‑style × tone combinations.\n\n## Usage\n```bash\n/baoyu-comic posts/turing-story/source.md\n/baoyu-comic article.md --art manga --tone warm\n/baoyu-comic               # then paste content\n```\n\n## Options\n### Visual Dimensions\n| Option | Values | Description |\n|--------|--------|-------------|\n| `--art` | `ligne-claire` (default), `manga`, `realistic`, `ink-brush`, `chalk` | Art style / rendering technique |\n| `--tone` | `neutral` (default), `warm`, `dramatic`, `romantic`, `energetic`, `vintage`, `action` | Mood / atmosphere |\n| `--layout` | `standard` (default), `cinematic`, `dense`, `splash`, `mixed`, `webtoon` | Panel arrangement |\n| `--aspect` | `3:4` (default, portrait), `4:3` (landscape), `16:9` (widescreen) | Page aspect ratio |\n| `--lang` | `auto` (default), `zh`, `en`, `ja`, … | Output language |\n\n### Partial Workflow Options\n| Option | Description |\n|--------|-------------|\n| `--storyboard-only` | Generate storyboard only, skip prompts and images |\n| `--prompts-only` | Generate storyboard + prompts, skip images |\n| `--images-only` | Generate images from an existing prompts directory |\n| `--regenerate N` | Regenerate specific page(s) only (e.g., `3` or `2,5,8`) |\n\nDetails: `references/partial-workflows.md`\n\n## Art Styles (画风)\n| Style | 中文 | Description |\n|-------|------|-------------|\n| `ligne-claire` | 清线 | Uniform lines, flat colors, European comic tradition (Tintin, Logicomix) |\n| `manga` | 日漫 | Large eyes, manga conventions, expressive emotions |\n| `realistic` | 写实 | Digital painting, realistic proportions, sophisticated |\n| `ink-brush` | 水墨 | Chinese brush strokes, ink wash effects |\n| `chalk` | 粉笔 | Chalkboard aesthetic, hand‑drawn warmth |\n\n## Tones (基调)\n| Tone | 中文 | Description |\n|------|------|-------------|\n| `neutral` | 中性 | Balanced, rational, educational |\n| `warm` | 温馨 | Nostalgic, personal, comforting |\n| `dramatic` | 戏剧 | High contrast, intense, powerful |\n| `romantic` | 浪漫 | Soft, beautiful, decorative elements |\n| `energetic` | 活力 | Bright, dynamic, exciting |\n| `vintage` | 复古 | Historical, aged, period authenticity |\n| `action` | 动作 | Speed lines, impact effects, combat |\n\n## Preset Shortcuts\n| Preset | Equivalent | Special Rules |\n|--------|-----------|---------------|\n| `--style ohmsha` | `--art manga --tone neutral` | Visual metaphors, NO talking heads, gadget reveals |\n| `--style wuxia` | `--art ink-brush --tone action` | Qi effects, combat visuals, atmospheric elements |\n| `--style shoujo` | `--art manga --tone romantic` | Decorative elements, eye details, romantic beats |\n\n## Compatibility Matrix\n| Art Style | ✓✓ Best | ✓ Works | ✗ Avoid |\n|-----------|---------|---------|---------|\n| ligne-claire | neutral, warm | dramatic, vintage, energetic | romantic, action |\n| manga | neutral, romantic, energetic, action | warm, dramatic | vintage |\n| realistic | neutral, warm, dramatic, vintage | action | romantic, energetic |\n| ink-brush | neutral, dramatic, action, vintage | warm | romantic, energetic |\n| chalk | neutral, warm, energetic | vintage | dramatic, action, romantic |\n\nDetails: `references/auto-selection.md`\n\n## Auto Selection\nContent signals determine default art + tone + layout (or preset):\n| Content Signals | Recommended |\n|-----------------|-------------|\n| Tutorial, how‑to, programming, educational | **ohmsha** preset |\n| Pre‑1950, classical, ancient | `realistic` + `vintage` |\n| Personal story, mentor | `ligne-claire` + `warm` |\n| Martial arts, wuxia | **wuxia** preset |\n| Romance, school life | **shoujo** preset |\n| Biography, balanced | `ligne-claire` + `neutral` |\n\nWhen a preset is recommended, load `references/presets/{preset}.md` and apply its special rules.\n\n## Script Directory\nAll scripts reside in the `scripts/` subdirectory.\n**Agent Execution Instructions**:\n1. Determine this `SKILL.md` directory as `{baseDir}`.\n2. Script path = `{baseDir}/scripts/<script-name>.ts`.\n3. Replace `{baseDir}` placeholders with the actual path.\n4. Resolve `${BUN_X}` runtime: use `bun` if installed, otherwise `npx -y bun`.\n\n**Script Reference**:\n| Script | Purpose |\n|--------|---------|\n| `scripts/merge-to-pdf.ts` | Merge comic pages into a PDF |\n\n## File Structure\nOutput directory: `comic/{topic‑slug}/`\n- **Slug**: 2‑4 word kebab‑case (e.g., `alan-turing-bio`). If a conflict exists, append a timestamp.\n\n**Contents**:\n| File | Description |\n|------|-------------|\n| `source-{slug}.{ext}` | Original source files |\n| `analysis.md` | Content analysis |\n| `storyboard.md` | Storyboard with panel breakdown |\n| `characters/characters.md` | Character definitions |\n| `characters/characters.png` | Character reference sheet |\n| `prompts/NN-{cover|page}-[slug].md` | Generation prompts |\n| `NN-{cover|page}-[slug].png` | Generated images |\n| `{topic‑slug}.pdf` | Final merged PDF |\n\n## Language Handling\nDetection priority: `--lang` flag → `EXTEND.md` language setting → user conversation language → source content language. The chosen language is used for all interactions (storyboard, prompts, UI messages). Technical terms remain English.\n\n## Workflow\n### Progress Checklist\n```\nComic Progress:\n- [ ] Step 1: Setup & Analyze\n  - [ ] 1.1 Preferences (EXTEND.md) ⛔ BLOCKING\n  - [ ] 1.2 Analyze, 1.3 Check existing\n- [ ] Step 2: Confirmation – Style & options ⚠️ REQUIRED\n- [ ] Step 3: Generate storyboard + characters\n- [ ] Step 4: Review outline (conditional)\n- [ ] Step 5: Generate prompts\n- [ ] Step 6: Review prompts (conditional)\n- [ ] Step 7: Generate images ⚠️ CHARACTER REF REQUIRED\n  - [ ] 7.1 Generate character sheet FIRST → `characters/characters.png`\n  - [ ] 7.2 Generate pages WITH `--ref characters/characters.png`\n- [ ] Step 8: Merge to PDF\n- [ ] Step 9: Completion report\n```\n\n### Flow Diagram (textual)\n```\nInput → [Preferences]\n   ├─ Found → Continue\n   └─ Not found → First‑time setup ⛔ BLOCKING → Save EXTEND.md → Continue\n\nAnalyze → [Check Existing?] → [Confirm Style + Reviews] → Storyboard → [Review?] → Prompts → [Review?] → Images → PDF → Complete\n```\n\n### Step Details\n| Step | Action | Key Output |\n|------|--------|------------|\n| 1.1 | Load `EXTEND.md` (blocking if missing) | Config loaded |\n| 1.2 | Analyze content | `analysis.md` |\n| 1.3 | Check existing directory | Conflict handling |\n| 2 | Confirm style, focus, audience, review preferences | User‑provided options |\n| 3 | Generate storyboard + characters | `storyboard.md`, `characters/` |\n| 4 | (Optional) Review outline | User approval |\n| 5 | Generate prompts | `prompts/*.md` |\n| 6 | (Optional) Review prompts | User approval |\n| 7.1 | Generate character sheet (mandatory) | `characters/characters.png` |\n| 7.2 | Generate pages with character reference | `*.png` files |\n| 8 | Merge pages into PDF | `{slug}.pdf` |\n| 9 | Completion report | Summary message |\n\n#### Image Generation (Step 7) – Critical Rules\n* **Character sheet is mandatory** – generate first, backup existing file if present.\n* Use an installed image‑generation skill (e.g., `baoyu-imagine`). Follow its `SKILL.md` interface; do **not** call internal scripts directly.\n* Pass `characters/characters.png` as `--ref` when the downstream skill supports it; otherwise prepend character descriptions to each prompt.\n* Backup existing prompt and image files before regeneration.\n* Default aspect ratios: character sheet `4:3`; page images `3:4`.\n\n## EXTEND.md – Preferences (Blocking)\nIf `EXTEND.md` is missing, run the first‑time setup described in `references/config/first-time-setup.md` before any other step. The file can configure:\n* Watermark settings\n* Preferred art/tone/layout\n* Custom style definitions\n* Character presets\n* Language preference\n\n## References\n* Core templates: `analysis-framework.md`, `character-template.md`, `storyboard-template.md`, `ohmsha-guide.md`\n* Style definitions: `references/art-styles/`, `references/tones/`, `references/presets/`, `references/layouts/`\n* Workflow details: `workflow.md`, `auto-selection.md`, `partial-workflows.md`\n* Configuration: `config/preferences-schema.md`, `config/first-time-setup.md`, `config/watermark-guide.md`\n\n## Page Modification\n| Action | Steps |\n|--------|-------|\n| **Edit** | Update prompt file **first** → `--regenerate N` → Regenerate PDF |\n| **Add** | Create new prompt at desired position → Generate with character ref → Renumber subsequent pages → Update storyboard → Regenerate PDF |\n| **Delete** | Remove files → Renumber subsequent pages → Update storyboard → Regenerate PDF |\n\n**Important**: Always modify the prompt file before regenerating to keep changes reproducible.\n\n## Notes\n* Image generation typically takes 10‑30 seconds per page.\n* Auto‑retry once on generation failure.\n* Use stylized alternatives for sensitive public figures.\n* Maintain style consistency via a session ID.\n* Step 2 confirmation is mandatory; steps 4/6 are conditional based on user request.\n* Step 7.1 character sheet **must** be generated before any page images.\n* Watermark and language are configured once in `EXTEND.md`.\n"
+  }
+}

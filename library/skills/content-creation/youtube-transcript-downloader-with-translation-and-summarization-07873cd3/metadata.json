@@ -1,0 +1,70 @@
+{
+  "library_id": "content-creation/youtube-transcript-downloader-with-translation-and-summarization-07873cd3",
+  "title": "YouTube Transcript Downloader with Translation and Summarization",
+  "category": "content-creation",
+  "tags": [
+    "youtube",
+    "transcript",
+    "translation",
+    "summarization",
+    "cli",
+    "python"
+  ],
+  "summary": "A command‑line tool that extracts YouTube video transcripts, optionally translates them to Vietnamese, and can generate structured summaries. It organizes outputs in a folder hierarchy for personal knowledge bases and supports Windows, macOS and Linux.",
+  "source": {
+    "repository": "nguyenngothuong/youtube-transcript-skill",
+    "repository_url": "https://github.com/nguyenngothuong/youtube-transcript-skill",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/nguyenngothuong/youtube-transcript-skill/blob/7d8c93b74e2204392580e2cfcbcc290ab8452445/SKILL.md",
+    "api_sha": "7a8a7e1763db522b33b5490c5dd049acccabc7c9",
+    "repo_stars": 9,
+    "repo_forks": 1,
+    "repo_license": null,
+    "repo_updated_at": "2026-05-03T08:58:25+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:10+00:00",
+  "accepted_at": "2026-10-03T12:44:35+00:00",
+  "content_hash": "58aec78a7558720d5514700c22ff6bdc246c296a3a3fa2ba1c2efc7998826715",
+  "source_excerpt": "--- name: youtube-transcript description: Download YouTube video transcripts with automatic translation to Vietnamese and AI summarization. Perfect for learning English from YouTube, managing knowledge base, and extracting insights from video content. allowed-tools: Bash,Read,Write,WebFetch,Grep --- # YouTube Transcript Skill v2.0 **Tự động bóc tách → Dịch → Tóm tắt → Lưu cục bộ** Giải quyết vấn đề học tiếng Anh qua YouTube: - Video tiếng Anh nhiều, khó hiểu - Copy transcript thủ công tốn thời gian - Phụ thuộc vào AI bên ngoài (ChatGPT, NotebookLM) - Khó tổ chức và quản lý dữ liệu học tập ## 🎯 Tính năng | Tính năng | Mô tả | Command | |-----------|-------|---------| | **📥 Download** | Lấy transcript gốc (EN/VI) | `-l en` hoặc `-l vi` | | **…",
+  "review": {
+    "decision": "accept",
+    "title": "YouTube Transcript Downloader with Translation and Summarization",
+    "category": "content_creation",
+    "summary": "A command‑line tool that extracts YouTube video transcripts, optionally translates them to Vietnamese, and can generate structured summaries. It organizes outputs in a folder hierarchy for personal knowledge bases and supports Windows, macOS and Linux.",
+    "quality_score": 80,
+    "uniqueness_score": 65,
+    "usefulness_score": 85,
+    "safety_score": 95,
+    "total_score": 81,
+    "strengths": [
+      "Comprehensive documentation with examples",
+      "Cross‑platform support",
+      "Automatic handling of dependencies (yt‑dlp)",
+      "Clear output folder structure",
+      "Optional translation and summarization features"
+    ],
+    "weaknesses": [
+      "Installation instructions could be more explicit",
+      "Summarization relies on external LLMs without configuration guidance",
+      "Mixed language (Vietnamese/English) may confuse non‑Vietnamese users",
+      "No automated tests or CI validation"
+    ],
+    "tags": [
+      "youtube",
+      "transcript",
+      "translation",
+      "summarization",
+      "cli",
+      "python"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a step‑by‑step installation guide (virtualenv, required Python version)",
+      "Document how to configure an LLM API key for LangChain summarization",
+      "Provide a minimal example of summarization with a free model",
+      "Include unit tests or a CI badge to improve maintainability"
+    ],
+    "normalized_skill_markdown": "---\nname: youtube-transcript\ndescription: Download YouTube video transcripts, optionally translate them to Vietnamese and generate structured summaries. Organises results in a topic‑based folder hierarchy for personal knowledge bases.\n---\n\n# YouTube Transcript Skill v2.0\n\n**Automatic extraction → Translation → Summarisation → Local storage**\n\n## Features\n\n| Feature | Description | CLI flag |\n|---|---|---|\n| Download transcript | Retrieve original subtitles (EN or VI) | `-l en` / `-l vi` |\n| Translate | Convert English transcript to Vietnamese | `--translate` |\n| Summarise | Generate a structured summary and analysis | `--summarise` |\n| Output control | Choose destination folder | `-o <path>` |\n\n## Quick start\n\n```bash\n# Basic download (English)\npython3 scripts/yt_transcript.py \"https://youtube.com/watch?v=VIDEO_ID\" -l en\n\n# Download and translate to Vietnamese\npython3 scripts/yt_transcript.py \"https://youtube.com/watch?v=VIDEO_ID\" --translate -o ./output\n\n# Full pipeline: download, translate, summarise\npython3 scripts/yt_transcript.py \"https://youtube.com/watch?v=VIDEO_ID\" --translate --summarise -o ./output\n```\n\n## Output layout\n\n*Default* (`-o ./transcripts`)\n```\ntranscripts/\n└── {video_title}.txt          # original transcript\n```\n\n*With translation*\n```\noutput/\n├── {video_title}.txt          # original transcript\n└── {video_title}_vi.txt       # Vietnamese translation\n```\n\n*Full pipeline*\n```\noutput/\n├── 00_metadata.json\n├── 01_original.txt\n├── 02_translation.txt\n└── 03_summary.md\n```\n\n## Command‑line options\n\n```\npython3 scripts/yt_transcript.py <youtube_url> [options]\n\nOptions:\n  -l, --lang        en | vi | en-orig | vi-orig (default: en)\n  -o, --output      Output directory (default: ./transcripts)\n  -t, --translate   Translate transcript to Vietnamese\n  -s, --summarise   Generate summary and analysis\n  -f, --format      txt | vtt | both (default: txt)\n  -k, --keep-vtt    Keep the original VTT file\n  -h, --help        Show this help message\n```\n\n## Requirements\n\n* Python 3.6+\n* `yt-dlp` (installed automatically if missing)\n* Optional for translation: `deep-translator` (or `googletrans` fallback)\n* Optional for summarisation: `langchain` plus an LLM API key (e.g., OpenAI, Anthropic)\n\nInstall all optional dependencies with:\n```bash\npip install yt-dlp deep-translator langchain\n```\n\n## Troubleshooting\n\n*No subtitles*: Verify the video has closed captions enabled.\n*yt‑dlp errors*: `pip install --upgrade yt-dlp`\n*Translation quota*: Switch to the `googletrans` fallback.\n*Summarisation fails*: Ensure an LLM API key is exported (e.g., `export OPENAI_API_KEY=…`).\n\n## Typical workflows\n\n1. **Fast learning** – download, translate and read the summary without watching the video.\n2. **Knowledge‑base building** – organise multiple videos under a topic folder.\n3. **Work‑related training** – store translated and summarised material for internal reference.\n\n---"
+  }
+}
