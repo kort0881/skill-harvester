@@ -1,0 +1,68 @@
+{
+  "library_id": "automation/slicer-code-and-community-search-skill-710738d1",
+  "title": "Slicer Code and Community Search Skill",
+  "category": "automation",
+  "tags": [
+    "3d-slicer",
+    "code-search",
+    "medical-imaging",
+    "automation",
+    "search"
+  ],
+  "summary": "A skill that enables an AI agent to search, index, and reason over the 3D Slicer source code, extensions, discourse archive, and related resources. It supports three setup modes (full, lightweight, web) and provides both lexical BM25 and dense‑embedding hybrid search via an MCP server. Safety rules prevent any unauthorised posting on behalf of the user.",
+  "source": {
+    "repository": "pieper/slicer-skill",
+    "repository_url": "https://github.com/pieper/slicer-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/pieper/slicer-skill/blob/c3b9f3bbc2b95938e73f1ad0c2e6c01a8fd2e32f/SKILL.md",
+    "api_sha": "9d76bbf68efc344d34bf3f9d266a2f3e21a755d2",
+    "repo_stars": 32,
+    "repo_forks": 7,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-09-06T12:58:34+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:31+00:00",
+  "accepted_at": "2026-10-04T13:27:08+00:00",
+  "content_hash": "7d89e36438fcc064a2cc9fe9acdf3fd51b446ff22a78628b707c357b76b5b4bd",
+  "source_excerpt": "--- name: slicer description: > Search and reason over 3D Slicer source code, extensions, and community discussions. Use for questions about medical imaging, MRML scene graphs, VTK/ITK pipelines, Slicer Python scripting, C++ module development, extension development, Qt-based module UI, segmentation, volume rendering, DICOM workflows, and the Slicer build system. version: \"1.1\" setup: ./setup.sh requires: [git, perl, bash] --- # Slicer Skill This repository contains the information and helper scripts needed by an AI coding agent (\"skill\") that is designed to answer questions about the [3D Slicer](https://www.slicer.org) application and its extension ecosystem. It is intentionally generic so that it can be consumed by any tool that understan…",
+  "review": {
+    "decision": "accept",
+    "title": "Slicer Code and Community Search Skill",
+    "category": "automation",
+    "summary": "A skill that enables an AI agent to search, index, and reason over the 3D Slicer source code, extensions, discourse archive, and related resources. It supports three setup modes (full, lightweight, web) and provides both lexical BM25 and dense‑embedding hybrid search via an MCP server. Safety rules prevent any unauthorised posting on behalf of the user.",
+    "quality_score": 85,
+    "uniqueness_score": 90,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Comprehensive setup covering multiple modes",
+      "Clear safety policy for public posting",
+      "Hybrid lexical‑semantic search with configurable weighting",
+      "Detailed examples for both indexed and raw shell searches",
+      "Explicit verification steps"
+    ],
+    "weaknesses": [
+      "Full mode requires ~15 GB disk and ~20 min initial setup",
+      "Hybrid index depends on external sentence‑transformers model not described in detail",
+      "Complexity may overwhelm users unfamiliar with MCP servers",
+      "No Windows‑specific instructions"
+    ],
+    "tags": [
+      "3d-slicer",
+      "code-search",
+      "medical-imaging",
+      "automation",
+      "search"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add Windows installation notes for required tools",
+      "Document how to obtain and cache the sentence‑transformers model used for vector search",
+      "Provide a quick‑start query example for each mode",
+      "Explain how to safely clean up large cloned directories"
+    ],
+    "normalized_skill_markdown": "---\nname: slicer\ndescription: Search and reason over 3D Slicer source code, extensions, discourse archive, and related resources.\n---\n\n# Slicer Skill\n\nThis skill equips an AI coding agent with the ability to answer questions about the **3D Slicer** application, its extensions, and community discussions. It works with local clones or remote web APIs and offers both lexical (BM25) and semantic (dense‑embedding) ranked search.\n\n## Safety Policy\n\n- The `gh` CLI and Discourse endpoints are **READ‑ONLY**. The agent must never create, edit, or post anything on the user's behalf without **explicit, specific approval** for that exact action.\n- If a public post is appropriate, the agent should **draft the text and hand it to the user** for final approval and posting.\n\n## Prerequisites\n\n- `git` – cloning repositories (not needed in *web* mode).\n- `perl` – parsing CMake files for SuperBuild dependencies (full mode only).\n- `bash` – to run the provided `setup.sh` script.\n- Optional: `gh` CLI for authenticated GitHub API access (higher rate limits).\n\n## Setup Modes\n\n| Mode | Disk usage | What is cloned | Indexes built |\n|------|------------|----------------|---------------|\n| **full** | ~15 GB | Slicer source, all extensions, discourse archive, build dependencies, optional coding‑chat transcripts | `none`, `bm25`, or `hybrid` (as chosen) |\n| **lightweight** | ~1 GB | Source + ExtensionsIndex metadata (JSON only) | Same index options |\n| **web** | minimal | No clones – all access via web APIs | Forced to `none` |\n\nRun the script to select a mode and index type:\n```sh\n./setup.sh                # interactive first‑run\n./setup.sh --mode full    # or lightweight | web\n./setup.sh --indexes bm25|hybrid|none\n./setup.sh --force        # ignore 24 h stamp cache\n```\nThe script writes `.setup‑stamp.json` containing the chosen `mode` and `indexes`.\n\n## Ranked Search (MCP Server)\n\nWhen an index is built, a stdio MCP server `slicer‑skill‑search` is started exposing:\n- `search_source(query, top_k=10, mode=\"auto\", lexical_weight=1.0, vector_weight=1.0)`\n- `search_discourse(query, top_k=10, mode=\"auto\", lexical_weight=1.0, vector_weight=1.0)`\n- `index_status()`\n\n### Choosing a mode\n| mode | When to use |\n|------|-------------|\n| `lexical` | Exact identifiers, symbols, file paths |\n| `vector`  | Conceptual or paraphrased questions |\n| `hybrid`  | Default – combines both signals |\n| `auto`    | Picks `hybrid` if both indexes exist, otherwise falls back |\n\n### Example call\n```python\nhits = search_source(\"vtkMRMLScalarVolumeNode GetImageData\", top_k=5, mode=\"hybrid\", lexical_weight=2.0)\nfor h in hits:\n    print(h[\"path\"], h[\"score\"], h[\"snippet\"])\n```\nEach hit contains `{path, abs_path, score, line, snippet}`; use the `Read` tool with `abs_path` to fetch the full file.\n\n## Raw Shell Search (fallback)\n\nWhen indexes are missing or for resources not indexed, use standard CLI tools:\n```sh\n# Search extension docs (full mode)\nfind slicer-extensions/ -name \"*.md\" -exec grep -l \"<topic>\" {} \\;\n\n# Grep in the source tree\ngit -C slicer-source grep -n \"vtkNew\"\n\n# Search coding‑chat transcripts\ngrep -rn \"SegmentEditor\" CodingChats-conversations/sessions/\n```\nIn *lightweight* mode, extensions can be cloned on‑demand:\n```sh\nurl=$(jq -r '.scm_url' slicer-extensions/ExtensionName.json)\ngit clone --depth 1 $url slicer-extensions/ExtensionName\n```\n\n## Web‑Based Search (lightweight & web modes)\n\n```sh\n# Discourse search\ncurl -s \"https://discourse.slicer.org/search.json?q=<query>\"\n\n# GitHub code search (requires gh CLI)\ngh search code \"<query>\" --repo Slicer/Slicer --limit 20\n\n# Raw file fetch\ncurl -s \"https://raw.githubusercontent.com/Slicer/Slicer/main/<path>\"\n```\n\n## Suggested Workflow\n1. Read `.setup‑stamp.json` to determine the active mode.\n2. Prefer the MCP `search_*` functions for natural‑language queries.\n3. If `index_status()` reports a missing or stale index, fall back to raw `git grep`/`find` or the web APIs.\n4. When a query is slow over the web, suggest upgrading to a heavier mode.\n5. Always draft any public message and obtain explicit user approval before posting.\n\n## Verification\n```sh\ncat .setup-stamp.json   # confirm mode and indexes\nls slicer-source/CMakeLists.txt   # source present\nls slicer-extensions/README.md   # extensions metadata\n```\n\n---"
+  }
+}

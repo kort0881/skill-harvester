@@ -1,270 +1,6 @@
 {
   "items": [
     {
-      "candidate_id": "b402716ed6c14798c3f1a308",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:17+00:00",
-      "source": {
-        "repository": "kennydc822/llm-wiki-explain",
-        "repository_url": "https://github.com/kennydc822/llm-wiki-explain",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/kennydc822/llm-wiki-explain/blob/1e4cf937583c487e6c177a36c975f90dcb1831ff/SKILL.md",
-        "api_sha": "6854628311d0e9b04e02ffcda5e2ee601b589624",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": null,
-        "repo_updated_at": "2026-08-16T16:30:01+00:00"
-      },
-      "raw_file": "raw/kennydc822-llm-wiki-explain/SKILL.md",
-      "title": "llm-wiki-explain",
-      "category_hint": "programming",
-      "content_hash": "3124569a3131dbbf8ee6fc76ed1ef1841dc671d604ac08cccaca1806982385b7",
-      "content_characters": 8024
-    },
-    {
-      "candidate_id": "e13b419a4bc58d40c5a98ebd",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:19+00:00",
-      "source": {
-        "repository": "chz34/lib-to-skills",
-        "repository_url": "https://github.com/chz34/lib-to-skills",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/chz34/lib-to-skills/blob/bee8aa3749f0fbf9a7a95c91de7cfddc34419da4/SKILL.md",
-        "api_sha": "35a295d200853c1fa5f2995784988c5296df5ef3",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": null,
-        "repo_updated_at": "2026-04-09T12:43:11+00:00"
-      },
-      "raw_file": "raw/chz34-lib-to-skills/SKILL.md",
-      "title": "lib-to-skill",
-      "category_hint": "automation",
-      "content_hash": "f5266f4a5a70537c638ef7b282846983536592bc99824ba4de1d8ef702dada8c",
-      "content_characters": 9725
-    },
-    {
-      "candidate_id": "38d442843e724293b2e03b5f",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:21+00:00",
-      "source": {
-        "repository": "Wholiver/Math.Skill",
-        "repository_url": "https://github.com/Wholiver/Math.Skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/Wholiver/Math.Skill/blob/cce75aece3b5e071dec41355853ae63bae387b15/SKILL.md",
-        "api_sha": "9b94a2d3b5ad675a5c5a707eede6bfa7ca8e2319",
-        "repo_stars": 46,
-        "repo_forks": 5,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-09-18T19:39:25+00:00"
-      },
-      "raw_file": "raw/wholiver-math-skill/SKILL.md",
-      "title": "math-skill",
-      "category_hint": "automation",
-      "content_hash": "5f1aa40405a9cde1c74e6809f4ff5674edfb153571d32c260b2d1bafbe620b95",
-      "content_characters": 41100
-    },
-    {
-      "candidate_id": "ae84ed8fbbb1ececf366eef9",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:22+00:00",
-      "source": {
-        "repository": "satyabratadey10-a11y/AxilBox2",
-        "repository_url": "https://github.com/satyabratadey10-a11y/AxilBox2",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/satyabratadey10-a11y/AxilBox2/blob/b1cf9ae49276456cde7f32887fd69dcd53e9a555/SKILL.md",
-        "api_sha": "59d2de056a3e2b6ac1886f5fa34ed424a27b298a",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-20T10:53:47+00:00"
-      },
-      "raw_file": "raw/satyabratadey10-a11y-axilbox2/SKILL.md",
-      "title": "SKILL.md — Contributor Technical Skill Inventory & Learning Path",
-      "category_hint": "automation",
-      "content_hash": "abeaabc0eb13b52b04d0afe8710a97ce28d92581fb6323421ce6d64e6f74e300",
-      "content_characters": 3826
-    },
-    {
-      "candidate_id": "a04a043b48adbecb2916eb3c",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:24+00:00",
-      "source": {
-        "repository": "carpatia77/sop-extractor",
-        "repository_url": "https://github.com/carpatia77/sop-extractor",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/carpatia77/sop-extractor/blob/5bbb5724370d3d49eb4b3024210835ca0a71a621/SKILL.md",
-        "api_sha": "1e6f01c5644fb8b1f46c3a34b22a7091876243d9",
-        "repo_stars": 12,
-        "repo_forks": 0,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-17T07:13:16+00:00"
-      },
-      "raw_file": "raw/carpatia77-sop-extractor/SKILL.md",
-      "title": "book-to-skill",
-      "category_hint": "automation",
-      "content_hash": "3bdcd8a7e3813af3d620fba36e0170c5a7d24267e0bf82ce4fc2f3233dd9310b",
-      "content_characters": 53961
-    },
-    {
-      "candidate_id": "0846c2cad8108789b92dd490",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:26+00:00",
-      "source": {
-        "repository": "frankyxhl/fx_bin",
-        "repository_url": "https://github.com/frankyxhl/fx_bin",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/frankyxhl/fx_bin/blob/2800c22ea133ea23d32383d6a79980ccce2e41f7/SKILL.md",
-        "api_sha": "3c6a0cb22f32e1f36d4b6fefb7388d0e69bb8453",
-        "repo_stars": 1,
-        "repo_forks": 0,
-        "repo_license": null,
-        "repo_updated_at": "2026-08-13T12:16:37+00:00"
-      },
-      "raw_file": "raw/frankyxhl-fx-bin/SKILL.md",
-      "title": "FX-BIN Command Reference",
-      "category_hint": "programming",
-      "content_hash": "860e26dc77101fc101b63e1892b850af8b78bf6005a9f082e8891a359165ac73",
-      "content_characters": 24524
-    },
-    {
-      "candidate_id": "cf60d59bc692b4b0c0d9906c",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:27+00:00",
-      "source": {
-        "repository": "Ortus-Solutions/ContentBox",
-        "repository_url": "https://github.com/Ortus-Solutions/ContentBox",
-        "default_branch": "development",
-        "path": "AGENTS.md",
-        "html_url": "https://github.com/Ortus-Solutions/ContentBox/blob/438b4588e2c83ecfbd8526f14af2af092da48765/AGENTS.md",
-        "api_sha": "06834c8f202380d2a2530bac98a96fb9d40d0aec",
-        "repo_stars": 126,
-        "repo_forks": 87,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-25T06:24:03+00:00"
-      },
-      "raw_file": "raw/ortus-solutions-contentbox/AGENTS.md",
-      "title": "ContentBox Tester Site - AI Agent Instructions",
-      "category_hint": "automation",
-      "content_hash": "ae45e92015b162edbc8c14db967b96fca31ef15ca2ef0dc6211bd70902b06160",
-      "content_characters": 21997
-    },
-    {
-      "candidate_id": "8b58a98c089b87b2414ae490",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:29+00:00",
-      "source": {
-        "repository": "Tsukimarf/skills-hello-github-actions",
-        "repository_url": "https://github.com/Tsukimarf/skills-hello-github-actions",
-        "default_branch": "main",
-        "path": "Skill.md",
-        "html_url": "https://github.com/Tsukimarf/skills-hello-github-actions/blob/1eebbab9ebfba004b9980ba9f3582381fe0d6d7b/Skill.md",
-        "api_sha": "4c3bb4ef21ab48911eb497e2b2a82e451ae6707b",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-01-15T13:44:15+00:00"
-      },
-      "raw_file": "raw/tsukimarf-skills-hello-github-actions/Skill.md",
-      "title": "",
-      "category_hint": "programming",
-      "content_hash": "6a48f9628ea498c2090e235902bf7c32c83d83ab9c5080fec3f9577cec4dbb2b",
-      "content_characters": 4133
-    },
-    {
-      "candidate_id": "710738d18e875ea6758aa77a",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:31+00:00",
-      "source": {
-        "repository": "pieper/slicer-skill",
-        "repository_url": "https://github.com/pieper/slicer-skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/pieper/slicer-skill/blob/c3b9f3bbc2b95938e73f1ad0c2e6c01a8fd2e32f/SKILL.md",
-        "api_sha": "9d76bbf68efc344d34bf3f9d266a2f3e21a755d2",
-        "repo_stars": 32,
-        "repo_forks": 7,
-        "repo_license": "Apache License 2.0",
-        "repo_updated_at": "2026-09-06T12:58:34+00:00"
-      },
-      "raw_file": "raw/pieper-slicer-skill/SKILL.md",
-      "title": "slicer",
-      "category_hint": "automation",
-      "content_hash": "7d89e36438fcc064a2cc9fe9acdf3fd51b446ff22a78628b707c357b76b5b4bd",
-      "content_characters": 48569
-    },
-    {
-      "candidate_id": "7af7debe82553fcd19ea8cce",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:33+00:00",
-      "source": {
-        "repository": "BrewHubPHL/third-place-specialist",
-        "repository_url": "https://github.com/BrewHubPHL/third-place-specialist",
-        "default_branch": "master",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/BrewHubPHL/third-place-specialist/blob/2e60472077599d3771cb11a233c0ba6b405f3bfa/SKILL.md",
-        "api_sha": "64292fe73ca5a5597f25177a43db810e1c0cca5d",
-        "repo_stars": 0,
-        "repo_forks": 0,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-06-15T20:01:10+00:00"
-      },
-      "raw_file": "raw/brewhubphl-third-place-specialist/SKILL.md",
-      "title": "third-place-specialist",
-      "category_hint": "automation",
-      "content_hash": "b5ed5c1f5fbabb32ab85ee9986ee99522c599c7a92bbee3466d94527ecd9481c",
-      "content_characters": 9162
-    },
-    {
-      "candidate_id": "1792662a9d2572e7b042f889",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:34+00:00",
-      "source": {
-        "repository": "Shopify/rubydex",
-        "repository_url": "https://github.com/Shopify/rubydex",
-        "default_branch": "main",
-        "path": "AGENTS.md",
-        "html_url": "https://github.com/Shopify/rubydex/blob/f40ff9bb3310c6d9c854e9671b6ce4c9e92c4e9a/AGENTS.md",
-        "api_sha": "1e4cf19201d1a4599d56af556cd3e66519a3a13f",
-        "repo_stars": 357,
-        "repo_forks": 25,
-        "repo_license": "Other",
-        "repo_updated_at": "2026-09-25T20:58:22+00:00"
-      },
-      "raw_file": "raw/shopify-rubydex/AGENTS.md",
-      "title": "Instructions",
-      "category_hint": "automation",
-      "content_hash": "f45c870d610942dc5972a1bef846930aee6781782d4eb53986aa4d0bbee3b795",
-      "content_characters": 5991
-    },
-    {
-      "candidate_id": "e6878d3da1e549d588ac3e84",
-      "status": "pending",
-      "discovered_at": "2026-09-27T12:12:36+00:00",
-      "source": {
-        "repository": "xn030523/Codex-IM-Skill",
-        "repository_url": "https://github.com/xn030523/Codex-IM-Skill",
-        "default_branch": "main",
-        "path": "SKILL.md",
-        "html_url": "https://github.com/xn030523/Codex-IM-Skill/blob/1996029133bc5d0af9677097958778face53b794/SKILL.md",
-        "api_sha": "902a040c5b818f3b3468f7109405e12497831357",
-        "repo_stars": 2,
-        "repo_forks": 0,
-        "repo_license": "MIT License",
-        "repo_updated_at": "2026-03-13T11:07:14+00:00"
-      },
-      "raw_file": "raw/xn030523-codex-im-skill/SKILL.md",
-      "title": "codex-skill",
-      "category_hint": "automation",
-      "content_hash": "8e6343011a4db4417af024f4dc7f8f0a2a3a0fde21577735934a07aa6f79e28a",
-      "content_characters": 7011
-    },
-    {
       "candidate_id": "5f7a1bdc39c76f9d88e7f2df",
       "status": "pending",
       "discovered_at": "2026-09-27T12:12:38+00:00",
@@ -1566,7 +1302,30 @@
       "content_hash": "8248fccab26e8161c356ed5b63b0f6aa024679aeb12585b1f79c8dc1e60b1ba1",
       "content_characters": 16673,
       "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 10266, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "candidate_id": "0846c2cad8108789b92dd490",
+      "status": "pending",
+      "discovered_at": "2026-09-27T12:12:26+00:00",
+      "source": {
+        "repository": "frankyxhl/fx_bin",
+        "repository_url": "https://github.com/frankyxhl/fx_bin",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/frankyxhl/fx_bin/blob/2800c22ea133ea23d32383d6a79980ccce2e41f7/SKILL.md",
+        "api_sha": "3c6a0cb22f32e1f36d4b6fefb7388d0e69bb8453",
+        "repo_stars": 1,
+        "repo_forks": 0,
+        "repo_license": null,
+        "repo_updated_at": "2026-08-13T12:16:37+00:00"
+      },
+      "raw_file": "raw/frankyxhl-fx-bin/SKILL.md",
+      "title": "FX-BIN Command Reference",
+      "category_hint": "programming",
+      "content_hash": "860e26dc77101fc101b63e1892b850af8b78bf6005a9f082e8891a359165ac73",
+      "content_characters": 24524,
+      "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 9255, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
     }
   ],
-  "updated_at": "2026-10-03T12:46:28+00:00"
+  "updated_at": "2026-10-04T13:28:39+00:00"
 }

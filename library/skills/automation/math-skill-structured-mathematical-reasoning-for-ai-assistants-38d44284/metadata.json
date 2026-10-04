@@ -1,0 +1,65 @@
+{
+  "library_id": "automation/math-skill-structured-mathematical-reasoning-for-ai-assistants-38d44284",
+  "title": "Math Skill – Structured Mathematical Reasoning for AI Assistants",
+  "category": "automation",
+  "tags": [
+    "mathematics",
+    "reasoning",
+    "verification",
+    "workflow",
+    "ai-assistant"
+  ],
+  "summary": "A detailed framework that guides AI assistants through rigorous mathematical problem solving, from parsing to verification. It defines classification, a seven‑step workflow, a verification engine with multiple methods, and handling of advanced topics. The skill emphasizes step‑by‑step reasoning, error correction, and transparent uncertainty handling.",
+  "source": {
+    "repository": "Wholiver/Math.Skill",
+    "repository_url": "https://github.com/Wholiver/Math.Skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/Wholiver/Math.Skill/blob/cce75aece3b5e071dec41355853ae63bae387b15/SKILL.md",
+    "api_sha": "9b94a2d3b5ad675a5c5a707eede6bfa7ca8e2319",
+    "repo_stars": 46,
+    "repo_forks": 5,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-18T19:39:25+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:21+00:00",
+  "accepted_at": "2026-10-04T13:22:50+00:00",
+  "content_hash": "5f1aa40405a9cde1c74e6809f4ff5674edfb153571d32c260b2d1bafbe620b95",
+  "source_excerpt": "--- name: math-skill description: A comprehensive mathematical reasoning skill for AI assistants — handles arithmetic to research-level problems with rigorous step-by-step reasoning, systematic verification, and transparent uncertainty handling --- # Math.skill ## Skill Name **Math.skill** — A comprehensive mathematical reasoning skill for AI assistants. ## Skill Purpose Enable AI assistants to handle mathematical tasks across all difficulty levels — from basic arithmetic to research-level problems — with rigorous, step-by-step reasoning, systematic verification, and transparent uncertainty handling. This skill enforces a disciplined mathematical workflow: every problem is parsed, modeled, solved with justifications, verified through multip…",
+  "review": {
+    "decision": "accept",
+    "title": "Math Skill – Structured Mathematical Reasoning for AI Assistants",
+    "category": "automation",
+    "summary": "A detailed framework that guides AI assistants through rigorous mathematical problem solving, from parsing to verification. It defines classification, a seven‑step workflow, a verification engine with multiple methods, and handling of advanced topics. The skill emphasizes step‑by‑step reasoning, error correction, and transparent uncertainty handling.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 90,
+    "safety_score": 100,
+    "total_score": 85,
+    "strengths": [
+      "Extremely thorough workflow covering parsing, modeling, method selection, verification, and error correction.",
+      "Clear classification scheme with associated verification methods.",
+      "Comprehensive coverage of mathematical domains, from basic arithmetic to research‑level topics.",
+      "Emphasis on multiple independent verification methods to ensure correctness."
+    ],
+    "weaknesses": [
+      "Very long and dense; may be overwhelming for quick implementation.",
+      "Lacks concrete input/output examples and a minimal runnable snippet.",
+      "References to external modules (e.g., `modules/classification.md`) are placeholders without content."
+    ],
+    "tags": [
+      "mathematics",
+      "reasoning",
+      "verification",
+      "workflow",
+      "ai-assistant"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a concise example problem showing the full seven‑step workflow in practice.",
+      "Provide a short summary table of inputs (problem description, optional language) and outputs (solution, verification summary).",
+      "Include concrete snippets or pseudo‑code for the classification and verification engine to aid implementation."
+    ],
+    "normalized_skill_markdown": "---\nname: math-skill\ndescription: A structured workflow for AI assistants to solve mathematical problems with rigorous step‑by‑step reasoning, systematic verification, and transparent uncertainty handling.\n---\n\n# Math Skill\n\n## Purpose\nEnable AI assistants to handle mathematical tasks of any difficulty—arithmetic, algebra, calculus, proofs, and research‑level problems—by following a disciplined workflow that guarantees verified solutions.\n\n## Scope\nCovers foundations through advanced topics such as multivariable calculus, linear algebra, differential equations, abstract algebra, topology, number theory, optimization, and mathematical modeling. Also supports problem generation, solution checking, and counterexample search.\n\n## Out of Scope\nPure opinion, non‑mathematical creative writing, factual look‑ups without reasoning, code generation unrelated to math, and general small‑talk.\n\n## Language Matching\n- Use the user‑specified language if provided; otherwise match the user's primary language.\n- Typeset all formulas in LaTeX (`$...$` or `$$...$$`).\n- Keep theorem names in English with brief translations when needed.\n\n## Input Classification\nEach request is first classified into one of the categories below (e.g., `calculation`, `equation_solving`, `proof`). The classification determines the verification methods to apply.\n\n| Category | Typical Verification Methods |\n|---|---|\n| calculation | A, E |\n| algebra_simplification | A, E, G |\n| equation_solving | A, B, G |\n| ... | ... |\n\n(Full table as in the original document.)\n\n## Seven‑Step Reasoning Workflow\n1. **Problem Parsing** – Extract given conditions, goal, variables, domains, and implicit constraints.\n2. **Mathematical Modeling** – Translate the problem into equations, inequalities, graphs, etc.\n3. **Method Selection** – Choose the most direct, robust method (e.g., substitution, factoring, induction).\n4. **Step‑by‑Step Solution** – Execute the method with full justification, citing theorems and showing intermediate steps.\n5. **Verification** – Apply at least two verification methods from the Verification Engine (e.g., Back‑Substitution, Domain Check, Numerical Sampling).\n6. **Error Correction** – If verification fails, backtrack, identify the error, correct it, and re‑verify.\n7. **Final Answer** – Present the simplified answer, domain restrictions, and a brief verification summary.\n\n## Verification Engine (Methods)\n- **A: Back‑Substitution** – Substitute solution back into original equations.\n- **B: Domain Check** – Ensure all domain constraints are satisfied.\n- **C: Boundary Check** – Test edge cases and parameter extremes.\n- **D: Reverse Derivation** – Derive original conditions from the answer.\n- **E: Numerical Sampling** – Verify with representative numeric values.\n- **F: Dimensional Analysis** – Check consistency of units (when applicable).\n- **G: Limits & Special Cases** – Evaluate limits and special parameter values.\n- **H: Independent Method Cross‑Validation** – Solve using a different approach.\n- **I: Counterexample Search** – Look for counterexamples to claimed statements.\n- **J: Formal Logic Check** – Validate logical structure of proofs.\n- **K: Computational Consistency Check** – Verify computations via alternative calculations.\n\n## Example (Illustrative)\n*Problem*: Solve \\(x^2 - 5x + 6 = 0\\).\n1. **Parsing** – Identify a quadratic equation in \\(x\\).\n2. **Modeling** – Write as \\(ax^2+bx+c=0\\) with \\(a=1,b=-5,c=6\\).\n3. **Method Selection** – Use factoring.\n4. **Solution** – \\((x-2)(x-3)=0 \\Rightarrow x=2\\) or \\(x=3\\).\n5. **Verification** –\n   - A: Substitute: \\(2^2-5·2+6=0\\) and \\(3^2-5·3+6=0\\).\n   - B: No domain violations.\n6. **Error Correction** – Not needed.\n7. **Final Answer** – \\(x=2\\) or \\(x=3\\). Verification passed.\n\n## Search Policy\n- Search only when uncertain about a theorem, definition, or when the user explicitly requests external information.\n- Prioritize authoritative sources (arXiv, MathStackExchange, etc.) and never copy verbatim.\n\n## Hard Problem Protocol\nFor competition‑level or research problems, follow the enhanced protocol: initial assessment, targeted search, first‑principles analysis, and clear documentation of uncertainty.\n\n---"
+  }
+}

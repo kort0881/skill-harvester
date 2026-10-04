@@ -1,0 +1,66 @@
+{
+  "library_id": "automation/book-to-skill-converter-a04a043b",
+  "title": "Book-to-Skill Converter",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "document‑processing",
+    "skill‑generation",
+    "nlp",
+    "knowledge‑extraction"
+  ],
+  "summary": "A comprehensive workflow that converts books, documents, and video transcripts into structured agent skills, extracting first principles, SOPs, and heuristics. It guides the user through validation, content type detection, extraction, cost estimation, and generation of skill files with configurable depth and update modes.",
+  "source": {
+    "repository": "carpatia77/sop-extractor",
+    "repository_url": "https://github.com/carpatia77/sop-extractor",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/carpatia77/sop-extractor/blob/5bbb5724370d3d49eb4b3024210835ca0a71a621/SKILL.md",
+    "api_sha": "1e6f01c5644fb8b1f46c3a34b22a7091876243d9",
+    "repo_stars": 12,
+    "repo_forks": 0,
+    "repo_license": "Other",
+    "repo_updated_at": "2026-09-17T07:13:16+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:24+00:00",
+  "accepted_at": "2026-10-04T13:24:09+00:00",
+  "content_hash": "3bdcd8a7e3813af3d620fba36e0170c5a7d24267e0bf82ce4fc2f3233dd9310b",
+  "source_excerpt": "--- name: book-to-skill description: \"Converts books and documents (PDF, EPUB, DOCX, HTML, Markdown, plain text, RTF, MOBI/AZW with Calibre) into structured agent skills that extract deterministic decision-logic as First Principles and Standard Operating Procedures (SOPs). Use when the user wants to operationalize an author's method into executable step-by-step procedures, apply it while working, or build a reusable decision base from a file.\" --- <!-- Cross-agent notes (informational; ignored by host agents): - Compatible skill roots: GitHub Copilot CLI (~/.copilot/skills, ~/.agents/skills, .github/skills, .claude/skills, .agents/skills), Amp (.agents/skills, ~/.config/agents/skills, ~/.config/amp/skills), and other agents using ~/.claude/…",
+  "review": {
+    "decision": "accept",
+    "title": "Book-to-Skill Converter",
+    "category": "automation",
+    "summary": "A comprehensive workflow that converts books, documents, and video transcripts into structured agent skills, extracting first principles, SOPs, and heuristics. It guides the user through validation, content type detection, extraction, cost estimation, and generation of skill files with configurable depth and update modes.",
+    "quality_score": 82,
+    "uniqueness_score": 88,
+    "usefulness_score": 84,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Clear multi‑mode operation (full, analyze‑only, generate‑from‑analysis, update)",
+      "Detailed step‑by‑step instructions with safety checks",
+      "Explicit handling of many file formats and transcript mode",
+      "Cost and token‑budget estimation before generation",
+      "Thoughtful lineage detection and set‑manifest handling"
+    ],
+    "weaknesses": [
+      "Very long description may overwhelm novice users",
+      "Relies on external Python scripts without verifying their existence beyond path search",
+      "Some prompts assume interactive session; non‑interactive automation may need tweaks"
+    ],
+    "tags": [
+      "automation",
+      "document‑processing",
+      "skill‑generation",
+      "nlp",
+      "knowledge‑extraction"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Provide a concise quick‑start summary for beginners",
+      "Add fallback behavior when required Python extractors are missing in non‑interactive mode",
+      "Include example command‑line usage with sample inputs/outputs"
+    ],
+    "normalized_skill_markdown": "---\nname: book-to-skill\ndescription: \"Converts books and documents (PDF, EPUB, DOCX, HTML, Markdown, plain text, RTF, MOBI/AZW with Calibre) into structured agent skills that extract deterministic decision‑logic as First Principles and Standard Operating Procedures (SOPs). Use when the user wants to operationalize an author's method into executable step‑by‑step procedures, apply it while working, or build a reusable decision base from a file.\"\n---\n\n# Book-to-Skill Converter\n\nTransform written knowledge into actionable agent skills by extracting structure — not producing summaries.\n\n## Philosophy\n\nBooks hide deterministic decision‑logic inside prose. This skill extracts that logic as two artifacts: **First Principles** (the irreducible truths the author's method rests on) and **Standard Operating Procedures** (the executable step‑by‑step the author actually uses).\n\n- **Extract logic, not prose.** A skill is not a book report — it is a decision engine.\n- **ANTI‑FABRICATION RULE.** Convert content into an SOP *only when the author provides procedural substance*. When the author is probabilistic or heuristic, capture it as a **Heuristic** (an if‑then under uncertainty), **NOT** a fabricated deterministic SOP. Never invent steps, thresholds, or ordering the source does not contain. Every SOP and every Principle must be traceable to its chapter.\n- **First Principle admission rubric.** A line qualifies ONLY if it is:\n  1. an *assertion* (a claim, not a topic);\n  2. *causal or foundational* — other ideas in the book derive from it;\n  3. *irreducible* — it cannot be decomposed into a more basic claim from the same book.\n  Format: claim + the \"because\" + what it lets you stop debating.\n- **Preserve the author's precision.** Exact framework names, exact thresholds. A named procedure keeps its name.\n- **Layer depth appropriately.** Simple books → simple skills. Dense books → reference files and on‑demand chapters.\n\n---\n\n## Modes of Operation\n\n1. **Full Conversion (Default)** – Run Steps 0‑9, output complete skill directory.\n2. **Analyze Only** – Run Steps 0‑3, produce a structured extraction report, stop before generating files.\n3. **Generate from Prior Analysis** – Skip Steps 0‑3, use provided analysis, run Steps 4‑9.\n4. **Update / Fold‑in** – Detect existing skill, run a reduced workflow to merge new content.\n\n---\n\n## Step 0 – Out‑of‑Scope Check\n\nIf no arguments are provided, respond with:\n```\nbook-to-skill requires a supported document path, folder, or glob pattern. Usage: `book-to-skill <path‑to‑document‑folder‑or‑glob>... [skill‑name‑slug]`\n```\nIdentify `INPUT_PATHS` and optional `SKILL_NAME`. If any `INPUT_PATHS` point to an existing skill directory or `SKILL_NAME` matches a skill in `SKILLS_HOME`, treat the run as **Update/Fold‑in** (Mode 4).\n\n---\n\n## Step 1 – Validate Input\n\nEnsure at least one supported file, directory, or glob is present. Supported extensions: `.pdf .epub .docx .txt .md .markdown .rst .adoc .html .htm .rtf .mobi .azw .azw3`. Abort with a clear error if none are found.\n\n---\n\n## Step 1.5 – Identify Content Type\n\nAsk the user to choose the content type (technical, text‑heavy, transcript, or not‑sure). Store as `BOOK_TYPE` and inform the user which extractor will be used.\n\n---\n\n## Step 2 – Extract Text\n\nLocate `extract.py` in the possible skill roots, then run:\n```bash\nPYTHON_BIN=\"${PYTHON_BIN:-python3}\"\n\"$PYTHON_BIN\" \"$SCRIPT_PATH\" $INPUT_PATHS --mode $BOOK_TYPE --install-missing ask\n```\nThe script produces `full_text.txt` and `metadata.json` in a temporary work directory.\n\n---\n\n## Step 2.5 – Pre‑flight Cost Estimate\n\nRead `metadata.json`, compute token estimates, display an estimate table, and ask the user to confirm proceeding (or switch to *Analyze Only*).\n\n---\n\n## Step 2.6 – REPL‑style Access for Large Books\n\nFor books > 50 k tokens, advise using `grep`/`sed` with line offsets instead of loading the whole file into context.\n\n---\n\n## Step 3 – Analyze Book Structure\n\n- **Transcript mode** – Detect course title, instructor, timestamps, and segment by module markers.\n- **Technical/Text mode** – Read the first 8 k characters to find title, author, chapter headings, and TOC.\n\nIf in *Analyze Only* mode, output an Extraction Report and stop.\n\n---\n\n## Step 4 – Ask Purpose (Full Conversion only)\n\nPrompt the user to select the intended use (apply SOPs, think with models, reference chapters, or all). Derive `DEPTH` (`reference` vs `study`).\n\n---\n\n## Step 5 – Determine Skill Name\n\nIf a slug was supplied, use it; otherwise propose two options (author‑concept and title‑based) and let the user choose.\n\n---\n\n## Step 5.5 – Lineage Detection (optional Set membership)\n\nSearch existing skills for the same author. If matches are found, ask the user whether the new book belongs to that lineage and obtain a publication year if applicable. Update or create a set manifest after generation.\n\n---\n\n## Step 6 – Create Skill Directory\n\n```bash\nmkdir -p \"$SKILLS_HOME/$SKILL_NAME/chapters\"\n```\n\n---\n\n## Step 7 – Generate Chapter Summaries\n\nApply a token‑budget matrix based on `BOOK_TYPE` and `DEPTH`. For each chapter (or transcript module) create a markdown file:\n```markdown\n# Chapter N: <Full Title>\n\n## Core Idea\n<1‑2 sentence summary>\n\n## First Principles\n- **<Principle>** — because <reason>\n\n## Standard Operating Procedures\n- **<SOP Name>**: <trigger / steps / failure modes>\n\n## Heuristics\n- **<Heuristic>**: <why it matters>\n\n## Worked Example (only for study depth)\n<concrete example from the source>\n```\nTechnical books add a **Code Examples** section; transcript modules also include a `## Timestamp` and optional `## Visual Reference`.\n\n---\n\n## Step 8 – Glossary & First Principles File\n\nAggregate all extracted principles, definitions, and terminology into `glossary.md` and `first_principles.md` at the skill root.\n\n---\n\n## Step 9 – Finalize Skill Metadata\n\nCreate `SKILL.md` with front‑matter containing:\n- `name`\n- `description`\n- `source_title`\n- `source_author`\n- `source_date` (from lineage step if applicable)\n- `book_type`\n- `depth`\n- `generated_at`\n\nAdd a short **Core** section summarizing the most important SOPs and principles based on the user's purpose selection.\n\n---\n\n## Step 9.7 – Optional Temporal Evolution Audit\n\nIf the skill belongs to a set with ≥ 2 members, offer to run an audit that compares principles across versions and highlights evolution.\n\n---\n\n*End of Book‑to‑Skill Converter workflow.*"
+  }
+}

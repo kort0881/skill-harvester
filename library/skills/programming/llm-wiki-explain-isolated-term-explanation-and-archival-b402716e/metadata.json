@@ -1,0 +1,67 @@
+{
+  "library_id": "programming/llm-wiki-explain-isolated-term-explanation-and-archival-b402716e",
+  "title": "LLM Wiki Explain – Isolated Term Explanation and Archival",
+  "category": "programming",
+  "tags": [
+    "wiki",
+    "explain",
+    "knowledge-management",
+    "obsidian",
+    "notion",
+    "automation"
+  ],
+  "summary": "A workflow that extracts a technical term from a user request, looks it up in the user’s Obsidian or Notion wiki, enriches the wiki with a sourced explanation if needed, and returns only a status to the calling task. It enforces configuration validation, task isolation, and safety boundaries to avoid leaking private content or overwriting canonical pages.",
+  "source": {
+    "repository": "kennydc822/llm-wiki-explain",
+    "repository_url": "https://github.com/kennydc822/llm-wiki-explain",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/kennydc822/llm-wiki-explain/blob/1e4cf937583c487e6c177a36c975f90dcb1831ff/SKILL.md",
+    "api_sha": "6854628311d0e9b04e02ffcda5e2ee601b589624",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": null,
+    "repo_updated_at": "2026-08-16T16:30:01+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:17+00:00",
+  "accepted_at": "2026-10-04T13:21:56+00:00",
+  "content_hash": "3124569a3131dbbf8ee6fc76ed1ef1841dc671d604ac08cccaca1806982385b7",
+  "source_excerpt": "--- name: llm-wiki-explain description: Explain an unfamiliar technical or programming term outside the calling task, reuse matching knowledge from the user's LLM wiki, and archive a sourced explanation when the wiki is incomplete. Run a safe first-use setup when the wiki is not configured or has moved. Use for $llm-wiki-explain and requests such as “wiki explain X”, “LLM wiki 解釋 X”, “查 wiki／Programming Vault 再解釋”, “先睇 wiki 有冇，冇就寫低”, “另開 task 解釋 X”, “唔好加重呢個 context”, “將解釋存入 wiki”, “explain X in another task”, “look up X in my wiki”, “explain without bloating this context”, or “save/archive this explanation to my wiki”. Do not trigger for ordinary explain/summarize requests that mention neither a separate task/context isolation nor the user'…",
+  "review": {
+    "decision": "accept",
+    "title": "LLM Wiki Explain – Isolated Term Explanation and Archival",
+    "category": "programming",
+    "summary": "A workflow that extracts a technical term from a user request, looks it up in the user’s Obsidian or Notion wiki, enriches the wiki with a sourced explanation if needed, and returns only a status to the calling task. It enforces configuration validation, task isolation, and safety boundaries to avoid leaking private content or overwriting canonical pages.",
+    "quality_score": 78,
+    "uniqueness_score": 80,
+    "usefulness_score": 85,
+    "safety_score": 95,
+    "total_score": 84,
+    "strengths": [
+      "Comprehensive step‑by‑step workflow",
+      "Clear safety boundaries for secret handling and wiki writes",
+      "Supports both Obsidian and Notion backends",
+      "Emphasises task isolation to keep calling context lightweight"
+    ],
+    "weaknesses": [
+      "Few concrete usage examples",
+      "Relies on external scripts without showing their interfaces",
+      "Long sections could be more concise"
+    ],
+    "tags": [
+      "wiki",
+      "explain",
+      "knowledge-management",
+      "obsidian",
+      "notion",
+      "automation"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a short example request and expected status response",
+      "Provide a minimal config snippet illustrating backend selection",
+      "Summarize the required external scripts and their command‑line arguments"
+    ],
+    "normalized_skill_markdown": "---\nname: llm-wiki-explain\ndescription: Explain an unfamiliar technical term, reuse existing wiki knowledge, and archive a sourced explanation in Obsidian or Notion while keeping the calling task lightweight.\n---\n\n# LLM Wiki Explain\n\nKeep the calling task lightweight while turning one unclear term into reusable wiki knowledge. Treat invocation by the skill name, a separate‑task/context‑isolation phrase, or a wiki lookup‑and‑save phrase as authorization to dispatch the work and update the selected wiki after following its local rules.\n\nDo not activate merely because the user says `explain`, `解釋`, or `我唔明`. Require either a wiki cue (`wiki`, `LLM wiki`, `Programming Vault`, `Obsidian`, `Notion`, `存入 wiki`) or an isolation cue (`another/separate/new task`, `另開 task`, `唔好加重 context`, `without bloating context`).\n\n## Resolve configuration\n\nResolve bundled scripts relative to the directory containing this `SKILL.md`.\n\n1. Honor an explicit backend or wiki target in the request.\n2. Otherwise run `scripts/configure.py show` before dispatch. This reads only the small per‑user config; it does not search the wiki.\n3. If the config is valid, use its backend, target, and optional project label.\n4. If the config is missing or invalid, read `references/setup.md` completely and run the first‑use or repair flow in a separate setup task. Keep setup out of the calling task when task creation is available.\n5. If a valid config already exists, treat a different explicit target as a one‑run override unless the user says to remember it. If no config exists, validate and remember an explicit target as the first‑use choice.\n\nNever bake a machine‑specific vault path into this skill. Store per‑user configuration outside the skill directory. Never store connector tokens or other secrets in the config.\n\n## Separate the work\n\nPerform only dispatch in the calling task. Do not search the wiki, browse sources, draft the explanation, or edit wiki files there.\n\n1. Extract a compact request containing:\n   - the term or concept;\n   - one or two sentences of local context needed to disambiguate it;\n   - requested depth, language, or backend when specified.\n2. Add the resolved backend and wiki target. Do not guess either when setup is incomplete.\n3. Create a separate user‑visible task when the environment supports task creation. In Codex desktop, use the configured saved project in its local environment when available because the live wiki is the intended output, not an isolated worktree.\n4. If user‑visible task creation is unavailable, use one fresh background worker that can access and update the wiki. Keep its returned content out of the calling answer except for a compact status and note location.\n5. If neither isolation method exists, stop and explain that the workflow cannot preserve context isolation. Do not fall back to explaining inline.\n\nPass this worker contract with the compact request:\n\n```text\nYou are already the isolated LLM Wiki Explain worker. Skip the dispatch section\nand run the knowledge workflow entirely in this task.\nBackend: <configured obsidian|notion>\nWiki: <validated vault path or Notion target>\nTerm: <term>\nContext: <minimal disambiguating context>\nPreferences: <language/depth or defaults>\n\nSearch the wiki first and synthesize any existing relevant notes. If durable\nknowledge is incomplete, fill the gap from authoritative sources, archive it under\nthe wiki's own rules, and validate the write. Give the full explanation plus the\ncanonical note link in this task. Keep an adequate canonical page read‑only.\nDo not send the full explanation back to the calling task.\n```\n\nAfter dispatch, return only a short receipt and the new task link or identifier. If using a background worker, return only completion status and the saved page path or URL.\n\n## Run inside the isolated task\n\n### Choose the backend\n\n- For Obsidian, read `references/obsidian.md` completely and follow it.\n- For Notion, read `references/notion.md` completely and follow it.\n- Never dual‑write unless the user explicitly requests it.\n\n### Retrieve before explaining\n\nFollow the wiki's own instructions and indexes before broad search. Classify the result:\n\n- `existing`: one or more pages already answer the question;\n- `partial`: durable conceptual knowledge is materially incomplete or incorrect;\n- `missing`: no reliable answer exists.\n\nFor Obsidian, resolve bundled scripts relative to the directory containing this `SKILL.md`; do not assume the vault is the current directory. Run `scripts/search_wiki.py` only after reading the vault's main index. Treat its ranked output as candidate discovery, not truth. Open the best candidates, follow relevant links and cited sources, and surface conflicts.\n\nMissing a request‑specific example does not by itself make an otherwise adequate canonical page `partial`. Generate a transient example in the explanation unless it adds reusable knowledge.\n\n### Build a grounded explanation\n\nCombine rather than copy existing material. Explain the term in the user's requested language, defaulting to Traditional Chinese with technical tokens preserved in English. Include:\n\n1. a one‑sentence definition;\n2. why it matters in the supplied context;\n3. a small concrete example;\n4. common confusion or boundary conditions;\n5. links to related wiki concepts when available, plus sources.\n\nWhen the wiki is partial or missing, research authoritative primary sources. Distinguish sourced facts from inference. Do not invent an answer when sources are unavailable; report the gap and create a stub only if the wiki's policy permits it.\n\n### Archive safely\n\nPrefer, in order:\n\n1. merging into an existing canonical page;\n2. adding a focused section to a closely related page;\n3. creating a new canonical page.\n\nIf an adequate canonical page already exists and there is no reusable knowledge to add, do not edit it and do not add a duplicate log entry merely to complete the workflow. Otherwise, preserve unrelated user content, use `apply_patch` for local Markdown edits, and never rewrite or delete curated source material. Follow all frontmatter, naming, index, link, date, and query‑log rules defined by the wiki itself.\n\nFor an Obsidian wiki using the bundled Programming Vault schema, run `scripts/validate_wiki.py` against every page changed. For other Obsidian schemas, validate against their local instructions and re‑read every changed page and index entry. For Notion, re‑read the saved page and database properties after writing.\n\n### Finish in the isolated task\n\nReturn the full explanation there, state whether knowledge was `existing`, `partial`, or `missing`, identify what was reused or added, and link the canonical wiki page. Mention validation failures or unresolved source conflicts plainly.\n\n## Safety boundaries\n\n- Do not expose secrets or unrelated private wiki content in the explanation.\n- Do not initialize, restructure, or choose a wiki without explicit confirmation in the setup task.\n- Do not overwrite a canonical page merely because a generated title matches it.\n- Do not claim a Notion write occurred without a connected Notion capability and a successful re‑read.\n- Do not allow a failed archive step to masquerade as success.\n- Keep the calling task free of the explanation even if the user later follows up there; direct them to the isolated task unless they explicitly cancel isolation.\n"
+  }
+}

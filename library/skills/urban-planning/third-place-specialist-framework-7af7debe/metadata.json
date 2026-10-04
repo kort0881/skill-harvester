@@ -1,0 +1,69 @@
+{
+  "library_id": "urban-planning/third-place-specialist-framework-7af7debe",
+  "title": "Third-Place Specialist Framework",
+  "category": "urban-planning",
+  "tags": [
+    "urban-planning",
+    "third-places",
+    "social-capital",
+    "community-gardens",
+    "transit",
+    "public-space"
+  ],
+  "summary": "A structured guide for agents to audit, evaluate, and design public spaces as third places using Ray Oldenburg’s eight‑characteristic test and the Dolley & Bosman volume. It provides when‑to‑use scenarios, core principles, audit tables, social‑capital routing, and links to modular pattern files.",
+  "source": {
+    "repository": "BrewHubPHL/third-place-specialist",
+    "repository_url": "https://github.com/BrewHubPHL/third-place-specialist",
+    "default_branch": "master",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/BrewHubPHL/third-place-specialist/blob/2e60472077599d3771cb11a233c0ba6b405f3bfa/SKILL.md",
+    "api_sha": "64292fe73ca5a5597f25177a43db810e1c0cca5d",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-06-15T20:01:10+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:33+00:00",
+  "accepted_at": "2026-10-04T13:27:53+00:00",
+  "content_hash": "b5ed5c1f5fbabb32ab85ee9986ee99522c599c7a92bbee3466d94527ecd9481c",
+  "source_excerpt": "--- name: third-place-specialist description: Ray Oldenburg third-place frameworks, urban planning for community, social capital, age-friendly and child-friendly public space, community gardens, transit placemaking, and Dolley & Bosman edited volume concepts. version: \"1.0.0\" tags: - third-places - oldenburg - urban-planning - social-capital - community-gardens - transit - public-space when_to_use: - Auditing whether a space qualifies as a third place (Oldenburg 8-test) - Reviewing master plans, MPCs, or \"community hub\" development claims - Age-friendly, child-friendly, or feminist inclusive public realm design - Community garden, transit station, or main-street activation briefs - CPTED / eyes-on-the-street safety claims tied to third-plac…",
+  "review": {
+    "decision": "accept",
+    "title": "Third-Place Specialist Framework",
+    "category": "urban-planning",
+    "summary": "A structured guide for agents to audit, evaluate, and design public spaces as third places using Ray Oldenburg’s eight‑characteristic test and the Dolley & Bosman volume. It provides when‑to‑use scenarios, core principles, audit tables, social‑capital routing, and links to modular pattern files.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 86,
+    "strengths": [
+      "Clear organization with sections for principles, audit, routing, and pitfalls",
+      "Provides concrete tables and checklists",
+      "Links to modular pattern files for progressive disclosure",
+      "Includes invocation examples and when‑to‑use guidance"
+    ],
+    "weaknesses": [
+      "Missing explicit prerequisite list for users",
+      "No defined input/output schema for the audit process",
+      "Verification or validation steps are only referenced, not detailed",
+      "Examples are textual prompts rather than concrete data structures"
+    ],
+    "tags": [
+      "urban-planning",
+      "third-places",
+      "social-capital",
+      "community-gardens",
+      "transit",
+      "public-space"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisite section (e.g., familiarity with Oldenburg’s work, basic urban‑planning terminology)",
+      "Define the expected input format for the Oldenburg eight‑test (e.g., JSON schema) and sample output",
+      "Include a verification checklist to confirm audit completeness",
+      "Provide a short end‑to‑end example that walks through input, processing, and result"
+    ],
+    "normalized_skill_markdown": "---\nname: third-place-specialist\ndescription: Framework for auditing and designing third places based on Ray Oldenburg and Dolley & Bosman.\nversion: \"1.0.0\"\ntags:\n  - third-places\n  - oldenburg\n  - urban-planning\n  - social-capital\n  - community-gardens\n  - transit\n  - public-space\n---\n\n# Third-Place Specialist\n\nProduction guidance for agents applying Ray Oldenburg's third‑place concept and the Dolley & Bosman edited volume *Rethinking Third Places*. This skill emphasizes evidence‑based audit over marketing labels.\n\n## When to Use\n- Auditing whether a space qualifies as a third place (Oldenburg 8‑test).\n- Reviewing master plans, community‑hub claims, or transit‑station redesigns.\n- Designing age‑friendly, child‑friendly, or feminist‑inclusive public realms.\n- Evaluating community‑garden or main‑street activation briefs.\n- Assessing CPTED or “eyes‑on‑the‑street” safety claims tied to third‑place clustering.\n- Extending physical gathering with digital or AR layers.\n\n## Invocation Examples\n- `Run the Oldenburg 8‑test on this proposed community plaza.`\n- `Does this locked community garden build bridging or only bonding capital?`\n- `Audit this New Urbanist town centre for planning‑community traps.`\n- `Review this transit station redesign for third‑place‑of‑mobility qualities.`\n- `Check this main‑street grant for Zone 1 pavement‑dining priorities.`\n\n## Core Principles (summary)\n1. **Conversation is the test** – not the “community hub” label.\n2. **Planning enables or destroys** – it rarely installs *gemeinschaft*.\n3. **Weak ties are infrastructure** – bridging beats bonding‑only when integrating neighbours.\n4. **No place is neutral** – audit emplacement, intersectionality, platform governance.\n5. **Layer, don’t replace** – digital and transit extensions anchor on physical gathering.\n\n## Oldenburg Eight‑Characteristic Audit\n| # | Criterion | Pass if… |\n|---|-----------|----------|\n| 1 | Neutral ground | Voluntary meeting; neither home nor work |\n| 2 | Leveller | Status differences fade |\n| 3 | Easy access | Walkable; accommodates linger + activity |\n| 4 | Regulars | Known characters anchor social life |\n| 5 | Low profile | Informal, unpretentious |\n| 6 | Playful | Humour, games, light mood |\n| 7 | Home away from home | Emotional comfort, return habit |\n| 8 | Conversation primary | Talk is the main activity |\n\n**Rule:** Score ≥ 6 with *conversation* and *neutral ground* mandatory.\n\n## Social‑Capital Quick Routing\n| Goal | Preferred Pattern | Reference |\n|------|-------------------|-----------|\n| Integrate newcomers | Open garden, café regulars, transit hub | `community-garden-design.md` |\n| Bridge across difference (gentrifying area) | Culturally‑owned formats (dominoes, spoken‑word, gospel) | `programming-format-audit.md` |\n| Ageing in place | Walkable club/library within 10 min | `ageing-social-health.md` |\n| Child social health | Free playful public realm | `ageing-social-health.md` |\n| Safety perception | Mixed use + active frontages + programming | `eyes-on-street-safety.md` |\n| Heritage memory | DIY archive with participant ownership | `digital-layers.md` |\n\n**Bonding** = strong ties, similar people; **Bridging** = weak ties, diverse neighbours.\n\n## Common Pitfalls & Fixes\n| Symptom | Likely cause | Fix |\n|---------|--------------|-----|\n| “Town centre” feels empty | Form without conversation primacy | `planning-community-traps.md` |\n| Programming only draws newcomers | Demographic‑filtering hobby format | `programming-format-audit.md` |\n| Garden doesn’t integrate neighbours | Locked club model | `community-garden-design.md` |\n| Seniors isolated after driving stops | Car‑dependent amenity only | `ageing-social-health.md` |\n| Retail strip feels unsafe | CPTED visibility without programming | `eyes-on-street-safety.md` |\n| AR app unused socially | Layer replaces F2F interaction | `digital-layers.md` |\n| Main‑street beautification no effect | Hard edges, no Zone 1 dining | `street-life-activation.md` |\n\n## Chapter Index (book summaries)\n| # | Title | File |\n|---|-------|------|\n| 1 | Rethinking third places and community building | `rtp-ch01-rethinking-third-places.md` |\n| 2 | Feminist perspectives | `rtp-ch02-feminist-perspectives.md` |\n| 3 | Planning for healthy ageing | `rtp-ch03-healthy-ageing.md` |\n| 4 | Child‑friendly third places | `rtp-ch04-child-friendly.md` |\n| 5 | Evidence‑based urban development | `rtp-ch05-evidence-based-planning.md` |\n| 6 | Eyes on the street | `rtp-ch06-eyes-on-the-street.md` |\n| 7 | Music heritage as third place | `rtp-ch07-music-heritage.md` |\n| 8 | Community gardens & social capital | `rtp-ch08-community-gardens.md` |\n| 9 | Third places in the ether | `rtp-ch09-digital-layers.md` |\n|10| Third places in transit | `rtp-ch10-transit-third-places.md` |\n|11| Street life contribution | `rtp-ch11-street-life.md` |\n\n## Scope & Limits\nThis skill covers the Dolley & Bosman edited volume and Oldenburg‑derived frameworks. It does **not** replace local zoning codes, formal engagement processes, or site‑specific ethnography. Combine with project‑specific tools and community consultation for implementation.\n\n---"
+  }
+}
