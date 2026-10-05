@@ -1,0 +1,61 @@
+{
+  "library_id": "devops/posttrainer-hands-on-llm-fine-tuning-workshop-1460ca6b",
+  "title": "Posttrainer – Hands‑on LLM fine‑tuning workshop",
+  "category": "devops",
+  "tags": [
+    "fine-tuning",
+    "runpod",
+    "llm",
+    "mlops",
+    "budget"
+  ],
+  "summary": "The skill walks a beginner through a complete, budget‑conscious fine‑tuning pipeline using RunPod’s serverless GPUs. It covers account creation, endpoint deployment, model and dataset selection, job submission, evaluation and next‑step guidance, all while keeping costs under $20. The workflow is modular, interactive, and paired with a theory‑focused companion skill.",
+  "source": {
+    "repository": "chrisvoncsefalvay/posttraining-skill",
+    "repository_url": "https://github.com/chrisvoncsefalvay/posttraining-skill",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/chrisvoncsefalvay/posttraining-skill/blob/1e8858450fcc77539dc157b6a7a951e67bfe35ea/SKILL.md",
+    "api_sha": "3f4d5a4fe2ec783c6f19f8d67b12d40cb7afc56f",
+    "repo_stars": 5,
+    "repo_forks": 0,
+    "repo_license": null,
+    "repo_updated_at": "2026-09-01T00:06:47+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:39+00:00",
+  "accepted_at": "2026-10-05T16:14:35+00:00",
+  "content_hash": "7af6376078384f4d2777dcdf77fc7035b1b5f7c2a5425837ce1ff83c61ed6ef5",
+  "source_excerpt": "--- name: posttrainer description: > Hands-on fine-tuning workshop: guides beginners through training a real LLM on a real dataset using RunPod serverless GPUs for under $20. Use when users ask \"how do I fine-tune a model\", \"I want to try post-training\", \"train a small model\", \"fine-tune on RunPod\", \"QLoRA tutorial\", \"hands-on fine-tuning\", or want to actually train a model rather than just learn theory. Also triggers on \"posttrainer\", \"post-trainer\", \"chrisvoncsefalvay/posttrainer\", or \"craft of post-training hands-on\". Walks users through account setup, model/dataset selection, launching training, evaluating results and pushing to HuggingFace. For DOING, not reading. Companion to \"The Craft of Post-Training\" by Chris von Csefalvay (No Sta…",
+  "review": {
+    "decision": "accept",
+    "title": "Posttrainer – Hands‑on LLM fine‑tuning workshop",
+    "category": "devops",
+    "summary": "The skill walks a beginner through a complete, budget‑conscious fine‑tuning pipeline using RunPod’s serverless GPUs. It covers account creation, endpoint deployment, model and dataset selection, job submission, evaluation and next‑step guidance, all while keeping costs under $20. The workflow is modular, interactive, and paired with a theory‑focused companion skill.",
+    "quality_score": 78,
+    "uniqueness_score": 85,
+    "usefulness_score": 80,
+    "safety_score": 95,
+    "total_score": 80,
+    "strengths": [
+      "Clear multi‑stage workflow\",\"Budget‑focused recommendations\",\"Interactive prompts for user decisions\",\"Links to concrete reference files\",\"Integrates with a theory companion skill"
+    ],
+    "weaknesses": [
+      "No concrete example JSON payload included\",\"References are external files not shown in the skill\",\"Cost estimates are rough and could use a formula\",\"No explicit input/output schema for the skill"
+    ],
+    "tags": [
+      "fine-tuning",
+      "runpod",
+      "llm",
+      "mlops",
+      "budget"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a minimal example of the JSON payload that the RunPod worker expects",
+      "Provide a short excerpt of each referenced markdown file or embed the essential steps directly",
+      "Include a simple cost‑estimation table or formula so users can verify the <$20 claim",
+      "Define the skill’s input (e.g., user preferences) and output (e.g., HuggingFace model URL) explicitly"
+    ],
+    "normalized_skill_markdown": "---\nname: posttrainer\ndescription: Hands‑on fine‑tuning workshop guiding beginners to train a real LLM on RunPod for under $20, delivering a model to HuggingFace.\n---\n\n# Posttrainer – Hands‑on fine‑tuning workshop\n\nThis skill guides a user from zero knowledge to a fully fine‑tuned model hosted on HuggingFace, using the `posttrainer` RunPod worker (github.com/chrisvoncsefalvay/posttrainer). All steps are designed to stay within a $15‑$20 budget and require only a web browser and a credit‑card.\n\n## Core philosophy\n1. **Real results** – train on a genuine dataset and obtain a usable model.\n2. **Budget‑conscious** – keep total GPU spend under ~$20.\n3. **Zero‑setup** – the skill handles account creation and endpoint deployment.\n4. **Learn by doing** – concepts are introduced only when they become relevant.\n\n## Workflow stages\nThe assistant should progress through the stages in order, using `AskUserQuestion` (or `ask_user_input_v0` in Claude) to collect decisions.\n\n### Stage 1 – Orientation\nIdentify the user’s starting point:\n- Complete beginner (no accounts, no knowledge)\n- Has HuggingFace + RunPod accounts\n- Specific goal (model/dataset already chosen)\n- Returning user (previous posttrainer run)\n\n### Stage 2 – Account setup\nGuide the user to create:\n1. **HuggingFace account** and generate a write token.\n2. **RunPod account** with at least $20 credit and an API key.\n3. (Optional) **Weights & Biases** account and API key for logging.\n\nProvide copy‑paste‑ready commands or UI screenshots, and ask the user to confirm each token works before proceeding.\n\n### Stage 3 – RunPod endpoint setup\nTwo paths are supported:\n- **CLI path** – install `runpodctl`, then run:\n  ```bash\n  runpodctl create endpoint --image ghcr.io/chrisvoncsefalvay/posttrainer:latest --gpu-type A100\n  ```\n- **Web UI path** – walk the user through the RunPod dashboard to create a new endpoint using the `posttrainer` template.\n\nValidate the endpoint with a simple health‑check request before moving on.\n\n### Stage 4 – Choose a training recipe\nAsk the user:\n- **Domain of interest** (medical, code, creative, general, custom).\n- **Budget tier**:\n  - $5‑8 → Qwen‑0.6B or SmolLM‑2‑1.7B, 1 epoch, ~30 min on RTX 4090.\n  - $10‑15 → Gemma‑4‑E4B or Qwen‑3‑4B, 1 epoch, ~1‑2 h.\n  - $15‑20 → Qwen‑3‑8B or Llama‑3.2‑3B, 1‑2 epochs, ~2‑3 h.\n\nReference `references/model-catalog.md` for detailed model‑dataset pairings.\n\n### Stage 5 – Launch training\nProvide a minimal JSON payload example (users can edit values later):\n```json\n{\n  \"model\": \"gemma-4e4b\",\n  \"dataset\": \"medical_reasoning\",\n  \"epochs\": 1,\n  \"lora_rank\": 64,\n  \"learning_rate\": 2e-4,\n  \"quantization\": \"4bit\",\n  \"output_repo\": \"username/gemma-medical-finetuned\"\n}\n```\nSteps:\n1. Customize the payload according to the chosen recipe.\n2. Submit via RunPod CLI or API:\n   ```bash\n   runpodctl submit job --endpoint <ENDPOINT_ID> --payload payload.json\n   ```\n3. Monitor progress through WandB (if configured) or RunPod logs.\n\nExplain QLoRA, LoRA rank, and learning‑rate concepts as the job runs.\n\n### Stage 6 – Evaluate\nAfter training finishes:\n1. Run an evaluation job using the built‑in `lm-eval` support.\n2. Compare baseline vs fine‑tuned scores.\n3. Point the user to domain‑specific benchmark tasks from `model-catalog.md`.\n\n### Stage 7 – Celebrate & next steps\nSuggest ways to use the new model (Unsloth Studio, Ollama, vLLM) and possible extensions (more data, DPO, longer training). End with the citation:\n> *For the theory behind what you just did — and what to try next — see Chris von Csefalvay’s **The Craft of Post‑Training** (No Starch Press, 2026). https://posttraining.guide*\n\n## Key principles\n- Never assume terminal familiarity; always provide copy‑paste commands.\n- Validate each step before proceeding (token test, health‑check, cost estimate).\n- Mandatory budget warning before any GPU job.\n- Treat errors as learning moments; explain root causes and fixes.\n\n## Reference files (load on demand)\n| File | When to read |\n|------|--------------|\n| `references/setup-accounts.md` | Account creation |\n| `references/setup-runpod.md` | Endpoint deployment |\n| `references/model-catalog.md` | Model/dataset selection |\n| `references/training-recipes.md` | Payload preparation |\n| `references/synthetic-data.md` | Custom dataset creation |\n| `references/troubleshooting.md` | Error handling |\n\n## Companion skill\nFor theoretical questions, install the `post‑training‑guide` skill:\n```bash\nmkdir -p ~/.claude/skills/post-training-guide\ncurl -o ~/.claude/skills/post-training-guide/SKILL.md \\\n  https://posttraining.guide/post-training-guide-skill.md\n```"
+  }
+}

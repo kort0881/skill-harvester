@@ -1,0 +1,71 @@
+{
+  "library_id": "programming/leetcode-notes-processor-c5d96ab8",
+  "title": "LeetCode Notes Processor",
+  "category": "programming",
+  "tags": [
+    "leetcode",
+    "notes",
+    "organization",
+    "markdown",
+    "automation",
+    "spanish"
+  ],
+  "summary": "A workflow that reads raw LeetCode note files from an inbox folder, extracts problem and topic information, and organizes the content into a structured reviewed directory with daily logs, topic pages, and problem pages. It includes clear folder layout, file formats, processing steps, and handling of edge cases such as empty inboxes or ambiguities.",
+  "source": {
+    "repository": "betoxxD/leetcode-notes",
+    "repository_url": "https://github.com/betoxxD/leetcode-notes",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/betoxxD/leetcode-notes/blob/995a43507f2be3de8ef2536b529d2a4fd1d6037d/SKILL.md",
+    "api_sha": "1c2341bd5f7478f624512cfeded302b071c866cf",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": "GNU General Public License v3.0",
+    "repo_updated_at": "2026-04-01T02:33:13+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:43+00:00",
+  "accepted_at": "2026-10-05T16:15:14+00:00",
+  "content_hash": "c3cdd6dd24d440b81e289118b7325553b05c869bf727bb5dc9a195368735a1e2",
+  "source_excerpt": "--- name: leetcode-notes-processor description: Procesa entradas en sucio del inbox de notas de LeetCode y las organiza en la estructura reviewed/. Úsalo siempre que el usuario diga \"procesa el inbox\", \"organiza mis notas\", \"procesa mis apuntes\", o cuando haya archivos nuevos en la carpeta inbox/ que no estén en processed/. También úsalo cuando el usuario pida actualizar, complementar o revisar notas existentes. --- # LeetCode Notes Processor Sistema de notas para consolidar aprendizajes de LeetCode. El usuario escribe en sucio en `inbox/` y Claude organiza, complementa y mueve a `reviewed/`. ## Estructura del repo ``` leetcode-notes/ ├── SKILL.md ← este archivo ├── README.md ├── inbox/ ← el usuario dump aquí en sucio │ └── processed/ ← arc…",
+  "review": {
+    "decision": "accept",
+    "title": "LeetCode Notes Processor",
+    "category": "programming",
+    "summary": "A workflow that reads raw LeetCode note files from an inbox folder, extracts problem and topic information, and organizes the content into a structured reviewed directory with daily logs, topic pages, and problem pages. It includes clear folder layout, file formats, processing steps, and handling of edge cases such as empty inboxes or ambiguities.",
+    "quality_score": 78,
+    "uniqueness_score": 70,
+    "usefulness_score": 80,
+    "safety_score": 100,
+    "total_score": 82,
+    "strengths": [
+      "Clear folder hierarchy and file organization",
+      "Detailed markdown templates for daily logs, topics, and problems",
+      "Step‑by‑step processing algorithm",
+      "Safety rules (no overwriting, no invention)",
+      "Language and tone guidelines"
+    ],
+    "weaknesses": [
+      "Prerequisites (required tools or scripts) are not explicitly listed",
+      "No concrete implementation example or automation script",
+      "Verification of successful processing is not described",
+      "No guidance on handling duplicate entries or version control"
+    ],
+    "tags": [
+      "leetcode",
+      "notes",
+      "organization",
+      "markdown",
+      "automation",
+      "spanish"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an explicit prerequisites section (e.g., required Python version, libraries)",
+      "Provide a minimal reference implementation or command‑line snippet",
+      "Describe how to verify that files were correctly created/updated",
+      "Explain how to handle duplicate content or merge conflicts",
+      "Include a brief example of the end‑to‑end run"
+    ],
+    "normalized_skill_markdown": "---\nname: leetcode-notes-processor\ndescription: Procesa notas crudas de LeetCode en la carpeta inbox y las organiza en la estructura reviewed/ con diarios, temas y problemas.\n---\n\n# LeetCode Notes Processor\n\nSistema de notas para consolidar aprendizajes de LeetCode. El usuario escribe en sucio en `inbox/` y Claude organiza, complementa y mueve a `reviewed/`.\n\n## Estructura del repo\n\n```\nleetcode-notes/\n├── SKILL.md                  ← este archivo\n├── README.md\n├── inbox/                    ← el usuario dump aquí en sucio\n│   └── processed/            ← archivos ya procesados se mueven aquí\n└── reviewed/\n    ├── diario/               ← YYYY-MM-DD.md por día\n    ├── temas/                ← stack.md, linked-list.md, etc.\n    └── problemas/            ← basic-calculator.md, etc.\n```\n\n## Flujo al procesar\n\n1. Leer **TODOS** los archivos en `inbox/` que **NO** estén en `inbox/processed/`.\n2. Por cada archivo:\n   a. Identificar qué problemas se mencionan.\n   b. Identificar qué temas se tocan.\n   c. Extraer: aprendizajes conceptuales, código de referencia, errores cometidos, tiempos.\n   d. Actualizar o crear archivos en `reviewed/` (ver formatos abajo).\n   e. Mover el archivo original a `inbox/processed/`.\n3. Reportar al usuario qué archivos se procesaron y qué se creó/actualizó.\n\n## Formato: `reviewed/diario/YYYY-MM-DD.md`\n\n```markdown\n# YYYY-MM-DD\n\n## Resumen del día\n[2-3 oraciones sobre qué se hizo]\n\n## Problemas trabajados\n- [Nombre del problema] — [Easy/Medium/Hard] — [tiempo aproximado]\n\n## Temas tocados\n- [tema1], [tema2]\n\n## Feelings / estado\n[cómo se sintió el usuario ese día, directo y sin filtro]\n\n## Links\n- [links a problemas si los hay]\n```\n\n## Formato: `reviewed/temas/[tema].md`\n\nNombrar el archivo en kebab‑case: `linked-list.md`, `dynamic-programming.md`, etc.\n\n```markdown\n# [Nombre del Tema]\n\n## Conceptos clave\n[aprendizajes conceptuales organizados, no repetir si ya existen, complementar]\n\n## Patrones recurrentes\n[patrones de solución que aplican a este tema]\n\n## Código de referencia\n```cpp\n// descripción del patrón\n[código limpio y canónico]\n```\n\n## Errores comunes\n- [error] → [cómo evitarlo]\n\n## Problemas relacionados\n- [nombre] — [dificultad]\n```\n\n## Formato: `reviewed/problemas/[nombre-del-problema].md`\n\nNombrar en kebab‑case: `basic-calculator.md`, `min-stack.md`, etc.\n\n```markdown\n# [Nombre del Problema]\n\n**Dificultad:** Easy / Medium / Hard  \n**Tema(s):** [tema1], [tema2]  \n**Tiempo invertido:** [X horas / X minutos]  \n**URL:** [link si está disponible]\n\n## Descripción breve\n[1-2 oraciones de qué pide el problema]\n\n## Enfoque de solución\n[explicación del approach, no el código completo]\n\n## Código final\n```cpp\n[solución canónica]\n```\n\n## Errores cometidos\n- [qué salió mal y por qué]\n\n## Aprendizajes clave\n- [insight 1]\n- [insight 2]\n\n## Notas adicionales\n[edge cases, optimizaciones posibles, variantes del problema]\n```\n\n## Reglas de procesamiento\n\n- **No sobreescribir**: si ya existe un archivo en `reviewed/`, hacer **APPEND** o complementar, nunca borrar contenido previo.\n- **No inventar**: si el usuario no menciona algo (ej. no dio el código), no inventarlo.\n- **Complementar con criterio**: puedes agregar contexto técnico relevante que el usuario no mencionó (ej. nombre del patrón, complejidad O(n)), siempre que sea correcto y útil.\n- **Tono**: directo, técnico, sin relleno.\n- **Idioma**: español, código en inglés (nombres de variables, comentarios).\n- **Código**: si el usuario pegó código, incluirlo. Si mencionó el approach pero no el código, describir el approach sin inventar código.\n- **Fechas**: inferir la fecha del nombre del archivo inbox o de menciones en el texto. Si no hay fecha clara, usar la fecha de hoy.\n\n## Qué hacer si el inbox está vacío\n\nDecirle al usuario que no hay archivos nuevos en `inbox/` y sugerir que agregue sus notas del día.\n\n## Qué hacer si hay ambigüedad\n\nSi algo no está claro (ej. no se sabe a qué problema corresponde un código), procesar lo que se pueda y preguntar al usuario solo lo estrictamente necesario para completar.\n"
+  }
+}

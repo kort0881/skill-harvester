@@ -1,0 +1,69 @@
+{
+  "library_id": "automation/x402-markets-paid-crypto-sec-data-api-ef2d8686",
+  "title": "x402-markets – Paid Crypto & SEC Data API",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "finance",
+    "crypto",
+    "sec",
+    "api",
+    "payment"
+  ],
+  "summary": "Provides two paid endpoints: live cryptocurrency market data from CoinGecko and recent SEC EDGAR filings for US‑listed tickers. Access is gated by the x402 payment protocol (HTTP 402) supporting USDC on Base (EVM) or Solana. The skill includes payment flow, endpoint specifications, error handling, and discovery resources.",
+  "source": {
+    "repository": "nirholas/x402-markets",
+    "repository_url": "https://github.com/nirholas/x402-markets",
+    "default_branch": "main",
+    "path": "skill.md",
+    "html_url": "https://github.com/nirholas/x402-markets/blob/7e6e803d555a60d82c61b35bccd79ac04c1afb96/skill.md",
+    "api_sha": "38585ba72c34986ddaba5a1f01ec5a1bc63c623d",
+    "repo_stars": 5,
+    "repo_forks": 0,
+    "repo_license": "Apache License 2.0",
+    "repo_updated_at": "2026-09-24T02:32:12+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:48+00:00",
+  "accepted_at": "2026-10-05T16:16:58+00:00",
+  "content_hash": "35b34237cd338b433b0f1407fae3010bb65185b1c7eaf88c291ce8b9e972a8cf",
+  "source_excerpt": "# x402-markets — agent skill Two market-data lookups, each returning its answer in the paid response. `/price/{coinId}` gives a live CoinGecko snapshot: spot price, 1h/24h/7d change, the 24h high–low range, volume, market cap, circulating and max supply, and distance from all-time high and low. `/filings/{ticker}` resolves a US ticker to its SEC CIK and returns the company's recent EDGAR filings, each with its form type, filing and report dates, a direct link to the primary document, decoded 8-K item codes, and a one-sentence summary of what that form actually is. Both upstreams are keyless and queried live. **Base URL:** `{BASE_URL}` (local default `http://localhost:4023`) Every paid call returns the purchased artifact **in the 200 respons…",
+  "review": {
+    "decision": "accept",
+    "title": "x402-markets – Paid Crypto & SEC Data API",
+    "category": "automation",
+    "summary": "Provides two paid endpoints: live cryptocurrency market data from CoinGecko and recent SEC EDGAR filings for US‑listed tickers. Access is gated by the x402 payment protocol (HTTP 402) supporting USDC on Base (EVM) or Solana. The skill includes payment flow, endpoint specifications, error handling, and discovery resources.",
+    "quality_score": 85,
+    "uniqueness_score": 80,
+    "usefulness_score": 75,
+    "safety_score": 95,
+    "total_score": 80,
+    "strengths": [
+      "Well‑structured markdown with clear sections",
+      "Complete endpoint tables and example responses",
+      "Detailed x402 payment flow description",
+      "Error‑code matrix and discovery URLs"
+    ],
+    "weaknesses": [
+      "No explicit prerequisites list (e.g., required client libraries)",
+      "Missing sample curl commands for non‑JS users",
+      "Limited guidance on handling 402 retry logic",
+      "No automated test or verification steps"
+    ],
+    "tags": [
+      "automation",
+      "finance",
+      "crypto",
+      "sec",
+      "api",
+      "payment"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a prerequisites section listing required runtimes and libraries (e.g., x402‑fetch, Solana SDK)",
+      "Provide curl examples for the 402 payment handshake",
+      "Explain how to retry after a 503 upstream_rate_limited response",
+      "Include a simple verification script or test case to confirm successful payment and data retrieval"
+    ],
+    "normalized_skill_markdown": "---\nname: x402-markets\ndescription: Paid API service providing live cryptocurrency price data via CoinGecko and recent SEC EDGAR filings, using the x402 payment protocol.\n---\n\n# x402-markets — agent skill\n\nTwo market‑data lookups, each returning its answer in the paid response.\n- `/price/{coinId}` – live CoinGecko snapshot: spot price, 1h/24h/7d change, 24h high‑low range, volume, market cap, circulating and max supply, distance from all‑time high/low.\n- `/filings/{ticker}` – resolves a US ticker to its SEC CIK and returns recent EDGAR filings with form type, dates, document link, decoded 8‑K items, and a one‑sentence summary.\n\n**Base URL:** `{BASE_URL}` (default `http://localhost:4023`).\nAll paid calls return the purchased artifact in the `200` response body.\n\n## Payment\n\nThe service uses **x402** (HTTP 402 Payment Required – <https://x402.org>). Pay in USDC on Base (EVM) or Solana; the client chooses the rail.\n\n| Rail | Network | Asset | payTo |\n|------|---------|-------|------|\n| EVM | `base-sepolia` (`base` on mainnet) | USDC | `0x40252CFDF8B20Ed757D61ff157719F33Ec332402` |\n| Solana | `solana` (`solana-devnet` on devnet) | USDC | `WwwuGbqHrwF5RG89KhUbmRWEvjnRH9k5kVM5p7T3WwW` |\n\nFacilitator: `https://x402.org/facilitator` (verifies and settles both rails).\n\n**Flow**\n1. Call the endpoint without an `X-PAYMENT` header → receive **402** with an `accepts` array listing both rails.\n2. Choose a rail, sign the payment, and place the base64 payload in `X-PAYMENT`.\n3. Repeat the request → receive **200** with the artifact and a settlement receipt in `X-PAYMENT-RESPONSE` (base64 JSON `{ success, rail, network, transaction, payer, amount, asset }`).\n\nExample (Node/TS) using the EVM helper library:\n```ts\nimport { wrapFetchWithPayment, createSigner } from \"x402-fetch\";\nconst signer = await createSigner(\"base-sepolia\", process.env.PRIVATE_KEY!);\nconst pay = wrapFetchWithPayment(fetch, signer);\nconst res = await pay(\"{BASE_URL}/price/bitcoin\");\nconst artifact = await res.json();\n```\n\n## Endpoints\n\n### `GET /price/:coinId` — $0.001\nLive crypto spot price and 24h statistics.\n| Param | In | Required | Type | Description |\n|-------|----|----------|------|-------------|\n| `coinId` | path | yes | string | CoinGecko coin id (`bitcoin`, `usd-coin`, …) or ticker shorthand (`btc`, `eth`). |\n| `vs` | query | no | string | Quote currency, default `usd`. |\n\n**Response (200 application/json)** – see example in original skill.\n\n---\n\n### `GET /filings/:ticker` — $0.003\nRecent SEC EDGAR filings for a US‑listed ticker.\n| Param | In | Required | Type | Description |\n|-------|----|----------|------|-------------|\n| `ticker` | path | yes | string | US ticker symbol (e.g., `AAPL`). |\n| `limit` | query | no | integer | Number of filings to return (1‑100), default 20. |\n| `forms` | query | no | string | Comma‑separated form types to filter (e.g., `10-K,8-K`). |\n\n**Response (200 application/json)** – see example in original skill.\n\n## Free endpoints\n- `GET /` – service metadata, live prices, active payment rails, upstream list\n- `GET /health` – liveness probe\n- `GET /.well-known/x402` – machine‑readable discovery manifest\n- `GET /skill.md` – this skill card\n- `GET /openapi.json` – OpenAPI 3.1 spec\n\n## Error codes\n| HTTP | `error` | Meaning |\n|------|---------|---------|\n| 400 | `invalid_coin_id` | `coinId` not plausible for CoinGecko |\n| 400 | `invalid_currency` | `vs` not a supported currency |\n| 400 | `invalid_limit` | `limit` outside 1‑100 |\n| 404 | `not_found` | No such coin or SEC registrant |\n| 503 | `upstream_rate_limited` | Upstream rate‑limited; includes `Retry-After` |\n| 502 | `upstream_error` | Upstream failed or timed out |\n| 402 | — | Payment required or rejected; body contains `accepts` and optional `error` |\n| 500 | `no_payment_rail_configured` | Server mis‑configured payment rails |\n\n## Data sources\n- **CoinGecko public API** – free, keyless, rate‑limited (~5‑15 calls/min per IP).\n- **SEC EDGAR API** – free, keyless; must set a `User-Agent` with contact email (`CONTACT_EMAIL`).\n\nThe ticker→CIK map (~1 MB) is cached in memory for 24 h; all other data is fetched live.\n\n## Discovery\n- Manifest: `GET /.well-known/x402` (also on GitHub).\n- Indexed by x402scan.com, x402 Bazaar, and agentic.market.\n- OpenAPI spec: `openapi.json`.\n\n## Contact\nnichxbt@gmail.com · <https://github.com/nirholas/x402-markets>"
+  }
+}

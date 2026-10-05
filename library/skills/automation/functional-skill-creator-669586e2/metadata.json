@@ -1,0 +1,70 @@
+{
+  "library_id": "automation/functional-skill-creator-669586e2",
+  "title": "Functional Skill Creator",
+  "category": "automation",
+  "tags": [
+    "automation",
+    "devops",
+    "programming",
+    "methodology",
+    "testing"
+  ],
+  "summary": "Functional Skill Creator introduces a functional‑programming discipline for building, maintaining, and migrating agent skills. It structures a skill as a pipeline of pure functions with explicit input/output contracts, supported by trace logging, unit tests, and deterministic scripts. The tool provides commands to create new functional skills from briefs or migrate existing monolithic skills into this modular architecture.",
+  "source": {
+    "repository": "AGI-comming/functional-skill-creator",
+    "repository_url": "https://github.com/AGI-comming/functional-skill-creator",
+    "default_branch": "main",
+    "path": "README.md",
+    "html_url": "https://github.com/AGI-comming/functional-skill-creator/blob/38509bb49ce69c3f729e44ba235a6955b59df3ea/README.md",
+    "api_sha": "6e2b66b75e2510ae341a853d7058c7c88d684505",
+    "repo_stars": 364,
+    "repo_forks": 23,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-09-27T03:57:53+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:44+00:00",
+  "accepted_at": "2026-10-05T16:15:54+00:00",
+  "content_hash": "d7fd7314917029a58f96011d9dca275201de3fd65fde56b579964bda4b349970",
+  "source_excerpt": "# Functional Skill Creator > **Maintain Agent Skills with functional programming discipline.** [中文版 README](docs/README.zh-CN.md) Functional Skill is an engineering methodology, **designed for complex Skill maintenance and iteration.** Combined with trace logging and unit testing, it makes Skills **modular, traceable, and testable**: - Treat each `Step` as a `Function` with explicit `Input/Output` (pure function first) - `SKILL.md` only orchestrates the pipeline of `Function`s, consuming only `external inputs` and `reference dependencies` - Shared rules across `Function`s go into `references/` - Deterministic logic called by `Function`s becomes `scripts/` - Add trace logging for every `Function`, running locally, recording input/output/toke…",
+  "review": {
+    "decision": "accept",
+    "title": "Functional Skill Creator",
+    "category": "automation",
+    "summary": "Functional Skill Creator introduces a functional‑programming discipline for building, maintaining, and migrating agent skills. It structures a skill as a pipeline of pure functions with explicit input/output contracts, supported by trace logging, unit tests, and deterministic scripts. The tool provides commands to create new functional skills from briefs or migrate existing monolithic skills into this modular architecture.",
+    "quality_score": 80,
+    "uniqueness_score": 70,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 84,
+    "strengths": [
+      "Clear methodology for modularizing skills",
+      "Provides migration path from legacy skills",
+      "Built‑in trace logging and testing framework",
+      "Well‑structured documentation with diagrams",
+      "Platform‑agnostic runtime"
+    ],
+    "weaknesses": [
+      "Prerequisites and environment setup not explicitly listed",
+      "No concrete end‑to‑end example walkthrough",
+      "Missing verification steps for newly created skills",
+      "Some sections are repetitive",
+      "No explicit versioning or compatibility guidance"
+    ],
+    "tags": [
+      "automation",
+      "devops",
+      "programming",
+      "methodology",
+      "testing"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add an explicit prerequisites section (e.g., Node.js version, skills.sh installation)",
+      "Include a minimal step‑by‑step example that creates a simple functional skill and runs a test",
+      "Provide a checklist for verifying a migrated skill works correctly",
+      "Clarify version compatibility and upgrade path",
+      "Add a quick reference table for the CLI commands and their options"
+    ],
+    "normalized_skill_markdown": "---\nname: Functional Skill Creator\ndescription: Tool and methodology to structure agent skills as functional pipelines with traceable, testable functions.\n---\n\n# Functional Skill Creator\n\n> **Maintain Agent Skills with functional programming discipline.**\n\nFunctional Skill is an engineering methodology designed for complex skill maintenance and iteration. Combined with trace logging and unit testing, it makes skills **modular, traceable, and testable**.\n\n- Treat each `Step` as a `Function` with explicit `Input/Output` (pure function first)\n- `SKILL.md` only orchestrates the pipeline of `Function`s, consuming only `external inputs` and `reference dependencies`\n- Shared rules across `Function`s go into `references/`\n- Deterministic logic called by `Function`s becomes `scripts/`\n- Add trace logging for every `Function`, recording input/output/token consumption/duration\n- Equip every `Function` with unit tests and E2E tests, ensuring neither individual Functions nor the full pipeline regress\n\n## Quick Start\n\n### Install\n```bash\nnpx skills add AGI-comming/functional-skill-creator --skill fskill-creator -y\n```\nInstall via [skills.sh](https://skills.sh/). Add `-a <agent>` to target a specific agent; add `-g` only if the agent supports global install.\n\n### Usage\n**Create** – generate a new functional skill from a workflow brief:\n```\n/fskill-creator create a functional skill for <workflow>\n```\n**Migrate** – convert an existing legacy skill directory into a functional skill:\n```\n/fskill-creator migrate <path-to-skill-dir>\n```\nOptional flags: `include_report`, `include_unittest`, `include_viewers` (default `true`). Set to `false` to skip.\n\n## Why Use Functional Skill?\nAs skills evolve, `SKILL.md` and `references/*.md` can become unwieldy prose walls. Functional Skill separates concerns:\n- **Functions**: pure logic with explicit contracts\n- **References**: shared rules and glossaries\n- **Scripts**: deterministic actions\n- **Tests & Logs**: regression safety and observability\n\n### Before vs. After\n```mermaid\nflowchart TB\n  subgraph mono[\"Monolithic Skill — tangled dependencies\"]\n    SKILL[\"SKILL.md\\nGoal · Workflow · Rules · Output · Known issues\"]\n    W[\"Workflow + Step 1.5 patch\"]\n    RL[\"Rules · edge cases · stop rules\"]\n    OUT[\"Output handler · validation\"]\n    RULES[\"references/rules.md\\nTerms · policies · snippets\"]\n    EX[\"references/examples.md\\nSuccess · failures · workarounds\"]\n    S1[\"parse_input.js\"]\n    S2[\"parse_input_new.js\"]\n    S3[\"fix_edge_case_once.sh\"]\n    S4[\"migrate_old_do_not_delete.js\"]\n  end\n  SKILL <--> W\n  SKILL <--> RL\n  W <--> RL\n  RL <--> OUT\n  SKILL <--> RULES\n  RULES <--> EX\n  EX <--> W\n  OUT <--> EX\n  W --> S1\n  RL --> S2\n  S1 <--> S2\n  S2 --> S3\n  S3 <--> EX\n  OUT --> S4\n  S4 <--> SKILL\n  S3 <--> RL\n  S1 --> OUT\n```\n```mermaid\nflowchart TB\n  subgraph exec[\"execution — compose(f₄ ∘ f₃ ∘ f₂ ∘ f₁)\"]\n    direction LR\n    ORCH[\"SKILL.md\\norchestration only\"] --> F1[\"f₁ load_input\\n(raw) → loaded\"] --> F2[\"f₂ extract\\n(loaded) → req\"] --> F3[\"f₃ generate\\n(req) → plan\"] --> F4[\"f₄ validate\\n(plan) → out\"]\n  end\n  subgraph sup[\"supporting layers — read‑only dependencies\"]\n    direction LR\n    REF[\"references/\"] --- SCR[\"scripts/\"] --- TC[\"testcases/\"] --- LOG[\"logs/runs/\"]\n  end\n  exec --- sup\n```\n\n## When to Use\n- Maintaining a long‑evolving skill that needs regression safety\n- Existing `SKILL.md` and `references/` have become unmanageable\n- You want to extract deterministic work (parsing, formatting, validation) into reliable scripts\n- You need traceable execution to pinpoint failures\n- You wish to turn real runs into repeatable test suites\n\n## Report Log and Unittest Capabilities\n- `scripts/report.mjs`: writes function‑level report logs (`report_mode=off|local|remote`)\n- `scripts/runtime.mjs`: exports `runStep`, `writeStepReport`, `applyReportMode`\n- `scripts/test_report.mjs`: validates JSONL report output and redaction of sensitive fields\n- `scripts/test_cases.mjs`: runs `testcases/**/*.case.json` assertions and can export traces as testcases\n- `logs/runs/`: JSONL traces when `report_mode=local`\n\n## Iteration Loop\n```\nRun skill → Check trace → Review function behavior → Export testcase → Fix function → Run tests\n```\nIf a function fails, add a testcase; if deterministic logic is identified, move it to `scripts/` and add a script test.\n\n## Migration Guidance\nMigration surfaces existing structural issues (I/O mismatches, blurred boundaries, ambiguous definitions). Treat these findings as improvement opportunities, not failures. Typical steps after migration:\n1. Review the generated `migration_proposal` and function contracts\n2. Align pipeline I/O (rename fields, split/merge functions, update `references/shared-glossary.md`)\n3. Run the skill with trace enabled; export failing steps as testcases\n4. Re‑run tests until the pipeline is consistent\n\n## Repository Structure\n```\nskills/\n  fskill-creator/        # Create, maintain, or migrate functional skills\n    sub-skills/\n      create/            # Handles create_context from requirement brief\n      migrate/           # Handles migration_context from a legacy skill directory\n\ndocs/                    # Methodology and specifications\ntemplates/               # Reusable skill templates\nexamples/                # Runnable functional skill examples\n```\n\n## Project Status\nCurrent version `v0.1.0 alpha`. File formats and script conventions are usable but may evolve before 1.0. The project is platform‑agnostic; the testcase runner is runtime‑agnostic and does not invoke models directly.\n\n## Contributing\nIssues and PRs are welcome. See `CONTRIBUTING.md` for the development guide. For security‑sensitive submissions, read `SECURITY.md` first.\n\n## License\nMIT. See `LICENSE`.\n"
+  }
+}

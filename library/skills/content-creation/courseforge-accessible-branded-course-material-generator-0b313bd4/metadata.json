@@ -1,0 +1,71 @@
+{
+  "library_id": "content-creation/courseforge-accessible-branded-course-material-generator-0b313bd4",
+  "title": "CourseForge – Accessible Branded Course Material Generator",
+  "category": "content-creation",
+  "tags": [
+    "education",
+    "content",
+    "accessibility",
+    "html",
+    "pdf",
+    "weasyprint",
+    "courseware"
+  ],
+  "summary": "CourseForge is a workflow for automatically producing WCAG‑AA and PDF/UA‑1 compliant course materials (tutorials, in‑class exercises, homework, and answer keys) in dark‑themed HTML that can be rendered to PDF with WeasyPrint. It uses a configurable theme.json and predefined HTML templates, making it reusable for any programming language or course. The skill includes detailed accessibility rules, quiz generation guidelines, and a clear step‑by‑step process for single documents or full modules.",
+  "source": {
+    "repository": "rmichak/courseforge",
+    "repository_url": "https://github.com/rmichak/courseforge",
+    "default_branch": "main",
+    "path": "SKILL.md",
+    "html_url": "https://github.com/rmichak/courseforge/blob/6111772067fd940668492ae173ce980e2b4eb5f6/SKILL.md",
+    "api_sha": "cca1f865532ebcfb8013414cbec898bd23dcb290",
+    "repo_stars": 0,
+    "repo_forks": 0,
+    "repo_license": "MIT License",
+    "repo_updated_at": "2026-03-24T10:28:17+00:00"
+  },
+  "discovered_at": "2026-09-27T12:12:41+00:00",
+  "accepted_at": "2026-10-05T16:14:40+00:00",
+  "content_hash": "936a61e977fdda7b873e6a6f1909463b10dbb6627d745bb845afd0502c3e15e3",
+  "source_excerpt": "--- name: courseforge description: > Generate accessible, branded course materials for programming classes: tutorials (lecture-style with code examples, analogies, vocabulary, quizzes), in-class exercises (guided hands-on coding), homework assignments (independent practice problems with expected output), and answer keys. Outputs dark-themed HTML that converts to PDF/UA-1 via weasyprint. Supports any programming language and any course. Customizable theming via theme.json. Use when asked to create tutorials, lectures, in-class exercises, homework, quizzes, study guides, or answer keys for a programming course. Also use for batch module creation, course planning, or converting existing materials to accessible OER format. --- # CourseForge Gen…",
+  "review": {
+    "decision": "accept",
+    "title": "CourseForge – Accessible Branded Course Material Generator",
+    "category": "content_creation",
+    "summary": "CourseForge is a workflow for automatically producing WCAG‑AA and PDF/UA‑1 compliant course materials (tutorials, in‑class exercises, homework, and answer keys) in dark‑themed HTML that can be rendered to PDF with WeasyPrint. It uses a configurable theme.json and predefined HTML templates, making it reusable for any programming language or course. The skill includes detailed accessibility rules, quiz generation guidelines, and a clear step‑by‑step process for single documents or full modules.",
+    "quality_score": 80,
+    "uniqueness_score": 85,
+    "usefulness_score": 85,
+    "safety_score": 100,
+    "total_score": 88,
+    "strengths": [
+      "Clear, end‑to‑end workflow from theme configuration to PDF generation",
+      "Comprehensive accessibility and quiz quality rules",
+      "Supports multiple document types and full‑module generation",
+      "Well‑structured file layout and template system"
+    ],
+    "weaknesses": [
+      "No explicit instructions for installing or version‑pinning WeasyPrint",
+      "Theme example is truncated (ellipsis) and lacks full schema",
+      "No sample output snippets to illustrate final HTML/PDF",
+      "Relies on external files (templates, references) without showing their contents"
+    ],
+    "tags": [
+      "education",
+      "content",
+      "accessibility",
+      "html",
+      "pdf",
+      "weasyprint",
+      "courseware"
+    ],
+    "safety_flags": [],
+    "recommended_improvements": [
+      "Add a brief installation guide for WeasyPrint and any required Python packages",
+      "Provide a complete example of a minimal theme.json schema",
+      "Include a short excerpt of one HTML template to show placeholder usage",
+      "Show a rendered HTML snippet and the corresponding PDF command output for verification"
+    ],
+    "normalized_skill_markdown": "---\nname: courseforge\ndescription: >\n  Generate accessible, branded course materials for programming classes, outputting dark‑themed HTML that can be converted to PDF/UA‑1 with WeasyPrint. Supports tutorials, in‑class exercises, homework, and answer keys, with a configurable theme system.\n---\n\n# CourseForge\n\nGenerate accessible, print‑ready course materials for programming classes.\n\n## Quick Start\n\n1. Copy `assets/theme.json` and customize colors, fonts, and branding for your course.\n2. Tell the agent: \"Create a Module 3 tutorial on Loops for ITP 120\".\n3. The agent produces an HTML file; convert it with:\n   ```bash\n   weasyprint file.html file.pdf --pdf-variant=pdf/ua-1\n   ```\n\n## Document Types\n\n| Type       | Purpose          | Key Elements |\n|------------|------------------|--------------|\n| **Tutorial**   | Teach concepts   | Explanations, code examples, analogies, tables, vocabulary, quiz |\n| **In‑Class**   | Guided practice  | Setup box, numbered exercises, hints, expected output |\n| **Homework**   | Independent work | Problem descriptions, point values, expected output, rubric |\n| **Answer Key** | Instructor only  | Quick‑reference table, detailed explanations per question |\n\nRead `references/document-types.md` for the full structure of each type.\n\n## Theme System\n\nAll styling is driven by `assets/theme.json`. Example:\n```json\n{\n  \"course\": { \"code\": \"ITP 120\", \"name\": \"Programming with Java\" },\n  \"institution\": \"Northern Virginia Community College\",\n  \"instructor\": \"Randy Michak\",\n  \"colors\": { \"bg\": \"#0a0f1a\", \"card\": \"#141d2b\" },\n  \"fonts\": { \"body\": \"Inter\", \"code\": \"Consolas\" }\n}\n```\nOverride any value to change branding across all documents. The agent reads `theme.json` at generation time and injects the values into the HTML template.\n\n## Workflow\n\n### Single Document\n1. Read `assets/theme.json` for branding.\n2. Read `references/document-types.md` for the target document structure.\n3. Read `assets/template-{type}.html` for the HTML skeleton.\n4. Generate content following the template structure.\n5. Convert to PDF:\n   ```bash\n   weasyprint output.html output.pdf --pdf-variant=pdf/ua-1\n   ```\n\n### Full Module (tutorial + in‑class + homework + answer keys)\n1. Perform the steps above for each document type.\n2. Use consistent naming: `{COURSE}-Module{NN}-{Type}.html`.\n   Example: `ITP120-Module03-Tutorial.html`, `ITP120-Module03-InClass.html`.\n\n## Accessibility Rules (Mandatory)\n\nEvery document **must** comply with WCAG 2.1 Level AA and PDF/UA‑1:\n- `<html lang=\"en\">` on every document.\n- `<main role=\"main\" aria-label=\"...\">` wrapping all content.\n- Semantic heading order (H1 → H2 → H3, no skips).\n- Tables must include `<thead>` and `<th scope=\"col\">`; **no** `<caption>` (breaks WeasyPrint PDF/UA‑1).\n- ARIA labels on all boxed regions: `role=\"region\" aria-label=\"...\"`.\n- Quiz choices container: `role=\"list\"`; each choice: `role=\"listitem\"`.\n- Provide `alt` text for images; decorative images get `role=\"presentation\"`.\n- Minimum contrast ratio 4.5:1.\n- Use sans‑serif fonts, minimum 11 pt body text.\n- Apply `page-break-inside: avoid` on boxes, tables, code blocks, and quiz questions.\n- Generate PDF with:\n  ```bash\n  weasyprint file.html file.pdf --pdf-variant=pdf/ua-1\n  ```\n- Include screen‑reader‑only skip links: `<div class=\"sr-only\">`.\n\n## Quiz Rules\n\n- Randomize answer positions; distribution of correct letters should be roughly even.\n- Verify distribution after writing; if more than three answers share the same letter, reshuffle.\n- Use 5 questions for short/intro topics, 10 for standard modules.\n- Test recall and understanding; avoid “All of the above”, “None of the above”, and negative phrasing.\n- All answer options must be drawn from content covered in the document.\n\n## Code Examples\n\n- Use syntax‑highlighted `<span>` classes: `.keyword`, `.type`, `.string`, `.comment`, `.number`, `.output`.\n- Follow every code block with a `.code-explain` div showing output and/or line‑by‑line explanation.\n- Provide realistic, context‑relevant examples (avoid generic `foo`/`bar`).\n- Show expected output for every runnable example.\n\n## Content Guidelines\n\n- Define terms before first use.\n- Use analogies to connect new concepts to familiar ideas.\n- Write short paragraphs; use numbered steps and bullet points.\n- Offer multiple learning paths: text, code, tables, analogies.\n- Increase complexity progressively within each section.\n- Do **not** include dates or semester identifiers; keep materials reusable across terms.\n\n## File Structure\n\n```\ncourseforge/\n├── SKILL.md                          # This file\n├── assets/\n│   ├── theme.json                    # Customizable branding/colors\n│   ├── template-tutorial.html        # Tutorial HTML skeleton\n│   ├── template-inclass.html         # In‑class exercise skeleton\n│   ├── template-homework.html        # Homework assignment skeleton\n│   └── template-answerkey.html       # Answer key skeleton\n└── references/\n    └── document-types.md             # Detailed structure for each document type\n```\n"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-04T13:28:39+00:00",
+  "updated_at": "2026-10-05T16:17:29+00:00",
   "skills": [
     {
       "library_id": "programming/repo-task-proof-loop-3324eff9",
@@ -5600,6 +5600,348 @@
           "Provide a short end‑to‑end example that walks through input, processing, and result"
         ],
         "normalized_skill_markdown": "---\nname: third-place-specialist\ndescription: Framework for auditing and designing third places based on Ray Oldenburg and Dolley & Bosman.\nversion: \"1.0.0\"\ntags:\n  - third-places\n  - oldenburg\n  - urban-planning\n  - social-capital\n  - community-gardens\n  - transit\n  - public-space\n---\n\n# Third-Place Specialist\n\nProduction guidance for agents applying Ray Oldenburg's third‑place concept and the Dolley & Bosman edited volume *Rethinking Third Places*. This skill emphasizes evidence‑based audit over marketing labels.\n\n## When to Use\n- Auditing whether a space qualifies as a third place (Oldenburg 8‑test).\n- Reviewing master plans, community‑hub claims, or transit‑station redesigns.\n- Designing age‑friendly, child‑friendly, or feminist‑inclusive public realms.\n- Evaluating community‑garden or main‑street activation briefs.\n- Assessing CPTED or “eyes‑on‑the‑street” safety claims tied to third‑place clustering.\n- Extending physical gathering with digital or AR layers.\n\n## Invocation Examples\n- `Run the Oldenburg 8‑test on this proposed community plaza.`\n- `Does this locked community garden build bridging or only bonding capital?`\n- `Audit this New Urbanist town centre for planning‑community traps.`\n- `Review this transit station redesign for third‑place‑of‑mobility qualities.`\n- `Check this main‑street grant for Zone 1 pavement‑dining priorities.`\n\n## Core Principles (summary)\n1. **Conversation is the test** – not the “community hub” label.\n2. **Planning enables or destroys** – it rarely installs *gemeinschaft*.\n3. **Weak ties are infrastructure** – bridging beats bonding‑only when integrating neighbours.\n4. **No place is neutral** – audit emplacement, intersectionality, platform governance.\n5. **Layer, don’t replace** – digital and transit extensions anchor on physical gathering.\n\n## Oldenburg Eight‑Characteristic Audit\n| # | Criterion | Pass if… |\n|---|-----------|----------|\n| 1 | Neutral ground | Voluntary meeting; neither home nor work |\n| 2 | Leveller | Status differences fade |\n| 3 | Easy access | Walkable; accommodates linger + activity |\n| 4 | Regulars | Known characters anchor social life |\n| 5 | Low profile | Informal, unpretentious |\n| 6 | Playful | Humour, games, light mood |\n| 7 | Home away from home | Emotional comfort, return habit |\n| 8 | Conversation primary | Talk is the main activity |\n\n**Rule:** Score ≥ 6 with *conversation* and *neutral ground* mandatory.\n\n## Social‑Capital Quick Routing\n| Goal | Preferred Pattern | Reference |\n|------|-------------------|-----------|\n| Integrate newcomers | Open garden, café regulars, transit hub | `community-garden-design.md` |\n| Bridge across difference (gentrifying area) | Culturally‑owned formats (dominoes, spoken‑word, gospel) | `programming-format-audit.md` |\n| Ageing in place | Walkable club/library within 10 min | `ageing-social-health.md` |\n| Child social health | Free playful public realm | `ageing-social-health.md` |\n| Safety perception | Mixed use + active frontages + programming | `eyes-on-street-safety.md` |\n| Heritage memory | DIY archive with participant ownership | `digital-layers.md` |\n\n**Bonding** = strong ties, similar people; **Bridging** = weak ties, diverse neighbours.\n\n## Common Pitfalls & Fixes\n| Symptom | Likely cause | Fix |\n|---------|--------------|-----|\n| “Town centre” feels empty | Form without conversation primacy | `planning-community-traps.md` |\n| Programming only draws newcomers | Demographic‑filtering hobby format | `programming-format-audit.md` |\n| Garden doesn’t integrate neighbours | Locked club model | `community-garden-design.md` |\n| Seniors isolated after driving stops | Car‑dependent amenity only | `ageing-social-health.md` |\n| Retail strip feels unsafe | CPTED visibility without programming | `eyes-on-street-safety.md` |\n| AR app unused socially | Layer replaces F2F interaction | `digital-layers.md` |\n| Main‑street beautification no effect | Hard edges, no Zone 1 dining | `street-life-activation.md` |\n\n## Chapter Index (book summaries)\n| # | Title | File |\n|---|-------|------|\n| 1 | Rethinking third places and community building | `rtp-ch01-rethinking-third-places.md` |\n| 2 | Feminist perspectives | `rtp-ch02-feminist-perspectives.md` |\n| 3 | Planning for healthy ageing | `rtp-ch03-healthy-ageing.md` |\n| 4 | Child‑friendly third places | `rtp-ch04-child-friendly.md` |\n| 5 | Evidence‑based urban development | `rtp-ch05-evidence-based-planning.md` |\n| 6 | Eyes on the street | `rtp-ch06-eyes-on-the-street.md` |\n| 7 | Music heritage as third place | `rtp-ch07-music-heritage.md` |\n| 8 | Community gardens & social capital | `rtp-ch08-community-gardens.md` |\n| 9 | Third places in the ether | `rtp-ch09-digital-layers.md` |\n|10| Third places in transit | `rtp-ch10-transit-third-places.md` |\n|11| Street life contribution | `rtp-ch11-street-life.md` |\n\n## Scope & Limits\nThis skill covers the Dolley & Bosman edited volume and Oldenburg‑derived frameworks. It does **not** replace local zoning codes, formal engagement processes, or site‑specific ethnography. Combine with project‑specific tools and community consultation for implementation.\n\n---"
+      }
+    },
+    {
+      "library_id": "devops/posttrainer-hands-on-llm-fine-tuning-workshop-1460ca6b",
+      "title": "Posttrainer – Hands‑on LLM fine‑tuning workshop",
+      "category": "devops",
+      "tags": [
+        "fine-tuning",
+        "runpod",
+        "llm",
+        "mlops",
+        "budget"
+      ],
+      "summary": "The skill walks a beginner through a complete, budget‑conscious fine‑tuning pipeline using RunPod’s serverless GPUs. It covers account creation, endpoint deployment, model and dataset selection, job submission, evaluation and next‑step guidance, all while keeping costs under $20. The workflow is modular, interactive, and paired with a theory‑focused companion skill.",
+      "source": {
+        "repository": "chrisvoncsefalvay/posttraining-skill",
+        "repository_url": "https://github.com/chrisvoncsefalvay/posttraining-skill",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/chrisvoncsefalvay/posttraining-skill/blob/1e8858450fcc77539dc157b6a7a951e67bfe35ea/SKILL.md",
+        "api_sha": "3f4d5a4fe2ec783c6f19f8d67b12d40cb7afc56f",
+        "repo_stars": 5,
+        "repo_forks": 0,
+        "repo_license": null,
+        "repo_updated_at": "2026-09-01T00:06:47+00:00"
+      },
+      "discovered_at": "2026-09-27T12:12:39+00:00",
+      "accepted_at": "2026-10-05T16:14:35+00:00",
+      "content_hash": "7af6376078384f4d2777dcdf77fc7035b1b5f7c2a5425837ce1ff83c61ed6ef5",
+      "source_excerpt": "--- name: posttrainer description: > Hands-on fine-tuning workshop: guides beginners through training a real LLM on a real dataset using RunPod serverless GPUs for under $20. Use when users ask \"how do I fine-tune a model\", \"I want to try post-training\", \"train a small model\", \"fine-tune on RunPod\", \"QLoRA tutorial\", \"hands-on fine-tuning\", or want to actually train a model rather than just learn theory. Also triggers on \"posttrainer\", \"post-trainer\", \"chrisvoncsefalvay/posttrainer\", or \"craft of post-training hands-on\". Walks users through account setup, model/dataset selection, launching training, evaluating results and pushing to HuggingFace. For DOING, not reading. Companion to \"The Craft of Post-Training\" by Chris von Csefalvay (No Sta…",
+      "review": {
+        "decision": "accept",
+        "title": "Posttrainer – Hands‑on LLM fine‑tuning workshop",
+        "category": "devops",
+        "summary": "The skill walks a beginner through a complete, budget‑conscious fine‑tuning pipeline using RunPod’s serverless GPUs. It covers account creation, endpoint deployment, model and dataset selection, job submission, evaluation and next‑step guidance, all while keeping costs under $20. The workflow is modular, interactive, and paired with a theory‑focused companion skill.",
+        "quality_score": 78,
+        "uniqueness_score": 85,
+        "usefulness_score": 80,
+        "safety_score": 95,
+        "total_score": 80,
+        "strengths": [
+          "Clear multi‑stage workflow\",\"Budget‑focused recommendations\",\"Interactive prompts for user decisions\",\"Links to concrete reference files\",\"Integrates with a theory companion skill"
+        ],
+        "weaknesses": [
+          "No concrete example JSON payload included\",\"References are external files not shown in the skill\",\"Cost estimates are rough and could use a formula\",\"No explicit input/output schema for the skill"
+        ],
+        "tags": [
+          "fine-tuning",
+          "runpod",
+          "llm",
+          "mlops",
+          "budget"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a minimal example of the JSON payload that the RunPod worker expects",
+          "Provide a short excerpt of each referenced markdown file or embed the essential steps directly",
+          "Include a simple cost‑estimation table or formula so users can verify the <$20 claim",
+          "Define the skill’s input (e.g., user preferences) and output (e.g., HuggingFace model URL) explicitly"
+        ],
+        "normalized_skill_markdown": "---\nname: posttrainer\ndescription: Hands‑on fine‑tuning workshop guiding beginners to train a real LLM on RunPod for under $20, delivering a model to HuggingFace.\n---\n\n# Posttrainer – Hands‑on fine‑tuning workshop\n\nThis skill guides a user from zero knowledge to a fully fine‑tuned model hosted on HuggingFace, using the `posttrainer` RunPod worker (github.com/chrisvoncsefalvay/posttrainer). All steps are designed to stay within a $15‑$20 budget and require only a web browser and a credit‑card.\n\n## Core philosophy\n1. **Real results** – train on a genuine dataset and obtain a usable model.\n2. **Budget‑conscious** – keep total GPU spend under ~$20.\n3. **Zero‑setup** – the skill handles account creation and endpoint deployment.\n4. **Learn by doing** – concepts are introduced only when they become relevant.\n\n## Workflow stages\nThe assistant should progress through the stages in order, using `AskUserQuestion` (or `ask_user_input_v0` in Claude) to collect decisions.\n\n### Stage 1 – Orientation\nIdentify the user’s starting point:\n- Complete beginner (no accounts, no knowledge)\n- Has HuggingFace + RunPod accounts\n- Specific goal (model/dataset already chosen)\n- Returning user (previous posttrainer run)\n\n### Stage 2 – Account setup\nGuide the user to create:\n1. **HuggingFace account** and generate a write token.\n2. **RunPod account** with at least $20 credit and an API key.\n3. (Optional) **Weights & Biases** account and API key for logging.\n\nProvide copy‑paste‑ready commands or UI screenshots, and ask the user to confirm each token works before proceeding.\n\n### Stage 3 – RunPod endpoint setup\nTwo paths are supported:\n- **CLI path** – install `runpodctl`, then run:\n  ```bash\n  runpodctl create endpoint --image ghcr.io/chrisvoncsefalvay/posttrainer:latest --gpu-type A100\n  ```\n- **Web UI path** – walk the user through the RunPod dashboard to create a new endpoint using the `posttrainer` template.\n\nValidate the endpoint with a simple health‑check request before moving on.\n\n### Stage 4 – Choose a training recipe\nAsk the user:\n- **Domain of interest** (medical, code, creative, general, custom).\n- **Budget tier**:\n  - $5‑8 → Qwen‑0.6B or SmolLM‑2‑1.7B, 1 epoch, ~30 min on RTX 4090.\n  - $10‑15 → Gemma‑4‑E4B or Qwen‑3‑4B, 1 epoch, ~1‑2 h.\n  - $15‑20 → Qwen‑3‑8B or Llama‑3.2‑3B, 1‑2 epochs, ~2‑3 h.\n\nReference `references/model-catalog.md` for detailed model‑dataset pairings.\n\n### Stage 5 – Launch training\nProvide a minimal JSON payload example (users can edit values later):\n```json\n{\n  \"model\": \"gemma-4e4b\",\n  \"dataset\": \"medical_reasoning\",\n  \"epochs\": 1,\n  \"lora_rank\": 64,\n  \"learning_rate\": 2e-4,\n  \"quantization\": \"4bit\",\n  \"output_repo\": \"username/gemma-medical-finetuned\"\n}\n```\nSteps:\n1. Customize the payload according to the chosen recipe.\n2. Submit via RunPod CLI or API:\n   ```bash\n   runpodctl submit job --endpoint <ENDPOINT_ID> --payload payload.json\n   ```\n3. Monitor progress through WandB (if configured) or RunPod logs.\n\nExplain QLoRA, LoRA rank, and learning‑rate concepts as the job runs.\n\n### Stage 6 – Evaluate\nAfter training finishes:\n1. Run an evaluation job using the built‑in `lm-eval` support.\n2. Compare baseline vs fine‑tuned scores.\n3. Point the user to domain‑specific benchmark tasks from `model-catalog.md`.\n\n### Stage 7 – Celebrate & next steps\nSuggest ways to use the new model (Unsloth Studio, Ollama, vLLM) and possible extensions (more data, DPO, longer training). End with the citation:\n> *For the theory behind what you just did — and what to try next — see Chris von Csefalvay’s **The Craft of Post‑Training** (No Starch Press, 2026). https://posttraining.guide*\n\n## Key principles\n- Never assume terminal familiarity; always provide copy‑paste commands.\n- Validate each step before proceeding (token test, health‑check, cost estimate).\n- Mandatory budget warning before any GPU job.\n- Treat errors as learning moments; explain root causes and fixes.\n\n## Reference files (load on demand)\n| File | When to read |\n|------|--------------|\n| `references/setup-accounts.md` | Account creation |\n| `references/setup-runpod.md` | Endpoint deployment |\n| `references/model-catalog.md` | Model/dataset selection |\n| `references/training-recipes.md` | Payload preparation |\n| `references/synthetic-data.md` | Custom dataset creation |\n| `references/troubleshooting.md` | Error handling |\n\n## Companion skill\nFor theoretical questions, install the `post‑training‑guide` skill:\n```bash\nmkdir -p ~/.claude/skills/post-training-guide\ncurl -o ~/.claude/skills/post-training-guide/SKILL.md \\\n  https://posttraining.guide/post-training-guide-skill.md\n```"
+      }
+    },
+    {
+      "library_id": "content-creation/courseforge-accessible-branded-course-material-generator-0b313bd4",
+      "title": "CourseForge – Accessible Branded Course Material Generator",
+      "category": "content-creation",
+      "tags": [
+        "education",
+        "content",
+        "accessibility",
+        "html",
+        "pdf",
+        "weasyprint",
+        "courseware"
+      ],
+      "summary": "CourseForge is a workflow for automatically producing WCAG‑AA and PDF/UA‑1 compliant course materials (tutorials, in‑class exercises, homework, and answer keys) in dark‑themed HTML that can be rendered to PDF with WeasyPrint. It uses a configurable theme.json and predefined HTML templates, making it reusable for any programming language or course. The skill includes detailed accessibility rules, quiz generation guidelines, and a clear step‑by‑step process for single documents or full modules.",
+      "source": {
+        "repository": "rmichak/courseforge",
+        "repository_url": "https://github.com/rmichak/courseforge",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/rmichak/courseforge/blob/6111772067fd940668492ae173ce980e2b4eb5f6/SKILL.md",
+        "api_sha": "cca1f865532ebcfb8013414cbec898bd23dcb290",
+        "repo_stars": 0,
+        "repo_forks": 0,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-03-24T10:28:17+00:00"
+      },
+      "discovered_at": "2026-09-27T12:12:41+00:00",
+      "accepted_at": "2026-10-05T16:14:40+00:00",
+      "content_hash": "936a61e977fdda7b873e6a6f1909463b10dbb6627d745bb845afd0502c3e15e3",
+      "source_excerpt": "--- name: courseforge description: > Generate accessible, branded course materials for programming classes: tutorials (lecture-style with code examples, analogies, vocabulary, quizzes), in-class exercises (guided hands-on coding), homework assignments (independent practice problems with expected output), and answer keys. Outputs dark-themed HTML that converts to PDF/UA-1 via weasyprint. Supports any programming language and any course. Customizable theming via theme.json. Use when asked to create tutorials, lectures, in-class exercises, homework, quizzes, study guides, or answer keys for a programming course. Also use for batch module creation, course planning, or converting existing materials to accessible OER format. --- # CourseForge Gen…",
+      "review": {
+        "decision": "accept",
+        "title": "CourseForge – Accessible Branded Course Material Generator",
+        "category": "content_creation",
+        "summary": "CourseForge is a workflow for automatically producing WCAG‑AA and PDF/UA‑1 compliant course materials (tutorials, in‑class exercises, homework, and answer keys) in dark‑themed HTML that can be rendered to PDF with WeasyPrint. It uses a configurable theme.json and predefined HTML templates, making it reusable for any programming language or course. The skill includes detailed accessibility rules, quiz generation guidelines, and a clear step‑by‑step process for single documents or full modules.",
+        "quality_score": 80,
+        "uniqueness_score": 85,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 88,
+        "strengths": [
+          "Clear, end‑to‑end workflow from theme configuration to PDF generation",
+          "Comprehensive accessibility and quiz quality rules",
+          "Supports multiple document types and full‑module generation",
+          "Well‑structured file layout and template system"
+        ],
+        "weaknesses": [
+          "No explicit instructions for installing or version‑pinning WeasyPrint",
+          "Theme example is truncated (ellipsis) and lacks full schema",
+          "No sample output snippets to illustrate final HTML/PDF",
+          "Relies on external files (templates, references) without showing their contents"
+        ],
+        "tags": [
+          "education",
+          "content",
+          "accessibility",
+          "html",
+          "pdf",
+          "weasyprint",
+          "courseware"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a brief installation guide for WeasyPrint and any required Python packages",
+          "Provide a complete example of a minimal theme.json schema",
+          "Include a short excerpt of one HTML template to show placeholder usage",
+          "Show a rendered HTML snippet and the corresponding PDF command output for verification"
+        ],
+        "normalized_skill_markdown": "---\nname: courseforge\ndescription: >\n  Generate accessible, branded course materials for programming classes, outputting dark‑themed HTML that can be converted to PDF/UA‑1 with WeasyPrint. Supports tutorials, in‑class exercises, homework, and answer keys, with a configurable theme system.\n---\n\n# CourseForge\n\nGenerate accessible, print‑ready course materials for programming classes.\n\n## Quick Start\n\n1. Copy `assets/theme.json` and customize colors, fonts, and branding for your course.\n2. Tell the agent: \"Create a Module 3 tutorial on Loops for ITP 120\".\n3. The agent produces an HTML file; convert it with:\n   ```bash\n   weasyprint file.html file.pdf --pdf-variant=pdf/ua-1\n   ```\n\n## Document Types\n\n| Type       | Purpose          | Key Elements |\n|------------|------------------|--------------|\n| **Tutorial**   | Teach concepts   | Explanations, code examples, analogies, tables, vocabulary, quiz |\n| **In‑Class**   | Guided practice  | Setup box, numbered exercises, hints, expected output |\n| **Homework**   | Independent work | Problem descriptions, point values, expected output, rubric |\n| **Answer Key** | Instructor only  | Quick‑reference table, detailed explanations per question |\n\nRead `references/document-types.md` for the full structure of each type.\n\n## Theme System\n\nAll styling is driven by `assets/theme.json`. Example:\n```json\n{\n  \"course\": { \"code\": \"ITP 120\", \"name\": \"Programming with Java\" },\n  \"institution\": \"Northern Virginia Community College\",\n  \"instructor\": \"Randy Michak\",\n  \"colors\": { \"bg\": \"#0a0f1a\", \"card\": \"#141d2b\" },\n  \"fonts\": { \"body\": \"Inter\", \"code\": \"Consolas\" }\n}\n```\nOverride any value to change branding across all documents. The agent reads `theme.json` at generation time and injects the values into the HTML template.\n\n## Workflow\n\n### Single Document\n1. Read `assets/theme.json` for branding.\n2. Read `references/document-types.md` for the target document structure.\n3. Read `assets/template-{type}.html` for the HTML skeleton.\n4. Generate content following the template structure.\n5. Convert to PDF:\n   ```bash\n   weasyprint output.html output.pdf --pdf-variant=pdf/ua-1\n   ```\n\n### Full Module (tutorial + in‑class + homework + answer keys)\n1. Perform the steps above for each document type.\n2. Use consistent naming: `{COURSE}-Module{NN}-{Type}.html`.\n   Example: `ITP120-Module03-Tutorial.html`, `ITP120-Module03-InClass.html`.\n\n## Accessibility Rules (Mandatory)\n\nEvery document **must** comply with WCAG 2.1 Level AA and PDF/UA‑1:\n- `<html lang=\"en\">` on every document.\n- `<main role=\"main\" aria-label=\"...\">` wrapping all content.\n- Semantic heading order (H1 → H2 → H3, no skips).\n- Tables must include `<thead>` and `<th scope=\"col\">`; **no** `<caption>` (breaks WeasyPrint PDF/UA‑1).\n- ARIA labels on all boxed regions: `role=\"region\" aria-label=\"...\"`.\n- Quiz choices container: `role=\"list\"`; each choice: `role=\"listitem\"`.\n- Provide `alt` text for images; decorative images get `role=\"presentation\"`.\n- Minimum contrast ratio 4.5:1.\n- Use sans‑serif fonts, minimum 11 pt body text.\n- Apply `page-break-inside: avoid` on boxes, tables, code blocks, and quiz questions.\n- Generate PDF with:\n  ```bash\n  weasyprint file.html file.pdf --pdf-variant=pdf/ua-1\n  ```\n- Include screen‑reader‑only skip links: `<div class=\"sr-only\">`.\n\n## Quiz Rules\n\n- Randomize answer positions; distribution of correct letters should be roughly even.\n- Verify distribution after writing; if more than three answers share the same letter, reshuffle.\n- Use 5 questions for short/intro topics, 10 for standard modules.\n- Test recall and understanding; avoid “All of the above”, “None of the above”, and negative phrasing.\n- All answer options must be drawn from content covered in the document.\n\n## Code Examples\n\n- Use syntax‑highlighted `<span>` classes: `.keyword`, `.type`, `.string`, `.comment`, `.number`, `.output`.\n- Follow every code block with a `.code-explain` div showing output and/or line‑by‑line explanation.\n- Provide realistic, context‑relevant examples (avoid generic `foo`/`bar`).\n- Show expected output for every runnable example.\n\n## Content Guidelines\n\n- Define terms before first use.\n- Use analogies to connect new concepts to familiar ideas.\n- Write short paragraphs; use numbered steps and bullet points.\n- Offer multiple learning paths: text, code, tables, analogies.\n- Increase complexity progressively within each section.\n- Do **not** include dates or semester identifiers; keep materials reusable across terms.\n\n## File Structure\n\n```\ncourseforge/\n├── SKILL.md                          # This file\n├── assets/\n│   ├── theme.json                    # Customizable branding/colors\n│   ├── template-tutorial.html        # Tutorial HTML skeleton\n│   ├── template-inclass.html         # In‑class exercise skeleton\n│   ├── template-homework.html        # Homework assignment skeleton\n│   └── template-answerkey.html       # Answer key skeleton\n└── references/\n    └── document-types.md             # Detailed structure for each document type\n```\n"
+      }
+    },
+    {
+      "library_id": "programming/leetcode-notes-processor-c5d96ab8",
+      "title": "LeetCode Notes Processor",
+      "category": "programming",
+      "tags": [
+        "leetcode",
+        "notes",
+        "organization",
+        "markdown",
+        "automation",
+        "spanish"
+      ],
+      "summary": "A workflow that reads raw LeetCode note files from an inbox folder, extracts problem and topic information, and organizes the content into a structured reviewed directory with daily logs, topic pages, and problem pages. It includes clear folder layout, file formats, processing steps, and handling of edge cases such as empty inboxes or ambiguities.",
+      "source": {
+        "repository": "betoxxD/leetcode-notes",
+        "repository_url": "https://github.com/betoxxD/leetcode-notes",
+        "default_branch": "main",
+        "path": "SKILL.md",
+        "html_url": "https://github.com/betoxxD/leetcode-notes/blob/995a43507f2be3de8ef2536b529d2a4fd1d6037d/SKILL.md",
+        "api_sha": "1c2341bd5f7478f624512cfeded302b071c866cf",
+        "repo_stars": 0,
+        "repo_forks": 0,
+        "repo_license": "GNU General Public License v3.0",
+        "repo_updated_at": "2026-04-01T02:33:13+00:00"
+      },
+      "discovered_at": "2026-09-27T12:12:43+00:00",
+      "accepted_at": "2026-10-05T16:15:14+00:00",
+      "content_hash": "c3cdd6dd24d440b81e289118b7325553b05c869bf727bb5dc9a195368735a1e2",
+      "source_excerpt": "--- name: leetcode-notes-processor description: Procesa entradas en sucio del inbox de notas de LeetCode y las organiza en la estructura reviewed/. Úsalo siempre que el usuario diga \"procesa el inbox\", \"organiza mis notas\", \"procesa mis apuntes\", o cuando haya archivos nuevos en la carpeta inbox/ que no estén en processed/. También úsalo cuando el usuario pida actualizar, complementar o revisar notas existentes. --- # LeetCode Notes Processor Sistema de notas para consolidar aprendizajes de LeetCode. El usuario escribe en sucio en `inbox/` y Claude organiza, complementa y mueve a `reviewed/`. ## Estructura del repo ``` leetcode-notes/ ├── SKILL.md ← este archivo ├── README.md ├── inbox/ ← el usuario dump aquí en sucio │ └── processed/ ← arc…",
+      "review": {
+        "decision": "accept",
+        "title": "LeetCode Notes Processor",
+        "category": "programming",
+        "summary": "A workflow that reads raw LeetCode note files from an inbox folder, extracts problem and topic information, and organizes the content into a structured reviewed directory with daily logs, topic pages, and problem pages. It includes clear folder layout, file formats, processing steps, and handling of edge cases such as empty inboxes or ambiguities.",
+        "quality_score": 78,
+        "uniqueness_score": 70,
+        "usefulness_score": 80,
+        "safety_score": 100,
+        "total_score": 82,
+        "strengths": [
+          "Clear folder hierarchy and file organization",
+          "Detailed markdown templates for daily logs, topics, and problems",
+          "Step‑by‑step processing algorithm",
+          "Safety rules (no overwriting, no invention)",
+          "Language and tone guidelines"
+        ],
+        "weaknesses": [
+          "Prerequisites (required tools or scripts) are not explicitly listed",
+          "No concrete implementation example or automation script",
+          "Verification of successful processing is not described",
+          "No guidance on handling duplicate entries or version control"
+        ],
+        "tags": [
+          "leetcode",
+          "notes",
+          "organization",
+          "markdown",
+          "automation",
+          "spanish"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit prerequisites section (e.g., required Python version, libraries)",
+          "Provide a minimal reference implementation or command‑line snippet",
+          "Describe how to verify that files were correctly created/updated",
+          "Explain how to handle duplicate content or merge conflicts",
+          "Include a brief example of the end‑to‑end run"
+        ],
+        "normalized_skill_markdown": "---\nname: leetcode-notes-processor\ndescription: Procesa notas crudas de LeetCode en la carpeta inbox y las organiza en la estructura reviewed/ con diarios, temas y problemas.\n---\n\n# LeetCode Notes Processor\n\nSistema de notas para consolidar aprendizajes de LeetCode. El usuario escribe en sucio en `inbox/` y Claude organiza, complementa y mueve a `reviewed/`.\n\n## Estructura del repo\n\n```\nleetcode-notes/\n├── SKILL.md                  ← este archivo\n├── README.md\n├── inbox/                    ← el usuario dump aquí en sucio\n│   └── processed/            ← archivos ya procesados se mueven aquí\n└── reviewed/\n    ├── diario/               ← YYYY-MM-DD.md por día\n    ├── temas/                ← stack.md, linked-list.md, etc.\n    └── problemas/            ← basic-calculator.md, etc.\n```\n\n## Flujo al procesar\n\n1. Leer **TODOS** los archivos en `inbox/` que **NO** estén en `inbox/processed/`.\n2. Por cada archivo:\n   a. Identificar qué problemas se mencionan.\n   b. Identificar qué temas se tocan.\n   c. Extraer: aprendizajes conceptuales, código de referencia, errores cometidos, tiempos.\n   d. Actualizar o crear archivos en `reviewed/` (ver formatos abajo).\n   e. Mover el archivo original a `inbox/processed/`.\n3. Reportar al usuario qué archivos se procesaron y qué se creó/actualizó.\n\n## Formato: `reviewed/diario/YYYY-MM-DD.md`\n\n```markdown\n# YYYY-MM-DD\n\n## Resumen del día\n[2-3 oraciones sobre qué se hizo]\n\n## Problemas trabajados\n- [Nombre del problema] — [Easy/Medium/Hard] — [tiempo aproximado]\n\n## Temas tocados\n- [tema1], [tema2]\n\n## Feelings / estado\n[cómo se sintió el usuario ese día, directo y sin filtro]\n\n## Links\n- [links a problemas si los hay]\n```\n\n## Formato: `reviewed/temas/[tema].md`\n\nNombrar el archivo en kebab‑case: `linked-list.md`, `dynamic-programming.md`, etc.\n\n```markdown\n# [Nombre del Tema]\n\n## Conceptos clave\n[aprendizajes conceptuales organizados, no repetir si ya existen, complementar]\n\n## Patrones recurrentes\n[patrones de solución que aplican a este tema]\n\n## Código de referencia\n```cpp\n// descripción del patrón\n[código limpio y canónico]\n```\n\n## Errores comunes\n- [error] → [cómo evitarlo]\n\n## Problemas relacionados\n- [nombre] — [dificultad]\n```\n\n## Formato: `reviewed/problemas/[nombre-del-problema].md`\n\nNombrar en kebab‑case: `basic-calculator.md`, `min-stack.md`, etc.\n\n```markdown\n# [Nombre del Problema]\n\n**Dificultad:** Easy / Medium / Hard  \n**Tema(s):** [tema1], [tema2]  \n**Tiempo invertido:** [X horas / X minutos]  \n**URL:** [link si está disponible]\n\n## Descripción breve\n[1-2 oraciones de qué pide el problema]\n\n## Enfoque de solución\n[explicación del approach, no el código completo]\n\n## Código final\n```cpp\n[solución canónica]\n```\n\n## Errores cometidos\n- [qué salió mal y por qué]\n\n## Aprendizajes clave\n- [insight 1]\n- [insight 2]\n\n## Notas adicionales\n[edge cases, optimizaciones posibles, variantes del problema]\n```\n\n## Reglas de procesamiento\n\n- **No sobreescribir**: si ya existe un archivo en `reviewed/`, hacer **APPEND** o complementar, nunca borrar contenido previo.\n- **No inventar**: si el usuario no menciona algo (ej. no dio el código), no inventarlo.\n- **Complementar con criterio**: puedes agregar contexto técnico relevante que el usuario no mencionó (ej. nombre del patrón, complejidad O(n)), siempre que sea correcto y útil.\n- **Tono**: directo, técnico, sin relleno.\n- **Idioma**: español, código en inglés (nombres de variables, comentarios).\n- **Código**: si el usuario pegó código, incluirlo. Si mencionó el approach pero no el código, describir el approach sin inventar código.\n- **Fechas**: inferir la fecha del nombre del archivo inbox o de menciones en el texto. Si no hay fecha clara, usar la fecha de hoy.\n\n## Qué hacer si el inbox está vacío\n\nDecirle al usuario que no hay archivos nuevos en `inbox/` y sugerir que agregue sus notas del día.\n\n## Qué hacer si hay ambigüedad\n\nSi algo no está claro (ej. no se sabe a qué problema corresponde un código), procesar lo que se pueda y preguntar al usuario solo lo estrictamente necesario para completar.\n"
+      }
+    },
+    {
+      "library_id": "automation/functional-skill-creator-669586e2",
+      "title": "Functional Skill Creator",
+      "category": "automation",
+      "tags": [
+        "automation",
+        "devops",
+        "programming",
+        "methodology",
+        "testing"
+      ],
+      "summary": "Functional Skill Creator introduces a functional‑programming discipline for building, maintaining, and migrating agent skills. It structures a skill as a pipeline of pure functions with explicit input/output contracts, supported by trace logging, unit tests, and deterministic scripts. The tool provides commands to create new functional skills from briefs or migrate existing monolithic skills into this modular architecture.",
+      "source": {
+        "repository": "AGI-comming/functional-skill-creator",
+        "repository_url": "https://github.com/AGI-comming/functional-skill-creator",
+        "default_branch": "main",
+        "path": "README.md",
+        "html_url": "https://github.com/AGI-comming/functional-skill-creator/blob/38509bb49ce69c3f729e44ba235a6955b59df3ea/README.md",
+        "api_sha": "6e2b66b75e2510ae341a853d7058c7c88d684505",
+        "repo_stars": 364,
+        "repo_forks": 23,
+        "repo_license": "MIT License",
+        "repo_updated_at": "2026-09-27T03:57:53+00:00"
+      },
+      "discovered_at": "2026-09-27T12:12:44+00:00",
+      "accepted_at": "2026-10-05T16:15:54+00:00",
+      "content_hash": "d7fd7314917029a58f96011d9dca275201de3fd65fde56b579964bda4b349970",
+      "source_excerpt": "# Functional Skill Creator > **Maintain Agent Skills with functional programming discipline.** [中文版 README](docs/README.zh-CN.md) Functional Skill is an engineering methodology, **designed for complex Skill maintenance and iteration.** Combined with trace logging and unit testing, it makes Skills **modular, traceable, and testable**: - Treat each `Step` as a `Function` with explicit `Input/Output` (pure function first) - `SKILL.md` only orchestrates the pipeline of `Function`s, consuming only `external inputs` and `reference dependencies` - Shared rules across `Function`s go into `references/` - Deterministic logic called by `Function`s becomes `scripts/` - Add trace logging for every `Function`, running locally, recording input/output/toke…",
+      "review": {
+        "decision": "accept",
+        "title": "Functional Skill Creator",
+        "category": "automation",
+        "summary": "Functional Skill Creator introduces a functional‑programming discipline for building, maintaining, and migrating agent skills. It structures a skill as a pipeline of pure functions with explicit input/output contracts, supported by trace logging, unit tests, and deterministic scripts. The tool provides commands to create new functional skills from briefs or migrate existing monolithic skills into this modular architecture.",
+        "quality_score": 80,
+        "uniqueness_score": 70,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 84,
+        "strengths": [
+          "Clear methodology for modularizing skills",
+          "Provides migration path from legacy skills",
+          "Built‑in trace logging and testing framework",
+          "Well‑structured documentation with diagrams",
+          "Platform‑agnostic runtime"
+        ],
+        "weaknesses": [
+          "Prerequisites and environment setup not explicitly listed",
+          "No concrete end‑to‑end example walkthrough",
+          "Missing verification steps for newly created skills",
+          "Some sections are repetitive",
+          "No explicit versioning or compatibility guidance"
+        ],
+        "tags": [
+          "automation",
+          "devops",
+          "programming",
+          "methodology",
+          "testing"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add an explicit prerequisites section (e.g., Node.js version, skills.sh installation)",
+          "Include a minimal step‑by‑step example that creates a simple functional skill and runs a test",
+          "Provide a checklist for verifying a migrated skill works correctly",
+          "Clarify version compatibility and upgrade path",
+          "Add a quick reference table for the CLI commands and their options"
+        ],
+        "normalized_skill_markdown": "---\nname: Functional Skill Creator\ndescription: Tool and methodology to structure agent skills as functional pipelines with traceable, testable functions.\n---\n\n# Functional Skill Creator\n\n> **Maintain Agent Skills with functional programming discipline.**\n\nFunctional Skill is an engineering methodology designed for complex skill maintenance and iteration. Combined with trace logging and unit testing, it makes skills **modular, traceable, and testable**.\n\n- Treat each `Step` as a `Function` with explicit `Input/Output` (pure function first)\n- `SKILL.md` only orchestrates the pipeline of `Function`s, consuming only `external inputs` and `reference dependencies`\n- Shared rules across `Function`s go into `references/`\n- Deterministic logic called by `Function`s becomes `scripts/`\n- Add trace logging for every `Function`, recording input/output/token consumption/duration\n- Equip every `Function` with unit tests and E2E tests, ensuring neither individual Functions nor the full pipeline regress\n\n## Quick Start\n\n### Install\n```bash\nnpx skills add AGI-comming/functional-skill-creator --skill fskill-creator -y\n```\nInstall via [skills.sh](https://skills.sh/). Add `-a <agent>` to target a specific agent; add `-g` only if the agent supports global install.\n\n### Usage\n**Create** – generate a new functional skill from a workflow brief:\n```\n/fskill-creator create a functional skill for <workflow>\n```\n**Migrate** – convert an existing legacy skill directory into a functional skill:\n```\n/fskill-creator migrate <path-to-skill-dir>\n```\nOptional flags: `include_report`, `include_unittest`, `include_viewers` (default `true`). Set to `false` to skip.\n\n## Why Use Functional Skill?\nAs skills evolve, `SKILL.md` and `references/*.md` can become unwieldy prose walls. Functional Skill separates concerns:\n- **Functions**: pure logic with explicit contracts\n- **References**: shared rules and glossaries\n- **Scripts**: deterministic actions\n- **Tests & Logs**: regression safety and observability\n\n### Before vs. After\n```mermaid\nflowchart TB\n  subgraph mono[\"Monolithic Skill — tangled dependencies\"]\n    SKILL[\"SKILL.md\\nGoal · Workflow · Rules · Output · Known issues\"]\n    W[\"Workflow + Step 1.5 patch\"]\n    RL[\"Rules · edge cases · stop rules\"]\n    OUT[\"Output handler · validation\"]\n    RULES[\"references/rules.md\\nTerms · policies · snippets\"]\n    EX[\"references/examples.md\\nSuccess · failures · workarounds\"]\n    S1[\"parse_input.js\"]\n    S2[\"parse_input_new.js\"]\n    S3[\"fix_edge_case_once.sh\"]\n    S4[\"migrate_old_do_not_delete.js\"]\n  end\n  SKILL <--> W\n  SKILL <--> RL\n  W <--> RL\n  RL <--> OUT\n  SKILL <--> RULES\n  RULES <--> EX\n  EX <--> W\n  OUT <--> EX\n  W --> S1\n  RL --> S2\n  S1 <--> S2\n  S2 --> S3\n  S3 <--> EX\n  OUT --> S4\n  S4 <--> SKILL\n  S3 <--> RL\n  S1 --> OUT\n```\n```mermaid\nflowchart TB\n  subgraph exec[\"execution — compose(f₄ ∘ f₃ ∘ f₂ ∘ f₁)\"]\n    direction LR\n    ORCH[\"SKILL.md\\norchestration only\"] --> F1[\"f₁ load_input\\n(raw) → loaded\"] --> F2[\"f₂ extract\\n(loaded) → req\"] --> F3[\"f₃ generate\\n(req) → plan\"] --> F4[\"f₄ validate\\n(plan) → out\"]\n  end\n  subgraph sup[\"supporting layers — read‑only dependencies\"]\n    direction LR\n    REF[\"references/\"] --- SCR[\"scripts/\"] --- TC[\"testcases/\"] --- LOG[\"logs/runs/\"]\n  end\n  exec --- sup\n```\n\n## When to Use\n- Maintaining a long‑evolving skill that needs regression safety\n- Existing `SKILL.md` and `references/` have become unmanageable\n- You want to extract deterministic work (parsing, formatting, validation) into reliable scripts\n- You need traceable execution to pinpoint failures\n- You wish to turn real runs into repeatable test suites\n\n## Report Log and Unittest Capabilities\n- `scripts/report.mjs`: writes function‑level report logs (`report_mode=off|local|remote`)\n- `scripts/runtime.mjs`: exports `runStep`, `writeStepReport`, `applyReportMode`\n- `scripts/test_report.mjs`: validates JSONL report output and redaction of sensitive fields\n- `scripts/test_cases.mjs`: runs `testcases/**/*.case.json` assertions and can export traces as testcases\n- `logs/runs/`: JSONL traces when `report_mode=local`\n\n## Iteration Loop\n```\nRun skill → Check trace → Review function behavior → Export testcase → Fix function → Run tests\n```\nIf a function fails, add a testcase; if deterministic logic is identified, move it to `scripts/` and add a script test.\n\n## Migration Guidance\nMigration surfaces existing structural issues (I/O mismatches, blurred boundaries, ambiguous definitions). Treat these findings as improvement opportunities, not failures. Typical steps after migration:\n1. Review the generated `migration_proposal` and function contracts\n2. Align pipeline I/O (rename fields, split/merge functions, update `references/shared-glossary.md`)\n3. Run the skill with trace enabled; export failing steps as testcases\n4. Re‑run tests until the pipeline is consistent\n\n## Repository Structure\n```\nskills/\n  fskill-creator/        # Create, maintain, or migrate functional skills\n    sub-skills/\n      create/            # Handles create_context from requirement brief\n      migrate/           # Handles migration_context from a legacy skill directory\n\ndocs/                    # Methodology and specifications\ntemplates/               # Reusable skill templates\nexamples/                # Runnable functional skill examples\n```\n\n## Project Status\nCurrent version `v0.1.0 alpha`. File formats and script conventions are usable but may evolve before 1.0. The project is platform‑agnostic; the testcase runner is runtime‑agnostic and does not invoke models directly.\n\n## Contributing\nIssues and PRs are welcome. See `CONTRIBUTING.md` for the development guide. For security‑sensitive submissions, read `SECURITY.md` first.\n\n## License\nMIT. See `LICENSE`.\n"
+      }
+    },
+    {
+      "library_id": "automation/x402-markets-paid-crypto-sec-data-api-ef2d8686",
+      "title": "x402-markets – Paid Crypto & SEC Data API",
+      "category": "automation",
+      "tags": [
+        "automation",
+        "finance",
+        "crypto",
+        "sec",
+        "api",
+        "payment"
+      ],
+      "summary": "Provides two paid endpoints: live cryptocurrency market data from CoinGecko and recent SEC EDGAR filings for US‑listed tickers. Access is gated by the x402 payment protocol (HTTP 402) supporting USDC on Base (EVM) or Solana. The skill includes payment flow, endpoint specifications, error handling, and discovery resources.",
+      "source": {
+        "repository": "nirholas/x402-markets",
+        "repository_url": "https://github.com/nirholas/x402-markets",
+        "default_branch": "main",
+        "path": "skill.md",
+        "html_url": "https://github.com/nirholas/x402-markets/blob/7e6e803d555a60d82c61b35bccd79ac04c1afb96/skill.md",
+        "api_sha": "38585ba72c34986ddaba5a1f01ec5a1bc63c623d",
+        "repo_stars": 5,
+        "repo_forks": 0,
+        "repo_license": "Apache License 2.0",
+        "repo_updated_at": "2026-09-24T02:32:12+00:00"
+      },
+      "discovered_at": "2026-09-27T12:12:48+00:00",
+      "accepted_at": "2026-10-05T16:16:58+00:00",
+      "content_hash": "35b34237cd338b433b0f1407fae3010bb65185b1c7eaf88c291ce8b9e972a8cf",
+      "source_excerpt": "# x402-markets — agent skill Two market-data lookups, each returning its answer in the paid response. `/price/{coinId}` gives a live CoinGecko snapshot: spot price, 1h/24h/7d change, the 24h high–low range, volume, market cap, circulating and max supply, and distance from all-time high and low. `/filings/{ticker}` resolves a US ticker to its SEC CIK and returns the company's recent EDGAR filings, each with its form type, filing and report dates, a direct link to the primary document, decoded 8-K item codes, and a one-sentence summary of what that form actually is. Both upstreams are keyless and queried live. **Base URL:** `{BASE_URL}` (local default `http://localhost:4023`) Every paid call returns the purchased artifact **in the 200 respons…",
+      "review": {
+        "decision": "accept",
+        "title": "x402-markets – Paid Crypto & SEC Data API",
+        "category": "automation",
+        "summary": "Provides two paid endpoints: live cryptocurrency market data from CoinGecko and recent SEC EDGAR filings for US‑listed tickers. Access is gated by the x402 payment protocol (HTTP 402) supporting USDC on Base (EVM) or Solana. The skill includes payment flow, endpoint specifications, error handling, and discovery resources.",
+        "quality_score": 85,
+        "uniqueness_score": 80,
+        "usefulness_score": 75,
+        "safety_score": 95,
+        "total_score": 80,
+        "strengths": [
+          "Well‑structured markdown with clear sections",
+          "Complete endpoint tables and example responses",
+          "Detailed x402 payment flow description",
+          "Error‑code matrix and discovery URLs"
+        ],
+        "weaknesses": [
+          "No explicit prerequisites list (e.g., required client libraries)",
+          "Missing sample curl commands for non‑JS users",
+          "Limited guidance on handling 402 retry logic",
+          "No automated test or verification steps"
+        ],
+        "tags": [
+          "automation",
+          "finance",
+          "crypto",
+          "sec",
+          "api",
+          "payment"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a prerequisites section listing required runtimes and libraries (e.g., x402‑fetch, Solana SDK)",
+          "Provide curl examples for the 402 payment handshake",
+          "Explain how to retry after a 503 upstream_rate_limited response",
+          "Include a simple verification script or test case to confirm successful payment and data retrieval"
+        ],
+        "normalized_skill_markdown": "---\nname: x402-markets\ndescription: Paid API service providing live cryptocurrency price data via CoinGecko and recent SEC EDGAR filings, using the x402 payment protocol.\n---\n\n# x402-markets — agent skill\n\nTwo market‑data lookups, each returning its answer in the paid response.\n- `/price/{coinId}` – live CoinGecko snapshot: spot price, 1h/24h/7d change, 24h high‑low range, volume, market cap, circulating and max supply, distance from all‑time high/low.\n- `/filings/{ticker}` – resolves a US ticker to its SEC CIK and returns recent EDGAR filings with form type, dates, document link, decoded 8‑K items, and a one‑sentence summary.\n\n**Base URL:** `{BASE_URL}` (default `http://localhost:4023`).\nAll paid calls return the purchased artifact in the `200` response body.\n\n## Payment\n\nThe service uses **x402** (HTTP 402 Payment Required – <https://x402.org>). Pay in USDC on Base (EVM) or Solana; the client chooses the rail.\n\n| Rail | Network | Asset | payTo |\n|------|---------|-------|------|\n| EVM | `base-sepolia` (`base` on mainnet) | USDC | `0x40252CFDF8B20Ed757D61ff157719F33Ec332402` |\n| Solana | `solana` (`solana-devnet` on devnet) | USDC | `WwwuGbqHrwF5RG89KhUbmRWEvjnRH9k5kVM5p7T3WwW` |\n\nFacilitator: `https://x402.org/facilitator` (verifies and settles both rails).\n\n**Flow**\n1. Call the endpoint without an `X-PAYMENT` header → receive **402** with an `accepts` array listing both rails.\n2. Choose a rail, sign the payment, and place the base64 payload in `X-PAYMENT`.\n3. Repeat the request → receive **200** with the artifact and a settlement receipt in `X-PAYMENT-RESPONSE` (base64 JSON `{ success, rail, network, transaction, payer, amount, asset }`).\n\nExample (Node/TS) using the EVM helper library:\n```ts\nimport { wrapFetchWithPayment, createSigner } from \"x402-fetch\";\nconst signer = await createSigner(\"base-sepolia\", process.env.PRIVATE_KEY!);\nconst pay = wrapFetchWithPayment(fetch, signer);\nconst res = await pay(\"{BASE_URL}/price/bitcoin\");\nconst artifact = await res.json();\n```\n\n## Endpoints\n\n### `GET /price/:coinId` — $0.001\nLive crypto spot price and 24h statistics.\n| Param | In | Required | Type | Description |\n|-------|----|----------|------|-------------|\n| `coinId` | path | yes | string | CoinGecko coin id (`bitcoin`, `usd-coin`, …) or ticker shorthand (`btc`, `eth`). |\n| `vs` | query | no | string | Quote currency, default `usd`. |\n\n**Response (200 application/json)** – see example in original skill.\n\n---\n\n### `GET /filings/:ticker` — $0.003\nRecent SEC EDGAR filings for a US‑listed ticker.\n| Param | In | Required | Type | Description |\n|-------|----|----------|------|-------------|\n| `ticker` | path | yes | string | US ticker symbol (e.g., `AAPL`). |\n| `limit` | query | no | integer | Number of filings to return (1‑100), default 20. |\n| `forms` | query | no | string | Comma‑separated form types to filter (e.g., `10-K,8-K`). |\n\n**Response (200 application/json)** – see example in original skill.\n\n## Free endpoints\n- `GET /` – service metadata, live prices, active payment rails, upstream list\n- `GET /health` – liveness probe\n- `GET /.well-known/x402` – machine‑readable discovery manifest\n- `GET /skill.md` – this skill card\n- `GET /openapi.json` – OpenAPI 3.1 spec\n\n## Error codes\n| HTTP | `error` | Meaning |\n|------|---------|---------|\n| 400 | `invalid_coin_id` | `coinId` not plausible for CoinGecko |\n| 400 | `invalid_currency` | `vs` not a supported currency |\n| 400 | `invalid_limit` | `limit` outside 1‑100 |\n| 404 | `not_found` | No such coin or SEC registrant |\n| 503 | `upstream_rate_limited` | Upstream rate‑limited; includes `Retry-After` |\n| 502 | `upstream_error` | Upstream failed or timed out |\n| 402 | — | Payment required or rejected; body contains `accepts` and optional `error` |\n| 500 | `no_payment_rail_configured` | Server mis‑configured payment rails |\n\n## Data sources\n- **CoinGecko public API** – free, keyless, rate‑limited (~5‑15 calls/min per IP).\n- **SEC EDGAR API** – free, keyless; must set a `User-Agent` with contact email (`CONTACT_EMAIL`).\n\nThe ticker→CIK map (~1 MB) is cached in memory for 24 h; all other data is fetched live.\n\n## Discovery\n- Manifest: `GET /.well-known/x402` (also on GitHub).\n- Indexed by x402scan.com, x402 Bazaar, and agentic.market.\n- OpenAPI spec: `openapi.json`.\n\n## Contact\nnichxbt@gmail.com · <https://github.com/nirholas/x402-markets>"
       }
     }
   ],
