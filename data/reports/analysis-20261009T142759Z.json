@@ -1,0 +1,81 @@
+{
+  "type": "daily_analysis",
+  "created_at": "2026-10-09T14:27:59+00:00",
+  "model": "openai/gpt-oss-120b",
+  "processed": 1,
+  "accepted": 1,
+  "rejected": 0,
+  "items": [
+    {
+      "candidate_id": "0846c2cad8108789b92dd490",
+      "candidate": {
+        "candidate_id": "0846c2cad8108789b92dd490",
+        "status": "pending",
+        "discovered_at": "2026-09-27T12:12:26+00:00",
+        "source": {
+          "repository": "frankyxhl/fx_bin",
+          "repository_url": "https://github.com/frankyxhl/fx_bin",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/frankyxhl/fx_bin/blob/2800c22ea133ea23d32383d6a79980ccce2e41f7/SKILL.md",
+          "api_sha": "3c6a0cb22f32e1f36d4b6fefb7388d0e69bb8453",
+          "repo_stars": 1,
+          "repo_forks": 0,
+          "repo_license": null,
+          "repo_updated_at": "2026-08-13T12:16:37+00:00"
+        },
+        "raw_file": "raw/frankyxhl-fx-bin/SKILL.md",
+        "title": "FX-BIN Command Reference",
+        "category_hint": "programming",
+        "content_hash": "860e26dc77101fc101b63e1892b850af8b78bf6005a9f082e8891a359165ac73",
+        "content_characters": 24524,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 9255, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-10-09T14:27:50+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": true,
+      "review": {
+        "decision": "accept",
+        "title": "FX-BIN Command Reference",
+        "category": "programming",
+        "summary": "A thorough, well‑structured guide covering installation, all available fx‑bin commands, common use cases, and development workflows. It includes clear examples, option descriptions, and safety considerations for each command.",
+        "quality_score": 90,
+        "uniqueness_score": 70,
+        "usefulness_score": 85,
+        "safety_score": 100,
+        "total_score": 86,
+        "strengths": [
+          "Comprehensive coverage of all commands",
+          "Clear installation instructions for pip, pipx and source",
+          "Practical examples for each command",
+          "Safety features explicitly described (e.g., atomic writes, backup)",
+          "Includes development, testing and packaging guidance"
+        ],
+        "weaknesses": [
+          "Very long; could be overwhelming for new users",
+          "Command option tables could be more concise",
+          "No explicit troubleshooting or error‑handling section",
+          "Prerequisites for each command are implicit rather than listed",
+          "No quick‑reference cheat sheet"
+        ],
+        "tags": [
+          "programming",
+          "cli",
+          "python",
+          "file-management",
+          "documentation"
+        ],
+        "safety_flags": [],
+        "recommended_improvements": [
+          "Add a concise cheat‑sheet or quick‑reference table",
+          "Include a troubleshooting/error‑handling section",
+          "Provide a summary table of command options",
+          "Add explicit prerequisite list per command",
+          "Create a shorter “Getting Started” guide for beginners"
+        ],
+        "normalized_skill_markdown": "---\nname: \"FX-BIN Command Reference\"\ndescription: \"Comprehensive guide to installing, using, and developing with the fx-bin CLI utility collection.\"\n---\n\n# FX-BIN Command Reference\n\nA comprehensive guide to all **fx-bin** commands, installation, and usage patterns.\n\n## Table of Contents\n1. [Project Overview](#project-overview)\n2. [Installation](#installation)\n3. [Available Commands](#available-commands)\n4. [Command Details](#command-details)\n5. [Common Use Cases](#common-use-cases)\n6. [Development Commands](#development-commands)\n7. [Architecture Notes](#architecture-notes)\n8. [Key Files](#key-files)\n9. [Getting Help](#getting-help)\n10. [Documentation](#documentation)\n\n---\n\n## Project Overview\n\n**fx-bin** is a Python utility collection providing command‑line tools for file operations such as counting, size analysis, searching, text replacement, and a simple upload server. It is packaged with Poetry and distributed via PyPI.\n\n- **Package Name**: `fx-bin`\n- **Repository**: https://github.com/frankyxhl/fx_bin\n- **PyPI**: https://pypi.org/project/fx-bin/\n- **Python Version**: 3.11+ required\n- **Unified CLI**: All utilities are accessed through a single `fx` command\n- **Key Technologies**: Click, Loguru, Returns\n\n### Key Features\n- Security‑hardened (path traversal, command injection protection)\n- >95 % test coverage (TDD/BDD)\n- Optimized for large‑scale operations\n- Cross‑platform (Windows, macOS, Linux)\n- Modern Python (3.11+ functional patterns)\n\n---\n\n## Installation\n\n### Via pip (recommended)\n```bash\npip install fx-bin\n```\n\n### Via pipx (isolated)\n```bash\npipx install fx-bin\npipx upgrade fx-bin   # upgrade to latest\n```\n\n### From source\n```bash\ngit clone https://github.com/frankyxhl/fx_bin.git\ncd fx_bin\npoetry install\npoetry run fx --help\n```\n\n**Requirements**: Python 3.11+, dependencies (`click`, `loguru`, `returns`) are installed automatically.\n\n---\n\n## Available Commands\n| Command | Description | Primary Use Case |\n|---------|-------------|------------------|\n| `fx files` | Count files in directories | Project statistics |\n| `fx size` | Analyze file/directory sizes | Disk usage analysis |\n| `fx ff` | Find files by keyword | Quick file location |\n| `fx fff` | Find first matching file | Single‑result lookups |\n| `fx filter` | Filter files by extension | File organization |\n| `fx replace` | Replace text in files | Bulk text replacement |\n| `fx backup` | Timestamped backups | Safe snapshots |\n| `fx root` | Find Git project root | Navigation |\n| `fx realpath` | Get absolute path | Path resolution |\n| `fx today` | Create/navigate to today’s workspace | Daily file organization |\n| `fx organize` | Organize files by date | Media/document archiving |\n| `fx list` | List all commands | Discovery |\n| `fx help` | Show help information | Quick reference |\n| `fx version` | Show version and system info | Version checking |\n\n---\n\n## Command Details\n\n### 1. `fx files` – File Counter\n```bash\nfx files                # current directory\nfx files /path/to/dir   # specific path\nfx files dir1 dir2 dir3 # multiple directories\n```\nCounts files and prints `<path>: <count> files`.\n\n### 2. `fx size` – Size Analyzer\n```bash\nfx size                 # current directory\nfx size /path/to/dir    # specific directory\nfx size . --limit 10   # top 10 largest files\nfx size . --unit MB    # display in MB\nfx size . --sort asc   # ascending order\nfx size . --all        # include hidden files\n```\nOptions: `--limit N`, `--unit UNIT`, `--sort ORDER`, `--all`.\n\n### 3. `fx ff` – File Finder\n```bash\nfx ff test                     # names containing \"test\"\nfx ff .py                     # Python files\nfx ff test --include-ignored   # include .git, .venv, node_modules\nfx ff src --exclude \"*test*\"  # exclude test files\n```\nSmart defaults exclude common ignored directories; case‑insensitive; recursive.\n\n### 4. `fx fff` – Find First File\nAlias for `fx ff --first`. Returns the first match and exits.\n```bash\nfx fff config\n```\nUseful in scripts where only one path is needed.\n\n### 5. `fx filter` – File Filter by Extension\n```bash\nfx filter py .                     # Python files sorted by creation time\nfx filter \"jpg,png,gif\" . --format detailed\nfx filter pdf ~/Docs --sort-by modified --reverse\nfx filter txt . --no-recursive\n```\nOptions: `--sort-by`, `--reverse`, `--format`, `--no-recursive`.\n\n### 6. `fx replace` – Text Replacer\n```bash\nfx replace \"old\" \"new\" file.txt\nfx replace \"v1\" \"v2\" *.py\n```\nSafety: atomic writes, binary files skipped, automatic backup, permission preservation.\n\n### 7. `fx backup` – File Backup\n```bash\nfx backup data.json\nfx backup my_project --compress\nfx backup config.yaml --backup-dir ./archive\nfx backup important.txt --timestamp-format %Y-%m-%d_%H-%M\n```\nCreates timestamped backups; optional compression and custom directories.\n\n### 8. `fx root` – Find Git Root\n```bash\nfx root                # prints \"Git root: <path>\"\nfx root --cd           # prints only the path (for `cd` scripts)\n```\n\n### 9. `fx realpath` – Absolute Path\n```bash\nfx realpath .\nfx realpath ../foo\nfx realpath ~/Downloads\n```\nResolves symlinks and normalizes paths.\n\n### 10. `fx today` – Daily Workspace\n```bash\nfx today                     # creates ~/Downloads/YYYYMMDD\nfx today --base ~/Projects   # custom base\nfx today --format %Y-%m-%d   # custom date format\nfx today --cd                # output path only\nfx today --dry-run           # preview only\n```\nCreates a date‑based directory for daily work.\n\n### 11. `fx organize` – File Organization\n```bash\nfx organize ~/Photos                     # organize by creation date\nfx organize . -o ~/Sorted --depth 2      # custom output & depth\nfx organize . --dry-run                  # preview only\nfx organize . -i \"*.jpg\" -i \"*.png\"    # include only images\n```\nOptions include `--output`, `--date-source`, `--depth`, conflict handling, include/exclude patterns, hidden files, recursion, cleaning empty dirs, dry‑run, and verbosity.\n\n### 12. `fx list` – List Commands\n```bash\nfx list\n```\nShows a brief description of every sub‑command.\n\n### 13. `fx help` – Help Information\n```bash\nfx help      # or fx -h / fx --help\n```\nDisplays built‑in help for the CLI and each sub‑command.\n\n### 14. `fx version` – Version Information\n```bash\nfx version\n```\nOutputs the current version and repository URL.\n\n---\n\n## Common Use Cases\n*Project analysis, code repository management, media/document organization, daily workflow automation, bulk operations, system maintenance* – each illustrated with concise command pipelines.\n\n---\n\n## Development Commands\n### Testing\n```bash\npoetry run pytest                # all tests\npoetry run pytest -m hypothesis  # property‑based tests\n```\n### Code Quality\n```bash\npoetry run black .\npoetry run flake8 fx_bin/\npoetry run mypy fx_bin/\npoetry run bandit -r fx_bin/\npoetry run safety check\n```\n### Build & Publish\n```bash\npoetry install --with dev\npoetry build\npip install -e .\npoetry publish   # maintainers only\n```\n### Workflow\n```bash\ngit clone https://github.com/frankyxhl/fx_bin.git\ncd fx_bin\npoetry install --with dev\ngit checkout -b feature/new-command\n# run tests, format, lint, commit, push\n```\n\n---\n\n## Architecture Notes\n*Package structure, module pattern, unified Click CLI, functional programming (Returns), testing strategy* – summarized for developers.\n\n---\n\n## Getting Help\n```bash\nfx COMMAND --help   # command‑specific help\nfx help              # general help\nfx list              # list all commands\nfx version           # version info\n```\nOnline resources: GitHub repo, PyPI page, Click docs, Returns docs, pytest‑bdd, Hypothesis.\n\n---\n\n## Documentation\n*Internal*: `CLAUDE.md`, `README.md`, `SKILL.md` (this file). *External*: Click, Returns, pytest‑bdd, Hypothesis.\n\n---\n\n**Document Version**: 1.0.0 | **Last Updated**: 2025-09-06 | **fx-bin Version**: 2.5.6\n"
+      },
+      "library_id": "programming/fx-bin-command-reference-0846c2ca"
+    }
+  ]
+}
