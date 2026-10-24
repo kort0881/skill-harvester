@@ -1,0 +1,94 @@
+# Целевой профиль: для кого собирается библиотека.
+#
+# Навык оценивается не «вообще полезный», а «нужный нашему стеку». Домен без
+# попаданий не тянет оценку вверх; балл fit считается по лучшему домену
+# (см. scripts/integrity.py → fit_score).
+enabled: true
+
+domains:
+  - name: llm-agents
+    keywords:
+      - agent
+      - skill
+      - prompt
+      - llm
+      - context
+      - token
+      - subagent
+      - mcp
+      - rag
+      - memory
+
+  - name: media-production
+    keywords:
+      - video
+      - audio
+      - speech
+      - voice
+      - tts
+      - subtitle
+      - transcript
+      - ffmpeg
+      - render
+      - storyboard
+      - music
+
+  - name: network-vpn
+    keywords:
+      - vpn
+      - xray
+      - proxy
+      - tunnel
+      - wireguard
+      - dns
+      - firewall
+      - network
+      - ssh
+      - tls
+      - certificate
+
+  - name: devops-servers
+    keywords:
+      - deploy
+      - server
+      - systemd
+      - docker
+      - nginx
+      - backup
+      - monitoring
+      - log
+      - linux
+      - restore
+
+  - name: knowledge-notes
+    keywords:
+      - obsidian
+      - markdown
+      - vault
+      - note
+      - wiki
+      - summary
+      - research
+      - citation
+
+  - name: python-data
+    keywords:
+      - python
+      - pandas
+      - numpy
+      - sql
+      - sqlite
+      - csv
+      - analytics
+      - parsing
+      - scraping
+
+  - name: content-ru
+    keywords:
+      - seo
+      - article
+      - copywriting
+      - translation
+      - russian
+      - редактура
+      - текст

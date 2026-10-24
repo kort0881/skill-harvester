@@ -23,9 +23,37 @@ from common import (
     slugify,
     utc_stamp,
 )
+from integrity import check_bundle
 
 SEEN_FILE = CANDIDATES_DIR / "seen.json"
 PENDING_FILE = CANDIDATES_DIR / "pending.json"
+
+# Что из папки навыка вообще имеет смысл качать. Бинарники, картинки и модели
+# пропускаем: они не нужны для воспроизведения инструкции, но раздувают репозиторий.
+BUNDLE_EXTENSIONS = {
+    ".md",
+    ".py",
+    ".sh",
+    ".bash",
+    ".js",
+    ".mjs",
+    ".cjs",
+    ".ts",
+    ".tsx",
+    ".jsx",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".ini",
+    ".cfg",
+    ".conf",
+    ".txt",
+    ".csv",
+    ".html",
+    ".css",
+    ".sql",
+}
 
 
 def github_client() -> Github:
@@ -68,6 +96,76 @@ def fetch_skill_content(client: Github, repo_full_name: str, path: str) -> str |
         return None
 
 
+def fetch_bundle(
+    client: Github,
+    repo_full_name: str,
+    source_dir: str,
+    target_dir: Path,
+    max_total_bytes: int,
+    max_files: int,
+    max_file_bytes: int,
+) -> dict[str, Any]:
+    """Скачивает папку навыка целиком: SKILL.md со скриптами и references.
+
+    Без этого в библиотеку попадали записи, которые ссылаются на `scripts/x.py`,
+    а самого скрипта нет — половина прошлого набора была нерабочей.
+    """
+    stats: dict[str, Any] = {
+        "downloaded": [],
+        "skipped": [],
+        "failed": [],
+        "total_bytes": 0,
+        "complete": False,
+    }
+    repo = client.get_repo(repo_full_name)
+
+    def walk(directory: str, relative_prefix: str = "") -> None:
+        if len(stats["downloaded"]) >= max_files or stats["total_bytes"] >= max_total_bytes:
+            return
+        try:
+            entries = repo.get_contents(directory)
+        except RateLimitExceededException:
+            print("GitHub rate limit hit while walking bundle. Stopping.")
+            time.sleep(60)
+            return
+        except GithubException as error:
+            stats["failed"].append(f"{directory}: {error.status}")
+            return
+
+        if not isinstance(entries, list):
+            entries = [entries]
+
+        for entry in entries:
+            relative = f"{relative_prefix}{entry.name}"
+            if entry.type == "dir":
+                walk(entry.path, f"{relative}/")
+                continue
+            extension = Path(entry.name).suffix.lower()
+            if extension not in BUNDLE_EXTENSIONS:
+                stats["skipped"].append(relative)
+                continue
+            if entry.size and entry.size > max_file_bytes:
+                stats["skipped"].append(f"{relative} ({entry.size}B)")
+                continue
+            if stats["total_bytes"] + (entry.size or 0) > max_total_bytes:
+                stats["skipped"].append(f"{relative} (budget)")
+                continue
+            try:
+                payload = entry.decoded_content.decode("utf-8", errors="replace")
+            except GithubException as error:
+                stats["failed"].append(f"{relative}: {error.status}")
+                continue
+            destination = target_dir / safe_relative_path(relative)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(payload, encoding="utf-8")
+            stats["downloaded"].append(relative)
+            stats["total_bytes"] += len(payload.encode("utf-8"))
+
+    walk(source_dir)
+    stats["complete"] = not stats["failed"]
+    return stats
+
+
 def collect(limit: int) -> dict[str, Any]:
     settings = load_yaml("settings.yml")
     query_config = load_yaml("queries.yml")
@@ -79,6 +177,10 @@ def collect(limit: int) -> dict[str, Any]:
     min_stars = settings["collection"].get("min_repo_stars", 0)
     max_size = settings["collection"].get("max_skill_file_size_bytes", 180000)
     max_pages = settings["github"].get("max_pages_per_query", 3)
+    bundle_limits = settings["collection"].get("bundle", {})
+    max_bundle_bytes = int(bundle_limits.get("max_total_bytes", 400000))
+    max_bundle_files = int(bundle_limits.get("max_files", 40))
+    max_bundle_file_bytes = int(bundle_limits.get("max_file_bytes", 65536))
     per_page = 30
 
     for source in query_config.get("queries", []):
@@ -138,6 +240,20 @@ def collect(limit: int) -> dict[str, Any]:
                 raw_path.parent.mkdir(parents=True, exist_ok=True)
                 raw_path.write_text(content, encoding="utf-8")
 
+                source_dir = str(Path(code_result.path).parent).replace("\\", "/")
+                source_dir = "" if source_dir == "." else source_dir
+                bundle = fetch_bundle(
+                    client,
+                    repository.full_name,
+                    source_dir,
+                    raw_path.parent,
+                    max_total_bytes=max_bundle_bytes,
+                    max_files=max_bundle_files,
+                    max_file_bytes=max_bundle_file_bytes,
+                )
+                # Оценка целостности по тому, что реально лежит на диске рядом с SKILL.md.
+                integrity = check_bundle(content, raw_path.parent)
+
                 title = extract_title(content, fallback=Path(code_result.path).parent.name)
                 detected_category = category_from_text(
                     f"{title}\n{content[:5000]}",
@@ -168,6 +284,16 @@ def collect(limit: int) -> dict[str, Any]:
                     "category_hint": detected_category,
                     "content_hash": content_hash,
                     "content_characters": len(content),
+                    "bundle": {
+                        "source_dir": source_dir,
+                        "downloaded": bundle["downloaded"],
+                        "skipped": bundle["skipped"],
+                        "failed": bundle["failed"],
+                        "total_bytes": bundle["total_bytes"],
+                        "references": integrity["references"],
+                        "missing": integrity["missing"],
+                        "complete": integrity["complete"],
+                    },
                 }
                 collected.append(record)
                 seen_additions.append(source_key)
@@ -183,6 +309,7 @@ def collect(limit: int) -> dict[str, Any]:
         "type": "weekly_collection",
         "created_at": now_iso(),
         "collected_count": len(collected),
+        "incomplete_count": sum(1 for item in collected if not item["bundle"]["complete"]),
         "items": collected,
     }
     report_path = CANDIDATES_DIR / f"collection-{utc_stamp()}.json"
@@ -199,4 +326,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     result = collect(args.limit)
-    print(f"Collected: {result['collected_count']}")
+    print(f"Collected: {result['collected_count']}; incomplete: {result['incomplete_count']}")

@@ -20,7 +20,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "command",
-        choices=["collect", "analyze", "consolidate", "build-readme", "all"],
+        choices=["collect", "analyze", "consolidate", "audit", "build-readme", "all"],
     )
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
@@ -33,6 +33,8 @@ if __name__ == "__main__":
         execute("analyze_skills.py", optional_limit)
     elif args.command == "consolidate":
         execute("consolidate_skills.py", optional_limit)
+    elif args.command == "audit":
+        execute("audit_library.py", [])
     elif args.command == "build-readme":
         execute("build_readme.py", [])
     else:

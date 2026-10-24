@@ -1,0 +1,834 @@
+{
+  "type": "library_audit",
+  "created_at": "2026-10-24T08:24:05+00:00",
+  "total": 88,
+  "passed": 41,
+  "failed": 47,
+  "reasons": {
+    "incomplete_bundle": 43,
+    "off_profile": 6,
+    "promotional": 1
+  },
+  "duplicate_groups": [],
+  "moved_to_quarantine": [],
+  "findings": [
+    {
+      "library_id": "programming/repo-task-proof-loop-3324eff9",
+      "title": "Repo Task Proof Loop",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/COMMANDS.md",
+        "references/REFERENCE.md",
+        "references/SCHEMAS.md",
+        "references/SUBAGENTS.md",
+        "scripts/task_loop.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/personal-ip-diagram-creator-52c958e2",
+      "title": "Personal IP Diagram Creator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/content-workflow.md",
+        "references/identity-and-character.md",
+        "references/modes-and-sizes.md",
+        "references/ppt-presentation-mode.md",
+        "references/prompt-templates.md",
+        "references/qa-repair.md",
+        "references/safety-and-assets.md",
+        "references/visual-language.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "ml/agentic-kaggle-competition-workflow-cc0cea7c",
+      "title": "Agentic Kaggle Competition Workflow",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/advanced-notebook-architecture.md",
+        "references/code-competition-debugging.md",
+        "references/competition-intel.md",
+        "references/cross-validation-and-metrics.md",
+        "references/ensembling-and-reproducibility.md",
+        "references/image-text-workflow.md",
+        "references/information-sharing-policy.md",
+        "references/kaggle-code-competition-pipeline.md",
+        "references/kaggle-offload.md",
+        "references/kaggle-pipeline-datasets.md",
+        "references/method-map.md",
+        "references/submission-endgame.md",
+        "references/tabular-workflow.md",
+        "scripts/make_folds.py",
+        "scripts/prepare_kaggle_kernel.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/offline-evidence-aware-visual-explainer-generator-bd2264e2",
+      "title": "Offline Evidence‑Aware Visual Explainer Generator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle",
+        "off_profile"
+      ],
+      "missing": [
+        "references/spec-contract.md",
+        "scripts/render.mjs",
+        "scripts/serve.mjs",
+        "scripts/validate.mjs"
+      ],
+      "promo": [],
+      "fit_score": 33
+    },
+    {
+      "library_id": "writing/tianming-novel-collaborative-writing-system-ef60e762",
+      "title": "Tianming Novel Collaborative Writing System",
+      "passed": false,
+      "reasons": [
+        "off_profile"
+      ],
+      "missing": [],
+      "promo": [],
+      "fit_score": 33
+    },
+    {
+      "library_id": "design/yueban-image-to-code-750px-pixel-perfect-conversion-466457ef",
+      "title": "Yueban Image‑to‑Code 750px Pixel‑Perfect Conversion",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle",
+        "off_profile"
+      ],
+      "missing": [
+        "scripts/audit_png_assets.py",
+        "scripts/compare_images.py",
+        "scripts/extract_png_asset.py",
+        "scripts/preview_bboxes.py"
+      ],
+      "promo": [],
+      "fit_score": 33
+    },
+    {
+      "library_id": "programming/xiaohu-ip-studio-chinese-deep-article-illustration-engine-cb835367",
+      "title": "Xiaohu IP Studio – Chinese Deep‑Article Illustration Engine",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle",
+        "off_profile"
+      ],
+      "missing": [
+        "references/anti-ppt-qa.md",
+        "references/backends.md",
+        "references/character-spec.md",
+        "references/style-dna.md",
+        "scripts/generate.py",
+        "scripts/illo.py"
+      ],
+      "promo": [],
+      "fit_score": 33
+    },
+    {
+      "library_id": "design/automated-ios-marketing-screenshot-capture-16ec9d23",
+      "title": "Automated iOS Marketing Screenshot Capture",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/capture-marketing.sh",
+        "templates/capture-marketing.sh"
+      ],
+      "promo": [],
+      "fit_score": 67
+    },
+    {
+      "library_id": "automation/bpmn-2-0-diagram-generator-with-llm-extraction-and-validation-76918c8f",
+      "title": "BPMN 2.0 Diagram Generator with LLM Extraction and Validation",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/bpmn/redesign.js"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "research/fact-check-workflow-skill-26f5cdb1",
+      "title": "Fact-Check Workflow Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/bg-eu-sources.md",
+        "references/bulgarian-context.md",
+        "references/codex-installation.md",
+        "references/educational-tips.md",
+        "references/mfs-calibration.md",
+        "references/output-contract.md",
+        "references/red-flags.md",
+        "references/release-packaging.md",
+        "references/source-evaluation.md",
+        "references/workflow.md",
+        "scripts/package_skill.py",
+        "scripts/render_card.py",
+        "scripts/validate_result.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/deepswarm-parallel-ai-worker-orchestration-87a8f21f",
+      "title": "DeepSwarm – Parallel AI Worker Orchestration",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/filter.py",
+        "scripts/seed.py",
+        "scripts/swarm.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "devops/ros-robotics-development-and-migration-skill-86132a30",
+      "title": "ROS Robotics Development and Migration Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/custom-interfaces.md",
+        "references/dds-qos-networking.md",
+        "references/debug-playbooks.md",
+        "references/docker-ros.md",
+        "references/foxglove-visualization.md",
+        "references/gazebo-simulation.md",
+        "references/interop-and-migration.md",
+        "references/lifecycle-and-components.md",
+        "references/micro-ros-and-embedded.md",
+        "references/moveit2.md",
+        "references/multi-robot.md",
+        "references/navigation2.md",
+        "references/review-checklist.md",
+        "references/robot-description-and-tf.md",
+        "references/ros1-catkin.md",
+        "references/ros2-cicd.md",
+        "references/ros2-colcon.md",
+        "references/ros2-control.md",
+        "references/rosbag-diagnostics.md",
+        "references/slam-mapping.md",
+        "scripts/check_ros_workspace_consistency.py",
+        "scripts/detect_ros_workspace.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "design/hinge-profile-optimizer-5c423a30",
+      "title": "Hinge Profile Optimizer",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/audit-criteria.md",
+        "references/copy-principles.md",
+        "references/discovery-questions.md",
+        "references/hinge-prompts-current.md",
+        "references/hinge-settings.md",
+        "references/photo-guidelines.md",
+        "references/research-findings.md"
+      ],
+      "promo": [],
+      "fit_score": 67
+    },
+    {
+      "library_id": "research/academic-reference-inserter-for-word-documents-88a60d6c",
+      "title": "Academic Reference Inserter for Word Documents",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/insert_refs.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "content-creation/humanizer-ai-b66d1dbb",
+      "title": "Humanizer 中文学术版 – AI 风格消除与学术润色指南",
+      "passed": false,
+      "reasons": [
+        "off_profile"
+      ],
+      "missing": [],
+      "promo": [],
+      "fit_score": 0
+    },
+    {
+      "library_id": "automation/credit-optimizer-cost-efficient-ai-task-routing-c706ec14",
+      "title": "Credit Optimizer – Cost‑Efficient AI Task Routing",
+      "passed": false,
+      "reasons": [
+        "promotional"
+      ],
+      "missing": [],
+      "promo": [
+        "gumroad"
+      ],
+      "fit_score": 100
+    },
+    {
+      "library_id": "design/mav-slidecraft-zero-dependency-html-presentation-generator-453660f9",
+      "title": "Mav SlideCraft – Zero‑Dependency HTML Presentation Generator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/checklist.md",
+        "references/html-template.md",
+        "references/layout-catalog.md",
+        "scripts/deploy.sh",
+        "scripts/export-pdf.sh",
+        "scripts/extract-pptx.py",
+        "scripts/validate-deck.mjs"
+      ],
+      "promo": [],
+      "fit_score": 72
+    },
+    {
+      "library_id": "content-creation/podcast-transcript-txt-extraction-e18380b8",
+      "title": "Podcast Transcript TXT Extraction",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/sources.md",
+        "scripts/podcast_transcript_txt.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/html-deck-to-pdf-and-pptx-converter-ac2b0c17",
+      "title": "HTML Deck to PDF and PPTX Converter",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/setup.sh"
+      ],
+      "promo": [],
+      "fit_score": 67
+    },
+    {
+      "library_id": "automation/surrealdb-3-expert-skill-59fdf8a4",
+      "title": "SurrealDB 3 Expert Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/check_upstream.py",
+        "scripts/doctor.py",
+        "scripts/onboard.py",
+        "scripts/schema.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/openclaw-documentation-retrieval-and-troubleshooting-9793225f",
+      "title": "OpenClaw Documentation Retrieval and Troubleshooting",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/SKILL_INDEX.md",
+        "references/SOURCE.json",
+        "references/_catalog/automation.md",
+        "references/_catalog/channels.md",
+        "references/_catalog/cli.md",
+        "references/_catalog/concepts.md",
+        "references/_catalog/gateway.md",
+        "references/_catalog/help.md",
+        "references/_catalog/install.md",
+        "references/_catalog/nodes.md",
+        "references/_catalog/platforms.md",
+        "references/_catalog/providers.md",
+        "references/_catalog/security.md",
+        "references/_catalog/tools.md",
+        "references/_catalog/web.md",
+        "scripts/generate_index.py",
+        "scripts/sync-docs.sh"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "research/infinite-gratitude-multi-agent-research-workflow-1667c65c",
+      "title": "Infinite Gratitude – Multi‑Agent Research Workflow",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/agent-config.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/sveltekit-2-svelte-5-tailwind-v4-integration-skill-dc8c8663",
+      "title": "SvelteKit 2 + Svelte 5 + Tailwind v4 Integration Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "docs/adapters-reference.md",
+        "docs/advanced-ssr.md",
+        "docs/index.json",
+        "docs/integration-patterns.md",
+        "docs/sections.json",
+        "docs/svelte5-api-reference.md",
+        "references/best-practices.md",
+        "references/common-issues.md",
+        "references/data-loading.md",
+        "references/deployment-guide.md",
+        "references/documentation-search-system.md",
+        "references/forms-and-actions.md",
+        "references/getting-started.md",
+        "references/index.json",
+        "references/migration-svelte4-to-5.md",
+        "references/performance-optimization.md",
+        "references/project-setup.md",
+        "references/sections.json",
+        "references/styling-patterns.md",
+        "references/styling-with-tailwind.md",
+        "references/svelte5-runes.md",
+        "references/tailwind-v4-migration.md",
+        "references/troubleshooting.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/japanese-government-open-data-access-via-mcp-697bc160",
+      "title": "Japanese Government Open Data Access via MCP",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/tools.md",
+        "scripts/mcp-call.sh"
+      ],
+      "promo": [],
+      "fit_score": 72
+    },
+    {
+      "library_id": "content-creation/claude-code-session-handoff-e1f7dd5a",
+      "title": "Claude Code Session Handoff",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "assets/HANDOFF.template.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "weather/weather-plugin-usage-guide-34e7f62f",
+      "title": "Weather Plugin Usage Guide",
+      "passed": false,
+      "reasons": [
+        "off_profile"
+      ],
+      "missing": [],
+      "promo": [],
+      "fit_score": 33
+    },
+    {
+      "library_id": "content-creation/seo-coach-beginner-first-step-by-step-seo-mentoring-1b4e4e32",
+      "title": "SEO Coach – Beginner‑First Step‑by‑Step SEO Mentoring",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/00-boundaries.md",
+        "references/00-session-flow.md",
+        "references/53-zero-to-first-result-apprenticeship.md",
+        "references/54-four-article-writing-apprenticeship.md",
+        "references/55-search-opportunity-lab.md",
+        "references/59-gsc-dashboard.md",
+        "references/sys-opening.md",
+        "references/sys-session-system.md"
+      ],
+      "promo": [],
+      "fit_score": 77
+    },
+    {
+      "library_id": "design/e-commerce-detail-page-generator-a937e429",
+      "title": "E-commerce Detail Page Generator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/category-playbooks.md",
+        "references/page-spec.schema.json",
+        "references/platform-profiles.json",
+        "references/platform-style-guide.md",
+        "references/prompt-recipes.md",
+        "scripts/compose_detail_page.py",
+        "scripts/test_pipeline.py",
+        "scripts/validate_output.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/ai-consultant-client-onboarding-package-generator-8774915a",
+      "title": "AI Consultant Client Onboarding Package Generator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "assets/email-subject-lines.md",
+        "references/ai-industry-glossary.md",
+        "references/service-types.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/causal-inference-the-mixtape-code-skill-v3-1-50c243e2",
+      "title": "Causal Inference: The Mixtape – Code Skill (v3.1)",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/design-router.md",
+        "references/dml-causal-ml.md",
+        "references/identification-writing-patterns.md",
+        "references/method-patterns.md",
+        "references/method-selection.md",
+        "references/reporting-checklist.md",
+        "references/statspai-guide.md",
+        "scripts/validate_all.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/rust-expert-skill-14fc6301",
+      "title": "Rust Expert Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/clippy.sh",
+        "scripts/compile.sh",
+        "scripts/fmt.sh",
+        "scripts/test.sh"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/guide-to-authoring-claude-skills-create-skills-f3a3e27c",
+      "title": "Guide to Authoring Claude Skills (create-skills)",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/package_skill.py",
+        "templates/skill-template.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/kernelwiki-blackwell-hopper-kernel-optimization-knowledge-base-2b8efc1c",
+      "title": "KernelWiki – Blackwell & Hopper Kernel Optimization Knowledge Base",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/examples.md",
+        "references/primer.md",
+        "references/schema.md",
+        "scripts/get_page.py",
+        "scripts/grep_wiki.py",
+        "scripts/query.py",
+        "scripts/refresh_candidate_ledger.py",
+        "scripts/repo_status.py",
+        "scripts/validate.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/ai-partner-chat-personalized-context-aware-conversational-agent-ee41ba6f",
+      "title": "AI Partner Chat – Personalized Context‑Aware Conversational Agent",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/add_note.py",
+        "scripts/chunk_and_index.py",
+        "scripts/chunk_schema.py",
+        "scripts/init_vector_db.py",
+        "scripts/query_notes.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/srujanabuddy-routing-core-23a6aa8f",
+      "title": "SrujanaBuddy Routing Core",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/dopamine-stewardship-student.md",
+        "references/five-spheres-framework.md",
+        "references/gtd-lite-student-edition.md",
+        "references/reva-values-anchor.md",
+        "references/srujana-pathway-framework.md",
+        "references/stm-sankalpa-framework.md",
+        "references/student-year-group-modes.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "content-creation/paper-to-course-html-markdown-pptx-f8431c2a",
+      "title": "Paper-to-Course: 自动生成交互式 HTML 课程、Markdown 与 PPTX",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/paper-elements.md",
+        "scripts/build-all.js"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/cortex-code-integration-for-snowflake-operations-d0060cb6",
+      "title": "Cortex Code Integration for Snowflake Operations",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/discover_cortex.py",
+        "scripts/execute_cortex.py",
+        "scripts/read_cortex_sessions.py",
+        "scripts/route_request.py",
+        "scripts/security_wrapper.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/project-bootstrapper-meta-skill-49d574d7",
+      "title": "Project Bootstrapper Meta‑Skill",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/cross-cutting-concerns.md",
+        "references/generation-guide.md",
+        "references/quality-standards.md",
+        "references/skill-catalog.md",
+        "references/skill-template.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/cargo-cult-code-review-scanner-c47687bd",
+      "title": "Cargo-cult Code Review Scanner",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/origin.md",
+        "references/portability.md",
+        "references/review-playbook.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "education/interactive-study-workspace-tutor-d5d20205",
+      "title": "Interactive Study Workspace Tutor",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/agent-adapters.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "design/baoyu-comic-knowledge-comic-creator-bcbf6c3b",
+      "title": "Baoyu Comic – Knowledge Comic Creator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/auto-selection.md",
+        "references/config/first-time-setup.md",
+        "references/partial-workflows.md",
+        "scripts/merge-to-pdf.ts"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/write-claude-code-skills-skill-md-authoring-guide-68ac3c17",
+      "title": "Write Claude Code Skills (SKILL.md Authoring Guide)",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/cpp.md",
+        "references/evaluation.md",
+        "references/frontmatter.md",
+        "references/hooks.md",
+        "references/postgres.md",
+        "references/routing-pattern.md",
+        "references/swift.md",
+        "references/typescript.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "content-creation/youtube-transcript-downloader-with-translation-and-summarization-07873cd3",
+      "title": "YouTube Transcript Downloader with Translation and Summarization",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "scripts/yt_transcript.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "programming/llm-wiki-explain-isolated-term-explanation-and-archival-b402716e",
+      "title": "LLM Wiki Explain – Isolated Term Explanation and Archival",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/notion.md",
+        "references/obsidian.md",
+        "references/setup.md",
+        "scripts/configure.py",
+        "scripts/search_wiki.py",
+        "scripts/validate_wiki.py"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "devops/posttrainer-hands-on-llm-fine-tuning-workshop-1460ca6b",
+      "title": "Posttrainer – Hands‑on LLM fine‑tuning workshop",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/model-catalog.md",
+        "references/setup-accounts.md",
+        "references/setup-runpod.md",
+        "references/synthetic-data.md",
+        "references/training-recipes.md",
+        "references/troubleshooting.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "content-creation/courseforge-accessible-branded-course-material-generator-0b313bd4",
+      "title": "CourseForge – Accessible Branded Course Material Generator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "assets/theme.json",
+        "references/document-types.md"
+      ],
+      "promo": [],
+      "fit_score": 100
+    },
+    {
+      "library_id": "automation/functional-skill-creator-669586e2",
+      "title": "Functional Skill Creator",
+      "passed": false,
+      "reasons": [
+        "incomplete_bundle"
+      ],
+      "missing": [
+        "references/examples.md",
+        "references/rules.md",
+        "references/shared-glossary.md",
+        "scripts/report.mjs",
+        "scripts/runtime.mjs",
+        "scripts/test_cases.mjs",
+        "scripts/test_report.mjs"
+      ],
+      "promo": [],
+      "fit_score": 100
+    }
+  ]
+}
