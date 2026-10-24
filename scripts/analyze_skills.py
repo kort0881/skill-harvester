@@ -207,7 +207,6 @@ def analyze(limit: int) -> dict[str, Any]:
     pending = pending_payload.get("items", [])
     existing_analyzed_ids = {item["candidate_id"] for item in analyzed_payload.get("items", [])}
 
-    client = get_client()
     model = os.getenv("GROQ_ANALYSIS_MODEL", "openai/gpt-oss-120b")
     min_total = int(os.getenv("MIN_TOTAL_SCORE", analysis_settings["minimum_total_score"]))
     min_quality = int(os.getenv("MIN_QUALITY_SCORE", analysis_settings["minimum_quality_score"]))
@@ -311,7 +310,9 @@ def analyze(limit: int) -> dict[str, Any]:
                     "Near-duplicate of an existing library item.",
                 )
             else:
-                review = model_review(client, model, candidate, content)
+                # Клиент Groq создаётся только здесь: прогон, где все кандидаты отсечены
+                # ситами, не должен требовать ключ и падать без него.
+                review = model_review(get_client(), model, candidate, content)
                 review["gate"] = {"reason": None, "fit": gate["fit"], "promo": gate["promo"]["hits"]}
 
             safety_flags = review.get("safety_flags", [])
