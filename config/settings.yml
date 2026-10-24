@@ -36,6 +36,9 @@ analysis:
   minimum_quality_score: 65
   minimum_uniqueness_score: 55
   min_content_characters: 250
+  # Бюджет запроса к модели в символах: у Groq на free tier 8000 токенов/мин,
+  # запрос длиннее падает с 413 и кандидат застревает в очереди.
+  max_review_characters: 11000
   allow_model_rewrite: true
   reject_if_security_risk: true
 

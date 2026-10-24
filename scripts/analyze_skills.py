@@ -91,33 +91,74 @@ def get_client() -> Groq:
 
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=20), reraise=True)
-def model_review(client: Groq, model: str, candidate: dict[str, Any], content: str) -> dict[str, Any]:
-    max_content = content[:26000]
-    user_prompt = f"""Candidate metadata:
-{json.dumps({
-    "source_repository": candidate["source"]["repository"],
-    "source_path": candidate["source"]["path"],
-    "repository_stars": candidate["source"]["repo_stars"],
-    "title_guess": candidate["title"],
-    "category_hint": candidate["category_hint"]
-}, ensure_ascii=False, indent=2)}
-
-Candidate SKILL.md:
----BEGIN SKILL---
-{max_content}
----END SKILL---"""
-
+def _call_model(client: Groq, model: str, system: str, user_prompt: str) -> dict[str, Any]:
     response = client.chat.completions.create(
         model=model,
         temperature=0.15,
         max_completion_tokens=6500,
         response_format={"type": "json_object"},
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
         ],
     )
     return json.loads(response.choices[0].message.content)
+
+
+def _is_too_large(error: Exception) -> bool:
+    """Groq отвечает 413, когда запрос выше лимита токенов в минуту."""
+    if getattr(error, "status_code", None) == 413:
+        return True
+    text = str(error)
+    return "413" in text or "Request too large" in text
+
+
+def model_review(
+    client: Groq,
+    model: str,
+    candidate: dict[str, Any],
+    content: str,
+    max_chars: int = 11000,
+) -> dict[str, Any]:
+    """Оценка кандидата моделью с ужиманием запроса под лимит TPM.
+
+    На бесплатном тарифе Groq лимит 8000 токенов в минуту, а SKILL.md бывают
+    по 20-26k символов — запрос падал с 413 и кандидат навсегда оставался
+    в очереди. Поэтому бюджет режется ступенями, а не один раз.
+    """
+    metadata = json.dumps(
+        {
+            "source_repository": candidate["source"]["repository"],
+            "source_path": candidate["source"]["path"],
+            "repository_stars": candidate["source"]["repo_stars"],
+            "title_guess": candidate["title"],
+            "category_hint": candidate["category_hint"],
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
+
+    budget = max(2000, int(max_chars))
+    last_error: Exception | None = None
+    for _ in range(3):
+        clipped = content[:budget]
+        suffix = "" if len(content) <= budget else "\n\n[... SKILL.md truncated to fit the token budget ...]"
+        user_prompt = f"""Candidate metadata:
+{metadata}
+
+Candidate SKILL.md:
+---BEGIN SKILL---
+{clipped}{suffix}
+---END SKILL---"""
+        try:
+            return _call_model(client, model, SYSTEM_PROMPT, user_prompt)
+        except Exception as error:  # noqa: BLE001 - важен разбор статуса, не тип
+            if not _is_too_large(error):
+                raise
+            last_error = error
+            budget //= 2
+            print(f"Model request too large, retrying with {budget} characters.")
+    raise RuntimeError(f"Model request still too large after shrinking: {last_error}")
 
 
 def clean_model_markdown(markdown: str, title: str, summary: str) -> str:
@@ -212,6 +253,7 @@ def analyze(limit: int) -> dict[str, Any]:
     min_quality = int(os.getenv("MIN_QUALITY_SCORE", analysis_settings["minimum_quality_score"]))
     min_unique = int(os.getenv("MIN_UNIQUENESS_SCORE", analysis_settings["minimum_uniqueness_score"]))
     min_chars = analysis_settings["min_content_characters"]
+    max_review_chars = int(os.getenv("MAX_REVIEW_CHARS", analysis_settings.get("max_review_characters", 11000)))
 
     index = ensure_library_index()
     processed: list[dict[str, Any]] = []
@@ -336,7 +378,7 @@ def analyze(limit: int) -> dict[str, Any]:
             else:
                 # Клиент Groq создаётся только здесь: прогон, где все кандидаты отсечены
                 # ситами, не должен требовать ключ и падать без него.
-                review = model_review(get_client(), model, candidate, content)
+                review = model_review(get_client(), model, candidate, content, max_chars=max_review_chars)
                 review["gate"] = {"reason": None, "fit": gate["fit"], "promo": gate["promo"]["hits"]}
 
             safety_flags = review.get("safety_flags", [])
