@@ -15,6 +15,20 @@ collection:
     - English
     - Russian
     - Any
+  # Навык качается вместе с папкой: скрипты, references, шаблоны.
+  # Без этого в библиотеку попадали записи со ссылками на несуществующие файлы.
+  bundle:
+    max_total_bytes: 400000
+    max_files: 40
+    max_file_bytes: 65536
+
+# Детерминированные сита до обращения к модели. Дёшево и воспроизводимо.
+gates:
+  require_complete_bundle: true     # ссылки на scripts/references обязаны существовать
+  use_target_profile: true          # оценивать не «полезно вообще», а «нужно нам»
+  minimum_fit_score: 35
+  max_promo_hits: 0                 # gumroad, «buy now», $29 и прочая торговля
+  near_duplicate_similarity: 0.72   # жаккар по словам против уже принятых
 
 analysis:
   max_per_run: 12

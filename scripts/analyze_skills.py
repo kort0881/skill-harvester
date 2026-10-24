@@ -26,6 +26,7 @@ from common import (
     slugify,
     utc_stamp,
 )
+from integrity import precheck, similarity
 
 PENDING_FILE = CANDIDATES_DIR / "pending.json"
 ANALYZED_FILE = CANDIDATES_DIR / "analyzed.json"
@@ -42,6 +43,8 @@ Scoring:
   practical steps, examples, verification, maintainability.
 - uniqueness_score (0-100): distinctive workflow, domain expertise, non-generic value.
 - usefulness_score (0-100): real usefulness for a user or AI agent.
+- fit_score (0-100): how well the skill serves the target stack described in the
+  user message. A skill that is good but off-profile must score low here.
 - safety_score (0-100): 100 means safe; lower it for harmful, deceptive, secret-stealing,
   exploit-oriented, illegal, privacy-invasive or destructive instructions.
 - total_score (0-100): weighted overall decision score.
@@ -58,6 +61,7 @@ Return this exact JSON schema:
   "quality_score": 0,
   "uniqueness_score": 0,
   "usefulness_score": 0,
+  "fit_score": 0,
   "safety_score": 0,
   "total_score": 0,
   "strengths": ["..."],
@@ -127,7 +131,13 @@ def clean_model_markdown(markdown: str, title: str, summary: str) -> str:
     return f'---\nname: "{name}"\ndescription: "{description}"\n---\n\n{body.strip()}\n'
 
 
-def publish_skill(candidate: dict[str, Any], review: dict[str, Any], source_content: str) -> dict[str, Any]:
+def publish_skill(
+    candidate: dict[str, Any],
+    review: dict[str, Any],
+    source_content: str,
+    bundle_dir: Path | None = None,
+    bundle_info: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     title = review.get("title") or candidate["title"]
     category = slugify(review.get("category") or candidate["category_hint"], 50)
     skill_slug = slugify(title)
@@ -144,6 +154,20 @@ def publish_skill(candidate: dict[str, Any], review: dict[str, Any], source_cont
         normalized = source_content
 
     (target_dir / "SKILL.md").write_text(normalized, encoding="utf-8")
+
+    # Копируем скрипты и references вместе с навыком: иначе опубликованный
+    # навык ссылается на файлы, которых нет ни в библиотеке, ни у читателя.
+    copied: list[str] = []
+    if bundle_dir and bundle_dir.exists():
+        for path in sorted(bundle_dir.rglob("*")):
+            if not path.is_file() or path.name.lower() == "skill.md":
+                continue
+            relative = path.relative_to(bundle_dir)
+            destination = target_dir / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(path.read_bytes())
+            copied.append(str(relative).replace("\\", "/"))
+
     metadata = {
         "library_id": f"{category}/{target_dir.name}",
         "title": title,
@@ -156,6 +180,12 @@ def publish_skill(candidate: dict[str, Any], review: dict[str, Any], source_cont
         "content_hash": candidate["content_hash"],
         "source_excerpt": markdown_excerpt(source_content),
         "review": review,
+        "bundle": {
+            "files": copied,
+            "references": (bundle_info or {}).get("references", []),
+            "missing": (bundle_info or {}).get("missing", []),
+            "complete": not (bundle_info or {}).get("missing"),
+        },
     }
     save_json(target_dir / "metadata.json", metadata)
     return metadata
@@ -164,6 +194,14 @@ def publish_skill(candidate: dict[str, Any], review: dict[str, Any], source_cont
 def analyze(limit: int) -> dict[str, Any]:
     settings = load_yaml("settings.yml")
     analysis_settings = settings["analysis"]
+    gates = settings.get("gates", {})
+    profile_payload = load_yaml("target-profile.yml") if gates.get("use_target_profile", True) else {}
+    profile = profile_payload if profile_payload.get("enabled") else None
+    require_bundle = bool(gates.get("require_complete_bundle", True))
+    min_fit = int(os.getenv("MIN_FIT_SCORE", gates.get("minimum_fit_score", 35)))
+    max_promo = int(gates.get("max_promo_hits", 0))
+    near_dup = float(gates.get("near_duplicate_similarity", 0.72))
+
     pending_payload = load_json(PENDING_FILE, {"items": []})
     analyzed_payload = load_json(ANALYZED_FILE, {"items": []})
     pending = pending_payload.get("items", [])
@@ -187,47 +225,94 @@ def analyze(limit: int) -> dict[str, Any]:
         if candidate["candidate_id"] not in ids_to_process:
             keep_pending.append(candidate)
 
+    def rejection(reason: str, details: dict[str, Any], candidate: dict[str, Any], summary: str) -> dict[str, Any]:
+        """Готовый отказ без обращения к модели: причина всегда машинночитаемая."""
+        return {
+            "decision": "reject",
+            "title": candidate["title"],
+            "category": candidate["category_hint"],
+            "summary": summary,
+            "quality_score": 0,
+            "uniqueness_score": 0,
+            "usefulness_score": 0,
+            "fit_score": int((details.get("fit") or {}).get("score") or 0),
+            "safety_score": 100,
+            "total_score": 0,
+            "strengths": [],
+            "weaknesses": [f"gate: {reason}"],
+            "tags": [],
+            "safety_flags": [],
+            "recommended_improvements": [],
+            "normalized_skill_markdown": "",
+            "gate": {"reason": reason, "details": details},
+        }
+
+    def find_near_duplicate(content: str, title: str) -> dict[str, Any] | None:
+        probe = f"{title} {content[:1500]}"
+        for item in index["skills"]:
+            existing = f"{item.get('title','')} {item.get('summary','')} {item.get('source_excerpt','')}"
+            score = similarity(probe, existing)
+            if score >= near_dup:
+                return {"library_id": item.get("library_id"), "similarity": round(score, 3)}
+        return None
+
     for candidate in candidates_to_process:
         try:
             content = read_raw_file(candidate["raw_file"])
+            bundle_dir = (ROOT / "data" / candidate["raw_file"]).parent
+            gate = precheck(
+                content,
+                bundle_dir,
+                profile=profile,
+                require_complete_bundle=require_bundle,
+                min_fit=min_fit,
+                max_promo_hits=max_promo,
+            )
+            bundle_info = {
+                "references": gate["bundle"]["references"],
+                "missing": gate["bundle"]["missing"],
+                "files": gate["bundle"]["files"],
+            }
+
+            duplicate = find_near_duplicate(content, candidate["title"])
+
             if len(content.strip()) < min_chars:
-                review = {
-                    "decision": "reject",
-                    "title": candidate["title"],
-                    "category": candidate["category_hint"],
-                    "summary": "The candidate is too short to be a reliable standalone skill.",
-                    "quality_score": 0,
-                    "uniqueness_score": 0,
-                    "usefulness_score": 0,
-                    "safety_score": 100,
-                    "total_score": 0,
-                    "strengths": [],
-                    "weaknesses": ["Insufficient instructional content."],
-                    "tags": [],
-                    "safety_flags": [],
-                    "recommended_improvements": ["Add reproducible instructions and examples."],
-                    "normalized_skill_markdown": "",
-                }
+                review = rejection(
+                    "too_short",
+                    {"characters": len(content)},
+                    candidate,
+                    "The candidate is too short to be a reliable standalone skill.",
+                )
+            elif not gate["passed"]:
+                review = rejection(
+                    gate["reasons"][0],
+                    {
+                        "reasons": gate["reasons"],
+                        "missing": gate["bundle"]["missing"][:10],
+                        "promo": gate["promo"]["hits"],
+                        "fit": gate["fit"],
+                    },
+                    candidate,
+                    "Rejected by deterministic gates before model review: "
+                    + ", ".join(gate["reasons"]),
+                )
             elif find_library_skill_by_hash(candidate["content_hash"]):
-                review = {
-                    "decision": "reject",
-                    "title": candidate["title"],
-                    "category": candidate["category_hint"],
-                    "summary": "Exact duplicate of an existing library item.",
-                    "quality_score": 0,
-                    "uniqueness_score": 0,
-                    "usefulness_score": 0,
-                    "safety_score": 100,
-                    "total_score": 0,
-                    "strengths": [],
-                    "weaknesses": ["Duplicate content hash."],
-                    "tags": [],
-                    "safety_flags": [],
-                    "recommended_improvements": [],
-                    "normalized_skill_markdown": "",
-                }
+                review = rejection(
+                    "duplicate_exact",
+                    {"content_hash": candidate["content_hash"]},
+                    candidate,
+                    "Exact duplicate of an existing library item.",
+                )
+            elif duplicate:
+                review = rejection(
+                    "duplicate_near",
+                    duplicate,
+                    candidate,
+                    "Near-duplicate of an existing library item.",
+                )
             else:
                 review = model_review(client, model, candidate, content)
+                review["gate"] = {"reason": None, "fit": gate["fit"], "promo": gate["promo"]["hits"]}
 
             safety_flags = review.get("safety_flags", [])
             accepted = (
@@ -236,7 +321,9 @@ def analyze(limit: int) -> dict[str, Any]:
                 and int(review.get("quality_score", 0)) >= min_quality
                 and int(review.get("uniqueness_score", 0)) >= min_unique
                 and int(review.get("safety_score", 0)) >= 70
+                and int(review.get("fit_score", 100)) >= min_fit
                 and not safety_flags
+                and gate["passed"]
             )
 
             result = {
@@ -246,16 +333,18 @@ def analyze(limit: int) -> dict[str, Any]:
                 "model": model,
                 "accepted": accepted,
                 "review": review,
+                "gates": gate,
             }
 
             if accepted:
-                metadata = publish_skill(candidate, review, content)
+                metadata = publish_skill(candidate, review, content, bundle_dir, bundle_info)
                 if not any(item["library_id"] == metadata["library_id"] for item in index["skills"]):
                     index["skills"].append(metadata)
                 result["library_id"] = metadata["library_id"]
 
             processed.append(result)
-            print(f"{candidate['title']}: {'ACCEPTED' if accepted else 'rejected'}")
+            label = "ACCEPTED" if accepted else f"rejected ({review.get('gate', {}).get('reason')})"
+            print(f"{candidate['title']}: {label}")
         except Exception as error:
             candidate["last_error"] = str(error)
             keep_pending.append(candidate)
@@ -272,6 +361,11 @@ def analyze(limit: int) -> dict[str, Any]:
     pending_payload["updated_at"] = now_iso()
     save_json(PENDING_FILE, pending_payload)
 
+    gate_counts: dict[str, int] = {}
+    for item in processed:
+        reason = (item["review"].get("gate") or {}).get("reason") or "model_review"
+        gate_counts[reason] = gate_counts.get(reason, 0) + 1
+
     report = {
         "type": "daily_analysis",
         "created_at": now_iso(),
@@ -279,6 +373,7 @@ def analyze(limit: int) -> dict[str, Any]:
         "processed": len(processed),
         "accepted": sum(1 for item in processed if item["accepted"]),
         "rejected": sum(1 for item in processed if not item["accepted"]),
+        "gate_counts": gate_counts,
         "items": processed,
     }
     save_json(REPORTS_DIR / f"analysis-{utc_stamp()}.json", report)
