@@ -257,6 +257,30 @@ def analyze(limit: int) -> dict[str, Any]:
 
     for candidate in candidates_to_process:
         try:
+            raw_path = ROOT / "data" / candidate["raw_file"]
+            if not raw_path.exists():
+                # Очередь хранит кандидатов, чьи файлы не попали в репозиторий
+                # (старая раскладка data/skills/). Такой кандидат не проверить
+                # никогда — держать его в pending и падать каждый прогон нельзя.
+                review = rejection(
+                    "raw_missing",
+                    {"raw_file": candidate["raw_file"]},
+                    candidate,
+                    "Raw SKILL.md is not present in the repository, the candidate cannot be verified.",
+                )
+                processed.append(
+                    {
+                        "candidate_id": candidate["candidate_id"],
+                        "candidate": candidate,
+                        "reviewed_at": now_iso(),
+                        "model": model,
+                        "accepted": False,
+                        "review": review,
+                    }
+                )
+                print(f"{candidate['title']}: rejected (raw_missing)")
+                continue
+
             content = read_raw_file(candidate["raw_file"])
             bundle_dir = (ROOT / "data" / candidate["raw_file"]).parent
             gate = precheck(
