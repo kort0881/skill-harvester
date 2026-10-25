@@ -10433,7 +10433,207 @@
           ]
         }
       }
+    },
+    {
+      "candidate_id": "9eae91d28bfd646604b0f9a7",
+      "candidate": {
+        "candidate_id": "9eae91d28bfd646604b0f9a7",
+        "status": "pending",
+        "discovered_at": "2026-09-13T12:00:23+00:00",
+        "source": {
+          "repository": "ai-freer/fortune-skill",
+          "repository_url": "https://github.com/ai-freer/fortune-skill",
+          "default_branch": "main",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/ai-freer/fortune-skill/blob/ea67665e8eb96be8125cd8d5c41d11774fedec91/SKILL.md",
+          "api_sha": "708f64e862486b26e2140d3a5d76462bd2be631d",
+          "repo_stars": 29,
+          "repo_forks": 10,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-07T04:09:06+00:00"
+        },
+        "raw_file": "raw/ai-freer-fortune-skill/SKILL.md",
+        "title": "fortune",
+        "category_hint": "programming",
+        "content_hash": "c86648713ab7dff61787ffef78bf3063d89972e4790b9df08e5be7c2fec62abf",
+        "content_characters": 19570,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 12724, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-10-25T12:39:47+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "fortune",
+        "category": "programming",
+        "summary": "Rejected by deterministic gates before model review: incomplete_bundle",
+        "quality_score": 0,
+        "uniqueness_score": 0,
+        "usefulness_score": 0,
+        "fit_score": 100,
+        "safety_score": 100,
+        "total_score": 0,
+        "strengths": [],
+        "weaknesses": [
+          "gate: incomplete_bundle"
+        ],
+        "tags": [],
+        "safety_flags": [],
+        "recommended_improvements": [],
+        "normalized_skill_markdown": "",
+        "gate": {
+          "reason": "incomplete_bundle",
+          "details": {
+            "reasons": [
+              "incomplete_bundle"
+            ],
+            "missing": [
+              "references/bazi-guide.md",
+              "references/calibration-template.json",
+              "references/classical-rules.json",
+              "references/classical-texts.md",
+              "references/dayun-rules.md",
+              "references/methodology-framework.json",
+              "references/privacy-policy.json",
+              "references/report-templates.json",
+              "references/shichen-table.md",
+              "references/wuxing-tables.md"
+            ],
+            "promo": [],
+            "fit": {
+              "score": 100,
+              "best_domain": "llm-agents",
+              "domains": [
+                {
+                  "domain": "llm-agents",
+                  "hits": 3,
+                  "strength": 1.0
+                },
+                {
+                  "domain": "devops-servers",
+                  "hits": 1,
+                  "strength": 0.333
+                },
+                {
+                  "domain": "knowledge-notes",
+                  "hits": 1,
+                  "strength": 0.333
+                },
+                {
+                  "domain": "python-data",
+                  "hits": 1,
+                  "strength": 0.333
+                },
+                {
+                  "domain": "media-production",
+                  "hits": 0,
+                  "strength": 0.0
+                }
+              ]
+            }
+          }
+        }
+      },
+      "gates": {
+        "passed": false,
+        "reasons": [
+          "incomplete_bundle"
+        ],
+        "bundle": {
+          "references": [
+            "references/bazi-guide.md",
+            "references/calibration-template.json",
+            "references/classical-rules.json",
+            "references/classical-texts.md",
+            "references/dayun-rules.md",
+            "references/methodology-framework.json",
+            "references/privacy-policy.json",
+            "references/report-templates.json",
+            "references/shichen-table.md",
+            "references/wuxing-tables.md",
+            "references/ziwei-guide.md",
+            "scripts/bazi-chart.mjs",
+            "scripts/bazi-classic.py",
+            "scripts/bazi-match.mjs",
+            "scripts/fortune-report-data.mjs",
+            "scripts/hecan-audit.mjs",
+            "scripts/hecan-summary.mjs",
+            "scripts/privacy-check.mjs",
+            "scripts/report-draft.mjs",
+            "scripts/report-qa.mjs",
+            "scripts/rule-matcher.mjs",
+            "scripts/time-normalize.mjs",
+            "scripts/ziwei-chart.mjs"
+          ],
+          "files": [
+            "SKILL.md"
+          ],
+          "missing": [
+            "references/bazi-guide.md",
+            "references/calibration-template.json",
+            "references/classical-rules.json",
+            "references/classical-texts.md",
+            "references/dayun-rules.md",
+            "references/methodology-framework.json",
+            "references/privacy-policy.json",
+            "references/report-templates.json",
+            "references/shichen-table.md",
+            "references/wuxing-tables.md",
+            "references/ziwei-guide.md",
+            "scripts/bazi-chart.mjs",
+            "scripts/bazi-classic.py",
+            "scripts/bazi-match.mjs",
+            "scripts/fortune-report-data.mjs",
+            "scripts/hecan-audit.mjs",
+            "scripts/hecan-summary.mjs",
+            "scripts/privacy-check.mjs",
+            "scripts/report-draft.mjs",
+            "scripts/report-qa.mjs",
+            "scripts/rule-matcher.mjs",
+            "scripts/time-normalize.mjs",
+            "scripts/ziwei-chart.mjs"
+          ],
+          "complete": false,
+          "file_count": 1
+        },
+        "promo": {
+          "hits": [],
+          "count": 0,
+          "promotional": false
+        },
+        "fit": {
+          "score": 100,
+          "best_domain": "llm-agents",
+          "domains": [
+            {
+              "domain": "llm-agents",
+              "hits": 3,
+              "strength": 1.0
+            },
+            {
+              "domain": "devops-servers",
+              "hits": 1,
+              "strength": 0.333
+            },
+            {
+              "domain": "knowledge-notes",
+              "hits": 1,
+              "strength": 0.333
+            },
+            {
+              "domain": "python-data",
+              "hits": 1,
+              "strength": 0.333
+            },
+            {
+              "domain": "media-production",
+              "hits": 0,
+              "strength": 0.0
+            }
+          ]
+        }
+      }
     }
   ],
-  "updated_at": "2026-10-24T12:07:14+00:00"
+  "updated_at": "2026-10-25T12:39:52+00:00"
 }
