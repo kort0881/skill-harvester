@@ -10633,7 +10633,154 @@
           ]
         }
       }
+    },
+    {
+      "candidate_id": "c847ad0e6de5178d49597fe5",
+      "candidate": {
+        "candidate_id": "c847ad0e6de5178d49597fe5",
+        "status": "pending",
+        "discovered_at": "2026-09-20T14:15:43+00:00",
+        "source": {
+          "repository": "MIKUZ12/ExamPass-Assistant",
+          "repository_url": "https://github.com/MIKUZ12/ExamPass-Assistant",
+          "default_branch": "master",
+          "path": "SKILL.md",
+          "html_url": "https://github.com/MIKUZ12/ExamPass-Assistant/blob/20453af00c5f165c1403fd14ad9ca86da714bd8a/SKILL.md",
+          "api_sha": "3da9132ada1a3ae9722ce6f6253b380cab6a5edb",
+          "repo_stars": 21,
+          "repo_forks": 3,
+          "repo_license": "Other",
+          "repo_updated_at": "2026-09-02T11:55:54+00:00"
+        },
+        "raw_file": "raw/mikuz12-exampass-assistant/SKILL.md",
+        "title": "exampass",
+        "category_hint": "research",
+        "content_hash": "8248fccab26e8161c356ed5b63b0f6aa024679aeb12585b1f79c8dc1e60b1ba1",
+        "content_characters": 16673,
+        "last_error": "Error code: 413 - {'error': {'message': 'Request too large for model `openai/gpt-oss-120b` in organization `org_01m18zz8nseeev7fxpmnsnkeg3` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 10285, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      },
+      "reviewed_at": "2026-10-26T14:26:21+00:00",
+      "model": "openai/gpt-oss-120b",
+      "accepted": false,
+      "review": {
+        "decision": "reject",
+        "title": "exampass",
+        "category": "research",
+        "summary": "Rejected by deterministic gates before model review: incomplete_bundle",
+        "quality_score": 0,
+        "uniqueness_score": 0,
+        "usefulness_score": 0,
+        "fit_score": 72,
+        "safety_score": 100,
+        "total_score": 0,
+        "strengths": [],
+        "weaknesses": [
+          "gate: incomplete_bundle"
+        ],
+        "tags": [],
+        "safety_flags": [],
+        "recommended_improvements": [],
+        "normalized_skill_markdown": "",
+        "gate": {
+          "reason": "incomplete_bundle",
+          "details": {
+            "reasons": [
+              "incomplete_bundle"
+            ],
+            "missing": [
+              "scripts/run_exampass.py"
+            ],
+            "promo": [],
+            "fit": {
+              "score": 72,
+              "best_domain": "llm-agents",
+              "domains": [
+                {
+                  "domain": "llm-agents",
+                  "hits": 2,
+                  "strength": 0.667
+                },
+                {
+                  "domain": "knowledge-notes",
+                  "hits": 2,
+                  "strength": 0.667
+                },
+                {
+                  "domain": "devops-servers",
+                  "hits": 1,
+                  "strength": 0.333
+                },
+                {
+                  "domain": "python-data",
+                  "hits": 1,
+                  "strength": 0.333
+                },
+                {
+                  "domain": "media-production",
+                  "hits": 0,
+                  "strength": 0.0
+                }
+              ]
+            }
+          }
+        }
+      },
+      "gates": {
+        "passed": false,
+        "reasons": [
+          "incomplete_bundle"
+        ],
+        "bundle": {
+          "references": [
+            "scripts/run_exampass.py"
+          ],
+          "files": [
+            "SKILL.md"
+          ],
+          "missing": [
+            "scripts/run_exampass.py"
+          ],
+          "complete": false,
+          "file_count": 1
+        },
+        "promo": {
+          "hits": [],
+          "count": 0,
+          "promotional": false
+        },
+        "fit": {
+          "score": 72,
+          "best_domain": "llm-agents",
+          "domains": [
+            {
+              "domain": "llm-agents",
+              "hits": 2,
+              "strength": 0.667
+            },
+            {
+              "domain": "knowledge-notes",
+              "hits": 2,
+              "strength": 0.667
+            },
+            {
+              "domain": "devops-servers",
+              "hits": 1,
+              "strength": 0.333
+            },
+            {
+              "domain": "python-data",
+              "hits": 1,
+              "strength": 0.333
+            },
+            {
+              "domain": "media-production",
+              "hits": 0,
+              "strength": 0.0
+            }
+          ]
+        }
+      }
     }
   ],
-  "updated_at": "2026-10-25T12:39:52+00:00"
+  "updated_at": "2026-10-26T14:26:30+00:00"
 }
