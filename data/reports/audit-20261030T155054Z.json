@@ -1,0 +1,11 @@
+{
+  "type": "library_audit",
+  "created_at": "2026-10-30T15:50:54+00:00",
+  "total": 41,
+  "passed": 41,
+  "failed": 0,
+  "reasons": {},
+  "duplicate_groups": [],
+  "moved_to_quarantine": [],
+  "findings": []
+}
