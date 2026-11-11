@@ -1,0 +1,12 @@
+# Gitleaks для skill-harvester.
+# data/ (candidates/analyzed.json и пр.) и library/ — собранный материал,
+# дают ~2.3 тыс. ложных срабатываний. Настоящие секреты — в корне,
+# config/ и scripts/ — сканируются правилами по умолчанию.
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+    '''^data/''',
+    '''^library/''',
+]
